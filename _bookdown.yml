@@ -1,0 +1,24 @@
+new_session: true
+book_filename: "scRNA-Seq"
+delete_merged_file: true
+output_dir: "docs"
+language:
+  ui:
+    chapter_name: ""
+  label:
+    thm: '定理'
+    def: '定义'
+    exm: '例'
+    proof: '证明: '
+    solution: '解: '
+    fig: '图'
+    tab: '表'
+rmd_files:
+  - index.Rmd
+  - 理解单细胞分析流程.Rmd
+  - 单样本分析.Rmd
+  - 多样本分析.Rmd
+
+number_sections: false
+
+    
