@@ -37,6 +37,6 @@ _bookdown_files/
 .DS_Store?
 
 *_cache
-*_files
+./*_files
 
 
