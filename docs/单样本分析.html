@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>第 3 章 单样本分析 | scRNA-Seq 分析笔记</title>
+  <meta name="description" content="This is an online note of the scRNA-Seq analysis." />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="第 3 章 单样本分析 | scRNA-Seq 分析笔记" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is an online note of the scRNA-Seq analysis." />
+  <meta name="github-repo" content="smileszh/scRNA-Seq" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="第 3 章 单样本分析 | scRNA-Seq 分析笔记" />
+  
+  <meta name="twitter:description" content="This is an online note of the scRNA-Seq analysis." />
+  
+
+<meta name="author" content="苏总华" />
+
+
+<meta name="date" content="2024-11-14" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="单细胞基本分析流程.html"/>
+<link rel="next" href="多样本分析.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">scRNA-Seq 笔记</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>前言</a></li>
+<li class="part"><span><b>I 初识 scRNA-Seq</b></span></li>
+<li class="chapter" data-level="1" data-path="scrna-seq-简介.html"><a href="scrna-seq-简介.html"><i class="fa fa-check"></i><b>1</b> scRNA-Seq 简介</a></li>
+<li class="part"><span><b>II scRNA-Seq 基础知识</b></span></li>
+<li class="chapter" data-level="2" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html"><i class="fa fa-check"></i><b>2</b> 单细胞基本分析流程</a>
+<ul>
+<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#数据读取"><i class="fa fa-check"></i>数据读取</a>
+<ul>
+<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#x-genomics-三文件"><i class="fa fa-check"></i>10X Genomics 三文件</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#质量控制指标"><i class="fa fa-check"></i>质量控制指标</a></li>
+<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#数据标准化"><i class="fa fa-check"></i>数据标准化</a></li>
+<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#识别高变基因"><i class="fa fa-check"></i>识别高变基因</a></li>
+<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#缩放数据"><i class="fa fa-check"></i>缩放数据</a></li>
+<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#pca线性降维"><i class="fa fa-check"></i>PCA线性降维</a></li>
+<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#细胞聚类"><i class="fa fa-check"></i>细胞聚类</a></li>
+<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#非线性降维umaptsne"><i class="fa fa-check"></i>非线性降维UMAP/tSNE</a></li>
+</ul></li>
+<li class="part"><span><b>III scRNA-Seq 入门</b></span></li>
+<li class="chapter" data-level="3" data-path="单样本分析.html"><a href="单样本分析.html"><i class="fa fa-check"></i><b>3</b> 单样本分析</a>
+<ul>
+<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#设置seurat对象"><i class="fa fa-check"></i>设置Seurat对象</a></li>
+<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#质量控制"><i class="fa fa-check"></i>质量控制</a>
+<ul>
+<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#计算每个细胞线粒体基因的百分比"><i class="fa fa-check"></i>计算每个细胞线粒体基因的百分比</a></li>
+<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#过滤"><i class="fa fa-check"></i>过滤</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#数据标准化-1"><i class="fa fa-check"></i>数据标准化</a></li>
+<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#识别高变基因-1"><i class="fa fa-check"></i>识别高变基因</a></li>
+<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#缩放数据-1"><i class="fa fa-check"></i>缩放数据</a></li>
+<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#pca线性降维-1"><i class="fa fa-check"></i>PCA线性降维</a>
+<ul>
+<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#确定数据集的维度"><i class="fa fa-check"></i>确定数据集的“维度”</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#细胞聚类-1"><i class="fa fa-check"></i>细胞聚类</a></li>
+<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#非线性降维umaptsne-1"><i class="fa fa-check"></i>非线性降维UMAP/tSNE</a></li>
+<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#寻找亚群标志基因"><i class="fa fa-check"></i>寻找亚群标志基因</a></li>
+<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#亚群命名"><i class="fa fa-check"></i>亚群命名</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="多样本分析.html"><a href="多样本分析.html"><i class="fa fa-check"></i><b>4</b> 多样本分析</a>
+<ul>
+<li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#加载包"><i class="fa fa-check"></i>加载包</a></li>
+<li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#创建多样本seurat对象"><i class="fa fa-check"></i>创建多样本Seurat对象</a></li>
+<li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#质控"><i class="fa fa-check"></i>质控</a></li>
+<li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#harmony流程"><i class="fa fa-check"></i>harmony流程</a></li>
+<li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#检查marker基因"><i class="fa fa-check"></i>检查marker基因</a></li>
+<li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#亚群命名-1"><i class="fa fa-check"></i>亚群命名</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://space.bilibili.com/338686099" target="blank">本笔记来自 生信技能书</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">scRNA-Seq 分析笔记</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="单样本分析" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">第 3 章</span> 单样本分析<a href="单样本分析.html#单样本分析" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>本章节数据和代码来自Seurat官网数据，是10X Genomics 免费提供的外周血单核细胞 (PBMC) 数据。
+数据可<a href="https://cf.10xgenomics.com/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz">在此</a>下载。</p>
+<p>基本流程如下：
+<img src="images/single-01.png" width="884" style="display: block; margin: auto;" /></p>
+<div id="设置seurat对象" class="section level2 unnumbered hasAnchor">
+<h2>设置Seurat对象<a href="单样本分析.html#设置seurat对象" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>我们首先读取数据。 Read10X()函数读取上游cellranger分析结果，返回唯一的分子识别 (UMI) 计数矩阵。该矩阵中的值表示在每个单元（即细胞；列）中检测到的每个特征（即基因；行）的分子数量。</p>
+<p>接下来我们使用计数矩阵来创建Seurat对象。该对象充当一个容器，其中包含单细胞数据集的数据（如计数矩阵）和分析（如 PCA 或聚类结果）。</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="单样本分析.html#cb5-1" tabindex="-1"></a><span class="co"># 加载包</span></span>
+<span id="cb5-2"><a href="单样本分析.html#cb5-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb5-3"><a href="单样本分析.html#cb5-3" tabindex="-1"></a><span class="fu">library</span>(Seurat)</span>
+<span id="cb5-4"><a href="单样本分析.html#cb5-4" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb5-5"><a href="单样本分析.html#cb5-5" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="单样本分析.html#cb5-6" tabindex="-1"></a><span class="co"># 读取数据</span></span>
+<span id="cb5-7"><a href="单样本分析.html#cb5-7" tabindex="-1"></a>pbmc.data <span class="ot">&lt;-</span> <span class="fu">Read10X</span>(<span class="at">data.dir =</span> <span class="st">&quot;data/single_sample/filtered_gene_bc_matrices/hg19/&quot;</span>)</span>
+<span id="cb5-8"><a href="单样本分析.html#cb5-8" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="单样本分析.html#cb5-9" tabindex="-1"></a><span class="co"># 创建Seurat对象</span></span>
+<span id="cb5-10"><a href="单样本分析.html#cb5-10" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">CreateSeuratObject</span>(<span class="at">counts =</span> pbmc.data,</span>
+<span id="cb5-11"><a href="单样本分析.html#cb5-11" tabindex="-1"></a>                           <span class="at">project =</span> <span class="st">&quot;pbmc3k&quot;</span>, <span class="co">#自定义项目名</span></span>
+<span id="cb5-12"><a href="单样本分析.html#cb5-12" tabindex="-1"></a>                           <span class="at">min.cells =</span> <span class="dv">3</span>,  <span class="co"># 每个基因至少在3个细胞中检测到</span></span>
+<span id="cb5-13"><a href="单样本分析.html#cb5-13" tabindex="-1"></a>                           <span class="at">min.features =</span> <span class="dv">200</span>) <span class="co"># 每个细胞至少检测到200个基因</span></span>
+<span id="cb5-14"><a href="单样本分析.html#cb5-14" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="单样本分析.html#cb5-15" tabindex="-1"></a>pbmc</span>
+<span id="cb5-16"><a href="单样本分析.html#cb5-16" tabindex="-1"></a><span class="do">## An object of class Seurat </span></span>
+<span id="cb5-17"><a href="单样本分析.html#cb5-17" tabindex="-1"></a><span class="do">## 13714 features across 2700 samples within 1 assay </span></span>
+<span id="cb5-18"><a href="单样本分析.html#cb5-18" tabindex="-1"></a><span class="do">## Active assay: RNA (13714 features, 0 variable features)</span></span>
+<span id="cb5-19"><a href="单样本分析.html#cb5-19" tabindex="-1"></a><span class="do">##  1 layer present: counts</span></span></code></pre></div>
+</div>
+<div id="质量控制" class="section level2 unnumbered hasAnchor">
+<h2>质量控制<a href="单样本分析.html#质量控制" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>在创建Seurat时（<code>CreateSeuratObject</code>），我们已经完成了基本的质量控制，即每个基因至少在3个细胞中检测到，每个细胞至少检测到200个基因。</p>
+<p>但我们仍然可以根据需要进一步过滤数据。例如高基因计数、高线粒体比例的细胞。</p>
+<div id="计算每个细胞线粒体基因的百分比" class="section level3 unnumbered hasAnchor">
+<h3>计算每个细胞线粒体基因的百分比<a href="单样本分析.html#计算每个细胞线粒体基因的百分比" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="单样本分析.html#cb6-1" tabindex="-1"></a>pbmc[[<span class="st">&quot;percent.mt&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">PercentageFeatureSet</span>(pbmc, <span class="at">pattern =</span> <span class="st">&quot;^MT-&quot;</span>)</span></code></pre></div>
+<details>
+<summary>
+QC指标储存位置
+</summary>
+<p>Seurat对象的<code>meta.data</code>中储存了质量控制的指标，他是一个数据框，每一行代表一个细胞，每一列代表一个指标。</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="单样本分析.html#cb7-1" tabindex="-1"></a><span class="co"># 查看前5行</span></span>
+<span id="cb7-2"><a href="单样本分析.html#cb7-2" tabindex="-1"></a><span class="fu">head</span>(pbmc<span class="sc">@</span>meta.data, <span class="dv">5</span>)</span>
+<span id="cb7-3"><a href="单样本分析.html#cb7-3" tabindex="-1"></a><span class="do">##                  orig.ident nCount_RNA nFeature_RNA percent.mt</span></span>
+<span id="cb7-4"><a href="单样本分析.html#cb7-4" tabindex="-1"></a><span class="do">## AAACATACAACCAC-1     pbmc3k       2419          779  3.0177759</span></span>
+<span id="cb7-5"><a href="单样本分析.html#cb7-5" tabindex="-1"></a><span class="do">## AAACATTGAGCTAC-1     pbmc3k       4903         1352  3.7935958</span></span>
+<span id="cb7-6"><a href="单样本分析.html#cb7-6" tabindex="-1"></a><span class="do">## AAACATTGATCAGC-1     pbmc3k       3147         1129  0.8897363</span></span>
+<span id="cb7-7"><a href="单样本分析.html#cb7-7" tabindex="-1"></a><span class="do">## AAACCGTGCTTCCG-1     pbmc3k       2639          960  1.7430845</span></span>
+<span id="cb7-8"><a href="单样本分析.html#cb7-8" tabindex="-1"></a><span class="do">## AAACCGTGTATGCG-1     pbmc3k        980          521  1.2244898</span></span>
+<span id="cb7-9"><a href="单样本分析.html#cb7-9" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="单样本分析.html#cb7-10" tabindex="-1"></a><span class="co"># View(pbmc@meta.data) #或者直接查看</span></span></code></pre></div>
+<p>其中，前三列指标是我们在创建Seurat对象时候设定的。
+第一列<code>orig.ident</code>是原始细胞的标识；
+第二列<code>nCount_RNA</code>是每个细胞的RNA分子数；
+第三列<code>nFeature_RNA</code>是每个细胞检测到的基因数。</p>
+</details>
+<details>
+<summary>
+QC可视化
+</summary>
+<p>通常我们对每个细胞进行统计分析后，会得到一些质量控制指标，如细胞的RNA分子数、检测到的基因数、线粒体基因的百分比等。我们对这些指标进行可视化，以便更好地了解数据的质量。这也为我们如何选择合适的过滤阈值进行下一步分析提供了参考。</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="单样本分析.html#cb8-1" tabindex="-1"></a><span class="co"># 小提琴图可视化QC指标</span></span>
+<span id="cb8-2"><a href="单样本分析.html#cb8-2" tabindex="-1"></a><span class="fu">VlnPlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;nFeature_RNA&quot;</span>, <span class="st">&quot;nCount_RNA&quot;</span>, <span class="st">&quot;percent.mt&quot;</span>), <span class="at">ncol =</span> <span class="dv">3</span>)</span></code></pre></div>
+<p><img src="03-single_files/figure-html/unnamed-chunk-5-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="单样本分析.html#cb9-1" tabindex="-1"></a><span class="co"># 散点图可视化QC指标</span></span>
+<span id="cb9-2"><a href="单样本分析.html#cb9-2" tabindex="-1"></a><span class="fu">FeatureScatter</span>(pbmc, <span class="at">feature1 =</span> <span class="st">&quot;nCount_RNA&quot;</span>, <span class="at">feature2 =</span> <span class="st">&quot;nFeature_RNA&quot;</span>) <span class="sc">|</span></span>
+<span id="cb9-3"><a href="单样本分析.html#cb9-3" tabindex="-1"></a><span class="fu">FeatureScatter</span>(pbmc, <span class="at">feature1 =</span> <span class="st">&quot;nCount_RNA&quot;</span>, <span class="at">feature2 =</span> <span class="st">&quot;nFeature_RNA&quot;</span>)</span></code></pre></div>
+<p><img src="03-single_files/figure-html/unnamed-chunk-6-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<details>
+</div>
+<div id="过滤" class="section level3 unnumbered hasAnchor">
+<h3>过滤<a href="单样本分析.html#过滤" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>根据我们的过滤标准，我们可以过滤掉一些质量较差的细胞。</p>
+<p>这里我们过滤掉</p>
+<ul>
+<li>RNA分子数大于2500和小于200的细胞。</li>
+<li>线粒体比例大于5%的细胞。</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="单样本分析.html#cb10-1" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">subset</span>(pbmc, <span class="at">subset =</span> nFeature_RNA <span class="sc">&gt;</span> <span class="dv">200</span> <span class="sc">&amp;</span> nFeature_RNA <span class="sc">&lt;</span> <span class="dv">2500</span> <span class="sc">&amp;</span> percent.mt <span class="sc">&lt;</span> <span class="dv">5</span>)</span>
+<span id="cb10-2"><a href="单样本分析.html#cb10-2" tabindex="-1"></a><span class="fu">dim</span>(pbmc)</span>
+<span id="cb10-3"><a href="单样本分析.html#cb10-3" tabindex="-1"></a><span class="do">## [1] 13714  2638</span></span></code></pre></div>
+<p>可以看到过滤后我们的细胞数从<code>2700</code>降到<code>2638</code>。</p>
+</div>
+</div>
+<div id="数据标准化-1" class="section level2 unnumbered hasAnchor">
+<h2>数据标准化<a href="单样本分析.html#数据标准化-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="单样本分析.html#cb11-1" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">NormalizeData</span>(pbmc, <span class="at">normalization.method =</span> <span class="st">&quot;LogNormalize&quot;</span>, <span class="at">scale.factor =</span> <span class="dv">10000</span>)</span></code></pre></div>
+<details>
+<summary>
+标准化值储存位置
+</summary>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="单样本分析.html#cb12-1" tabindex="-1"></a><span class="fu">head</span>(pbmc[[<span class="st">&quot;RNA&quot;</span>]]<span class="sc">$</span>data, <span class="dv">5</span>)[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>] <span class="co"># 同样是一个稀疏矩阵</span></span>
+<span id="cb12-2"><a href="单样本分析.html#cb12-2" tabindex="-1"></a><span class="do">## 5 x 3 sparse Matrix of class &quot;dgCMatrix&quot;</span></span>
+<span id="cb12-3"><a href="单样本分析.html#cb12-3" tabindex="-1"></a><span class="do">##               AAACATACAACCAC-1 AAACATTGAGCTAC-1 AAACATTGATCAGC-1</span></span>
+<span id="cb12-4"><a href="单样本分析.html#cb12-4" tabindex="-1"></a><span class="do">## AL627309.1                   .                .                .</span></span>
+<span id="cb12-5"><a href="单样本分析.html#cb12-5" tabindex="-1"></a><span class="do">## AP006222.2                   .                .                .</span></span>
+<span id="cb12-6"><a href="单样本分析.html#cb12-6" tabindex="-1"></a><span class="do">## RP11-206L10.2                .                .                .</span></span>
+<span id="cb12-7"><a href="单样本分析.html#cb12-7" tabindex="-1"></a><span class="do">## RP11-206L10.9                .                .                .</span></span>
+<span id="cb12-8"><a href="单样本分析.html#cb12-8" tabindex="-1"></a><span class="do">## LINC00115                    .                .                .</span></span></code></pre></div>
+</details>
+<details>
+<summary>
+数据标准化前后区别
+</summary>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="单样本分析.html#cb13-1" tabindex="-1"></a>k_c<span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(pbmc[[<span class="st">&quot;RNA&quot;</span>]]<span class="sc">$</span>counts) <span class="co"># 原始计数矩阵</span></span>
+<span id="cb13-2"><a href="单样本分析.html#cb13-2" tabindex="-1"></a>k_n<span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(pbmc[[<span class="st">&quot;RNA&quot;</span>]]<span class="sc">$</span>data) <span class="co"># 标准化后的计数矩阵</span></span>
+<span id="cb13-3"><a href="单样本分析.html#cb13-3" tabindex="-1"></a>k1<span class="ot">&lt;-</span> <span class="fu">apply</span>(k_c, <span class="dv">2</span>, sum)  <span class="co"># 原始每个细胞基因表达的总计数</span></span>
+<span id="cb13-4"><a href="单样本分析.html#cb13-4" tabindex="-1"></a>k2<span class="ot">&lt;-</span> <span class="fu">apply</span>(k_n, <span class="dv">2</span>, sum) <span class="co"># 标准化后每个细胞基因表达的总计数</span></span>
+<span id="cb13-5"><a href="单样本分析.html#cb13-5" tabindex="-1"></a><span class="fu">hist</span>(k1, <span class="at">main=</span><span class="st">&quot;Histogram of raw data&quot;</span>)</span>
+<span id="cb13-6"><a href="单样本分析.html#cb13-6" tabindex="-1"></a><span class="fu">hist</span>(k2, <span class="at">main=</span><span class="st">&quot;hisogram of normalized data&quot;</span>)</span></code></pre></div>
+<img src="03-single_files/figure-html/unnamed-chunk-10-1.png" width="50%" style="display: block; margin: auto;" /><img src="03-single_files/figure-html/unnamed-chunk-10-2.png" width="50%" style="display: block; margin: auto;" />
+</details>
+</div>
+<div id="识别高变基因-1" class="section level2 unnumbered hasAnchor">
+<h2>识别高变基因<a href="单样本分析.html#识别高变基因-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>识别高变基因通过<code>FindVariableFeatures</code>函数实现。该函数计算每个基因的方差，并根据方差的大小对基因进行排序。我们可以选择一定数量的高变基因用于下游分析。
+默认情况下，每个数据集会返回<code>2000</code>个高变基因。</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="单样本分析.html#cb14-1" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">FindVariableFeatures</span>(pbmc, <span class="at">selection.method =</span> <span class="st">&quot;vst&quot;</span>, <span class="at">nfeatures =</span> <span class="dv">2000</span>)</span>
+<span id="cb14-2"><a href="单样本分析.html#cb14-2" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="单样本分析.html#cb14-3" tabindex="-1"></a><span class="co"># Identify the 10 most highly variable genes</span></span>
+<span id="cb14-4"><a href="单样本分析.html#cb14-4" tabindex="-1"></a>top10 <span class="ot">&lt;-</span> <span class="fu">head</span>(<span class="fu">VariableFeatures</span>(pbmc), <span class="dv">10</span>)</span>
+<span id="cb14-5"><a href="单样本分析.html#cb14-5" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="单样本分析.html#cb14-6" tabindex="-1"></a><span class="co"># plot variable features with and without labels</span></span>
+<span id="cb14-7"><a href="单样本分析.html#cb14-7" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> <span class="fu">VariableFeaturePlot</span>(pbmc)</span>
+<span id="cb14-8"><a href="单样本分析.html#cb14-8" tabindex="-1"></a>plot2 <span class="ot">&lt;-</span> <span class="fu">LabelPoints</span>(<span class="at">plot =</span> plot1, <span class="at">points =</span> top10, <span class="at">repel =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-9"><a href="单样本分析.html#cb14-9" tabindex="-1"></a>plot1 <span class="sc">+</span> plot2</span></code></pre></div>
+<p><img src="03-single_files/figure-html/unnamed-chunk-11-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<details>
+<summary>
+高变基因信息储存位置
+</summary>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="单样本分析.html#cb15-1" tabindex="-1"></a>pbmc[[<span class="st">&quot;RNA&quot;</span>]]<span class="sc">@</span>meta.data<span class="sc">$</span>var.features <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="单样本分析.html#cb15-2" tabindex="-1"></a>  <span class="fu">is.na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="单样本分析.html#cb15-3" tabindex="-1"></a>  <span class="st">`</span><span class="at">!</span><span class="st">`</span>  <span class="sc">%&gt;%</span> </span>
+<span id="cb15-4"><a href="单样本分析.html#cb15-4" tabindex="-1"></a>  <span class="fu">sum</span>()</span>
+<span id="cb15-5"><a href="单样本分析.html#cb15-5" tabindex="-1"></a><span class="do">## [1] 2000</span></span></code></pre></div>
+可以看到我们的数据集中识别到的<code>2000</code>个高变基因。
+</details>
+</div>
+<div id="缩放数据-1" class="section level2 unnumbered hasAnchor">
+<h2>缩放数据<a href="单样本分析.html#缩放数据-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>应用线性变换（“scaling”）缩放数据，这是PCA等降维技术之前的标准预处理步骤，使用<code>ScaleData</code>函数完成这一步。</p>
+<p>默认情况下，仅缩放可变基因，但也可以选择缩放所有基因。</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="单样本分析.html#cb16-1" tabindex="-1"></a>all.genes <span class="ot">&lt;-</span> <span class="fu">rownames</span>(pbmc)</span>
+<span id="cb16-2"><a href="单样本分析.html#cb16-2" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">ScaleData</span>(pbmc, <span class="at">features =</span> all.genes)</span></code></pre></div>
+<details>
+<summary>
+缩放后数据储存位置
+</summary>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="单样本分析.html#cb17-1" tabindex="-1"></a>pbmc[[<span class="st">&quot;RNA&quot;</span>]]<span class="sc">$</span>scale.data[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb17-2"><a href="单样本分析.html#cb17-2" tabindex="-1"></a><span class="do">##               AAACATACAACCAC-1 AAACATTGAGCTAC-1 AAACATTGATCAGC-1</span></span>
+<span id="cb17-3"><a href="单样本分析.html#cb17-3" tabindex="-1"></a><span class="do">## AL627309.1         -0.05812316      -0.05812316      -0.05812316</span></span>
+<span id="cb17-4"><a href="单样本分析.html#cb17-4" tabindex="-1"></a><span class="do">## AP006222.2         -0.03357571      -0.03357571      -0.03357571</span></span>
+<span id="cb17-5"><a href="单样本分析.html#cb17-5" tabindex="-1"></a><span class="do">## RP11-206L10.2      -0.04166819      -0.04166819      -0.04166819</span></span>
+<span id="cb17-6"><a href="单样本分析.html#cb17-6" tabindex="-1"></a><span class="do">## RP11-206L10.9      -0.03364562      -0.03364562      -0.03364562</span></span>
+<span id="cb17-7"><a href="单样本分析.html#cb17-7" tabindex="-1"></a><span class="do">## LINC00115          -0.08223981      -0.08223981      -0.08223981</span></span></code></pre></div>
+</details>
+<details>
+<summary>
+如何消除不需要的变异源
+</summary>
+<p>在 Seurat 中，<code>ScaleData()</code>函数不仅用于对数据进行缩放（标准化），还可以用于回归掉数据中的不需要的变异来源。这些不需要的变异来源可能包括<a href="https://satijalab.org/seurat/articles/cell_cycle_vignette">细胞周期阶段</a>、线粒体污染等。通过回归掉这些变异来源，可以减少它们对下游分析（如聚类、降维等）的影响，从而更好地揭示生物学上有意义的信号。</p>
+<p>“回归掉”变异来源是指通过线性回归模型，将这些不需要的变异从基因表达数据中移除。这样做的目的是减少这些变异对数据的影响，使得下游分析更加准确和可靠。</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="单样本分析.html#cb18-1" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">ScaleData</span>(pbmc, <span class="at">vars.to.regress =</span> <span class="st">&quot;percent.mt&quot;</span>)</span></code></pre></div>
+但是对于想使用此功能的，Seurat作者官网中强烈建议在数据标准化步骤走<a href="https://satijalab.org/seurat/reference/sctransform">SCTransform()</a>流程，而不是直接使用<code>ScaleData</code>函数。
+</details>
+</div>
+<div id="pca线性降维-1" class="section level2 unnumbered hasAnchor">
+<h2>PCA线性降维<a href="单样本分析.html#pca线性降维-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>PCA是一种常用的降维技术，用于将高维数据转换为低维数据。在单细胞数据中，PCA通常用于发现数据中的主要变化方向，以便在后续分析中使用。</p>
+<p>默认情况下，仅将先前识别的高变基因用于PCA输入。</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="单样本分析.html#cb19-1" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">RunPCA</span>(pbmc, <span class="at">features =</span> <span class="fu">VariableFeatures</span>(<span class="at">object =</span> pbmc))</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="单样本分析.html#cb20-1" tabindex="-1"></a><span class="co"># Examine and visualize PCA results a few different ways</span></span>
+<span id="cb20-2"><a href="单样本分析.html#cb20-2" tabindex="-1"></a><span class="fu">print</span>(pbmc[[<span class="st">&quot;pca&quot;</span>]], <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">nfeatures =</span> <span class="dv">5</span>)</span>
+<span id="cb20-3"><a href="单样本分析.html#cb20-3" tabindex="-1"></a><span class="do">## PC_ 1 </span></span>
+<span id="cb20-4"><a href="单样本分析.html#cb20-4" tabindex="-1"></a><span class="do">## Positive:  CST3, TYROBP, LST1, AIF1, FTL </span></span>
+<span id="cb20-5"><a href="单样本分析.html#cb20-5" tabindex="-1"></a><span class="do">## Negative:  MALAT1, LTB, IL32, IL7R, CD2 </span></span>
+<span id="cb20-6"><a href="单样本分析.html#cb20-6" tabindex="-1"></a><span class="do">## PC_ 2 </span></span>
+<span id="cb20-7"><a href="单样本分析.html#cb20-7" tabindex="-1"></a><span class="do">## Positive:  CD79A, MS4A1, TCL1A, HLA-DQA1, HLA-DQB1 </span></span>
+<span id="cb20-8"><a href="单样本分析.html#cb20-8" tabindex="-1"></a><span class="do">## Negative:  NKG7, PRF1, CST7, GZMB, GZMA </span></span>
+<span id="cb20-9"><a href="单样本分析.html#cb20-9" tabindex="-1"></a><span class="do">## PC_ 3 </span></span>
+<span id="cb20-10"><a href="单样本分析.html#cb20-10" tabindex="-1"></a><span class="do">## Positive:  HLA-DQA1, CD79A, CD79B, HLA-DQB1, HLA-DPB1 </span></span>
+<span id="cb20-11"><a href="单样本分析.html#cb20-11" tabindex="-1"></a><span class="do">## Negative:  PPBP, PF4, SDPR, SPARC, GNG11 </span></span>
+<span id="cb20-12"><a href="单样本分析.html#cb20-12" tabindex="-1"></a><span class="do">## PC_ 4 </span></span>
+<span id="cb20-13"><a href="单样本分析.html#cb20-13" tabindex="-1"></a><span class="do">## Positive:  HLA-DQA1, CD79B, CD79A, MS4A1, HLA-DQB1 </span></span>
+<span id="cb20-14"><a href="单样本分析.html#cb20-14" tabindex="-1"></a><span class="do">## Negative:  VIM, IL7R, S100A6, IL32, S100A8 </span></span>
+<span id="cb20-15"><a href="单样本分析.html#cb20-15" tabindex="-1"></a><span class="do">## PC_ 5 </span></span>
+<span id="cb20-16"><a href="单样本分析.html#cb20-16" tabindex="-1"></a><span class="do">## Positive:  GZMB, NKG7, S100A8, FGFBP2, GNLY </span></span>
+<span id="cb20-17"><a href="单样本分析.html#cb20-17" tabindex="-1"></a><span class="do">## Negative:  LTB, IL7R, CKB, VIM, MS4A7</span></span></code></pre></div>
+<details>
+<summary>
+🌟可视化PCA结果
+</summary>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="单样本分析.html#cb21-1" tabindex="-1"></a><span class="fu">VizDimLoadings</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">reduction =</span> <span class="st">&quot;pca&quot;</span>)</span></code></pre></div>
+<p><img src="03-single_files/figure-html/unnamed-chunk-18-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="单样本分析.html#cb22-1" tabindex="-1"></a><span class="fu">DimPlot</span>(pbmc, <span class="at">reduction =</span> <span class="st">&quot;pca&quot;</span>) <span class="sc">+</span> <span class="fu">NoLegend</span>()</span></code></pre></div>
+<p><img src="03-single_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><code>DimHeatmap()</code> 函数用于在主成分分析（PCA）后生成热图，帮助探索数据中的主要异质性来源，并决定哪些主成分（PCs）应包括在后续分析中。热图中的细胞和特征根据它们的 PCA 分数排序，设置 <code>cells</code> 参数为一个数字可以加速大数据集的绘图。尽管这是监督分析，但它是探索相关特征集的有价值工具。</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="单样本分析.html#cb23-1" tabindex="-1"></a><span class="fu">DimHeatmap</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span>, <span class="at">cells =</span> <span class="dv">500</span>, <span class="at">balanced =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="03-single_files/figure-html/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="单样本分析.html#cb24-1" tabindex="-1"></a><span class="fu">DimHeatmap</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">cells =</span> <span class="dv">500</span>, <span class="at">balanced =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<img src="03-single_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" />
+</details>
+<div id="确定数据集的维度" class="section level3 unnumbered hasAnchor">
+<h3>确定数据集的“维度”<a href="单样本分析.html#确定数据集的维度" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>单个特征的技术噪声在 scRNA-seq 数据中通常很大。为了克服这一问题，Seurat 根据细胞的 PCA 分数进行聚类，每个主成分（PC）实际上代表一个“元特征”，它结合了多个相关特征的信息。因此，前几个主成分代表了数据集的一个稳健压缩。</p>
+<p>面临的一个问题是应该选择多少个主成分来包括在分析中，比如 10 个、20 个还是 100 个？</p>
+<p>Seurat作者推荐可以生成一个“肘部图”（Elbow plot），这是一个基于每个主成分所解释的方差百分比的排名（使用 ElbowPlot() 函数）。并且建议用户在选择该参数时宁可偏高。</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="单样本分析.html#cb25-1" tabindex="-1"></a><span class="fu">ElbowPlot</span>(pbmc)</span></code></pre></div>
+<p><img src="03-single_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>在这个例子中，可以观察到大约在第 9-10 个主成分处出现一个“肘部”，这表明前 10 个主成分捕捉到了大部分的真实信号。</p>
+</div>
+</div>
+<div id="细胞聚类-1" class="section level2 unnumbered hasAnchor">
+<h2>细胞聚类<a href="单样本分析.html#细胞聚类-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>FindNeighbors()</code>函数将先前定义的数据集维度（前 10 个 PC）作为输入。</p>
+<p><code>FindClusters()</code>函数包含一个分辨率参数，用于设置下游聚类的“粒度”，增加的值会导致更多的聚类。此参数设置在 0.4-1.2 之间通常会为大约 3K 细胞的单细胞数据集带来良好的结果。对于较大的数据集，最佳分辨率通常会增加</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="单样本分析.html#cb26-1" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">FindNeighbors</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb26-2"><a href="单样本分析.html#cb26-2" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">FindClusters</span>(pbmc, <span class="at">resolution =</span> <span class="fl">0.5</span>)</span>
+<span id="cb26-3"><a href="单样本分析.html#cb26-3" tabindex="-1"></a><span class="do">## Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck</span></span>
+<span id="cb26-4"><a href="单样本分析.html#cb26-4" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb26-5"><a href="单样本分析.html#cb26-5" tabindex="-1"></a><span class="do">## Number of nodes: 2638</span></span>
+<span id="cb26-6"><a href="单样本分析.html#cb26-6" tabindex="-1"></a><span class="do">## Number of edges: 95927</span></span>
+<span id="cb26-7"><a href="单样本分析.html#cb26-7" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb26-8"><a href="单样本分析.html#cb26-8" tabindex="-1"></a><span class="do">## Running Louvain algorithm...</span></span>
+<span id="cb26-9"><a href="单样本分析.html#cb26-9" tabindex="-1"></a><span class="do">## Maximum modularity in 10 random starts: 0.8728</span></span>
+<span id="cb26-10"><a href="单样本分析.html#cb26-10" tabindex="-1"></a><span class="do">## Number of communities: 9</span></span>
+<span id="cb26-11"><a href="单样本分析.html#cb26-11" tabindex="-1"></a><span class="do">## Elapsed time: 0 seconds</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="单样本分析.html#cb27-1" tabindex="-1"></a><span class="co"># Look at cluster IDs of the first 5 cells</span></span>
+<span id="cb27-2"><a href="单样本分析.html#cb27-2" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">Idents</span>(pbmc), <span class="dv">5</span>)</span>
+<span id="cb27-3"><a href="单样本分析.html#cb27-3" tabindex="-1"></a><span class="do">## AAACATACAACCAC-1 AAACATTGAGCTAC-1 AAACATTGATCAGC-1 AAACCGTGCTTCCG-1 </span></span>
+<span id="cb27-4"><a href="单样本分析.html#cb27-4" tabindex="-1"></a><span class="do">##                2                3                2                1 </span></span>
+<span id="cb27-5"><a href="单样本分析.html#cb27-5" tabindex="-1"></a><span class="do">## AAACCGTGTATGCG-1 </span></span>
+<span id="cb27-6"><a href="单样本分析.html#cb27-6" tabindex="-1"></a><span class="do">##                6 </span></span>
+<span id="cb27-7"><a href="单样本分析.html#cb27-7" tabindex="-1"></a><span class="do">## Levels: 0 1 2 3 4 5 6 7 8</span></span></code></pre></div>
+</div>
+<div id="非线性降维umaptsne-1" class="section level2 unnumbered hasAnchor">
+<h2>非线性降维UMAP/tSNE<a href="单样本分析.html#非线性降维umaptsne-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Seurat 提供了几种非线性降维技术，例如 tSNE 和 UMAP，用于可视化和探索这些数据集。这些算法的目标是学习数据集中的底层结构，以便在低维空间中将相似的细胞放在一起。因此，在上述基于图的聚类中被分组在一起的细胞应该在这些降维图上共定位。</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="单样本分析.html#cb28-1" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">RunUMAP</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="单样本分析.html#cb29-1" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">RunTSNE</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="单样本分析.html#cb30-1" tabindex="-1"></a><span class="co"># note that you can set `label = TRUE` or use the LabelClusters function to help label</span></span>
+<span id="cb30-2"><a href="单样本分析.html#cb30-2" tabindex="-1"></a><span class="co"># individual clusters</span></span>
+<span id="cb30-3"><a href="单样本分析.html#cb30-3" tabindex="-1"></a><span class="fu">DimPlot</span>(pbmc, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>)<span class="sc">|</span></span>
+<span id="cb30-4"><a href="单样本分析.html#cb30-4" tabindex="-1"></a><span class="fu">DimPlot</span>(pbmc, <span class="at">reduction =</span> <span class="st">&quot;tsne&quot;</span>)</span></code></pre></div>
+<p><img src="03-single_files/figure-html/unnamed-chunk-27-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="单样本分析.html#cb31-1" tabindex="-1"></a><span class="fu">saveRDS</span>(pbmc, <span class="at">file =</span> <span class="st">&quot;../output/pbmc_tutorial.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="寻找亚群标志基因" class="section level2 unnumbered hasAnchor">
+<h2>寻找亚群标志基因<a href="单样本分析.html#寻找亚群标志基因" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Seurat 可以通过差异表达（DE）帮助你找到定义聚类的标志物。默认情况下，它会识别一个聚类（在 ident.1中指定）的正负标志物，并将其与所有其他细胞进行比较。FindAllMarkers() 函数可以自动完成所有聚类的这个过程，但你也可以测试聚类组之间的差异，或者将其与所有细胞进行比较。</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="单样本分析.html#cb32-1" tabindex="-1"></a><span class="co"># find all markers of cluster 2</span></span>
+<span id="cb32-2"><a href="单样本分析.html#cb32-2" tabindex="-1"></a>cluster2.markers <span class="ot">&lt;-</span> <span class="fu">FindMarkers</span>(pbmc, <span class="at">ident.1 =</span> <span class="dv">2</span>)</span>
+<span id="cb32-3"><a href="单样本分析.html#cb32-3" tabindex="-1"></a><span class="fu">head</span>(cluster2.markers, <span class="at">n =</span> <span class="dv">5</span>)</span>
+<span id="cb32-4"><a href="单样本分析.html#cb32-4" tabindex="-1"></a><span class="do">##             p_val avg_log2FC pct.1 pct.2    p_val_adj</span></span>
+<span id="cb32-5"><a href="单样本分析.html#cb32-5" tabindex="-1"></a><span class="do">## IL32 2.892340e-90  1.3070772 0.947 0.465 3.966555e-86</span></span>
+<span id="cb32-6"><a href="单样本分析.html#cb32-6" tabindex="-1"></a><span class="do">## LTB  1.060121e-86  1.3312674 0.981 0.643 1.453850e-82</span></span>
+<span id="cb32-7"><a href="单样本分析.html#cb32-7" tabindex="-1"></a><span class="do">## CD3D 8.794641e-71  1.0597620 0.922 0.432 1.206097e-66</span></span>
+<span id="cb32-8"><a href="单样本分析.html#cb32-8" tabindex="-1"></a><span class="do">## IL7R 3.516098e-68  1.4377848 0.750 0.326 4.821977e-64</span></span>
+<span id="cb32-9"><a href="单样本分析.html#cb32-9" tabindex="-1"></a><span class="do">## LDHB 1.642480e-67  0.9911924 0.954 0.614 2.252497e-63</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="单样本分析.html#cb33-1" tabindex="-1"></a><span class="co"># find all markers distinguishing cluster 5 from clusters 0 and 3</span></span>
+<span id="cb33-2"><a href="单样本分析.html#cb33-2" tabindex="-1"></a>cluster5.markers <span class="ot">&lt;-</span> <span class="fu">FindMarkers</span>(pbmc, <span class="at">ident.1 =</span> <span class="dv">5</span>, <span class="at">ident.2 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>))</span>
+<span id="cb33-3"><a href="单样本分析.html#cb33-3" tabindex="-1"></a><span class="fu">head</span>(cluster5.markers, <span class="at">n =</span> <span class="dv">5</span>)</span>
+<span id="cb33-4"><a href="单样本分析.html#cb33-4" tabindex="-1"></a><span class="do">##                       p_val avg_log2FC pct.1 pct.2     p_val_adj</span></span>
+<span id="cb33-5"><a href="单样本分析.html#cb33-5" tabindex="-1"></a><span class="do">## FCGR3A        8.246578e-205   6.794969 0.975 0.040 1.130936e-200</span></span>
+<span id="cb33-6"><a href="单样本分析.html#cb33-6" tabindex="-1"></a><span class="do">## IFITM3        1.677613e-195   6.192558 0.975 0.049 2.300678e-191</span></span>
+<span id="cb33-7"><a href="单样本分析.html#cb33-7" tabindex="-1"></a><span class="do">## CFD           2.401156e-193   6.015172 0.938 0.038 3.292945e-189</span></span>
+<span id="cb33-8"><a href="单样本分析.html#cb33-8" tabindex="-1"></a><span class="do">## CD68          2.900384e-191   5.530330 0.926 0.035 3.977587e-187</span></span>
+<span id="cb33-9"><a href="单样本分析.html#cb33-9" tabindex="-1"></a><span class="do">## RP11-290F20.3 2.513244e-186   6.297999 0.840 0.017 3.446663e-182</span></span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="单样本分析.html#cb34-1" tabindex="-1"></a><span class="co"># find markers for every cluster compared to all remaining cells, report only the positive</span></span>
+<span id="cb34-2"><a href="单样本分析.html#cb34-2" tabindex="-1"></a><span class="co"># ones</span></span>
+<span id="cb34-3"><a href="单样本分析.html#cb34-3" tabindex="-1"></a>pbmc.markers <span class="ot">&lt;-</span> <span class="fu">FindAllMarkers</span>(pbmc, <span class="at">only.pos =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-4"><a href="单样本分析.html#cb34-4" tabindex="-1"></a>pbmc.markers <span class="sc">%&gt;%</span></span>
+<span id="cb34-5"><a href="单样本分析.html#cb34-5" tabindex="-1"></a>    <span class="fu">group_by</span>(cluster) <span class="sc">%&gt;%</span></span>
+<span id="cb34-6"><a href="单样本分析.html#cb34-6" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(avg_log2FC <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
+<span id="cb34-7"><a href="单样本分析.html#cb34-7" tabindex="-1"></a><span class="do">## # A tibble: 7,019 × 7</span></span>
+<span id="cb34-8"><a href="单样本分析.html#cb34-8" tabindex="-1"></a><span class="do">## # Groups:   cluster [9]</span></span>
+<span id="cb34-9"><a href="单样本分析.html#cb34-9" tabindex="-1"></a><span class="do">##        p_val avg_log2FC pct.1 pct.2 p_val_adj cluster gene     </span></span>
+<span id="cb34-10"><a href="单样本分析.html#cb34-10" tabindex="-1"></a><span class="do">##        &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;   &lt;chr&gt;    </span></span>
+<span id="cb34-11"><a href="单样本分析.html#cb34-11" tabindex="-1"></a><span class="do">##  1 3.75e-112       1.21 0.912 0.592 5.14e-108 0       LDHB     </span></span>
+<span id="cb34-12"><a href="单样本分析.html#cb34-12" tabindex="-1"></a><span class="do">##  2 9.57e- 88       2.40 0.447 0.108 1.31e- 83 0       CCR7     </span></span>
+<span id="cb34-13"><a href="单样本分析.html#cb34-13" tabindex="-1"></a><span class="do">##  3 1.15e- 76       1.06 0.845 0.406 1.58e- 72 0       CD3D     </span></span>
+<span id="cb34-14"><a href="单样本分析.html#cb34-14" tabindex="-1"></a><span class="do">##  4 1.12e- 54       1.04 0.731 0.4   1.54e- 50 0       CD3E     </span></span>
+<span id="cb34-15"><a href="单样本分析.html#cb34-15" tabindex="-1"></a><span class="do">##  5 1.35e- 51       2.14 0.342 0.103 1.86e- 47 0       LEF1     </span></span>
+<span id="cb34-16"><a href="单样本分析.html#cb34-16" tabindex="-1"></a><span class="do">##  6 1.94e- 47       1.20 0.629 0.359 2.66e- 43 0       NOSIP    </span></span>
+<span id="cb34-17"><a href="单样本分析.html#cb34-17" tabindex="-1"></a><span class="do">##  7 2.81e- 44       1.53 0.443 0.185 3.85e- 40 0       PIK3IP1  </span></span>
+<span id="cb34-18"><a href="单样本分析.html#cb34-18" tabindex="-1"></a><span class="do">##  8 6.27e- 43       1.99 0.33  0.112 8.60e- 39 0       PRKCQ-AS1</span></span>
+<span id="cb34-19"><a href="单样本分析.html#cb34-19" tabindex="-1"></a><span class="do">##  9 1.16e- 40       2.70 0.2   0.04  1.59e- 36 0       FHIT     </span></span>
+<span id="cb34-20"><a href="单样本分析.html#cb34-20" tabindex="-1"></a><span class="do">## 10 1.34e- 34       1.96 0.268 0.087 1.84e- 30 0       MAL      </span></span>
+<span id="cb34-21"><a href="单样本分析.html#cb34-21" tabindex="-1"></a><span class="do">## # ℹ 7,009 more rows</span></span></code></pre></div>
+<p>Seurat 有几种用于差异表达分析的测试方法，可以通过 test.use 参数进行设置。例如，ROC测试会返回任何单个标志物的“分类能力”（范围从0表示随机，到1表示完美）。</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="单样本分析.html#cb35-1" tabindex="-1"></a>cluster0.markers <span class="ot">&lt;-</span> <span class="fu">FindMarkers</span>(pbmc, <span class="at">ident.1 =</span> <span class="dv">0</span>, <span class="at">logfc.threshold =</span> <span class="fl">0.25</span>, <span class="at">test.use =</span> <span class="st">&quot;roc&quot;</span>, <span class="at">only.pos =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<details>
+<summary>
+🌟可视化marker基因
+</summary>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="单样本分析.html#cb36-1" tabindex="-1"></a><span class="fu">VlnPlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;MS4A1&quot;</span>, <span class="st">&quot;CD79A&quot;</span>))</span></code></pre></div>
+<p><img src="03-single_files/figure-html/unnamed-chunk-33-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="单样本分析.html#cb37-1" tabindex="-1"></a><span class="co"># you can plot raw counts as well</span></span>
+<span id="cb37-2"><a href="单样本分析.html#cb37-2" tabindex="-1"></a><span class="fu">VlnPlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;NKG7&quot;</span>, <span class="st">&quot;PF4&quot;</span>), <span class="at">slot =</span> <span class="st">&quot;counts&quot;</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="03-single_files/figure-html/unnamed-chunk-34-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="单样本分析.html#cb38-1" tabindex="-1"></a><span class="fu">FeaturePlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;MS4A1&quot;</span>, <span class="st">&quot;GNLY&quot;</span>, <span class="st">&quot;CD3E&quot;</span>, <span class="st">&quot;CD14&quot;</span>, <span class="st">&quot;FCER1A&quot;</span>, <span class="st">&quot;FCGR3A&quot;</span>, <span class="st">&quot;LYZ&quot;</span>, <span class="st">&quot;PPBP&quot;</span>, <span class="st">&quot;CD8A&quot;</span>))</span></code></pre></div>
+<p><img src="03-single_files/figure-html/unnamed-chunk-35-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>DoHeatmap() 函数为给定的细胞和特征生成一个表达热图。在这种情况下，我们绘制了每个簇的前10个标志物（如果标志物少于20个，则绘制所有标志物）。</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="单样本分析.html#cb39-1" tabindex="-1"></a>pbmc.markers <span class="sc">%&gt;%</span></span>
+<span id="cb39-2"><a href="单样本分析.html#cb39-2" tabindex="-1"></a>    <span class="fu">group_by</span>(cluster) <span class="sc">%&gt;%</span> <span class="co"># 按簇（cluster）分组</span></span>
+<span id="cb39-3"><a href="单样本分析.html#cb39-3" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(avg_log2FC <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="co"># 筛选出平均对数2倍变化（avg_log2FC）大于1的基因。</span></span>
+<span id="cb39-4"><a href="单样本分析.html#cb39-4" tabindex="-1"></a>    <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="co"># 保留每个簇的前10个基因</span></span>
+<span id="cb39-5"><a href="单样本分析.html#cb39-5" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="ot">-&gt;</span> top10 <span class="co"># 解除分组，并将结果存储到`top10`变量中</span></span>
+<span id="cb39-6"><a href="单样本分析.html#cb39-6" tabindex="-1"></a><span class="fu">DoHeatmap</span>(pbmc, <span class="at">features =</span> top10<span class="sc">$</span>gene) <span class="sc">+</span> <span class="fu">NoLegend</span>() </span></code></pre></div>
+<p><img src="03-single_files/figure-html/unnamed-chunk-36-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="单样本分析.html#cb40-1" tabindex="-1"></a>pbmc.markers <span class="sc">%&gt;%</span></span>
+<span id="cb40-2"><a href="单样本分析.html#cb40-2" tabindex="-1"></a>    <span class="fu">group_by</span>(cluster) <span class="sc">%&gt;%</span> <span class="co"># 按簇（cluster）分组</span></span>
+<span id="cb40-3"><a href="单样本分析.html#cb40-3" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(avg_log2FC <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="co"># 筛选出平均对数2倍变化（avg_log2FC）大于1的基因。</span></span>
+<span id="cb40-4"><a href="单样本分析.html#cb40-4" tabindex="-1"></a>    <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="co"># 保留每个簇的前10个基因</span></span>
+<span id="cb40-5"><a href="单样本分析.html#cb40-5" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="ot">-&gt;</span> top10 <span class="co"># 解除分组，并将结果存储到`top10`变量中</span></span>
+<span id="cb40-6"><a href="单样本分析.html#cb40-6" tabindex="-1"></a><span class="fu">RidgePlot</span>(pbmc, <span class="at">features =</span> top10<span class="sc">$</span>gene[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>])</span></code></pre></div>
+<p><img src="03-single_files/figure-html/unnamed-chunk-37-1.png" width="1152" style="display: block; margin: auto;" /></p>
+</div>
+<div id="亚群命名" class="section level2 unnumbered hasAnchor">
+<h2>亚群命名<a href="单样本分析.html#亚群命名" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="单样本分析.html#cb41-1" tabindex="-1"></a>new.cluster.ids <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Naive CD4 T&quot;</span>, <span class="st">&quot;CD14+ Mono&quot;</span>, <span class="st">&quot;Memory CD4 T&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;CD8 T&quot;</span>, <span class="st">&quot;FCGR3A+ Mono&quot;</span>,</span>
+<span id="cb41-2"><a href="单样本分析.html#cb41-2" tabindex="-1"></a>    <span class="st">&quot;NK&quot;</span>, <span class="st">&quot;DC&quot;</span>, <span class="st">&quot;Platelet&quot;</span>)</span>
+<span id="cb41-3"><a href="单样本分析.html#cb41-3" tabindex="-1"></a><span class="fu">names</span>(new.cluster.ids) <span class="ot">&lt;-</span> <span class="fu">levels</span>(pbmc)</span>
+<span id="cb41-4"><a href="单样本分析.html#cb41-4" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">RenameIdents</span>(pbmc, new.cluster.ids)</span>
+<span id="cb41-5"><a href="单样本分析.html#cb41-5" tabindex="-1"></a><span class="fu">DimPlot</span>(pbmc, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">pt.size =</span> <span class="fl">0.5</span>) <span class="sc">+</span> <span class="fu">NoLegend</span>()</span></code></pre></div>
+<p><img src="03-single_files/figure-html/unnamed-chunk-38-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="单样本分析.html#cb42-1" tabindex="-1"></a><span class="fu">saveRDS</span>(pbmc, <span class="at">file =</span> <span class="st">&quot;../output/pbmc3k_final.rds&quot;</span>)</span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="单细胞基本分析流程.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="多样本分析.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/smileszh/scRNA-Seq/edit/master/03-single.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
