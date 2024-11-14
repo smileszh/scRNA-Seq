@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>第 4 章 多样本分析 | scRNA-Seq 分析笔记</title>
+  <title>第 5 章 多样本分析 | scRNA-Seq 分析笔记</title>
   <meta name="description" content="This is an online note of the scRNA-Seq analysis." />
   <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="第 4 章 多样本分析 | scRNA-Seq 分析笔记" />
+  <meta property="og:title" content="第 5 章 多样本分析 | scRNA-Seq 分析笔记" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is an online note of the scRNA-Seq analysis." />
   <meta name="github-repo" content="smileszh/scRNA-Seq" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="第 4 章 多样本分析 | scRNA-Seq 分析笔记" />
+  <meta name="twitter:title" content="第 5 章 多样本分析 | scRNA-Seq 分析笔记" />
   
   <meta name="twitter:description" content="This is an online note of the scRNA-Seq analysis." />
   
@@ -23,7 +23,7 @@
 <meta name="author" content="苏总华" />
 
 
-<meta name="date" content="2024-11-14" />
+<meta name="date" content="2024-11-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -144,13 +144,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="part"><span><b>I 初识 scRNA-Seq</b></span></li>
 <li class="chapter" data-level="1" data-path="scrna-seq-简介.html"><a href="scrna-seq-简介.html"><i class="fa fa-check"></i><b>1</b> scRNA-Seq 简介</a></li>
 <li class="part"><span><b>II scRNA-Seq 基础知识</b></span></li>
-<li class="chapter" data-level="2" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html"><i class="fa fa-check"></i><b>2</b> 单细胞基本分析流程</a>
+<li class="chapter" data-level="2" data-path="scrna-seq-基本概念.html"><a href="scrna-seq-基本概念.html"><i class="fa fa-check"></i><b>2</b> scRNA-Seq 基本概念</a>
+<ul>
+<li class="chapter" data-level="" data-path="scrna-seq-基本概念.html"><a href="scrna-seq-基本概念.html#单细胞-rna-测序"><i class="fa fa-check"></i>单细胞 RNA 测序</a></li>
+<li class="chapter" data-level="" data-path="scrna-seq-基本概念.html"><a href="scrna-seq-基本概念.html#高变基因highly-variable-genes-hvgs"><i class="fa fa-check"></i>高变基因（Highly Variable Genes, HVGs）</a></li>
+<li class="chapter" data-level="" data-path="scrna-seq-基本概念.html"><a href="scrna-seq-基本概念.html#marker-基因"><i class="fa fa-check"></i>Marker 基因</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html"><i class="fa fa-check"></i><b>3</b> 单细胞基本分析流程</a>
 <ul>
 <li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#数据读取"><i class="fa fa-check"></i>数据读取</a>
 <ul>
 <li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#x-genomics-三文件"><i class="fa fa-check"></i>10X Genomics 三文件</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#质量控制指标"><i class="fa fa-check"></i>质量控制指标</a></li>
+<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#质量控制指标"><i class="fa fa-check"></i>质量控制指标</a>
+<ul>
+<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#ncount_rna-与-percent.mt-相关关系"><i class="fa fa-check"></i>nCount_RNA 与 percent.mt 相关关系</a></li>
+<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#ncount_rna-与-nfeature_rna-的关系"><i class="fa fa-check"></i>nCount_RNA 与 nFeature_RNA 的关系</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#数据标准化"><i class="fa fa-check"></i>数据标准化</a></li>
 <li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#识别高变基因"><i class="fa fa-check"></i>识别高变基因</a></li>
 <li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#缩放数据"><i class="fa fa-check"></i>缩放数据</a></li>
@@ -159,7 +169,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#非线性降维umaptsne"><i class="fa fa-check"></i>非线性降维UMAP/tSNE</a></li>
 </ul></li>
 <li class="part"><span><b>III scRNA-Seq 入门</b></span></li>
-<li class="chapter" data-level="3" data-path="单样本分析.html"><a href="单样本分析.html"><i class="fa fa-check"></i><b>3</b> 单样本分析</a>
+<li class="chapter" data-level="4" data-path="单样本分析.html"><a href="单样本分析.html"><i class="fa fa-check"></i><b>4</b> 单样本分析</a>
 <ul>
 <li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#设置seurat对象"><i class="fa fa-check"></i>设置Seurat对象</a></li>
 <li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#质量控制"><i class="fa fa-check"></i>质量控制</a>
@@ -170,22 +180,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#数据标准化-1"><i class="fa fa-check"></i>数据标准化</a></li>
 <li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#识别高变基因-1"><i class="fa fa-check"></i>识别高变基因</a></li>
 <li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#缩放数据-1"><i class="fa fa-check"></i>缩放数据</a></li>
-<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#pca线性降维-1"><i class="fa fa-check"></i>PCA线性降维</a>
+<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#pca-线性降维"><i class="fa fa-check"></i>PCA 线性降维</a>
 <ul>
 <li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#确定数据集的维度"><i class="fa fa-check"></i>确定数据集的“维度”</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#细胞聚类-1"><i class="fa fa-check"></i>细胞聚类</a></li>
 <li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#非线性降维umaptsne-1"><i class="fa fa-check"></i>非线性降维UMAP/tSNE</a></li>
-<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#寻找亚群标志基因"><i class="fa fa-check"></i>寻找亚群标志基因</a></li>
+<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#marker-基因-1"><i class="fa fa-check"></i>marker 基因</a></li>
 <li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#亚群命名"><i class="fa fa-check"></i>亚群命名</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="多样本分析.html"><a href="多样本分析.html"><i class="fa fa-check"></i><b>4</b> 多样本分析</a>
+<li class="chapter" data-level="5" data-path="多样本分析.html"><a href="多样本分析.html"><i class="fa fa-check"></i><b>5</b> 多样本分析</a>
 <ul>
 <li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#加载包"><i class="fa fa-check"></i>加载包</a></li>
 <li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#创建多样本seurat对象"><i class="fa fa-check"></i>创建多样本Seurat对象</a></li>
 <li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#质控"><i class="fa fa-check"></i>质控</a></li>
 <li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#harmony流程"><i class="fa fa-check"></i>harmony流程</a></li>
-<li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#检查marker基因"><i class="fa fa-check"></i>检查marker基因</a></li>
+<li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#marker-基因-2"><i class="fa fa-check"></i>marker 基因</a></li>
 <li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#亚群命名-1"><i class="fa fa-check"></i>亚群命名</a></li>
 </ul></li>
 <li class="divider"></li>
@@ -208,8 +218,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="多样本分析" class="section level1 hasAnchor" number="4">
-<h1><span class="header-section-number">第 4 章</span> 多样本分析<a href="多样本分析.html#多样本分析" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="多样本分析" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">第 5 章</span> 多样本分析<a href="多样本分析.html#多样本分析" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="加载包" class="section level2 unnumbered hasAnchor">
 <h2>加载包<a href="多样本分析.html#加载包" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="多样本分析.html#cb43-1" tabindex="-1"></a><span class="fu">library</span>(COSG)</span>
@@ -229,7 +239,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="创建多样本seurat对象" class="section level2 unnumbered hasAnchor">
 <h2>创建多样本Seurat对象<a href="多样本分析.html#创建多样本seurat对象" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>不同于单样本分析，多样本分析需要将多个样本整合到一个Seurat对象中。这里我们使用<code>lapply</code>函数，将多个样本的数据读取并整合到一个列表中。进而创建Searut对象。</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="多样本分析.html#cb44-1" tabindex="-1"></a>dir<span class="ot">=</span><span class="st">&quot;./data/multi-samples/outputs&quot;</span></span>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="多样本分析.html#cb44-1" tabindex="-1"></a>dir<span class="ot">=</span><span class="st">&quot;data/multi-samples/outputs&quot;</span></span>
 <span id="cb44-2"><a href="多样本分析.html#cb44-2" tabindex="-1"></a>samples<span class="ot">=</span><span class="fu">list.files</span>(dir)</span>
 <span id="cb44-3"><a href="多样本分析.html#cb44-3" tabindex="-1"></a>samples </span>
 <span id="cb44-4"><a href="多样本分析.html#cb44-4" tabindex="-1"></a><span class="do">## [1] &quot;GSM4888887_CTRL1&quot; &quot;GSM4888888_CTRL2&quot; &quot;GSM4888891_AD1&quot;   &quot;GSM4888892_AD2&quot;  </span></span>
@@ -465,8 +475,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="多样本分析.html#cb58-1" tabindex="-1"></a>p2_tree<span class="ot">=</span><span class="fu">clustree</span>(sce.all<span class="sc">@</span>meta.data, <span class="at">prefix =</span> <span class="st">&quot;RNA_snn_res.&quot;</span>);p2_tree</span></code></pre></div>
 <p><img src="04-multi_files/figure-html/unnamed-chunk-13-1.png" width="1152" style="display: block; margin: auto;" /></p>
 </div>
-<div id="检查marker基因" class="section level2 unnumbered hasAnchor">
-<h2>检查marker基因<a href="多样本分析.html#检查marker基因" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="marker-基因-2" class="section level2 unnumbered hasAnchor">
+<h2>marker 基因<a href="多样本分析.html#marker-基因-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>选择需要的阈值，可视化一些marker基因辅助后续的单细胞亚群定义
 这里直接选0.8</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="多样本分析.html#cb59-1" tabindex="-1"></a>sel.clust <span class="ot">=</span> <span class="st">&quot;RNA_snn_res.0.8&quot;</span></span>
@@ -756,7 +766,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="亚群命名-1" class="section level2 unnumbered hasAnchor">
 <h2>亚群命名<a href="多样本分析.html#亚群命名-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>我们找到合适的marker基因后就可以进一步去可视化（我的理解是拿这些图在文章中展示），
+<p>我们找到合适的 marker 基因后就可以进一步去可视化（我的理解是拿这些图在文章中展示），
 判断单细胞亚群的生物学名字。这里我们直接使用已经定义好的名字。</p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="多样本分析.html#cb64-1" tabindex="-1"></a><span class="co"># 这里只是为了展示代码，就拿0.1分辨率的结果来展示</span></span>
 <span id="cb64-2"><a href="多样本分析.html#cb64-2" tabindex="-1"></a><span class="fu">colnames</span>(sce.all<span class="sc">@</span>meta.data)</span>

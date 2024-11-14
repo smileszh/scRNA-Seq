@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>第 1 章 scRNA-Seq 简介 | scRNA-Seq 分析笔记</title>
+  <title>第 2 章 scRNA-Seq 基本概念 | scRNA-Seq 分析笔记</title>
   <meta name="description" content="This is an online note of the scRNA-Seq analysis." />
   <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="第 1 章 scRNA-Seq 简介 | scRNA-Seq 分析笔记" />
+  <meta property="og:title" content="第 2 章 scRNA-Seq 基本概念 | scRNA-Seq 分析笔记" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is an online note of the scRNA-Seq analysis." />
   <meta name="github-repo" content="smileszh/scRNA-Seq" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="第 1 章 scRNA-Seq 简介 | scRNA-Seq 分析笔记" />
+  <meta name="twitter:title" content="第 2 章 scRNA-Seq 基本概念 | scRNA-Seq 分析笔记" />
   
   <meta name="twitter:description" content="This is an online note of the scRNA-Seq analysis." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
-<link rel="next" href="scrna-seq-基本概念.html"/>
+<link rel="prev" href="scrna-seq-简介.html"/>
+<link rel="next" href="单细胞基本分析流程.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -218,21 +218,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="scrna-seq-简介" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">第 1 章</span> scRNA-Seq 简介<a href="scrna-seq-简介.html#scrna-seq-简介" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>……</p>
-
+<div id="scrna-seq-基本概念" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">第 2 章</span> scRNA-Seq 基本概念<a href="scrna-seq-基本概念.html#scrna-seq-基本概念" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="单细胞-rna-测序" class="section level2 unnumbered hasAnchor">
+<h2>单细胞 RNA 测序<a href="scrna-seq-基本概念.html#单细胞-rna-测序" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>单细胞RNA测序（scRNA-Seq）是一种前沿的高通量测序技术，专门用于定量分析单个细胞内的转录本表达情况。该技术的核心在于能够从单个细胞中提取RNA，随后对其进行逆转录和扩增，以生成适合测序的文库。通过这种方式，scRNA-Seq能够捕捉到细胞内各个基因的表达水平，揭示细胞群体内的异质性。</p>
+<p>与传统的RNA测序（RNA-Seq）相比，后者通常是对多个细胞或组织样本的整体RNA进行分析，提供的是平均表达值，可能掩盖细胞间的差异。而scRNA-Seq可以在单细胞层面上进行分析，使得研究者能够识别不同细胞类型、状态及其在特定生物过程中（如发育、疾病或反应）中的角色。</p>
+<p>scRNA-Seq的流程一般包括细胞分离、RNA提取、逆转录、扩增和测序。常用的细胞分离技术包括微流体技术和激光捕获显微切割。数据分析涉及多种生物信息学方法，如降维（例如t-SNE和UMAP）、聚类分析及差异表达分析，以揭示细胞的亚群体和特征。</p>
+<p>总之，scRNA-Seq为研究细胞功能、发育和疾病机制提供了强大的工具，推动了对复杂生物系统理解的深化，并在肿瘤生物学、免疫学和神经科学等领域展现出广阔的应用前景。</p>
 </div>
-
-
-
+<div id="高变基因highly-variable-genes-hvgs" class="section level2 unnumbered hasAnchor">
+<h2>高变基因（Highly Variable Genes, HVGs）<a href="scrna-seq-基本概念.html#高变基因highly-variable-genes-hvgs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><p>定义：高变基因是指在不同细胞之间表达差异显著的基因。这些基因在单细胞水平上表现出较大的变异性，通常用于捕捉细胞间的异质性。</p></li>
+<li><p>用途：HVGs常用于降维分析（如PCA、t-SNE、UMAP）和聚类分析，因为它们能够反映不同细胞之间的生物学差异，帮助识别和分离不同的细胞群体。</p></li>
+</ul>
+<p>在单细胞RNA测序数据中，通常会选择表达变异性较大的基因进行后续分析。</p>
+</div>
+<div id="marker-基因" class="section level2 unnumbered hasAnchor">
+<h2>Marker 基因<a href="scrna-seq-基本概念.html#marker-基因" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><p>定义：Marker基因是指在特定细胞类型或细胞状态中表达显著高于其他细胞类型的基因。这些基因可以用来标识和区分不同的细胞群体。</p></li>
+<li><p>用途：Marker基因常用于细胞分类、识别特定细胞类型（如免疫细胞、神经元等）和研究细胞的功能。通过检测这些基因的表达，可以判断细胞属于哪种类型。</p></li>
+<li><p>示例：例如，CD4和CD8是T细胞的marker基因，神经元的marker基因可能包括NeuN等。</p></li>
+</ul>
+</div>
+</div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="scrna-seq-基本概念.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="scrna-seq-简介.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="单细胞基本分析流程.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -263,7 +281,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/smileszh/scRNA-Seq/edit/master/01-intro.Rmd",
+"link": "https://github.com/smileszh/scRNA-Seq/edit/master/02-base.Rmd",
 "text": "Edit"
 },
 "history": {

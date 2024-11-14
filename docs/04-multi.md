@@ -26,7 +26,7 @@ library(tidydr)
 
 
 ``` r
-dir="./data/multi-samples/outputs"
+dir="data/multi-samples/outputs"
 samples=list.files(dir)
 samples 
 ## [1] "GSM4888887_CTRL1" "GSM4888888_CTRL2" "GSM4888891_AD1"   "GSM4888892_AD2"  
@@ -329,7 +329,7 @@ p2_tree=clustree(sce.all@meta.data, prefix = "RNA_snn_res.");p2_tree
 <img src="04-multi_files/figure-html/unnamed-chunk-13-1.png" width="1152" style="display: block; margin: auto;" />
 
 
-## 检查marker基因{.unnumbered}
+## marker 基因{.unnumbered}
 选择需要的阈值，可视化一些marker基因辅助后续的单细胞亚群定义
 这里直接选0.8
 
@@ -641,7 +641,7 @@ DimPlot(sce.all, reduction = "umap",raster = F,
 
 
 ## 亚群命名 {.unnumbered}
-我们找到合适的marker基因后就可以进一步去可视化（我的理解是拿这些图在文章中展示），
+我们找到合适的 marker 基因后就可以进一步去可视化（我的理解是拿这些图在文章中展示），
 判断单细胞亚群的生物学名字。这里我们直接使用已经定义好的名字。
 
 
