@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>第 5 章 多样本分析 | scRNA-Seq 分析笔记</title>
+  <title>第 8 章 多样本分析 | scRNA-Seq 分析笔记</title>
   <meta name="description" content="This is an online note of the scRNA-Seq analysis." />
   <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="第 5 章 多样本分析 | scRNA-Seq 分析笔记" />
+  <meta property="og:title" content="第 8 章 多样本分析 | scRNA-Seq 分析笔记" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is an online note of the scRNA-Seq analysis." />
   <meta name="github-repo" content="smileszh/scRNA-Seq" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="第 5 章 多样本分析 | scRNA-Seq 分析笔记" />
+  <meta name="twitter:title" content="第 8 章 多样本分析 | scRNA-Seq 分析笔记" />
   
   <meta name="twitter:description" content="This is an online note of the scRNA-Seq analysis." />
   
@@ -23,7 +23,7 @@
 <meta name="author" content="苏总华" />
 
 
-<meta name="date" content="2024-11-15" />
+<meta name="date" content="2024-11-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="单样本分析.html"/>
-
+<link rel="next" href="part-多样本分析-pipline.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -141,62 +141,77 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>前言</a></li>
-<li class="part"><span><b>I 初识 scRNA-Seq</b></span></li>
-<li class="chapter" data-level="1" data-path="scrna-seq-简介.html"><a href="scrna-seq-简介.html"><i class="fa fa-check"></i><b>1</b> scRNA-Seq 简介</a></li>
-<li class="part"><span><b>II scRNA-Seq 基础知识</b></span></li>
-<li class="chapter" data-level="2" data-path="scrna-seq-基本概念.html"><a href="scrna-seq-基本概念.html"><i class="fa fa-check"></i><b>2</b> scRNA-Seq 基本概念</a>
+<li class="chapter" data-level="1" data-path="part-初识-scrna-seq.html"><a href="part-初识-scrna-seq.html"><i class="fa fa-check"></i><b>1</b> (PART) 初识 scRNA-Seq</a></li>
+<li class="chapter" data-level="2" data-path="scrna-seq-简介.html"><a href="scrna-seq-简介.html"><i class="fa fa-check"></i><b>2</b> scRNA-Seq 简介</a></li>
+<li class="chapter" data-level="3" data-path="part-scrna-seq-基础知识.html"><a href="part-scrna-seq-基础知识.html"><i class="fa fa-check"></i><b>3</b> (PART) scRNA-Seq 基础知识</a></li>
+<li class="chapter" data-level="4" data-path="scrna-seq-基本概念.html"><a href="scrna-seq-基本概念.html"><i class="fa fa-check"></i><b>4</b> scRNA-Seq 基本概念</a>
 <ul>
-<li class="chapter" data-level="" data-path="scrna-seq-基本概念.html"><a href="scrna-seq-基本概念.html#单细胞-rna-测序"><i class="fa fa-check"></i>单细胞 RNA 测序</a></li>
-<li class="chapter" data-level="" data-path="scrna-seq-基本概念.html"><a href="scrna-seq-基本概念.html#高变基因highly-variable-genes-hvgs"><i class="fa fa-check"></i>高变基因（Highly Variable Genes, HVGs）</a></li>
-<li class="chapter" data-level="" data-path="scrna-seq-基本概念.html"><a href="scrna-seq-基本概念.html#marker-基因"><i class="fa fa-check"></i>Marker 基因</a></li>
+<li class="chapter" data-level="4.1" data-path="scrna-seq-基本概念.html"><a href="scrna-seq-基本概念.html#单细胞-rna-测序"><i class="fa fa-check"></i><b>4.1</b> 单细胞 RNA 测序</a></li>
+<li class="chapter" data-level="4.2" data-path="scrna-seq-基本概念.html"><a href="scrna-seq-基本概念.html#高变基因highly-variable-genes-hvgs"><i class="fa fa-check"></i><b>4.2</b> 高变基因（Highly Variable Genes, HVGs）</a></li>
+<li class="chapter" data-level="4.3" data-path="scrna-seq-基本概念.html"><a href="scrna-seq-基本概念.html#marker-基因"><i class="fa fa-check"></i><b>4.3</b> Marker 基因</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html"><i class="fa fa-check"></i><b>3</b> 单细胞基本分析流程</a>
+<li class="chapter" data-level="5" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html"><i class="fa fa-check"></i><b>5</b> 单细胞基本分析流程</a>
 <ul>
-<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#数据读取"><i class="fa fa-check"></i>数据读取</a>
+<li class="chapter" data-level="5.1" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#数据读取"><i class="fa fa-check"></i><b>5.1</b> 数据读取</a>
 <ul>
-<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#x-genomics-三文件"><i class="fa fa-check"></i>10X Genomics 三文件</a></li>
+<li class="chapter" data-level="5.1.1" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#x-genomics-三文件"><i class="fa fa-check"></i><b>5.1.1</b> 10X Genomics 三文件</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#质量控制指标"><i class="fa fa-check"></i>质量控制指标</a>
+<li class="chapter" data-level="5.2" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#质量控制指标"><i class="fa fa-check"></i><b>5.2</b> 质量控制指标</a>
 <ul>
-<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#ncount_rna-与-percent.mt-相关关系"><i class="fa fa-check"></i>nCount_RNA 与 percent.mt 相关关系</a></li>
-<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#ncount_rna-与-nfeature_rna-的关系"><i class="fa fa-check"></i>nCount_RNA 与 nFeature_RNA 的关系</a></li>
+<li class="chapter" data-level="5.2.1" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#ncount_rna-与-percent.mt-相关关系"><i class="fa fa-check"></i><b>5.2.1</b> nCount_RNA 与 percent.mt 相关关系</a></li>
+<li class="chapter" data-level="5.2.2" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#ncount_rna-与-nfeature_rna-的关系"><i class="fa fa-check"></i><b>5.2.2</b> nCount_RNA 与 nFeature_RNA 的关系</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#数据标准化"><i class="fa fa-check"></i>数据标准化</a></li>
-<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#识别高变基因"><i class="fa fa-check"></i>识别高变基因</a></li>
-<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#缩放数据"><i class="fa fa-check"></i>缩放数据</a></li>
-<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#pca线性降维"><i class="fa fa-check"></i>PCA线性降维</a></li>
-<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#细胞聚类"><i class="fa fa-check"></i>细胞聚类</a></li>
-<li class="chapter" data-level="" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#非线性降维umaptsne"><i class="fa fa-check"></i>非线性降维UMAP/tSNE</a></li>
+<li class="chapter" data-level="5.3" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#数据标准化"><i class="fa fa-check"></i><b>5.3</b> 数据标准化</a></li>
+<li class="chapter" data-level="5.4" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#识别高变基因"><i class="fa fa-check"></i><b>5.4</b> 识别高变基因</a></li>
+<li class="chapter" data-level="5.5" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#缩放数据"><i class="fa fa-check"></i><b>5.5</b> 缩放数据</a></li>
+<li class="chapter" data-level="5.6" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#pca线性降维"><i class="fa fa-check"></i><b>5.6</b> PCA线性降维</a></li>
+<li class="chapter" data-level="5.7" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#细胞聚类"><i class="fa fa-check"></i><b>5.7</b> 细胞聚类</a></li>
+<li class="chapter" data-level="5.8" data-path="单细胞基本分析流程.html"><a href="单细胞基本分析流程.html#非线性降维umaptsne"><i class="fa fa-check"></i><b>5.8</b> 非线性降维UMAP/tSNE</a></li>
 </ul></li>
-<li class="part"><span><b>III scRNA-Seq 入门</b></span></li>
-<li class="chapter" data-level="4" data-path="单样本分析.html"><a href="单样本分析.html"><i class="fa fa-check"></i><b>4</b> 单样本分析</a>
+<li class="chapter" data-level="6" data-path="part-scrna-seq-入门.html"><a href="part-scrna-seq-入门.html"><i class="fa fa-check"></i><b>6</b> (PART) scRNA-Seq 入门</a></li>
+<li class="chapter" data-level="7" data-path="单样本分析.html"><a href="单样本分析.html"><i class="fa fa-check"></i><b>7</b> 单样本分析</a>
 <ul>
-<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#设置seurat对象"><i class="fa fa-check"></i>设置Seurat对象</a></li>
-<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#质量控制"><i class="fa fa-check"></i>质量控制</a>
+<li class="chapter" data-level="7.1" data-path="单样本分析.html"><a href="单样本分析.html#设置seurat对象"><i class="fa fa-check"></i><b>7.1</b> 设置Seurat对象</a></li>
+<li class="chapter" data-level="7.2" data-path="单样本分析.html"><a href="单样本分析.html#质量控制"><i class="fa fa-check"></i><b>7.2</b> 质量控制</a>
 <ul>
-<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#计算每个细胞线粒体基因的百分比"><i class="fa fa-check"></i>计算每个细胞线粒体基因的百分比</a></li>
-<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#过滤"><i class="fa fa-check"></i>过滤</a></li>
+<li class="chapter" data-level="7.2.1" data-path="单样本分析.html"><a href="单样本分析.html#计算每个细胞线粒体基因的百分比"><i class="fa fa-check"></i><b>7.2.1</b> 计算每个细胞线粒体基因的百分比</a></li>
+<li class="chapter" data-level="7.2.2" data-path="单样本分析.html"><a href="单样本分析.html#过滤"><i class="fa fa-check"></i><b>7.2.2</b> 过滤</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#数据标准化-1"><i class="fa fa-check"></i>数据标准化</a></li>
-<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#识别高变基因-1"><i class="fa fa-check"></i>识别高变基因</a></li>
-<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#缩放数据-1"><i class="fa fa-check"></i>缩放数据</a></li>
-<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#pca-线性降维"><i class="fa fa-check"></i>PCA 线性降维</a>
+<li class="chapter" data-level="7.3" data-path="单样本分析.html"><a href="单样本分析.html#数据标准化-1"><i class="fa fa-check"></i><b>7.3</b> 数据标准化</a></li>
+<li class="chapter" data-level="7.4" data-path="单样本分析.html"><a href="单样本分析.html#识别高变基因-1"><i class="fa fa-check"></i><b>7.4</b> 识别高变基因</a></li>
+<li class="chapter" data-level="7.5" data-path="单样本分析.html"><a href="单样本分析.html#缩放数据-1"><i class="fa fa-check"></i><b>7.5</b> 缩放数据</a></li>
+<li class="chapter" data-level="7.6" data-path="单样本分析.html"><a href="单样本分析.html#pca-线性降维"><i class="fa fa-check"></i><b>7.6</b> PCA 线性降维</a>
 <ul>
-<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#确定数据集的维度"><i class="fa fa-check"></i>确定数据集的“维度”</a></li>
+<li class="chapter" data-level="7.6.1" data-path="单样本分析.html"><a href="单样本分析.html#确定数据集的维度"><i class="fa fa-check"></i><b>7.6.1</b> 确定数据集的“维度”</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#细胞聚类-1"><i class="fa fa-check"></i>细胞聚类</a></li>
-<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#非线性降维umaptsne-1"><i class="fa fa-check"></i>非线性降维UMAP/tSNE</a></li>
-<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#marker-基因-1"><i class="fa fa-check"></i>marker 基因</a></li>
-<li class="chapter" data-level="" data-path="单样本分析.html"><a href="单样本分析.html#亚群命名"><i class="fa fa-check"></i>亚群命名</a></li>
+<li class="chapter" data-level="7.7" data-path="单样本分析.html"><a href="单样本分析.html#细胞聚类-1"><i class="fa fa-check"></i><b>7.7</b> 细胞聚类</a></li>
+<li class="chapter" data-level="7.8" data-path="单样本分析.html"><a href="单样本分析.html#非线性降维umaptsne-1"><i class="fa fa-check"></i><b>7.8</b> 非线性降维UMAP/tSNE</a></li>
+<li class="chapter" data-level="7.9" data-path="单样本分析.html"><a href="单样本分析.html#marker-基因-1"><i class="fa fa-check"></i><b>7.9</b> marker 基因</a></li>
+<li class="chapter" data-level="7.10" data-path="单样本分析.html"><a href="单样本分析.html#亚群命名"><i class="fa fa-check"></i><b>7.10</b> 亚群命名</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="多样本分析.html"><a href="多样本分析.html"><i class="fa fa-check"></i><b>5</b> 多样本分析</a>
+<li class="chapter" data-level="8" data-path="多样本分析.html"><a href="多样本分析.html"><i class="fa fa-check"></i><b>8</b> 多样本分析</a>
 <ul>
-<li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#加载包"><i class="fa fa-check"></i>加载包</a></li>
-<li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#创建多样本seurat对象"><i class="fa fa-check"></i>创建多样本Seurat对象</a></li>
-<li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#质控"><i class="fa fa-check"></i>质控</a></li>
-<li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#harmony流程"><i class="fa fa-check"></i>harmony流程</a></li>
-<li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#marker-基因-2"><i class="fa fa-check"></i>marker 基因</a></li>
-<li class="chapter" data-level="" data-path="多样本分析.html"><a href="多样本分析.html#亚群命名-1"><i class="fa fa-check"></i>亚群命名</a></li>
+<li class="chapter" data-level="8.1" data-path="多样本分析.html"><a href="多样本分析.html#加载包"><i class="fa fa-check"></i><b>8.1</b> 加载包</a></li>
+<li class="chapter" data-level="8.2" data-path="多样本分析.html"><a href="多样本分析.html#创建多样本seurat对象"><i class="fa fa-check"></i><b>8.2</b> 创建多样本Seurat对象</a></li>
+<li class="chapter" data-level="8.3" data-path="多样本分析.html"><a href="多样本分析.html#质控"><i class="fa fa-check"></i><b>8.3</b> 质控</a></li>
+<li class="chapter" data-level="8.4" data-path="多样本分析.html"><a href="多样本分析.html#harmony流程"><i class="fa fa-check"></i><b>8.4</b> harmony流程</a></li>
+<li class="chapter" data-level="8.5" data-path="多样本分析.html"><a href="多样本分析.html#marker-基因-2"><i class="fa fa-check"></i><b>8.5</b> marker 基因</a></li>
+<li class="chapter" data-level="8.6" data-path="多样本分析.html"><a href="多样本分析.html#亚群命名-1"><i class="fa fa-check"></i><b>8.6</b> 亚群命名</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="part-多样本分析-pipline.html"><a href="part-多样本分析-pipline.html"><i class="fa fa-check"></i><b>9</b> (PART) 多样本分析 pipline</a></li>
+<li class="chapter" data-level="10" data-path="基础流程.html"><a href="基础流程.html"><i class="fa fa-check"></i><b>10</b> 基础流程</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="基础流程.html"><a href="基础流程.html#加载包-1"><i class="fa fa-check"></i><b>10.1</b> 加载包</a></li>
+<li class="chapter" data-level="10.2" data-path="基础流程.html"><a href="基础流程.html#创建多样本seurat对象-1"><i class="fa fa-check"></i><b>10.2</b> 创建多样本Seurat对象</a></li>
+<li class="chapter" data-level="10.3" data-path="基础流程.html"><a href="基础流程.html#质控-1"><i class="fa fa-check"></i><b>10.3</b> 质控</a></li>
+<li class="chapter" data-level="10.4" data-path="基础流程.html"><a href="基础流程.html#harmony流程-1"><i class="fa fa-check"></i><b>10.4</b> harmony流程</a></li>
+<li class="chapter" data-level="10.5" data-path="基础流程.html"><a href="基础流程.html#marker-基因-3"><i class="fa fa-check"></i><b>10.5</b> marker 基因</a></li>
+<li class="chapter" data-level="10.6" data-path="基础流程.html"><a href="基础流程.html#亚群命名-2"><i class="fa fa-check"></i><b>10.6</b> 亚群命名</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="细胞亚群响应注释.html"><a href="细胞亚群响应注释.html"><i class="fa fa-check"></i><b>11</b> 细胞亚群响应注释</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="细胞亚群响应注释.html"><a href="细胞亚群响应注释.html#加载包-2"><i class="fa fa-check"></i><b>11.1</b> 加载包</a></li>
+<li class="chapter" data-level="11.2" data-path="细胞亚群响应注释.html"><a href="细胞亚群响应注释.html#提取各个亚群的marker基因"><i class="fa fa-check"></i><b>11.2</b> 提取各个亚群的marker基因</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://space.bilibili.com/338686099" target="blank">本笔记来自 生信技能书</a></li>
@@ -218,10 +233,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="多样本分析" class="section level1 hasAnchor" number="5">
-<h1><span class="header-section-number">第 5 章</span> 多样本分析<a href="多样本分析.html#多样本分析" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="加载包" class="section level2 unnumbered hasAnchor">
-<h2>加载包<a href="多样本分析.html#加载包" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="多样本分析" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">第 8 章</span> 多样本分析<a href="多样本分析.html#多样本分析" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="加载包" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> 加载包<a href="多样本分析.html#加载包" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="多样本分析.html#cb43-1" tabindex="-1"></a><span class="fu">library</span>(COSG)</span>
 <span id="cb43-2"><a href="多样本分析.html#cb43-2" tabindex="-1"></a><span class="fu">library</span>(harmony)</span>
 <span id="cb43-3"><a href="多样本分析.html#cb43-3" tabindex="-1"></a><span class="fu">library</span>(ggsci)</span>
@@ -236,8 +251,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb43-12"><a href="多样本分析.html#cb43-12" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb43-13"><a href="多样本分析.html#cb43-13" tabindex="-1"></a><span class="fu">library</span>(tidydr)</span></code></pre></div>
 </div>
-<div id="创建多样本seurat对象" class="section level2 unnumbered hasAnchor">
-<h2>创建多样本Seurat对象<a href="多样本分析.html#创建多样本seurat对象" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="创建多样本seurat对象" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> 创建多样本Seurat对象<a href="多样本分析.html#创建多样本seurat对象" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>不同于单样本分析，多样本分析需要将多个样本整合到一个Seurat对象中。这里我们使用<code>lapply</code>函数，将多个样本的数据读取并整合到一个列表中。进而创建Searut对象。</p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="多样本分析.html#cb44-1" tabindex="-1"></a>dir<span class="ot">=</span><span class="st">&quot;data/multi-samples/outputs&quot;</span></span>
 <span id="cb44-2"><a href="多样本分析.html#cb44-2" tabindex="-1"></a>samples<span class="ot">=</span><span class="fu">list.files</span>(dir)</span>
@@ -294,8 +309,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb44-53"><a href="多样本分析.html#cb44-53" tabindex="-1"></a><span class="do">##   GSM4888895_PD1   GSM4888896_PD2 </span></span>
 <span id="cb44-54"><a href="多样本分析.html#cb44-54" tabindex="-1"></a><span class="do">##             2095             5333</span></span></code></pre></div>
 </div>
-<div id="质控" class="section level2 unnumbered hasAnchor">
-<h2>质控<a href="多样本分析.html#质控" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="质控" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">8.3</span> 质控<a href="多样本分析.html#质控" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>第一步我们先计算关注的指标</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="多样本分析.html#cb45-1" tabindex="-1"></a><span class="co">#计算线粒体基因比例</span></span>
 <span id="cb45-2"><a href="多样本分析.html#cb45-2" tabindex="-1"></a>mito_genes<span class="ot">=</span><span class="fu">rownames</span>(sce.all)[<span class="fu">grep</span>(<span class="st">&quot;^MT-&quot;</span>, <span class="fu">rownames</span>(sce.all),<span class="at">ignore.case =</span> T)] </span>
@@ -381,8 +396,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb52-5"><a href="多样本分析.html#cb52-5" tabindex="-1"></a>p2_filtered</span></code></pre></div>
 <p><img src="04-multi_files/figure-html/unnamed-chunk-6-2.png" width="1152" style="display: block; margin: auto;" /></p>
 </div>
-<div id="harmony流程" class="section level2 unnumbered hasAnchor">
-<h2>harmony流程<a href="多样本分析.html#harmony流程" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="harmony流程" class="section level2 hasAnchor" number="8.4">
+<h2><span class="header-section-number">8.4</span> harmony流程<a href="多样本分析.html#harmony流程" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="多样本分析.html#cb53-1" tabindex="-1"></a>sce.all <span class="ot">&lt;-</span> <span class="fu">NormalizeData</span>(sce.all, </span>
 <span id="cb53-2"><a href="多样本分析.html#cb53-2" tabindex="-1"></a>                             <span class="at">normalization.method =</span> <span class="st">&quot;LogNormalize&quot;</span>,</span>
 <span id="cb53-3"><a href="多样本分析.html#cb53-3" tabindex="-1"></a>                             <span class="at">scale.factor =</span> <span class="fl">1e4</span>)</span>
@@ -475,8 +490,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="多样本分析.html#cb58-1" tabindex="-1"></a>p2_tree<span class="ot">=</span><span class="fu">clustree</span>(sce.all<span class="sc">@</span>meta.data, <span class="at">prefix =</span> <span class="st">&quot;RNA_snn_res.&quot;</span>);p2_tree</span></code></pre></div>
 <p><img src="04-multi_files/figure-html/unnamed-chunk-13-1.png" width="1152" style="display: block; margin: auto;" /></p>
 </div>
-<div id="marker-基因-2" class="section level2 unnumbered hasAnchor">
-<h2>marker 基因<a href="多样本分析.html#marker-基因-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="marker-基因-2" class="section level2 hasAnchor" number="8.5">
+<h2><span class="header-section-number">8.5</span> marker 基因<a href="多样本分析.html#marker-基因-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>选择需要的阈值，可视化一些marker基因辅助后续的单细胞亚群定义
 这里直接选0.8</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="多样本分析.html#cb59-1" tabindex="-1"></a>sel.clust <span class="ot">=</span> <span class="st">&quot;RNA_snn_res.0.8&quot;</span></span>
@@ -487,420 +502,460 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb59-6"><a href="多样本分析.html#cb59-6" tabindex="-1"></a><span class="do">## 3590 2144 2122 2062 2006 1225  801  740  605  584  569  553  522  397  285  266 </span></span>
 <span id="cb59-7"><a href="多样本分析.html#cb59-7" tabindex="-1"></a><span class="do">##   16   17   18   19   20   21   22   23   24   25   26 </span></span>
 <span id="cb59-8"><a href="多样本分析.html#cb59-8" tabindex="-1"></a><span class="do">##  265  254  225  213  183  158  135  123   92   83   67</span></span></code></pre></div>
+<p>可以选择marker基因手动注释</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="多样本分析.html#cb60-1" tabindex="-1"></a>marker_cosg <span class="ot">&lt;-</span> <span class="fu">cosg</span>(</span>
+<span id="cb60-2"><a href="多样本分析.html#cb60-2" tabindex="-1"></a>    sce.all,</span>
+<span id="cb60-3"><a href="多样本分析.html#cb60-3" tabindex="-1"></a>    <span class="at">groups=</span><span class="st">&#39;all&#39;</span>,</span>
+<span id="cb60-4"><a href="多样本分析.html#cb60-4" tabindex="-1"></a>    <span class="at">assay=</span><span class="st">&#39;RNA&#39;</span>,</span>
+<span id="cb60-5"><a href="多样本分析.html#cb60-5" tabindex="-1"></a>    <span class="at">slot=</span><span class="st">&#39;data&#39;</span>,</span>
+<span id="cb60-6"><a href="多样本分析.html#cb60-6" tabindex="-1"></a>    <span class="at">mu=</span><span class="dv">1</span>,</span>
+<span id="cb60-7"><a href="多样本分析.html#cb60-7" tabindex="-1"></a>    <span class="at">n_genes_user=</span><span class="dv">100</span>)</span>
+<span id="cb60-8"><a href="多样本分析.html#cb60-8" tabindex="-1"></a></span>
+<span id="cb60-9"><a href="多样本分析.html#cb60-9" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">&#39;cluster&#39;</span>,<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>,<span class="st">&#39;:&#39;</span>,</span>
+<span id="cb60-10"><a href="多样本分析.html#cb60-10" tabindex="-1"></a>           <span class="fu">unlist</span>(<span class="fu">apply</span>(marker_cosg<span class="sc">$</span>names,<span class="dv">2</span>,<span class="cf">function</span>(x){</span>
+<span id="cb60-11"><a href="多样本分析.html#cb60-11" tabindex="-1"></a>             <span class="fu">paste</span>(<span class="fu">head</span>(x),<span class="at">collapse=</span><span class="st">&#39;,&#39;</span>)</span>
+<span id="cb60-12"><a href="多样本分析.html#cb60-12" tabindex="-1"></a>           })),<span class="st">&#39;</span><span class="sc">\n</span><span class="st">&#39;</span>))</span>
+<span id="cb60-13"><a href="多样本分析.html#cb60-13" tabindex="-1"></a><span class="do">## cluster0:PLP1,QDPR,RNF220,PEX5L,ST18,ENPP2</span></span>
+<span id="cb60-14"><a href="多样本分析.html#cb60-14" tabindex="-1"></a><span class="do">##  cluster1:SLC5A11,AC090502.1,MOBP,LINC00639,SH3TC2,SYNJ2</span></span>
+<span id="cb60-15"><a href="多样本分析.html#cb60-15" tabindex="-1"></a><span class="do">##  cluster2:RNF219-AS1,ADGRV1,RANBP3L,PRDM16,ZNF98,HPSE2</span></span>
+<span id="cb60-16"><a href="多样本分析.html#cb60-16" tabindex="-1"></a><span class="do">##  cluster3:SAMD5,GRM1,AL033504.1,HTR4,ADAMTS19,AP005212.5</span></span>
+<span id="cb60-17"><a href="多样本分析.html#cb60-17" tabindex="-1"></a><span class="do">##  cluster4:AC069437.1,AL117190.2,NNAT,LAMP5,PCDH11X,COCH</span></span>
+<span id="cb60-18"><a href="多样本分析.html#cb60-18" tabindex="-1"></a><span class="do">##  cluster5:TBXAS1,DOCK8,APBB1IP,FYB1,RBM47,SYK</span></span>
+<span id="cb60-19"><a href="多样本分析.html#cb60-19" tabindex="-1"></a><span class="do">##  cluster6:HPCA,NEFM,NRGN,CTXN1,GPR88,PHYHIP</span></span>
+<span id="cb60-20"><a href="多样本分析.html#cb60-20" tabindex="-1"></a><span class="do">##  cluster7:CA10,MEGF11,TNR,AC004852.2,SMOC1,COL9A1</span></span>
+<span id="cb60-21"><a href="多样本分析.html#cb60-21" tabindex="-1"></a><span class="do">##  cluster8:TUBB2B,GFAP,AGT,ENHO,CHI3L2,AQP4</span></span>
+<span id="cb60-22"><a href="多样本分析.html#cb60-22" tabindex="-1"></a><span class="do">##  cluster9:DCN,ADGRD1,NOTCH3,COL1A2,NR2F2,GJC1</span></span>
+<span id="cb60-23"><a href="多样本分析.html#cb60-23" tabindex="-1"></a><span class="do">##  cluster10:CLDN5,FLT1,VWF,TGM2,ADGRL4,MECOM</span></span>
+<span id="cb60-24"><a href="多样本分析.html#cb60-24" tabindex="-1"></a><span class="do">##  cluster0:GBP1,IFIT2,ISG15,APOL2,IFIT3,RARRES3</span></span>
+<span id="cb60-25"><a href="多样本分析.html#cb60-25" tabindex="-1"></a><span class="do">##  cluster1:PTPRQ,AC138646.1,AL138720.1,COL25A1,CTXN3,LOXHD1</span></span>
+<span id="cb60-26"><a href="多样本分析.html#cb60-26" tabindex="-1"></a><span class="do">##  cluster2:KCNJ6,SLC18A2,SLC6A3,VWC2L,AC007091.1,CLSTN2</span></span>
+<span id="cb60-27"><a href="多样本分析.html#cb60-27" tabindex="-1"></a><span class="do">##  cluster3:AC106869.1,ATAD3C,RAPGEF3,ST18,HIP1,AC009063.2</span></span>
+<span id="cb60-28"><a href="多样本分析.html#cb60-28" tabindex="-1"></a><span class="do">##  cluster4:RXFP1,FBXL21,ZNF804B,CASZ1,STAC,FRMD7</span></span>
+<span id="cb60-29"><a href="多样本分析.html#cb60-29" tabindex="-1"></a><span class="do">##  cluster5:PDE1A,MIR219A2,LINC00844,PPP1R14A,CHRM5,LINC01170</span></span>
+<span id="cb60-30"><a href="多样本分析.html#cb60-30" tabindex="-1"></a><span class="do">##  cluster6:LINC00836,AC073941.1,CD44,LINC02251,CYP4F3,TNC</span></span>
+<span id="cb60-31"><a href="多样本分析.html#cb60-31" tabindex="-1"></a><span class="do">##  cluster7:IL1RAPL2,LINC01885,AP002989.1,EXOC1L,KCNC2,PDGFD</span></span>
+<span id="cb60-32"><a href="多样本分析.html#cb60-32" tabindex="-1"></a><span class="do">##  cluster8:CHRM2,TAC3,AC134980.1,NXPH2,NELL1,GFRA2</span></span>
+<span id="cb60-33"><a href="多样本分析.html#cb60-33" tabindex="-1"></a><span class="do">##  cluster9:CR382287.2,SLC26A3,ADAMTSL1,MT-ND4L,AL353148.1,MT-ATP8</span></span>
+<span id="cb60-34"><a href="多样本分析.html#cb60-34" tabindex="-1"></a><span class="do">##  cluster10:SOD3,CHI3L2,MTCO1P12,CXCL14,OTOS,TMPRSS3</span></span>
+<span id="cb60-35"><a href="多样本分析.html#cb60-35" tabindex="-1"></a><span class="do">##  cluster0:C4orf22,AL672167.1,ADGB,CFAP157,TEKT1,FAM183A</span></span>
+<span id="cb60-36"><a href="多样本分析.html#cb60-36" tabindex="-1"></a><span class="do">##  cluster1:SLC35F3,ROBO2,RBFOX1,KCNIP4,MACROD2,KCNQ5</span></span>
+<span id="cb60-37"><a href="多样本分析.html#cb60-37" tabindex="-1"></a><span class="do">##  cluster2:LINC01520,AC087321.1,AC004704.1,AC020704.1,LINC01967,LINC01305</span></span>
+<span id="cb60-38"><a href="多样本分析.html#cb60-38" tabindex="-1"></a><span class="do">##  cluster3:PSPHP1,DRAXIN,CERS3,AC083902.2,LINC01924,AC103949.1</span></span>
+<span id="cb60-39"><a href="多样本分析.html#cb60-39" tabindex="-1"></a><span class="do">##  cluster4:SKAP1,IKZF3,GRAP2,LINC00861,PRF1,CD2</span></span></code></pre></div>
 <p>可以根据经验构建自己的注释集合（可选）</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="多样本分析.html#cb60-1" tabindex="-1"></a>gastric_cancer_markers <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;PTPRC&#39;</span>, </span>
-<span id="cb60-2"><a href="多样本分析.html#cb60-2" tabindex="-1"></a>                           <span class="st">&#39;MUC2&#39;</span> , <span class="st">&#39;ITLN1&#39;</span>,</span>
-<span id="cb60-3"><a href="多样本分析.html#cb60-3" tabindex="-1"></a>                           <span class="st">&#39;FABP1&#39;</span> , <span class="st">&#39;APOA1&#39;</span>,</span>
-<span id="cb60-4"><a href="多样本分析.html#cb60-4" tabindex="-1"></a>                           <span class="st">&#39;CEACAM5&#39;</span> , <span class="st">&#39;CEACAM6&#39;</span>,</span>
-<span id="cb60-5"><a href="多样本分析.html#cb60-5" tabindex="-1"></a>                           <span class="st">&#39;EPCAM&#39;</span>, <span class="st">&#39;KRT18&#39;</span>, <span class="st">&#39;MUC1&#39;</span>,</span>
-<span id="cb60-6"><a href="多样本分析.html#cb60-6" tabindex="-1"></a>                           <span class="st">&#39;MUC6&#39;</span> , <span class="st">&#39;TFF2&#39;</span>,</span>
-<span id="cb60-7"><a href="多样本分析.html#cb60-7" tabindex="-1"></a>                           <span class="st">&#39;PGA4&#39;</span> , <span class="st">&#39;PGA3&#39;</span>,</span>
-<span id="cb60-8"><a href="多样本分析.html#cb60-8" tabindex="-1"></a>                           <span class="st">&#39;MUC5AC&#39;</span> , <span class="st">&#39;TFF1&#39;</span>,<span class="st">&#39;CHGA&#39;</span> , <span class="st">&#39;CHGB&#39;</span>) </span>
-<span id="cb60-9"><a href="多样本分析.html#cb60-9" tabindex="-1"></a></span>
-<span id="cb60-10"><a href="多样本分析.html#cb60-10" tabindex="-1"></a>Myo<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Krt17&quot;</span>, <span class="st">&quot;Krt14&quot;</span>, <span class="st">&quot;Krt5&quot;</span>, <span class="st">&quot;Acta2&quot;</span>, <span class="st">&quot;Myl9&quot;</span>, <span class="st">&quot;Mylk&quot;</span>, <span class="st">&quot;Myh11&quot;</span>)</span>
-<span id="cb60-11"><a href="多样本分析.html#cb60-11" tabindex="-1"></a>Lum<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Krt19&quot;</span>, <span class="st">&quot;Krt18&quot;</span>, <span class="st">&quot;Krt8&quot;</span>)</span>
-<span id="cb60-12"><a href="多样本分析.html#cb60-12" tabindex="-1"></a>Hs<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Prlr&quot;</span>, <span class="st">&quot;Cited1&quot;</span>, <span class="st">&quot;Pgr&quot;</span>, <span class="st">&quot;Prom1&quot;</span>, <span class="st">&quot;Esr1&quot;</span>)  </span>
-<span id="cb60-13"><a href="多样本分析.html#cb60-13" tabindex="-1"></a>AV<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Mfge8&quot;</span>, <span class="st">&quot;Trf&quot;</span>, <span class="st">&quot;Csn3&quot;</span>, <span class="st">&quot;Wfdc18&quot;</span>, <span class="st">&quot;Elf5&quot;</span>, <span class="st">&quot;Ltf&quot;</span>)</span>
-<span id="cb60-14"><a href="多样本分析.html#cb60-14" tabindex="-1"></a>Lp<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Kit&quot;</span>, <span class="st">&quot;Aldh1a3&quot;</span>, <span class="st">&quot;Cd14&quot;</span>)</span>
-<span id="cb60-15"><a href="多样本分析.html#cb60-15" tabindex="-1"></a>Fib<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Col1a1&quot;</span>, <span class="st">&quot;Col1a2&quot;</span>, <span class="st">&quot;Col3a1&quot;</span>, <span class="st">&quot;Fn1&quot;</span>)</span>
-<span id="cb60-16"><a href="多样本分析.html#cb60-16" tabindex="-1"></a>GSE150580_breast_cancer_markers_list <span class="ot">=</span><span class="fu">list</span>(</span>
-<span id="cb60-17"><a href="多样本分析.html#cb60-17" tabindex="-1"></a>  <span class="at">Myo=</span>Myo,</span>
-<span id="cb60-18"><a href="多样本分析.html#cb60-18" tabindex="-1"></a>  <span class="at">Lum=</span>Lum,</span>
-<span id="cb60-19"><a href="多样本分析.html#cb60-19" tabindex="-1"></a>  <span class="at">Hs=</span>Hs, </span>
-<span id="cb60-20"><a href="多样本分析.html#cb60-20" tabindex="-1"></a>  <span class="at">AV=</span>AV,</span>
-<span id="cb60-21"><a href="多样本分析.html#cb60-21" tabindex="-1"></a>  <span class="at">Lp=</span>Lp,  </span>
-<span id="cb60-22"><a href="多样本分析.html#cb60-22" tabindex="-1"></a>  <span class="at">Fib=</span>Fib</span>
-<span id="cb60-23"><a href="多样本分析.html#cb60-23" tabindex="-1"></a>) </span>
-<span id="cb60-24"><a href="多样本分析.html#cb60-24" tabindex="-1"></a></span>
-<span id="cb60-25"><a href="多样本分析.html#cb60-25" tabindex="-1"></a>macrophages<span class="ot">=</span><span class="fu">c</span>(<span class="st">&#39;Adgre1&#39;</span>, <span class="st">&#39;Cd14&#39;</span>,  <span class="st">&#39;Fcgr3&#39;</span>)</span>
-<span id="cb60-26"><a href="多样本分析.html#cb60-26" tabindex="-1"></a>cDCs<span class="ot">=</span><span class="fu">c</span>(<span class="st">&#39;Xcr1&#39;</span>, <span class="st">&#39;Flt3&#39;</span>,  <span class="st">&#39;Ccr7&#39;</span>)</span>
-<span id="cb60-27"><a href="多样本分析.html#cb60-27" tabindex="-1"></a>pDCs<span class="ot">=</span><span class="fu">c</span>(<span class="st">&#39;Siglech&#39;</span>, <span class="st">&#39;Clec10a&#39;</span>,  <span class="st">&#39;Clec12a&#39;</span>)  </span>
-<span id="cb60-28"><a href="多样本分析.html#cb60-28" tabindex="-1"></a>monocytes<span class="ot">=</span><span class="fu">c</span>(<span class="st">&#39;Ly6c2&#39;</span> , <span class="st">&#39;Spn&#39;</span>)</span>
-<span id="cb60-29"><a href="多样本分析.html#cb60-29" tabindex="-1"></a>neutrophils<span class="ot">=</span><span class="fu">c</span>(<span class="st">&#39;Csf3r&#39;</span>, <span class="st">&#39;S100a8&#39;</span>,  <span class="st">&#39;Cxcl3&#39;</span>) </span>
-<span id="cb60-30"><a href="多样本分析.html#cb60-30" tabindex="-1"></a>SCP1661_meyloids_markers_list <span class="ot">=</span><span class="fu">list</span>(</span>
-<span id="cb60-31"><a href="多样本分析.html#cb60-31" tabindex="-1"></a>  <span class="at">macrophages=</span>macrophages,</span>
-<span id="cb60-32"><a href="多样本分析.html#cb60-32" tabindex="-1"></a>  <span class="at">cDCs=</span>cDCs,</span>
-<span id="cb60-33"><a href="多样本分析.html#cb60-33" tabindex="-1"></a>  <span class="at">pDCs=</span>pDCs, </span>
-<span id="cb60-34"><a href="多样本分析.html#cb60-34" tabindex="-1"></a>  <span class="at">monocytes=</span>monocytes,</span>
-<span id="cb60-35"><a href="多样本分析.html#cb60-35" tabindex="-1"></a>  <span class="at">neutrophils=</span>neutrophils  </span>
-<span id="cb60-36"><a href="多样本分析.html#cb60-36" tabindex="-1"></a>) </span>
-<span id="cb60-37"><a href="多样本分析.html#cb60-37" tabindex="-1"></a></span>
-<span id="cb60-38"><a href="多样本分析.html#cb60-38" tabindex="-1"></a>lung_epi_markers <span class="ot">=</span>  <span class="fu">c</span>(<span class="st">&#39;TPPP3&#39;</span>,<span class="st">&quot;SPRR3&quot;</span>,<span class="st">&quot;GDPD3&quot;</span>,<span class="st">&quot;SPRR1A&quot;</span>,<span class="st">&quot;SPRR2A&quot;</span>,<span class="st">&quot;RARRES2&quot;</span>,<span class="st">&quot;TMPRSS11E&quot;</span>,</span>
-<span id="cb60-39"><a href="多样本分析.html#cb60-39" tabindex="-1"></a>                      <span class="st">&quot;ASCL3&quot;</span>,<span class="st">&quot;CFTR&quot;</span>,<span class="st">&quot;FOXI2&quot;</span>,<span class="st">&quot;1SG20&quot;</span>,<span class="st">&quot;FOXI1&quot;</span>,</span>
-<span id="cb60-40"><a href="多样本分析.html#cb60-40" tabindex="-1"></a>                      <span class="st">&quot;SAA4&quot;</span>,<span class="st">&quot;SAA2&quot;</span>,<span class="st">&quot;EFHC1&quot;</span>,<span class="st">&quot;CCDC153&quot;</span>,<span class="st">&quot;CCDC113&quot;</span>,<span class="st">&quot;SAA1&quot;</span>,<span class="st">&quot;CDC20B&quot;</span>,<span class="st">&quot;FOXJ1&quot;</span>,</span>
-<span id="cb60-41"><a href="多样本分析.html#cb60-41" tabindex="-1"></a>                      <span class="st">&quot;MYCL&quot;</span>,<span class="st">&quot;FOXN4&quot;</span>,<span class="st">&quot;CCNO&quot;</span>,</span>
-<span id="cb60-42"><a href="多样本分析.html#cb60-42" tabindex="-1"></a>                      <span class="st">&quot;PIGR&quot;</span>,<span class="st">&quot;BP1&quot;</span>,<span class="st">&quot;MUC5A&quot;</span>,<span class="st">&quot;VMO1&quot;</span>,<span class="st">&quot;SCGB3A1&quot;</span>,<span class="st">&quot;CYP2A13&quot;</span>,<span class="st">&quot;CYP2B6&quot;</span>,<span class="st">&quot;SCGB1A1&quot;</span>,</span>
-<span id="cb60-43"><a href="多样本分析.html#cb60-43" tabindex="-1"></a>                      <span class="st">&quot;BCAM&quot;</span>,<span class="st">&quot;KRT15&quot;</span>,<span class="st">&quot;KRT5&quot;</span>,<span class="st">&quot;TP63&quot;</span>)</span>
-<span id="cb60-44"><a href="多样本分析.html#cb60-44" tabindex="-1"></a></span>
-<span id="cb60-45"><a href="多样本分析.html#cb60-45" tabindex="-1"></a>myeloids_markers_list1 <span class="ot">=</span><span class="fu">list</span>(</span>
-<span id="cb60-46"><a href="多样本分析.html#cb60-46" tabindex="-1"></a>  <span class="at">CM=</span><span class="fu">c</span>(<span class="st">&quot;TTN&quot;</span>,<span class="st">&quot;MYH7&quot;</span>,<span class="st">&quot;MYH6&quot;</span>,<span class="st">&quot;TNNT2&quot;</span>) ,</span>
-<span id="cb60-47"><a href="多样本分析.html#cb60-47" tabindex="-1"></a>  <span class="at">EC=</span><span class="fu">c</span>(<span class="st">&quot;VWF&quot;</span>, <span class="st">&quot;IFI27&quot;</span>, <span class="st">&quot;PECAM1&quot;</span>,<span class="st">&quot;MGP&quot;</span>),</span>
-<span id="cb60-48"><a href="多样本分析.html#cb60-48" tabindex="-1"></a>  <span class="at">FB=</span><span class="fu">c</span>(<span class="st">&quot;DCN&quot;</span>, <span class="st">&quot;C7&quot;</span> ,<span class="st">&quot;LUM&quot;</span>,<span class="st">&quot;FBLN1&quot;</span>,<span class="st">&quot;COL1A2&quot;</span>),</span>
-<span id="cb60-49"><a href="多样本分析.html#cb60-49" tabindex="-1"></a>  <span class="at">MP=</span><span class="fu">c</span>(<span class="st">&quot;CD163&quot;</span>, <span class="st">&quot;CCL4&quot;</span>, <span class="st">&quot;CXCL8&quot;</span>,<span class="st">&quot;PTPRC&quot;</span>),</span>
-<span id="cb60-50"><a href="多样本分析.html#cb60-50" tabindex="-1"></a>  <span class="at">SMC=</span><span class="fu">c</span>(<span class="st">&quot;ACTA2&quot;</span>, <span class="st">&quot;CALD1&quot;</span>, <span class="st">&quot;MYH11&quot;</span>),</span>
-<span id="cb60-51"><a href="多样本分析.html#cb60-51" tabindex="-1"></a>  <span class="at">Tc=</span><span class="fu">c</span>(<span class="st">&quot;CD3D&quot;</span>,<span class="st">&quot;CD3E&quot;</span>),</span>
-<span id="cb60-52"><a href="多样本分析.html#cb60-52" tabindex="-1"></a>  <span class="at">DC1 =</span> <span class="fu">c</span>( <span class="st">&#39;Clec9a&#39;</span>, <span class="st">&#39;Xcr1&#39;</span>,   <span class="st">&#39;Wdfy4&#39;</span>), </span>
-<span id="cb60-53"><a href="多样本分析.html#cb60-53" tabindex="-1"></a>  <span class="at">DC2 =</span> <span class="fu">c</span>(<span class="st">&#39;Itgax&#39;</span>, <span class="st">&#39;Sirpa&#39;</span>,   <span class="st">&#39;Cd209a&#39;</span>), </span>
-<span id="cb60-54"><a href="多样本分析.html#cb60-54" tabindex="-1"></a>  <span class="at">mregDCs=</span> <span class="fu">c</span>(<span class="st">&#39;Ccr7&#39;</span>, <span class="st">&#39;Cd80&#39;</span>, <span class="st">&#39;Cd200&#39;</span>,   <span class="st">&#39;Cd247&#39;</span>) ,</span>
-<span id="cb60-55"><a href="多样本分析.html#cb60-55" tabindex="-1"></a>  <span class="at">hypoxia=</span><span class="fu">c</span>(<span class="st">&#39;Hif1a&#39;</span>, <span class="st">&#39;Slc2a1&#39;</span>, <span class="st">&#39;Vegfa&#39;</span>, <span class="st">&#39;Hmox1&#39;</span>, </span>
-<span id="cb60-56"><a href="多样本分析.html#cb60-56" tabindex="-1"></a>            <span class="st">&#39;Bnip3&#39;</span>, <span class="st">&#39;Nos2&#39;</span>, <span class="st">&#39;Mmp2&#39;</span>, <span class="st">&#39;Sod3&#39;</span>, </span>
-<span id="cb60-57"><a href="多样本分析.html#cb60-57" tabindex="-1"></a>            <span class="st">&#39;Cited2&#39;</span>, <span class="st">&#39;Ldha&#39;</span>),</span>
-<span id="cb60-58"><a href="多样本分析.html#cb60-58" tabindex="-1"></a>  <span class="at">peric=</span><span class="fu">c</span>(<span class="st">&quot;ABCC9&quot;</span>,<span class="st">&quot;PDGFRB&quot;</span>,<span class="st">&quot;RGS5&quot;</span>)</span>
-<span id="cb60-59"><a href="多样本分析.html#cb60-59" tabindex="-1"></a>)</span>
-<span id="cb60-60"><a href="多样本分析.html#cb60-60" tabindex="-1"></a></span>
-<span id="cb60-61"><a href="多样本分析.html#cb60-61" tabindex="-1"></a>myeloids_markers_list2 <span class="ot">=</span> <span class="fu">list</span>(<span class="at">pDC =</span> <span class="fu">c</span>(<span class="st">&quot;CLEC4C&quot;</span>,<span class="st">&quot;IRF7&quot;</span>,<span class="st">&quot;TCF4&quot;</span>,<span class="st">&quot;GZMB&quot;</span>),</span>
-<span id="cb60-62"><a href="多样本分析.html#cb60-62" tabindex="-1"></a>                              <span class="at">cDC1 =</span> <span class="fu">c</span>(<span class="st">&quot;XCR1&quot;</span>,<span class="st">&quot;CLNK&quot;</span>,<span class="st">&quot;CLEC9A&quot;</span>),</span>
-<span id="cb60-63"><a href="多样本分析.html#cb60-63" tabindex="-1"></a>                              <span class="at">cDC2 =</span> <span class="fu">c</span>(<span class="st">&quot;FCER1A&quot;</span>,<span class="st">&quot;HLA-DPB1&quot;</span>,<span class="st">&quot;HLA-DQB1&quot;</span>,<span class="st">&quot;CD1E&quot;</span>,<span class="st">&quot;CD1C&quot;</span>,<span class="st">&quot;CLEC10A&quot;</span>,<span class="st">&quot;HLA-DQA2&quot;</span>),</span>
-<span id="cb60-64"><a href="多样本分析.html#cb60-64" tabindex="-1"></a>                              <span class="at">DC3 =</span> <span class="fu">c</span>(<span class="st">&quot;CCL19&quot;</span>,<span class="st">&quot;LAMP3&quot;</span>,<span class="st">&quot;IDO1&quot;</span>,<span class="st">&quot;IDO2&quot;</span>,<span class="st">&quot;LAD1&quot;</span>,<span class="st">&quot;FSCN1&quot;</span>,<span class="st">&quot;CCR7&quot;</span>,<span class="st">&quot;LY75&quot;</span>,<span class="st">&quot;CCL22&quot;</span>,<span class="st">&quot;CD40&quot;</span>,<span class="st">&quot;BIRC3&quot;</span>,<span class="st">&quot;NFKB2&quot;</span>),</span>
-<span id="cb60-65"><a href="多样本分析.html#cb60-65" tabindex="-1"></a>                              <span class="at">Macrophages =</span> <span class="fu">c</span>(<span class="st">&quot;APOC1&quot;</span>,<span class="st">&quot;HLA-DRB5&quot;</span>,<span class="st">&quot;C1QA&quot;</span>,<span class="st">&quot;C1QB&quot;</span>),</span>
-<span id="cb60-66"><a href="多样本分析.html#cb60-66" tabindex="-1"></a>                              <span class="at">RTMs =</span> <span class="fu">c</span>(<span class="st">&quot;THBS1&quot;</span>),<span class="co">#Resident tissue macrophages</span></span>
-<span id="cb60-67"><a href="多样本分析.html#cb60-67" tabindex="-1"></a>                              <span class="at">Lam =</span> <span class="fu">c</span>(<span class="st">&quot;APOE&quot;</span>),<span class="co">#Lipid associated macrophages</span></span>
-<span id="cb60-68"><a href="多样本分析.html#cb60-68" tabindex="-1"></a>                              <span class="at">Monocytes =</span> <span class="fu">c</span>(<span class="st">&quot;LYZ&quot;</span>,<span class="st">&quot;HLA-DRB1&quot;</span>,<span class="st">&quot;TIMP1&quot;</span>,<span class="st">&quot;S100A11&quot;</span>,<span class="st">&quot;CXCL8&quot;</span>,<span class="st">&quot;IL1B&quot;</span>,<span class="st">&quot;PTGS2&quot;</span>,<span class="st">&quot;S100A9&quot;</span>,<span class="st">&quot;S100A8&quot;</span>,<span class="st">&quot;MMP19&quot;</span>),</span>
-<span id="cb60-69"><a href="多样本分析.html#cb60-69" tabindex="-1"></a>                              <span class="at">Mono_C =</span> <span class="fu">c</span>(<span class="st">&#39;CD14&#39;</span>),<span class="co">#Mono_CD14</span></span>
-<span id="cb60-70"><a href="多样本分析.html#cb60-70" tabindex="-1"></a>                              <span class="at">Mono_F =</span> <span class="fu">c</span>(<span class="st">&#39;FCGR3A&#39;</span>),<span class="co">#Mono_FCGR3A</span></span>
-<span id="cb60-71"><a href="多样本分析.html#cb60-71" tabindex="-1"></a>                              <span class="at">Mast =</span> <span class="fu">c</span>(<span class="st">&#39;TPSAB1&#39;</span> , <span class="st">&#39;TPSB2&#39;</span>))</span>
-<span id="cb60-72"><a href="多样本分析.html#cb60-72" tabindex="-1"></a></span>
-<span id="cb60-73"><a href="多样本分析.html#cb60-73" tabindex="-1"></a></span>
-<span id="cb60-74"><a href="多样本分析.html#cb60-74" tabindex="-1"></a>Tcells_markers <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;PTPRC&#39;</span>, <span class="st">&#39;CD3D&#39;</span>, <span class="st">&#39;CD3E&#39;</span>, <span class="st">&#39;CD4&#39;</span>,<span class="st">&#39;CD8A&#39;</span>,</span>
-<span id="cb60-75"><a href="多样本分析.html#cb60-75" tabindex="-1"></a>                   <span class="st">&#39;CCR7&#39;</span>, <span class="st">&#39;SELL&#39;</span> , <span class="st">&#39;TCF7&#39;</span>,<span class="st">&#39;CXCR6&#39;</span> , <span class="st">&#39;ITGA1&#39;</span>,</span>
-<span id="cb60-76"><a href="多样本分析.html#cb60-76" tabindex="-1"></a>                   <span class="st">&#39;FOXP3&#39;</span>, <span class="st">&#39;IL2RA&#39;</span>,  <span class="st">&#39;CTLA4&#39;</span>,<span class="st">&#39;GZMB&#39;</span>, <span class="st">&#39;GZMK&#39;</span>,<span class="st">&#39;CCL5&#39;</span>,</span>
-<span id="cb60-77"><a href="多样本分析.html#cb60-77" tabindex="-1"></a>                   <span class="st">&#39;IFNG&#39;</span>, <span class="st">&#39;CCL4&#39;</span>, <span class="st">&#39;CCL3&#39;</span> ,</span>
-<span id="cb60-78"><a href="多样本分析.html#cb60-78" tabindex="-1"></a>                   <span class="st">&#39;PRF1&#39;</span> , <span class="st">&#39;NKG7&#39;</span>) </span>
-<span id="cb60-79"><a href="多样本分析.html#cb60-79" tabindex="-1"></a></span>
-<span id="cb60-80"><a href="多样本分析.html#cb60-80" tabindex="-1"></a><span class="co"># CD4T</span></span>
-<span id="cb60-81"><a href="多样本分析.html#cb60-81" tabindex="-1"></a>CD4_markers_list <span class="ot">=</span><span class="fu">list</span>(</span>
-<span id="cb60-82"><a href="多样本分析.html#cb60-82" tabindex="-1"></a>  <span class="at">Tc=</span><span class="fu">c</span>(<span class="st">&quot;CD3D&quot;</span>,<span class="st">&quot;CD3E&quot;</span>),</span>
-<span id="cb60-83"><a href="多样本分析.html#cb60-83" tabindex="-1"></a>  <span class="at">CD4=</span><span class="fu">c</span>(<span class="st">&quot;CD4&quot;</span> ),</span>
-<span id="cb60-84"><a href="多样本分析.html#cb60-84" tabindex="-1"></a>  <span class="at">Treg=</span><span class="fu">c</span>(<span class="st">&quot;TNFRSF4&quot;</span>,<span class="st">&quot;BATF&quot;</span>,<span class="st">&quot;TNFRSF18&quot;</span>,<span class="st">&quot;FOXP3&quot;</span>,<span class="st">&quot;IL2RA&quot;</span>,<span class="st">&quot;IKZF2&quot;</span>),</span>
-<span id="cb60-85"><a href="多样本分析.html#cb60-85" tabindex="-1"></a>  <span class="at">naive=</span><span class="fu">c</span>(<span class="st">&quot;CCR7&quot;</span>,<span class="st">&quot;SELL&quot;</span>,<span class="st">&quot;CD5&quot;</span>),</span>
-<span id="cb60-86"><a href="多样本分析.html#cb60-86" tabindex="-1"></a>  <span class="at">Tfh=</span><span class="fu">c</span>(<span class="st">&quot;CXCR5&quot;</span>,<span class="st">&quot;BCL6&quot;</span>,<span class="st">&quot;ICA1&quot;</span>,<span class="st">&quot;TOX&quot;</span>,<span class="st">&quot;TOX2&quot;</span>,<span class="st">&quot;IL6ST&quot;</span>),<span class="co">#滤泡辅助性T细胞</span></span>
-<span id="cb60-87"><a href="多样本分析.html#cb60-87" tabindex="-1"></a>  <span class="at">ILC=</span><span class="fu">c</span>(<span class="st">&quot;TNFRSF25&quot;</span>,<span class="st">&quot;KRT81&quot;</span>,<span class="st">&quot;LST1&quot;</span>,<span class="st">&quot;AREG&quot;</span>,<span class="st">&quot;LTB&quot;</span>,<span class="st">&quot;CD69&quot;</span>)</span>
-<span id="cb60-88"><a href="多样本分析.html#cb60-88" tabindex="-1"></a>) </span>
-<span id="cb60-89"><a href="多样本分析.html#cb60-89" tabindex="-1"></a></span>
-<span id="cb60-90"><a href="多样本分析.html#cb60-90" tabindex="-1"></a><span class="co"># CD8T</span></span>
-<span id="cb60-91"><a href="多样本分析.html#cb60-91" tabindex="-1"></a>CD8_markers_list1 <span class="ot">=</span><span class="fu">list</span>(</span>
-<span id="cb60-92"><a href="多样本分析.html#cb60-92" tabindex="-1"></a>  <span class="at">CD8=</span><span class="fu">c</span>(<span class="st">&quot;CD8A&quot;</span>,<span class="st">&quot;CD8B&quot;</span>),</span>
-<span id="cb60-93"><a href="多样本分析.html#cb60-93" tabindex="-1"></a>  <span class="at">TN_TCM=</span><span class="fu">c</span>(<span class="st">&quot;CCR7&quot;</span>,<span class="st">&quot;SELL&quot;</span>,<span class="st">&quot;TCF7&quot;</span>,<span class="st">&quot;LEF1&quot;</span>),</span>
-<span id="cb60-94"><a href="多样本分析.html#cb60-94" tabindex="-1"></a>  <span class="at">TEM=</span><span class="fu">c</span>(<span class="st">&quot;GZMK&quot;</span>  ),</span>
-<span id="cb60-95"><a href="多样本分析.html#cb60-95" tabindex="-1"></a>  <span class="at">TEFF=</span><span class="fu">c</span>(<span class="st">&quot;TBX21&quot;</span>,<span class="st">&quot;FCGR3A&quot;</span>,<span class="st">&quot;FGFBP2&quot;</span>),</span>
-<span id="cb60-96"><a href="多样本分析.html#cb60-96" tabindex="-1"></a>  <span class="at">TRM=</span><span class="fu">c</span>(<span class="st">&quot;XCL1&quot;</span>,<span class="st">&quot;XCL2&quot;</span>,<span class="st">&quot;ITGAE&quot;</span>,<span class="st">&quot;CD69&quot;</span>),</span>
-<span id="cb60-97"><a href="多样本分析.html#cb60-97" tabindex="-1"></a>  <span class="at">IEL_T =</span> <span class="fu">c</span>(<span class="st">&quot;TMIGD2&quot;</span>),</span>
-<span id="cb60-98"><a href="多样本分析.html#cb60-98" tabindex="-1"></a>  <span class="at">yT1c=</span><span class="fu">c</span>(<span class="st">&quot;GNLY&quot;</span>,<span class="st">&quot;PTGDS&quot;</span>,<span class="st">&quot;GZMB&quot;</span>,<span class="st">&quot;TRDC&quot;</span>),</span>
-<span id="cb60-99"><a href="多样本分析.html#cb60-99" tabindex="-1"></a>  <span class="at">yT2c=</span><span class="fu">c</span>(<span class="st">&quot;TMN1&quot;</span>,<span class="st">&quot;HMGB2&quot;</span>,<span class="st">&quot;TYMS&quot;</span>),</span>
-<span id="cb60-100"><a href="多样本分析.html#cb60-100" tabindex="-1"></a>  <span class="at">MAIT_T =</span> <span class="fu">c</span>(<span class="st">&quot;SLC4A10&quot;</span>)</span>
-<span id="cb60-101"><a href="多样本分析.html#cb60-101" tabindex="-1"></a>) </span>
-<span id="cb60-102"><a href="多样本分析.html#cb60-102" tabindex="-1"></a>CD8_markers_list2 <span class="ot">=</span><span class="fu">list</span>(</span>
-<span id="cb60-103"><a href="多样本分析.html#cb60-103" tabindex="-1"></a>  <span class="at">CD8T=</span><span class="fu">c</span>(<span class="st">&quot;CD8A&quot;</span>,<span class="st">&quot;CD8B&quot;</span>),</span>
-<span id="cb60-104"><a href="多样本分析.html#cb60-104" tabindex="-1"></a>  <span class="at">MAIT=</span><span class="fu">c</span>(<span class="st">&quot;ZBTB16&quot;</span>,<span class="st">&quot;NCR3&quot;</span>,<span class="st">&quot;RORA&quot;</span>),</span>
-<span id="cb60-105"><a href="多样本分析.html#cb60-105" tabindex="-1"></a>  <span class="at">ExhaustedCD8T=</span><span class="fu">c</span>(<span class="st">&quot;LAG3&quot;</span>,<span class="st">&quot;TIGIT&quot;</span>,<span class="st">&quot;PDCD1&quot;</span>,<span class="st">&quot;HAVCR2&quot;</span>,<span class="st">&quot;CTLA4&quot;</span>),</span>
-<span id="cb60-106"><a href="多样本分析.html#cb60-106" tabindex="-1"></a>  <span class="at">EffMemoryCD8=</span><span class="fu">c</span>(<span class="st">&quot;EOMES&quot;</span>,<span class="st">&quot;ITM2C&quot;</span>),</span>
-<span id="cb60-107"><a href="多样本分析.html#cb60-107" tabindex="-1"></a>  <span class="at">Resting_NK=</span><span class="fu">c</span>(<span class="st">&quot;XCL1&quot;</span>,<span class="st">&quot;XCL2&quot;</span>,<span class="st">&quot;KLRC1&quot;</span>),</span>
-<span id="cb60-108"><a href="多样本分析.html#cb60-108" tabindex="-1"></a>  <span class="at">Cytotoxic_NK=</span><span class="fu">c</span>(<span class="st">&quot;CX3CR1&quot;</span>,<span class="st">&quot;FGFBP2&quot;</span>,<span class="st">&quot;FCGR3A&quot;</span>,<span class="st">&quot;KLRD1&quot;</span>),</span>
-<span id="cb60-109"><a href="多样本分析.html#cb60-109" tabindex="-1"></a>  <span class="at">Pre_exhausted=</span><span class="fu">c</span>(<span class="st">&quot;IFNG&quot;</span>,<span class="st">&quot;PRF1&quot;</span>,<span class="st">&quot;GNLY&quot;</span>,<span class="st">&quot;GZMA&quot;</span>,<span class="st">&quot;NKG7&quot;</span>,<span class="st">&quot;GZMK&quot;</span>)</span>
-<span id="cb60-110"><a href="多样本分析.html#cb60-110" tabindex="-1"></a>)</span>
-<span id="cb60-111"><a href="多样本分析.html#cb60-111" tabindex="-1"></a></span>
-<span id="cb60-112"><a href="多样本分析.html#cb60-112" tabindex="-1"></a>cd4_and_cd8T_markers_list  <span class="ot">=</span><span class="fu">list</span>( </span>
-<span id="cb60-113"><a href="多样本分析.html#cb60-113" tabindex="-1"></a>  <span class="at">naive=</span><span class="fu">c</span>(<span class="st">&quot;CCR7&quot;</span>,<span class="st">&quot;SELL&quot;</span>,<span class="st">&quot;TCF7&quot;</span>,<span class="st">&quot;IL7R&quot;</span>,<span class="st">&quot;CD27&quot;</span>,<span class="st">&quot;CD28&quot;</span>,<span class="st">&quot;LEF1&quot;</span>,<span class="st">&quot;S1PR1&quot;</span>),</span>
-<span id="cb60-114"><a href="多样本分析.html#cb60-114" tabindex="-1"></a>  <span class="at">CD8Trm=</span><span class="fu">c</span>(<span class="st">&quot;XCL1&quot;</span>,<span class="st">&quot;XCL2&quot;</span>,<span class="st">&quot;MYADM&quot;</span>),</span>
-<span id="cb60-115"><a href="多样本分析.html#cb60-115" tabindex="-1"></a>  <span class="at">NKTc=</span><span class="fu">c</span>(<span class="st">&quot;GNLY&quot;</span>,<span class="st">&quot;GZMA&quot;</span>), </span>
-<span id="cb60-116"><a href="多样本分析.html#cb60-116" tabindex="-1"></a>  <span class="at">Tfh=</span><span class="fu">c</span>(<span class="st">&quot;CXCR5&quot;</span>,<span class="st">&quot;BCL6&quot;</span>,<span class="st">&quot;ICA1&quot;</span>,<span class="st">&quot;TOX&quot;</span>,<span class="st">&quot;TOX2&quot;</span>,<span class="st">&quot;IL6ST&quot;</span>),</span>
-<span id="cb60-117"><a href="多样本分析.html#cb60-117" tabindex="-1"></a>  <span class="at">th17=</span><span class="fu">c</span>(<span class="st">&quot;IL17A&quot;</span>,<span class="st">&quot;KLRB1&quot;</span>,<span class="st">&quot;CCL20&quot;</span>,<span class="st">&quot;ANKRD28&quot;</span>,<span class="st">&quot;IL23R&quot;</span>,<span class="st">&quot;RORC&quot;</span>,<span class="st">&quot;FURIN&quot;</span>,<span class="st">&quot;CCR6&quot;</span>,<span class="st">&quot;CAPG&quot;</span>,<span class="st">&quot;IL22&quot;</span>),</span>
-<span id="cb60-118"><a href="多样本分析.html#cb60-118" tabindex="-1"></a>  <span class="at">CD8Tem=</span><span class="fu">c</span>(<span class="st">&quot;CXCR4&quot;</span>,<span class="st">&quot;GZMH&quot;</span>,<span class="st">&quot;CD44&quot;</span>,<span class="st">&quot;GZMK&quot;</span>),</span>
-<span id="cb60-119"><a href="多样本分析.html#cb60-119" tabindex="-1"></a>  <span class="at">Treg=</span><span class="fu">c</span>(<span class="st">&quot;FOXP3&quot;</span>,<span class="st">&quot;IL2RA&quot;</span>,<span class="st">&quot;TNFRSF18&quot;</span>,<span class="st">&quot;IKZF2&quot;</span>),</span>
-<span id="cb60-120"><a href="多样本分析.html#cb60-120" tabindex="-1"></a>  <span class="at">naive=</span><span class="fu">c</span>(<span class="st">&quot;CCR7&quot;</span>,<span class="st">&quot;SELL&quot;</span>,<span class="st">&quot;TCF7&quot;</span>,<span class="st">&quot;IL7R&quot;</span>,<span class="st">&quot;CD27&quot;</span>,<span class="st">&quot;CD28&quot;</span>),</span>
-<span id="cb60-121"><a href="多样本分析.html#cb60-121" tabindex="-1"></a>  <span class="at">CD8Trm=</span><span class="fu">c</span>(<span class="st">&quot;XCL1&quot;</span>,<span class="st">&quot;XCL2&quot;</span>,<span class="st">&quot;MYADM&quot;</span>), </span>
-<span id="cb60-122"><a href="多样本分析.html#cb60-122" tabindex="-1"></a>  <span class="at">MAIT=</span><span class="fu">c</span>(<span class="st">&quot;KLRB1&quot;</span>,<span class="st">&quot;ZBTB16&quot;</span>,<span class="st">&quot;NCR3&quot;</span>,<span class="st">&quot;RORA&quot;</span>),</span>
-<span id="cb60-123"><a href="多样本分析.html#cb60-123" tabindex="-1"></a>  <span class="at">yT1c=</span><span class="fu">c</span>(<span class="st">&quot;GNLY&quot;</span>,<span class="st">&quot;PTGDS&quot;</span>,<span class="st">&quot;GZMB&quot;</span>,<span class="st">&quot;TRDC&quot;</span>),</span>
-<span id="cb60-124"><a href="多样本分析.html#cb60-124" tabindex="-1"></a>  <span class="at">yT2c=</span><span class="fu">c</span>(<span class="st">&quot;TMN1&quot;</span>,<span class="st">&quot;HMGB2&quot;</span>,<span class="st">&quot;TYMS&quot;</span>),</span>
-<span id="cb60-125"><a href="多样本分析.html#cb60-125" tabindex="-1"></a>  <span class="at">yt=</span><span class="fu">c</span>(<span class="st">&quot;TRGV9&quot;</span>,<span class="st">&quot;TRDV2&quot;</span>)</span>
-<span id="cb60-126"><a href="多样本分析.html#cb60-126" tabindex="-1"></a>) </span>
-<span id="cb60-127"><a href="多样本分析.html#cb60-127" tabindex="-1"></a></span>
-<span id="cb60-128"><a href="多样本分析.html#cb60-128" tabindex="-1"></a><span class="co"># CD20 (MS4A1)表达于除plasma B 之外的所有B，很关键的区分naive 和plasma的marker</span></span>
-<span id="cb60-129"><a href="多样本分析.html#cb60-129" tabindex="-1"></a><span class="co"># SDC1 = CD138 plasma B （接受抗原，可表达抗体） </span></span>
-<span id="cb60-130"><a href="多样本分析.html#cb60-130" tabindex="-1"></a>Bcels_markers_list <span class="ot">=</span> <span class="fu">list</span>(</span>
-<span id="cb60-131"><a href="多样本分析.html#cb60-131" tabindex="-1"></a>  <span class="at">All =</span> <span class="fu">c</span>(<span class="st">&#39;MS4A1&#39;</span>,<span class="st">&#39;SDC1&#39;</span>,<span class="st">&#39;CD27&#39;</span>,<span class="st">&#39;CD38&#39;</span>,<span class="st">&#39;CD19&#39;</span>, <span class="st">&#39;CD79A&#39;</span>),</span>
-<span id="cb60-132"><a href="多样本分析.html#cb60-132" tabindex="-1"></a>  <span class="at">GC_B =</span> <span class="fu">c</span>(<span class="st">&#39;IL4R&#39;</span>,<span class="st">&#39;TCL1A&#39;</span>,<span class="st">&#39;LRMP&#39;</span>,<span class="st">&#39;SUGCT&#39;</span>),</span>
-<span id="cb60-133"><a href="多样本分析.html#cb60-133" tabindex="-1"></a>  <span class="at">IGA_plasm_B=</span> <span class="fu">c</span> ( <span class="st">&#39;IGHA1&#39;</span>), </span>
-<span id="cb60-134"><a href="多样本分析.html#cb60-134" tabindex="-1"></a>  <span class="at">IGG_plasm_B=</span> <span class="fu">c</span> ( <span class="st">&#39;IGHG1&#39;</span>)</span>
-<span id="cb60-135"><a href="多样本分析.html#cb60-135" tabindex="-1"></a>)  </span>
-<span id="cb60-136"><a href="多样本分析.html#cb60-136" tabindex="-1"></a></span>
-<span id="cb60-137"><a href="多样本分析.html#cb60-137" tabindex="-1"></a>Hepatic_stellate_markers_list <span class="ot">=</span><span class="fu">list</span>(</span>
-<span id="cb60-138"><a href="多样本分析.html#cb60-138" tabindex="-1"></a>  <span class="at">qHSC=</span><span class="fu">c</span>(<span class="st">&quot;Lrat&quot;</span>,<span class="st">&quot;Ecm1&quot;</span>,<span class="st">&quot;Angptl6&quot;</span>,<span class="st">&quot;Vipr1&quot;</span> ),</span>
-<span id="cb60-139"><a href="多样本分析.html#cb60-139" tabindex="-1"></a>  <span class="at">S1=</span><span class="fu">c</span>(<span class="st">&quot;Ccl2&quot;</span> ,<span class="st">&quot;Cxcl10&quot;</span> ,<span class="st">&quot;Cxcl1&quot;</span> ,<span class="st">&quot;Ccl7&quot;</span> ),</span>
-<span id="cb60-140"><a href="多样本分析.html#cb60-140" tabindex="-1"></a>  <span class="at">S2=</span><span class="fu">c</span>(<span class="st">&quot;Acta2&quot;</span> ,<span class="st">&quot;Tpm1&quot;</span> ,<span class="st">&quot;Vim&quot;</span> ,<span class="st">&quot;Tagln&quot;</span>,<span class="st">&quot;Tnc&quot;</span>,<span class="st">&quot;Tpm2&quot;</span>),</span>
-<span id="cb60-141"><a href="多样本分析.html#cb60-141" tabindex="-1"></a>  <span class="at">S3=</span><span class="fu">c</span>(<span class="st">&quot;Col1a1&quot;</span>,<span class="st">&quot;Col1a2&quot;</span>,<span class="st">&quot;Col3a1&quot;</span> ,<span class="st">&quot;Lox&quot;</span>,<span class="st">&quot;Lum&quot;</span> )</span>
-<span id="cb60-142"><a href="多样本分析.html#cb60-142" tabindex="-1"></a>)</span>
-<span id="cb60-143"><a href="多样本分析.html#cb60-143" tabindex="-1"></a></span>
-<span id="cb60-144"><a href="多样本分析.html#cb60-144" tabindex="-1"></a><span class="co"># arteries (HEY1, IGFBP3), capillaries (CD36, CA4), veins (ACKR1) and</span></span>
-<span id="cb60-145"><a href="多样本分析.html#cb60-145" tabindex="-1"></a><span class="co"># lymphatic ECs (LECs; CCL21, PROX1). </span></span>
-<span id="cb60-146"><a href="多样本分析.html#cb60-146" tabindex="-1"></a>stromal_markers <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;TEK&#39;</span>,<span class="st">&quot;PTPRC&quot;</span>,<span class="st">&quot;EPCAM&quot;</span>,<span class="st">&quot;PDPN&quot;</span>,</span>
-<span id="cb60-147"><a href="多样本分析.html#cb60-147" tabindex="-1"></a>                    <span class="st">&quot;PECAM1&quot;</span>,<span class="st">&#39;PDGFRB&#39;</span>,<span class="st">&quot;PLVAP&quot;</span>,<span class="st">&#39;PROX1&#39;</span>,<span class="st">&#39;ACKR1&#39;</span>,<span class="st">&#39;CA4&#39;</span>,<span class="st">&#39;HEY1&#39;</span>,</span>
-<span id="cb60-148"><a href="多样本分析.html#cb60-148" tabindex="-1"></a>                    <span class="st">&#39;CSPG4&#39;</span>,<span class="st">&#39;GJB2&#39;</span>, <span class="st">&#39;RGS5&#39;</span>,<span class="st">&#39;ITGA7&#39;</span>,</span>
-<span id="cb60-149"><a href="多样本分析.html#cb60-149" tabindex="-1"></a>                    <span class="st">&#39;ACTA2&#39;</span>,<span class="st">&#39;RBP1&#39;</span>,<span class="st">&#39;CD36&#39;</span>, </span>
-<span id="cb60-150"><a href="多样本分析.html#cb60-150" tabindex="-1"></a>                    <span class="st">&#39;ADGRE5&#39;</span>,<span class="st">&#39;COL11A1&#39;</span>,<span class="st">&#39;FGF7&#39;</span>, <span class="st">&#39;MME&#39;</span>) </span>
-<span id="cb60-151"><a href="多样本分析.html#cb60-151" tabindex="-1"></a></span>
-<span id="cb60-152"><a href="多样本分析.html#cb60-152" tabindex="-1"></a>last_markers <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;PTPRC&#39;</span>, <span class="st">&#39;CD3D&#39;</span>, <span class="st">&#39;CD3E&#39;</span>, <span class="st">&#39;CD4&#39;</span>,<span class="st">&#39;CD8A&#39;</span>,</span>
-<span id="cb60-153"><a href="多样本分析.html#cb60-153" tabindex="-1"></a>                 <span class="st">&#39;CD19&#39;</span>, <span class="st">&#39;CD79A&#39;</span>, <span class="st">&#39;MS4A1&#39;</span> ,</span>
-<span id="cb60-154"><a href="多样本分析.html#cb60-154" tabindex="-1"></a>                 <span class="st">&#39;IGHG1&#39;</span>, <span class="st">&#39;MZB1&#39;</span>, <span class="st">&#39;SDC1&#39;</span>,</span>
-<span id="cb60-155"><a href="多样本分析.html#cb60-155" tabindex="-1"></a>                 <span class="st">&#39;CD68&#39;</span>, <span class="st">&#39;CD163&#39;</span>, <span class="st">&#39;CD14&#39;</span>, </span>
-<span id="cb60-156"><a href="多样本分析.html#cb60-156" tabindex="-1"></a>                 <span class="st">&#39;TPSAB1&#39;</span> , <span class="st">&#39;TPSB2&#39;</span>,  <span class="co"># mast cells,</span></span>
-<span id="cb60-157"><a href="多样本分析.html#cb60-157" tabindex="-1"></a>                 <span class="st">&#39;RCVRN&#39;</span>,<span class="st">&#39;FPR1&#39;</span> , <span class="st">&#39;ITGAM&#39;</span> ,</span>
-<span id="cb60-158"><a href="多样本分析.html#cb60-158" tabindex="-1"></a>                 <span class="st">&#39;C1QA&#39;</span>,  <span class="st">&#39;C1QB&#39;</span>,  <span class="co"># mac</span></span>
-<span id="cb60-159"><a href="多样本分析.html#cb60-159" tabindex="-1"></a>                 <span class="st">&#39;S100A9&#39;</span>, <span class="st">&#39;S100A8&#39;</span>, <span class="st">&#39;MMP19&#39;</span>,<span class="co"># monocyte</span></span>
-<span id="cb60-160"><a href="多样本分析.html#cb60-160" tabindex="-1"></a>                 <span class="st">&#39;FCGR3A&#39;</span>,</span>
-<span id="cb60-161"><a href="多样本分析.html#cb60-161" tabindex="-1"></a>                 <span class="st">&#39;LAMP3&#39;</span>, <span class="st">&#39;IDO1&#39;</span>,<span class="st">&#39;IDO2&#39;</span>,<span class="do">## DC3 </span></span>
-<span id="cb60-162"><a href="多样本分析.html#cb60-162" tabindex="-1"></a>                 <span class="st">&#39;CD1E&#39;</span>,<span class="st">&#39;CD1C&#39;</span>, <span class="co"># DC2</span></span>
-<span id="cb60-163"><a href="多样本分析.html#cb60-163" tabindex="-1"></a>                 <span class="st">&#39;KLRB1&#39;</span>,<span class="st">&#39;NCR1&#39;</span>, <span class="co"># NK </span></span>
-<span id="cb60-164"><a href="多样本分析.html#cb60-164" tabindex="-1"></a>                 <span class="st">&#39;FGF7&#39;</span>,<span class="st">&#39;MME&#39;</span>, <span class="st">&#39;ACTA2&#39;</span>, <span class="do">## human  fibo </span></span>
-<span id="cb60-165"><a href="多样本分析.html#cb60-165" tabindex="-1"></a>                 <span class="st">&#39;GJB2&#39;</span>, <span class="st">&#39;RGS5&#39;</span>,</span>
-<span id="cb60-166"><a href="多样本分析.html#cb60-166" tabindex="-1"></a>                 <span class="st">&#39;DCN&#39;</span>, <span class="st">&#39;LUM&#39;</span>,  <span class="st">&#39;GSN&#39;</span> , <span class="do">## mouse PDAC fibo </span></span>
-<span id="cb60-167"><a href="多样本分析.html#cb60-167" tabindex="-1"></a>                 <span class="st">&#39;MKI67&#39;</span> , <span class="st">&#39;TOP2A&#39;</span>, </span>
-<span id="cb60-168"><a href="多样本分析.html#cb60-168" tabindex="-1"></a>                 <span class="st">&#39;PECAM1&#39;</span>, <span class="st">&#39;VWF&#39;</span>,  <span class="do">## endo </span></span>
-<span id="cb60-169"><a href="多样本分析.html#cb60-169" tabindex="-1"></a>                 <span class="st">&quot;PLVAP&quot;</span>,<span class="st">&#39;PROX1&#39;</span>,<span class="st">&#39;ACKR1&#39;</span>,<span class="st">&#39;CA4&#39;</span>,<span class="st">&#39;HEY1&#39;</span>,</span>
-<span id="cb60-170"><a href="多样本分析.html#cb60-170" tabindex="-1"></a>                 <span class="st">&#39;EPCAM&#39;</span> , <span class="st">&#39;KRT19&#39;</span>,<span class="st">&#39;KRT7&#39;</span>, <span class="co"># epi </span></span>
-<span id="cb60-171"><a href="多样本分析.html#cb60-171" tabindex="-1"></a>                 <span class="st">&#39;FYXD2&#39;</span>, <span class="st">&#39;TM4SF4&#39;</span>, <span class="st">&#39;ANXA4&#39;</span>,<span class="co"># cholangiocytes</span></span>
-<span id="cb60-172"><a href="多样本分析.html#cb60-172" tabindex="-1"></a>                 <span class="st">&#39;APOC3&#39;</span>, <span class="st">&#39;FABP1&#39;</span>,  <span class="st">&#39;APOA1&#39;</span>,  <span class="co"># hepatocytes</span></span>
-<span id="cb60-173"><a href="多样本分析.html#cb60-173" tabindex="-1"></a>                 <span class="st">&#39;Serpina1c&#39;</span>,</span>
-<span id="cb60-174"><a href="多样本分析.html#cb60-174" tabindex="-1"></a>                 <span class="st">&#39;PROM1&#39;</span>, <span class="st">&#39;ALDH1A1&#39;</span> )</span>
-<span id="cb60-175"><a href="多样本分析.html#cb60-175" tabindex="-1"></a></span>
-<span id="cb60-176"><a href="多样本分析.html#cb60-176" tabindex="-1"></a>markers <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;gastric_cancer_markers&#39;</span>,<span class="st">&#39;lung_epi_markers&#39;</span>,</span>
-<span id="cb60-177"><a href="多样本分析.html#cb60-177" tabindex="-1"></a>            <span class="st">&#39;Tcells_markers&#39;</span>,</span>
-<span id="cb60-178"><a href="多样本分析.html#cb60-178" tabindex="-1"></a>            <span class="st">&#39;stromal_markers&#39;</span>, </span>
-<span id="cb60-179"><a href="多样本分析.html#cb60-179" tabindex="-1"></a>            <span class="st">&#39;last_markers&#39;</span> )</span>
-<span id="cb60-180"><a href="多样本分析.html#cb60-180" tabindex="-1"></a>markers_list <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb60-181"><a href="多样本分析.html#cb60-181" tabindex="-1"></a>  <span class="st">&#39;GSE150580_breast_cancer_markers_list&#39;</span> ,</span>
-<span id="cb60-182"><a href="多样本分析.html#cb60-182" tabindex="-1"></a>  <span class="st">&#39;SCP1661_meyloids_markers_list&#39;</span> ,</span>
-<span id="cb60-183"><a href="多样本分析.html#cb60-183" tabindex="-1"></a>  <span class="st">&#39;myeloids_markers_list1&#39;</span> ,</span>
-<span id="cb60-184"><a href="多样本分析.html#cb60-184" tabindex="-1"></a>  <span class="st">&#39;myeloids_markers_list2&#39;</span> ,</span>
-<span id="cb60-185"><a href="多样本分析.html#cb60-185" tabindex="-1"></a>  <span class="st">&#39;CD4_markers_list&#39;</span> ,</span>
-<span id="cb60-186"><a href="多样本分析.html#cb60-186" tabindex="-1"></a>  <span class="st">&#39;CD8_markers_list1&#39;</span> ,</span>
-<span id="cb60-187"><a href="多样本分析.html#cb60-187" tabindex="-1"></a>  <span class="st">&#39;CD8_markers_list2&#39;</span> ,</span>
-<span id="cb60-188"><a href="多样本分析.html#cb60-188" tabindex="-1"></a>  <span class="st">&#39;cd4_and_cd8T_markers_list&#39;</span>   ,</span>
-<span id="cb60-189"><a href="多样本分析.html#cb60-189" tabindex="-1"></a>  <span class="st">&#39;Bcels_markers_list&#39;</span> ,</span>
-<span id="cb60-190"><a href="多样本分析.html#cb60-190" tabindex="-1"></a>  <span class="st">&#39;Hepatic_stellate_markers_list&#39;</span> </span>
-<span id="cb60-191"><a href="多样本分析.html#cb60-191" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="多样本分析.html#cb61-1" tabindex="-1"></a>gastric_cancer_markers <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;PTPRC&#39;</span>, </span>
+<span id="cb61-2"><a href="多样本分析.html#cb61-2" tabindex="-1"></a>                           <span class="st">&#39;MUC2&#39;</span> , <span class="st">&#39;ITLN1&#39;</span>,</span>
+<span id="cb61-3"><a href="多样本分析.html#cb61-3" tabindex="-1"></a>                           <span class="st">&#39;FABP1&#39;</span> , <span class="st">&#39;APOA1&#39;</span>,</span>
+<span id="cb61-4"><a href="多样本分析.html#cb61-4" tabindex="-1"></a>                           <span class="st">&#39;CEACAM5&#39;</span> , <span class="st">&#39;CEACAM6&#39;</span>,</span>
+<span id="cb61-5"><a href="多样本分析.html#cb61-5" tabindex="-1"></a>                           <span class="st">&#39;EPCAM&#39;</span>, <span class="st">&#39;KRT18&#39;</span>, <span class="st">&#39;MUC1&#39;</span>,</span>
+<span id="cb61-6"><a href="多样本分析.html#cb61-6" tabindex="-1"></a>                           <span class="st">&#39;MUC6&#39;</span> , <span class="st">&#39;TFF2&#39;</span>,</span>
+<span id="cb61-7"><a href="多样本分析.html#cb61-7" tabindex="-1"></a>                           <span class="st">&#39;PGA4&#39;</span> , <span class="st">&#39;PGA3&#39;</span>,</span>
+<span id="cb61-8"><a href="多样本分析.html#cb61-8" tabindex="-1"></a>                           <span class="st">&#39;MUC5AC&#39;</span> , <span class="st">&#39;TFF1&#39;</span>,<span class="st">&#39;CHGA&#39;</span> , <span class="st">&#39;CHGB&#39;</span>) </span>
+<span id="cb61-9"><a href="多样本分析.html#cb61-9" tabindex="-1"></a></span>
+<span id="cb61-10"><a href="多样本分析.html#cb61-10" tabindex="-1"></a>Myo<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Krt17&quot;</span>, <span class="st">&quot;Krt14&quot;</span>, <span class="st">&quot;Krt5&quot;</span>, <span class="st">&quot;Acta2&quot;</span>, <span class="st">&quot;Myl9&quot;</span>, <span class="st">&quot;Mylk&quot;</span>, <span class="st">&quot;Myh11&quot;</span>)</span>
+<span id="cb61-11"><a href="多样本分析.html#cb61-11" tabindex="-1"></a>Lum<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Krt19&quot;</span>, <span class="st">&quot;Krt18&quot;</span>, <span class="st">&quot;Krt8&quot;</span>)</span>
+<span id="cb61-12"><a href="多样本分析.html#cb61-12" tabindex="-1"></a>Hs<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Prlr&quot;</span>, <span class="st">&quot;Cited1&quot;</span>, <span class="st">&quot;Pgr&quot;</span>, <span class="st">&quot;Prom1&quot;</span>, <span class="st">&quot;Esr1&quot;</span>)  </span>
+<span id="cb61-13"><a href="多样本分析.html#cb61-13" tabindex="-1"></a>AV<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Mfge8&quot;</span>, <span class="st">&quot;Trf&quot;</span>, <span class="st">&quot;Csn3&quot;</span>, <span class="st">&quot;Wfdc18&quot;</span>, <span class="st">&quot;Elf5&quot;</span>, <span class="st">&quot;Ltf&quot;</span>)</span>
+<span id="cb61-14"><a href="多样本分析.html#cb61-14" tabindex="-1"></a>Lp<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Kit&quot;</span>, <span class="st">&quot;Aldh1a3&quot;</span>, <span class="st">&quot;Cd14&quot;</span>)</span>
+<span id="cb61-15"><a href="多样本分析.html#cb61-15" tabindex="-1"></a>Fib<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Col1a1&quot;</span>, <span class="st">&quot;Col1a2&quot;</span>, <span class="st">&quot;Col3a1&quot;</span>, <span class="st">&quot;Fn1&quot;</span>)</span>
+<span id="cb61-16"><a href="多样本分析.html#cb61-16" tabindex="-1"></a>GSE150580_breast_cancer_markers_list <span class="ot">=</span><span class="fu">list</span>(</span>
+<span id="cb61-17"><a href="多样本分析.html#cb61-17" tabindex="-1"></a>  <span class="at">Myo=</span>Myo,</span>
+<span id="cb61-18"><a href="多样本分析.html#cb61-18" tabindex="-1"></a>  <span class="at">Lum=</span>Lum,</span>
+<span id="cb61-19"><a href="多样本分析.html#cb61-19" tabindex="-1"></a>  <span class="at">Hs=</span>Hs, </span>
+<span id="cb61-20"><a href="多样本分析.html#cb61-20" tabindex="-1"></a>  <span class="at">AV=</span>AV,</span>
+<span id="cb61-21"><a href="多样本分析.html#cb61-21" tabindex="-1"></a>  <span class="at">Lp=</span>Lp,  </span>
+<span id="cb61-22"><a href="多样本分析.html#cb61-22" tabindex="-1"></a>  <span class="at">Fib=</span>Fib</span>
+<span id="cb61-23"><a href="多样本分析.html#cb61-23" tabindex="-1"></a>) </span>
+<span id="cb61-24"><a href="多样本分析.html#cb61-24" tabindex="-1"></a></span>
+<span id="cb61-25"><a href="多样本分析.html#cb61-25" tabindex="-1"></a>macrophages<span class="ot">=</span><span class="fu">c</span>(<span class="st">&#39;Adgre1&#39;</span>, <span class="st">&#39;Cd14&#39;</span>,  <span class="st">&#39;Fcgr3&#39;</span>)</span>
+<span id="cb61-26"><a href="多样本分析.html#cb61-26" tabindex="-1"></a>cDCs<span class="ot">=</span><span class="fu">c</span>(<span class="st">&#39;Xcr1&#39;</span>, <span class="st">&#39;Flt3&#39;</span>,  <span class="st">&#39;Ccr7&#39;</span>)</span>
+<span id="cb61-27"><a href="多样本分析.html#cb61-27" tabindex="-1"></a>pDCs<span class="ot">=</span><span class="fu">c</span>(<span class="st">&#39;Siglech&#39;</span>, <span class="st">&#39;Clec10a&#39;</span>,  <span class="st">&#39;Clec12a&#39;</span>)  </span>
+<span id="cb61-28"><a href="多样本分析.html#cb61-28" tabindex="-1"></a>monocytes<span class="ot">=</span><span class="fu">c</span>(<span class="st">&#39;Ly6c2&#39;</span> , <span class="st">&#39;Spn&#39;</span>)</span>
+<span id="cb61-29"><a href="多样本分析.html#cb61-29" tabindex="-1"></a>neutrophils<span class="ot">=</span><span class="fu">c</span>(<span class="st">&#39;Csf3r&#39;</span>, <span class="st">&#39;S100a8&#39;</span>,  <span class="st">&#39;Cxcl3&#39;</span>) </span>
+<span id="cb61-30"><a href="多样本分析.html#cb61-30" tabindex="-1"></a>SCP1661_meyloids_markers_list <span class="ot">=</span><span class="fu">list</span>(</span>
+<span id="cb61-31"><a href="多样本分析.html#cb61-31" tabindex="-1"></a>  <span class="at">macrophages=</span>macrophages,</span>
+<span id="cb61-32"><a href="多样本分析.html#cb61-32" tabindex="-1"></a>  <span class="at">cDCs=</span>cDCs,</span>
+<span id="cb61-33"><a href="多样本分析.html#cb61-33" tabindex="-1"></a>  <span class="at">pDCs=</span>pDCs, </span>
+<span id="cb61-34"><a href="多样本分析.html#cb61-34" tabindex="-1"></a>  <span class="at">monocytes=</span>monocytes,</span>
+<span id="cb61-35"><a href="多样本分析.html#cb61-35" tabindex="-1"></a>  <span class="at">neutrophils=</span>neutrophils  </span>
+<span id="cb61-36"><a href="多样本分析.html#cb61-36" tabindex="-1"></a>) </span>
+<span id="cb61-37"><a href="多样本分析.html#cb61-37" tabindex="-1"></a></span>
+<span id="cb61-38"><a href="多样本分析.html#cb61-38" tabindex="-1"></a>lung_epi_markers <span class="ot">=</span>  <span class="fu">c</span>(<span class="st">&#39;TPPP3&#39;</span>,<span class="st">&quot;SPRR3&quot;</span>,<span class="st">&quot;GDPD3&quot;</span>,<span class="st">&quot;SPRR1A&quot;</span>,<span class="st">&quot;SPRR2A&quot;</span>,<span class="st">&quot;RARRES2&quot;</span>,<span class="st">&quot;TMPRSS11E&quot;</span>,</span>
+<span id="cb61-39"><a href="多样本分析.html#cb61-39" tabindex="-1"></a>                      <span class="st">&quot;ASCL3&quot;</span>,<span class="st">&quot;CFTR&quot;</span>,<span class="st">&quot;FOXI2&quot;</span>,<span class="st">&quot;1SG20&quot;</span>,<span class="st">&quot;FOXI1&quot;</span>,</span>
+<span id="cb61-40"><a href="多样本分析.html#cb61-40" tabindex="-1"></a>                      <span class="st">&quot;SAA4&quot;</span>,<span class="st">&quot;SAA2&quot;</span>,<span class="st">&quot;EFHC1&quot;</span>,<span class="st">&quot;CCDC153&quot;</span>,<span class="st">&quot;CCDC113&quot;</span>,<span class="st">&quot;SAA1&quot;</span>,<span class="st">&quot;CDC20B&quot;</span>,<span class="st">&quot;FOXJ1&quot;</span>,</span>
+<span id="cb61-41"><a href="多样本分析.html#cb61-41" tabindex="-1"></a>                      <span class="st">&quot;MYCL&quot;</span>,<span class="st">&quot;FOXN4&quot;</span>,<span class="st">&quot;CCNO&quot;</span>,</span>
+<span id="cb61-42"><a href="多样本分析.html#cb61-42" tabindex="-1"></a>                      <span class="st">&quot;PIGR&quot;</span>,<span class="st">&quot;BP1&quot;</span>,<span class="st">&quot;MUC5A&quot;</span>,<span class="st">&quot;VMO1&quot;</span>,<span class="st">&quot;SCGB3A1&quot;</span>,<span class="st">&quot;CYP2A13&quot;</span>,<span class="st">&quot;CYP2B6&quot;</span>,<span class="st">&quot;SCGB1A1&quot;</span>,</span>
+<span id="cb61-43"><a href="多样本分析.html#cb61-43" tabindex="-1"></a>                      <span class="st">&quot;BCAM&quot;</span>,<span class="st">&quot;KRT15&quot;</span>,<span class="st">&quot;KRT5&quot;</span>,<span class="st">&quot;TP63&quot;</span>)</span>
+<span id="cb61-44"><a href="多样本分析.html#cb61-44" tabindex="-1"></a></span>
+<span id="cb61-45"><a href="多样本分析.html#cb61-45" tabindex="-1"></a>myeloids_markers_list1 <span class="ot">=</span><span class="fu">list</span>(</span>
+<span id="cb61-46"><a href="多样本分析.html#cb61-46" tabindex="-1"></a>  <span class="at">CM=</span><span class="fu">c</span>(<span class="st">&quot;TTN&quot;</span>,<span class="st">&quot;MYH7&quot;</span>,<span class="st">&quot;MYH6&quot;</span>,<span class="st">&quot;TNNT2&quot;</span>) ,</span>
+<span id="cb61-47"><a href="多样本分析.html#cb61-47" tabindex="-1"></a>  <span class="at">EC=</span><span class="fu">c</span>(<span class="st">&quot;VWF&quot;</span>, <span class="st">&quot;IFI27&quot;</span>, <span class="st">&quot;PECAM1&quot;</span>,<span class="st">&quot;MGP&quot;</span>),</span>
+<span id="cb61-48"><a href="多样本分析.html#cb61-48" tabindex="-1"></a>  <span class="at">FB=</span><span class="fu">c</span>(<span class="st">&quot;DCN&quot;</span>, <span class="st">&quot;C7&quot;</span> ,<span class="st">&quot;LUM&quot;</span>,<span class="st">&quot;FBLN1&quot;</span>,<span class="st">&quot;COL1A2&quot;</span>),</span>
+<span id="cb61-49"><a href="多样本分析.html#cb61-49" tabindex="-1"></a>  <span class="at">MP=</span><span class="fu">c</span>(<span class="st">&quot;CD163&quot;</span>, <span class="st">&quot;CCL4&quot;</span>, <span class="st">&quot;CXCL8&quot;</span>,<span class="st">&quot;PTPRC&quot;</span>),</span>
+<span id="cb61-50"><a href="多样本分析.html#cb61-50" tabindex="-1"></a>  <span class="at">SMC=</span><span class="fu">c</span>(<span class="st">&quot;ACTA2&quot;</span>, <span class="st">&quot;CALD1&quot;</span>, <span class="st">&quot;MYH11&quot;</span>),</span>
+<span id="cb61-51"><a href="多样本分析.html#cb61-51" tabindex="-1"></a>  <span class="at">Tc=</span><span class="fu">c</span>(<span class="st">&quot;CD3D&quot;</span>,<span class="st">&quot;CD3E&quot;</span>),</span>
+<span id="cb61-52"><a href="多样本分析.html#cb61-52" tabindex="-1"></a>  <span class="at">DC1 =</span> <span class="fu">c</span>( <span class="st">&#39;Clec9a&#39;</span>, <span class="st">&#39;Xcr1&#39;</span>,   <span class="st">&#39;Wdfy4&#39;</span>), </span>
+<span id="cb61-53"><a href="多样本分析.html#cb61-53" tabindex="-1"></a>  <span class="at">DC2 =</span> <span class="fu">c</span>(<span class="st">&#39;Itgax&#39;</span>, <span class="st">&#39;Sirpa&#39;</span>,   <span class="st">&#39;Cd209a&#39;</span>), </span>
+<span id="cb61-54"><a href="多样本分析.html#cb61-54" tabindex="-1"></a>  <span class="at">mregDCs=</span> <span class="fu">c</span>(<span class="st">&#39;Ccr7&#39;</span>, <span class="st">&#39;Cd80&#39;</span>, <span class="st">&#39;Cd200&#39;</span>,   <span class="st">&#39;Cd247&#39;</span>) ,</span>
+<span id="cb61-55"><a href="多样本分析.html#cb61-55" tabindex="-1"></a>  <span class="at">hypoxia=</span><span class="fu">c</span>(<span class="st">&#39;Hif1a&#39;</span>, <span class="st">&#39;Slc2a1&#39;</span>, <span class="st">&#39;Vegfa&#39;</span>, <span class="st">&#39;Hmox1&#39;</span>, </span>
+<span id="cb61-56"><a href="多样本分析.html#cb61-56" tabindex="-1"></a>            <span class="st">&#39;Bnip3&#39;</span>, <span class="st">&#39;Nos2&#39;</span>, <span class="st">&#39;Mmp2&#39;</span>, <span class="st">&#39;Sod3&#39;</span>, </span>
+<span id="cb61-57"><a href="多样本分析.html#cb61-57" tabindex="-1"></a>            <span class="st">&#39;Cited2&#39;</span>, <span class="st">&#39;Ldha&#39;</span>),</span>
+<span id="cb61-58"><a href="多样本分析.html#cb61-58" tabindex="-1"></a>  <span class="at">peric=</span><span class="fu">c</span>(<span class="st">&quot;ABCC9&quot;</span>,<span class="st">&quot;PDGFRB&quot;</span>,<span class="st">&quot;RGS5&quot;</span>)</span>
+<span id="cb61-59"><a href="多样本分析.html#cb61-59" tabindex="-1"></a>)</span>
+<span id="cb61-60"><a href="多样本分析.html#cb61-60" tabindex="-1"></a></span>
+<span id="cb61-61"><a href="多样本分析.html#cb61-61" tabindex="-1"></a>myeloids_markers_list2 <span class="ot">=</span> <span class="fu">list</span>(<span class="at">pDC =</span> <span class="fu">c</span>(<span class="st">&quot;CLEC4C&quot;</span>,<span class="st">&quot;IRF7&quot;</span>,<span class="st">&quot;TCF4&quot;</span>,<span class="st">&quot;GZMB&quot;</span>),</span>
+<span id="cb61-62"><a href="多样本分析.html#cb61-62" tabindex="-1"></a>                              <span class="at">cDC1 =</span> <span class="fu">c</span>(<span class="st">&quot;XCR1&quot;</span>,<span class="st">&quot;CLNK&quot;</span>,<span class="st">&quot;CLEC9A&quot;</span>),</span>
+<span id="cb61-63"><a href="多样本分析.html#cb61-63" tabindex="-1"></a>                              <span class="at">cDC2 =</span> <span class="fu">c</span>(<span class="st">&quot;FCER1A&quot;</span>,<span class="st">&quot;HLA-DPB1&quot;</span>,<span class="st">&quot;HLA-DQB1&quot;</span>,<span class="st">&quot;CD1E&quot;</span>,<span class="st">&quot;CD1C&quot;</span>,<span class="st">&quot;CLEC10A&quot;</span>,<span class="st">&quot;HLA-DQA2&quot;</span>),</span>
+<span id="cb61-64"><a href="多样本分析.html#cb61-64" tabindex="-1"></a>                              <span class="at">DC3 =</span> <span class="fu">c</span>(<span class="st">&quot;CCL19&quot;</span>,<span class="st">&quot;LAMP3&quot;</span>,<span class="st">&quot;IDO1&quot;</span>,<span class="st">&quot;IDO2&quot;</span>,<span class="st">&quot;LAD1&quot;</span>,<span class="st">&quot;FSCN1&quot;</span>,<span class="st">&quot;CCR7&quot;</span>,<span class="st">&quot;LY75&quot;</span>,<span class="st">&quot;CCL22&quot;</span>,<span class="st">&quot;CD40&quot;</span>,<span class="st">&quot;BIRC3&quot;</span>,<span class="st">&quot;NFKB2&quot;</span>),</span>
+<span id="cb61-65"><a href="多样本分析.html#cb61-65" tabindex="-1"></a>                              <span class="at">Macrophages =</span> <span class="fu">c</span>(<span class="st">&quot;APOC1&quot;</span>,<span class="st">&quot;HLA-DRB5&quot;</span>,<span class="st">&quot;C1QA&quot;</span>,<span class="st">&quot;C1QB&quot;</span>),</span>
+<span id="cb61-66"><a href="多样本分析.html#cb61-66" tabindex="-1"></a>                              <span class="at">RTMs =</span> <span class="fu">c</span>(<span class="st">&quot;THBS1&quot;</span>),<span class="co">#Resident tissue macrophages</span></span>
+<span id="cb61-67"><a href="多样本分析.html#cb61-67" tabindex="-1"></a>                              <span class="at">Lam =</span> <span class="fu">c</span>(<span class="st">&quot;APOE&quot;</span>),<span class="co">#Lipid associated macrophages</span></span>
+<span id="cb61-68"><a href="多样本分析.html#cb61-68" tabindex="-1"></a>                              <span class="at">Monocytes =</span> <span class="fu">c</span>(<span class="st">&quot;LYZ&quot;</span>,<span class="st">&quot;HLA-DRB1&quot;</span>,<span class="st">&quot;TIMP1&quot;</span>,<span class="st">&quot;S100A11&quot;</span>,<span class="st">&quot;CXCL8&quot;</span>,<span class="st">&quot;IL1B&quot;</span>,<span class="st">&quot;PTGS2&quot;</span>,<span class="st">&quot;S100A9&quot;</span>,<span class="st">&quot;S100A8&quot;</span>,<span class="st">&quot;MMP19&quot;</span>),</span>
+<span id="cb61-69"><a href="多样本分析.html#cb61-69" tabindex="-1"></a>                              <span class="at">Mono_C =</span> <span class="fu">c</span>(<span class="st">&#39;CD14&#39;</span>),<span class="co">#Mono_CD14</span></span>
+<span id="cb61-70"><a href="多样本分析.html#cb61-70" tabindex="-1"></a>                              <span class="at">Mono_F =</span> <span class="fu">c</span>(<span class="st">&#39;FCGR3A&#39;</span>),<span class="co">#Mono_FCGR3A</span></span>
+<span id="cb61-71"><a href="多样本分析.html#cb61-71" tabindex="-1"></a>                              <span class="at">Mast =</span> <span class="fu">c</span>(<span class="st">&#39;TPSAB1&#39;</span> , <span class="st">&#39;TPSB2&#39;</span>))</span>
+<span id="cb61-72"><a href="多样本分析.html#cb61-72" tabindex="-1"></a></span>
+<span id="cb61-73"><a href="多样本分析.html#cb61-73" tabindex="-1"></a></span>
+<span id="cb61-74"><a href="多样本分析.html#cb61-74" tabindex="-1"></a>Tcells_markers <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;PTPRC&#39;</span>, <span class="st">&#39;CD3D&#39;</span>, <span class="st">&#39;CD3E&#39;</span>, <span class="st">&#39;CD4&#39;</span>,<span class="st">&#39;CD8A&#39;</span>,</span>
+<span id="cb61-75"><a href="多样本分析.html#cb61-75" tabindex="-1"></a>                   <span class="st">&#39;CCR7&#39;</span>, <span class="st">&#39;SELL&#39;</span> , <span class="st">&#39;TCF7&#39;</span>,<span class="st">&#39;CXCR6&#39;</span> , <span class="st">&#39;ITGA1&#39;</span>,</span>
+<span id="cb61-76"><a href="多样本分析.html#cb61-76" tabindex="-1"></a>                   <span class="st">&#39;FOXP3&#39;</span>, <span class="st">&#39;IL2RA&#39;</span>,  <span class="st">&#39;CTLA4&#39;</span>,<span class="st">&#39;GZMB&#39;</span>, <span class="st">&#39;GZMK&#39;</span>,<span class="st">&#39;CCL5&#39;</span>,</span>
+<span id="cb61-77"><a href="多样本分析.html#cb61-77" tabindex="-1"></a>                   <span class="st">&#39;IFNG&#39;</span>, <span class="st">&#39;CCL4&#39;</span>, <span class="st">&#39;CCL3&#39;</span> ,</span>
+<span id="cb61-78"><a href="多样本分析.html#cb61-78" tabindex="-1"></a>                   <span class="st">&#39;PRF1&#39;</span> , <span class="st">&#39;NKG7&#39;</span>) </span>
+<span id="cb61-79"><a href="多样本分析.html#cb61-79" tabindex="-1"></a></span>
+<span id="cb61-80"><a href="多样本分析.html#cb61-80" tabindex="-1"></a><span class="co"># CD4T</span></span>
+<span id="cb61-81"><a href="多样本分析.html#cb61-81" tabindex="-1"></a>CD4_markers_list <span class="ot">=</span><span class="fu">list</span>(</span>
+<span id="cb61-82"><a href="多样本分析.html#cb61-82" tabindex="-1"></a>  <span class="at">Tc=</span><span class="fu">c</span>(<span class="st">&quot;CD3D&quot;</span>,<span class="st">&quot;CD3E&quot;</span>),</span>
+<span id="cb61-83"><a href="多样本分析.html#cb61-83" tabindex="-1"></a>  <span class="at">CD4=</span><span class="fu">c</span>(<span class="st">&quot;CD4&quot;</span> ),</span>
+<span id="cb61-84"><a href="多样本分析.html#cb61-84" tabindex="-1"></a>  <span class="at">Treg=</span><span class="fu">c</span>(<span class="st">&quot;TNFRSF4&quot;</span>,<span class="st">&quot;BATF&quot;</span>,<span class="st">&quot;TNFRSF18&quot;</span>,<span class="st">&quot;FOXP3&quot;</span>,<span class="st">&quot;IL2RA&quot;</span>,<span class="st">&quot;IKZF2&quot;</span>),</span>
+<span id="cb61-85"><a href="多样本分析.html#cb61-85" tabindex="-1"></a>  <span class="at">naive=</span><span class="fu">c</span>(<span class="st">&quot;CCR7&quot;</span>,<span class="st">&quot;SELL&quot;</span>,<span class="st">&quot;CD5&quot;</span>),</span>
+<span id="cb61-86"><a href="多样本分析.html#cb61-86" tabindex="-1"></a>  <span class="at">Tfh=</span><span class="fu">c</span>(<span class="st">&quot;CXCR5&quot;</span>,<span class="st">&quot;BCL6&quot;</span>,<span class="st">&quot;ICA1&quot;</span>,<span class="st">&quot;TOX&quot;</span>,<span class="st">&quot;TOX2&quot;</span>,<span class="st">&quot;IL6ST&quot;</span>),<span class="co">#滤泡辅助性T细胞</span></span>
+<span id="cb61-87"><a href="多样本分析.html#cb61-87" tabindex="-1"></a>  <span class="at">ILC=</span><span class="fu">c</span>(<span class="st">&quot;TNFRSF25&quot;</span>,<span class="st">&quot;KRT81&quot;</span>,<span class="st">&quot;LST1&quot;</span>,<span class="st">&quot;AREG&quot;</span>,<span class="st">&quot;LTB&quot;</span>,<span class="st">&quot;CD69&quot;</span>)</span>
+<span id="cb61-88"><a href="多样本分析.html#cb61-88" tabindex="-1"></a>) </span>
+<span id="cb61-89"><a href="多样本分析.html#cb61-89" tabindex="-1"></a></span>
+<span id="cb61-90"><a href="多样本分析.html#cb61-90" tabindex="-1"></a><span class="co"># CD8T</span></span>
+<span id="cb61-91"><a href="多样本分析.html#cb61-91" tabindex="-1"></a>CD8_markers_list1 <span class="ot">=</span><span class="fu">list</span>(</span>
+<span id="cb61-92"><a href="多样本分析.html#cb61-92" tabindex="-1"></a>  <span class="at">CD8=</span><span class="fu">c</span>(<span class="st">&quot;CD8A&quot;</span>,<span class="st">&quot;CD8B&quot;</span>),</span>
+<span id="cb61-93"><a href="多样本分析.html#cb61-93" tabindex="-1"></a>  <span class="at">TN_TCM=</span><span class="fu">c</span>(<span class="st">&quot;CCR7&quot;</span>,<span class="st">&quot;SELL&quot;</span>,<span class="st">&quot;TCF7&quot;</span>,<span class="st">&quot;LEF1&quot;</span>),</span>
+<span id="cb61-94"><a href="多样本分析.html#cb61-94" tabindex="-1"></a>  <span class="at">TEM=</span><span class="fu">c</span>(<span class="st">&quot;GZMK&quot;</span>  ),</span>
+<span id="cb61-95"><a href="多样本分析.html#cb61-95" tabindex="-1"></a>  <span class="at">TEFF=</span><span class="fu">c</span>(<span class="st">&quot;TBX21&quot;</span>,<span class="st">&quot;FCGR3A&quot;</span>,<span class="st">&quot;FGFBP2&quot;</span>),</span>
+<span id="cb61-96"><a href="多样本分析.html#cb61-96" tabindex="-1"></a>  <span class="at">TRM=</span><span class="fu">c</span>(<span class="st">&quot;XCL1&quot;</span>,<span class="st">&quot;XCL2&quot;</span>,<span class="st">&quot;ITGAE&quot;</span>,<span class="st">&quot;CD69&quot;</span>),</span>
+<span id="cb61-97"><a href="多样本分析.html#cb61-97" tabindex="-1"></a>  <span class="at">IEL_T =</span> <span class="fu">c</span>(<span class="st">&quot;TMIGD2&quot;</span>),</span>
+<span id="cb61-98"><a href="多样本分析.html#cb61-98" tabindex="-1"></a>  <span class="at">yT1c=</span><span class="fu">c</span>(<span class="st">&quot;GNLY&quot;</span>,<span class="st">&quot;PTGDS&quot;</span>,<span class="st">&quot;GZMB&quot;</span>,<span class="st">&quot;TRDC&quot;</span>),</span>
+<span id="cb61-99"><a href="多样本分析.html#cb61-99" tabindex="-1"></a>  <span class="at">yT2c=</span><span class="fu">c</span>(<span class="st">&quot;TMN1&quot;</span>,<span class="st">&quot;HMGB2&quot;</span>,<span class="st">&quot;TYMS&quot;</span>),</span>
+<span id="cb61-100"><a href="多样本分析.html#cb61-100" tabindex="-1"></a>  <span class="at">MAIT_T =</span> <span class="fu">c</span>(<span class="st">&quot;SLC4A10&quot;</span>)</span>
+<span id="cb61-101"><a href="多样本分析.html#cb61-101" tabindex="-1"></a>) </span>
+<span id="cb61-102"><a href="多样本分析.html#cb61-102" tabindex="-1"></a>CD8_markers_list2 <span class="ot">=</span><span class="fu">list</span>(</span>
+<span id="cb61-103"><a href="多样本分析.html#cb61-103" tabindex="-1"></a>  <span class="at">CD8T=</span><span class="fu">c</span>(<span class="st">&quot;CD8A&quot;</span>,<span class="st">&quot;CD8B&quot;</span>),</span>
+<span id="cb61-104"><a href="多样本分析.html#cb61-104" tabindex="-1"></a>  <span class="at">MAIT=</span><span class="fu">c</span>(<span class="st">&quot;ZBTB16&quot;</span>,<span class="st">&quot;NCR3&quot;</span>,<span class="st">&quot;RORA&quot;</span>),</span>
+<span id="cb61-105"><a href="多样本分析.html#cb61-105" tabindex="-1"></a>  <span class="at">ExhaustedCD8T=</span><span class="fu">c</span>(<span class="st">&quot;LAG3&quot;</span>,<span class="st">&quot;TIGIT&quot;</span>,<span class="st">&quot;PDCD1&quot;</span>,<span class="st">&quot;HAVCR2&quot;</span>,<span class="st">&quot;CTLA4&quot;</span>),</span>
+<span id="cb61-106"><a href="多样本分析.html#cb61-106" tabindex="-1"></a>  <span class="at">EffMemoryCD8=</span><span class="fu">c</span>(<span class="st">&quot;EOMES&quot;</span>,<span class="st">&quot;ITM2C&quot;</span>),</span>
+<span id="cb61-107"><a href="多样本分析.html#cb61-107" tabindex="-1"></a>  <span class="at">Resting_NK=</span><span class="fu">c</span>(<span class="st">&quot;XCL1&quot;</span>,<span class="st">&quot;XCL2&quot;</span>,<span class="st">&quot;KLRC1&quot;</span>),</span>
+<span id="cb61-108"><a href="多样本分析.html#cb61-108" tabindex="-1"></a>  <span class="at">Cytotoxic_NK=</span><span class="fu">c</span>(<span class="st">&quot;CX3CR1&quot;</span>,<span class="st">&quot;FGFBP2&quot;</span>,<span class="st">&quot;FCGR3A&quot;</span>,<span class="st">&quot;KLRD1&quot;</span>),</span>
+<span id="cb61-109"><a href="多样本分析.html#cb61-109" tabindex="-1"></a>  <span class="at">Pre_exhausted=</span><span class="fu">c</span>(<span class="st">&quot;IFNG&quot;</span>,<span class="st">&quot;PRF1&quot;</span>,<span class="st">&quot;GNLY&quot;</span>,<span class="st">&quot;GZMA&quot;</span>,<span class="st">&quot;NKG7&quot;</span>,<span class="st">&quot;GZMK&quot;</span>)</span>
+<span id="cb61-110"><a href="多样本分析.html#cb61-110" tabindex="-1"></a>)</span>
+<span id="cb61-111"><a href="多样本分析.html#cb61-111" tabindex="-1"></a></span>
+<span id="cb61-112"><a href="多样本分析.html#cb61-112" tabindex="-1"></a>cd4_and_cd8T_markers_list  <span class="ot">=</span><span class="fu">list</span>( </span>
+<span id="cb61-113"><a href="多样本分析.html#cb61-113" tabindex="-1"></a>  <span class="at">naive=</span><span class="fu">c</span>(<span class="st">&quot;CCR7&quot;</span>,<span class="st">&quot;SELL&quot;</span>,<span class="st">&quot;TCF7&quot;</span>,<span class="st">&quot;IL7R&quot;</span>,<span class="st">&quot;CD27&quot;</span>,<span class="st">&quot;CD28&quot;</span>,<span class="st">&quot;LEF1&quot;</span>,<span class="st">&quot;S1PR1&quot;</span>),</span>
+<span id="cb61-114"><a href="多样本分析.html#cb61-114" tabindex="-1"></a>  <span class="at">CD8Trm=</span><span class="fu">c</span>(<span class="st">&quot;XCL1&quot;</span>,<span class="st">&quot;XCL2&quot;</span>,<span class="st">&quot;MYADM&quot;</span>),</span>
+<span id="cb61-115"><a href="多样本分析.html#cb61-115" tabindex="-1"></a>  <span class="at">NKTc=</span><span class="fu">c</span>(<span class="st">&quot;GNLY&quot;</span>,<span class="st">&quot;GZMA&quot;</span>), </span>
+<span id="cb61-116"><a href="多样本分析.html#cb61-116" tabindex="-1"></a>  <span class="at">Tfh=</span><span class="fu">c</span>(<span class="st">&quot;CXCR5&quot;</span>,<span class="st">&quot;BCL6&quot;</span>,<span class="st">&quot;ICA1&quot;</span>,<span class="st">&quot;TOX&quot;</span>,<span class="st">&quot;TOX2&quot;</span>,<span class="st">&quot;IL6ST&quot;</span>),</span>
+<span id="cb61-117"><a href="多样本分析.html#cb61-117" tabindex="-1"></a>  <span class="at">th17=</span><span class="fu">c</span>(<span class="st">&quot;IL17A&quot;</span>,<span class="st">&quot;KLRB1&quot;</span>,<span class="st">&quot;CCL20&quot;</span>,<span class="st">&quot;ANKRD28&quot;</span>,<span class="st">&quot;IL23R&quot;</span>,<span class="st">&quot;RORC&quot;</span>,<span class="st">&quot;FURIN&quot;</span>,<span class="st">&quot;CCR6&quot;</span>,<span class="st">&quot;CAPG&quot;</span>,<span class="st">&quot;IL22&quot;</span>),</span>
+<span id="cb61-118"><a href="多样本分析.html#cb61-118" tabindex="-1"></a>  <span class="at">CD8Tem=</span><span class="fu">c</span>(<span class="st">&quot;CXCR4&quot;</span>,<span class="st">&quot;GZMH&quot;</span>,<span class="st">&quot;CD44&quot;</span>,<span class="st">&quot;GZMK&quot;</span>),</span>
+<span id="cb61-119"><a href="多样本分析.html#cb61-119" tabindex="-1"></a>  <span class="at">Treg=</span><span class="fu">c</span>(<span class="st">&quot;FOXP3&quot;</span>,<span class="st">&quot;IL2RA&quot;</span>,<span class="st">&quot;TNFRSF18&quot;</span>,<span class="st">&quot;IKZF2&quot;</span>),</span>
+<span id="cb61-120"><a href="多样本分析.html#cb61-120" tabindex="-1"></a>  <span class="at">naive=</span><span class="fu">c</span>(<span class="st">&quot;CCR7&quot;</span>,<span class="st">&quot;SELL&quot;</span>,<span class="st">&quot;TCF7&quot;</span>,<span class="st">&quot;IL7R&quot;</span>,<span class="st">&quot;CD27&quot;</span>,<span class="st">&quot;CD28&quot;</span>),</span>
+<span id="cb61-121"><a href="多样本分析.html#cb61-121" tabindex="-1"></a>  <span class="at">CD8Trm=</span><span class="fu">c</span>(<span class="st">&quot;XCL1&quot;</span>,<span class="st">&quot;XCL2&quot;</span>,<span class="st">&quot;MYADM&quot;</span>), </span>
+<span id="cb61-122"><a href="多样本分析.html#cb61-122" tabindex="-1"></a>  <span class="at">MAIT=</span><span class="fu">c</span>(<span class="st">&quot;KLRB1&quot;</span>,<span class="st">&quot;ZBTB16&quot;</span>,<span class="st">&quot;NCR3&quot;</span>,<span class="st">&quot;RORA&quot;</span>),</span>
+<span id="cb61-123"><a href="多样本分析.html#cb61-123" tabindex="-1"></a>  <span class="at">yT1c=</span><span class="fu">c</span>(<span class="st">&quot;GNLY&quot;</span>,<span class="st">&quot;PTGDS&quot;</span>,<span class="st">&quot;GZMB&quot;</span>,<span class="st">&quot;TRDC&quot;</span>),</span>
+<span id="cb61-124"><a href="多样本分析.html#cb61-124" tabindex="-1"></a>  <span class="at">yT2c=</span><span class="fu">c</span>(<span class="st">&quot;TMN1&quot;</span>,<span class="st">&quot;HMGB2&quot;</span>,<span class="st">&quot;TYMS&quot;</span>),</span>
+<span id="cb61-125"><a href="多样本分析.html#cb61-125" tabindex="-1"></a>  <span class="at">yt=</span><span class="fu">c</span>(<span class="st">&quot;TRGV9&quot;</span>,<span class="st">&quot;TRDV2&quot;</span>)</span>
+<span id="cb61-126"><a href="多样本分析.html#cb61-126" tabindex="-1"></a>) </span>
+<span id="cb61-127"><a href="多样本分析.html#cb61-127" tabindex="-1"></a></span>
+<span id="cb61-128"><a href="多样本分析.html#cb61-128" tabindex="-1"></a><span class="co"># CD20 (MS4A1)表达于除plasma B 之外的所有B，很关键的区分naive 和plasma的marker</span></span>
+<span id="cb61-129"><a href="多样本分析.html#cb61-129" tabindex="-1"></a><span class="co"># SDC1 = CD138 plasma B （接受抗原，可表达抗体） </span></span>
+<span id="cb61-130"><a href="多样本分析.html#cb61-130" tabindex="-1"></a>Bcels_markers_list <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb61-131"><a href="多样本分析.html#cb61-131" tabindex="-1"></a>  <span class="at">All =</span> <span class="fu">c</span>(<span class="st">&#39;MS4A1&#39;</span>,<span class="st">&#39;SDC1&#39;</span>,<span class="st">&#39;CD27&#39;</span>,<span class="st">&#39;CD38&#39;</span>,<span class="st">&#39;CD19&#39;</span>, <span class="st">&#39;CD79A&#39;</span>),</span>
+<span id="cb61-132"><a href="多样本分析.html#cb61-132" tabindex="-1"></a>  <span class="at">GC_B =</span> <span class="fu">c</span>(<span class="st">&#39;IL4R&#39;</span>,<span class="st">&#39;TCL1A&#39;</span>,<span class="st">&#39;LRMP&#39;</span>,<span class="st">&#39;SUGCT&#39;</span>),</span>
+<span id="cb61-133"><a href="多样本分析.html#cb61-133" tabindex="-1"></a>  <span class="at">IGA_plasm_B=</span> <span class="fu">c</span> ( <span class="st">&#39;IGHA1&#39;</span>), </span>
+<span id="cb61-134"><a href="多样本分析.html#cb61-134" tabindex="-1"></a>  <span class="at">IGG_plasm_B=</span> <span class="fu">c</span> ( <span class="st">&#39;IGHG1&#39;</span>)</span>
+<span id="cb61-135"><a href="多样本分析.html#cb61-135" tabindex="-1"></a>)  </span>
+<span id="cb61-136"><a href="多样本分析.html#cb61-136" tabindex="-1"></a></span>
+<span id="cb61-137"><a href="多样本分析.html#cb61-137" tabindex="-1"></a>Hepatic_stellate_markers_list <span class="ot">=</span><span class="fu">list</span>(</span>
+<span id="cb61-138"><a href="多样本分析.html#cb61-138" tabindex="-1"></a>  <span class="at">qHSC=</span><span class="fu">c</span>(<span class="st">&quot;Lrat&quot;</span>,<span class="st">&quot;Ecm1&quot;</span>,<span class="st">&quot;Angptl6&quot;</span>,<span class="st">&quot;Vipr1&quot;</span> ),</span>
+<span id="cb61-139"><a href="多样本分析.html#cb61-139" tabindex="-1"></a>  <span class="at">S1=</span><span class="fu">c</span>(<span class="st">&quot;Ccl2&quot;</span> ,<span class="st">&quot;Cxcl10&quot;</span> ,<span class="st">&quot;Cxcl1&quot;</span> ,<span class="st">&quot;Ccl7&quot;</span> ),</span>
+<span id="cb61-140"><a href="多样本分析.html#cb61-140" tabindex="-1"></a>  <span class="at">S2=</span><span class="fu">c</span>(<span class="st">&quot;Acta2&quot;</span> ,<span class="st">&quot;Tpm1&quot;</span> ,<span class="st">&quot;Vim&quot;</span> ,<span class="st">&quot;Tagln&quot;</span>,<span class="st">&quot;Tnc&quot;</span>,<span class="st">&quot;Tpm2&quot;</span>),</span>
+<span id="cb61-141"><a href="多样本分析.html#cb61-141" tabindex="-1"></a>  <span class="at">S3=</span><span class="fu">c</span>(<span class="st">&quot;Col1a1&quot;</span>,<span class="st">&quot;Col1a2&quot;</span>,<span class="st">&quot;Col3a1&quot;</span> ,<span class="st">&quot;Lox&quot;</span>,<span class="st">&quot;Lum&quot;</span> )</span>
+<span id="cb61-142"><a href="多样本分析.html#cb61-142" tabindex="-1"></a>)</span>
+<span id="cb61-143"><a href="多样本分析.html#cb61-143" tabindex="-1"></a></span>
+<span id="cb61-144"><a href="多样本分析.html#cb61-144" tabindex="-1"></a><span class="co"># arteries (HEY1, IGFBP3), capillaries (CD36, CA4), veins (ACKR1) and</span></span>
+<span id="cb61-145"><a href="多样本分析.html#cb61-145" tabindex="-1"></a><span class="co"># lymphatic ECs (LECs; CCL21, PROX1). </span></span>
+<span id="cb61-146"><a href="多样本分析.html#cb61-146" tabindex="-1"></a>stromal_markers <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;TEK&#39;</span>,<span class="st">&quot;PTPRC&quot;</span>,<span class="st">&quot;EPCAM&quot;</span>,<span class="st">&quot;PDPN&quot;</span>,</span>
+<span id="cb61-147"><a href="多样本分析.html#cb61-147" tabindex="-1"></a>                    <span class="st">&quot;PECAM1&quot;</span>,<span class="st">&#39;PDGFRB&#39;</span>,<span class="st">&quot;PLVAP&quot;</span>,<span class="st">&#39;PROX1&#39;</span>,<span class="st">&#39;ACKR1&#39;</span>,<span class="st">&#39;CA4&#39;</span>,<span class="st">&#39;HEY1&#39;</span>,</span>
+<span id="cb61-148"><a href="多样本分析.html#cb61-148" tabindex="-1"></a>                    <span class="st">&#39;CSPG4&#39;</span>,<span class="st">&#39;GJB2&#39;</span>, <span class="st">&#39;RGS5&#39;</span>,<span class="st">&#39;ITGA7&#39;</span>,</span>
+<span id="cb61-149"><a href="多样本分析.html#cb61-149" tabindex="-1"></a>                    <span class="st">&#39;ACTA2&#39;</span>,<span class="st">&#39;RBP1&#39;</span>,<span class="st">&#39;CD36&#39;</span>, </span>
+<span id="cb61-150"><a href="多样本分析.html#cb61-150" tabindex="-1"></a>                    <span class="st">&#39;ADGRE5&#39;</span>,<span class="st">&#39;COL11A1&#39;</span>,<span class="st">&#39;FGF7&#39;</span>, <span class="st">&#39;MME&#39;</span>) </span>
+<span id="cb61-151"><a href="多样本分析.html#cb61-151" tabindex="-1"></a></span>
+<span id="cb61-152"><a href="多样本分析.html#cb61-152" tabindex="-1"></a>last_markers <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;PTPRC&#39;</span>, <span class="st">&#39;CD3D&#39;</span>, <span class="st">&#39;CD3E&#39;</span>, <span class="st">&#39;CD4&#39;</span>,<span class="st">&#39;CD8A&#39;</span>,</span>
+<span id="cb61-153"><a href="多样本分析.html#cb61-153" tabindex="-1"></a>                 <span class="st">&#39;CD19&#39;</span>, <span class="st">&#39;CD79A&#39;</span>, <span class="st">&#39;MS4A1&#39;</span> ,</span>
+<span id="cb61-154"><a href="多样本分析.html#cb61-154" tabindex="-1"></a>                 <span class="st">&#39;IGHG1&#39;</span>, <span class="st">&#39;MZB1&#39;</span>, <span class="st">&#39;SDC1&#39;</span>,</span>
+<span id="cb61-155"><a href="多样本分析.html#cb61-155" tabindex="-1"></a>                 <span class="st">&#39;CD68&#39;</span>, <span class="st">&#39;CD163&#39;</span>, <span class="st">&#39;CD14&#39;</span>, </span>
+<span id="cb61-156"><a href="多样本分析.html#cb61-156" tabindex="-1"></a>                 <span class="st">&#39;TPSAB1&#39;</span> , <span class="st">&#39;TPSB2&#39;</span>,  <span class="co"># mast cells,</span></span>
+<span id="cb61-157"><a href="多样本分析.html#cb61-157" tabindex="-1"></a>                 <span class="st">&#39;RCVRN&#39;</span>,<span class="st">&#39;FPR1&#39;</span> , <span class="st">&#39;ITGAM&#39;</span> ,</span>
+<span id="cb61-158"><a href="多样本分析.html#cb61-158" tabindex="-1"></a>                 <span class="st">&#39;C1QA&#39;</span>,  <span class="st">&#39;C1QB&#39;</span>,  <span class="co"># mac</span></span>
+<span id="cb61-159"><a href="多样本分析.html#cb61-159" tabindex="-1"></a>                 <span class="st">&#39;S100A9&#39;</span>, <span class="st">&#39;S100A8&#39;</span>, <span class="st">&#39;MMP19&#39;</span>,<span class="co"># monocyte</span></span>
+<span id="cb61-160"><a href="多样本分析.html#cb61-160" tabindex="-1"></a>                 <span class="st">&#39;FCGR3A&#39;</span>,</span>
+<span id="cb61-161"><a href="多样本分析.html#cb61-161" tabindex="-1"></a>                 <span class="st">&#39;LAMP3&#39;</span>, <span class="st">&#39;IDO1&#39;</span>,<span class="st">&#39;IDO2&#39;</span>,<span class="do">## DC3 </span></span>
+<span id="cb61-162"><a href="多样本分析.html#cb61-162" tabindex="-1"></a>                 <span class="st">&#39;CD1E&#39;</span>,<span class="st">&#39;CD1C&#39;</span>, <span class="co"># DC2</span></span>
+<span id="cb61-163"><a href="多样本分析.html#cb61-163" tabindex="-1"></a>                 <span class="st">&#39;KLRB1&#39;</span>,<span class="st">&#39;NCR1&#39;</span>, <span class="co"># NK </span></span>
+<span id="cb61-164"><a href="多样本分析.html#cb61-164" tabindex="-1"></a>                 <span class="st">&#39;FGF7&#39;</span>,<span class="st">&#39;MME&#39;</span>, <span class="st">&#39;ACTA2&#39;</span>, <span class="do">## human  fibo </span></span>
+<span id="cb61-165"><a href="多样本分析.html#cb61-165" tabindex="-1"></a>                 <span class="st">&#39;GJB2&#39;</span>, <span class="st">&#39;RGS5&#39;</span>,</span>
+<span id="cb61-166"><a href="多样本分析.html#cb61-166" tabindex="-1"></a>                 <span class="st">&#39;DCN&#39;</span>, <span class="st">&#39;LUM&#39;</span>,  <span class="st">&#39;GSN&#39;</span> , <span class="do">## mouse PDAC fibo </span></span>
+<span id="cb61-167"><a href="多样本分析.html#cb61-167" tabindex="-1"></a>                 <span class="st">&#39;MKI67&#39;</span> , <span class="st">&#39;TOP2A&#39;</span>, </span>
+<span id="cb61-168"><a href="多样本分析.html#cb61-168" tabindex="-1"></a>                 <span class="st">&#39;PECAM1&#39;</span>, <span class="st">&#39;VWF&#39;</span>,  <span class="do">## endo </span></span>
+<span id="cb61-169"><a href="多样本分析.html#cb61-169" tabindex="-1"></a>                 <span class="st">&quot;PLVAP&quot;</span>,<span class="st">&#39;PROX1&#39;</span>,<span class="st">&#39;ACKR1&#39;</span>,<span class="st">&#39;CA4&#39;</span>,<span class="st">&#39;HEY1&#39;</span>,</span>
+<span id="cb61-170"><a href="多样本分析.html#cb61-170" tabindex="-1"></a>                 <span class="st">&#39;EPCAM&#39;</span> , <span class="st">&#39;KRT19&#39;</span>,<span class="st">&#39;KRT7&#39;</span>, <span class="co"># epi </span></span>
+<span id="cb61-171"><a href="多样本分析.html#cb61-171" tabindex="-1"></a>                 <span class="st">&#39;FYXD2&#39;</span>, <span class="st">&#39;TM4SF4&#39;</span>, <span class="st">&#39;ANXA4&#39;</span>,<span class="co"># cholangiocytes</span></span>
+<span id="cb61-172"><a href="多样本分析.html#cb61-172" tabindex="-1"></a>                 <span class="st">&#39;APOC3&#39;</span>, <span class="st">&#39;FABP1&#39;</span>,  <span class="st">&#39;APOA1&#39;</span>,  <span class="co"># hepatocytes</span></span>
+<span id="cb61-173"><a href="多样本分析.html#cb61-173" tabindex="-1"></a>                 <span class="st">&#39;Serpina1c&#39;</span>,</span>
+<span id="cb61-174"><a href="多样本分析.html#cb61-174" tabindex="-1"></a>                 <span class="st">&#39;PROM1&#39;</span>, <span class="st">&#39;ALDH1A1&#39;</span> )</span>
+<span id="cb61-175"><a href="多样本分析.html#cb61-175" tabindex="-1"></a></span>
+<span id="cb61-176"><a href="多样本分析.html#cb61-176" tabindex="-1"></a>markers <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;gastric_cancer_markers&#39;</span>,<span class="st">&#39;lung_epi_markers&#39;</span>,</span>
+<span id="cb61-177"><a href="多样本分析.html#cb61-177" tabindex="-1"></a>            <span class="st">&#39;Tcells_markers&#39;</span>,</span>
+<span id="cb61-178"><a href="多样本分析.html#cb61-178" tabindex="-1"></a>            <span class="st">&#39;stromal_markers&#39;</span>, </span>
+<span id="cb61-179"><a href="多样本分析.html#cb61-179" tabindex="-1"></a>            <span class="st">&#39;last_markers&#39;</span> )</span>
+<span id="cb61-180"><a href="多样本分析.html#cb61-180" tabindex="-1"></a>markers_list <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb61-181"><a href="多样本分析.html#cb61-181" tabindex="-1"></a>  <span class="st">&#39;GSE150580_breast_cancer_markers_list&#39;</span> ,</span>
+<span id="cb61-182"><a href="多样本分析.html#cb61-182" tabindex="-1"></a>  <span class="st">&#39;SCP1661_meyloids_markers_list&#39;</span> ,</span>
+<span id="cb61-183"><a href="多样本分析.html#cb61-183" tabindex="-1"></a>  <span class="st">&#39;myeloids_markers_list1&#39;</span> ,</span>
+<span id="cb61-184"><a href="多样本分析.html#cb61-184" tabindex="-1"></a>  <span class="st">&#39;myeloids_markers_list2&#39;</span> ,</span>
+<span id="cb61-185"><a href="多样本分析.html#cb61-185" tabindex="-1"></a>  <span class="st">&#39;CD4_markers_list&#39;</span> ,</span>
+<span id="cb61-186"><a href="多样本分析.html#cb61-186" tabindex="-1"></a>  <span class="st">&#39;CD8_markers_list1&#39;</span> ,</span>
+<span id="cb61-187"><a href="多样本分析.html#cb61-187" tabindex="-1"></a>  <span class="st">&#39;CD8_markers_list2&#39;</span> ,</span>
+<span id="cb61-188"><a href="多样本分析.html#cb61-188" tabindex="-1"></a>  <span class="st">&#39;cd4_and_cd8T_markers_list&#39;</span>   ,</span>
+<span id="cb61-189"><a href="多样本分析.html#cb61-189" tabindex="-1"></a>  <span class="st">&#39;Bcels_markers_list&#39;</span> ,</span>
+<span id="cb61-190"><a href="多样本分析.html#cb61-190" tabindex="-1"></a>  <span class="st">&#39;Hepatic_stellate_markers_list&#39;</span> </span>
+<span id="cb61-191"><a href="多样本分析.html#cb61-191" tabindex="-1"></a>)</span></code></pre></div>
 <p>设置物种</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="多样本分析.html#cb61-1" tabindex="-1"></a>sp<span class="ot">=</span><span class="st">&#39;human&#39;</span> <span class="co"># human/mouse</span></span></code></pre></div>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="多样本分析.html#cb62-1" tabindex="-1"></a><span class="cf">if</span>(sp <span class="sc">==</span> <span class="st">&#39;human&#39;</span>) {</span>
-<span id="cb62-2"><a href="多样本分析.html#cb62-2" tabindex="-1"></a>  <span class="co"># 创建一个列表来存储所有的DotPlot图</span></span>
-<span id="cb62-3"><a href="多样本分析.html#cb62-3" tabindex="-1"></a>  plot_list1 <span class="ot">&lt;-</span> <span class="fu">lapply</span>(markers, <span class="cf">function</span>(x) {</span>
-<span id="cb62-4"><a href="多样本分析.html#cb62-4" tabindex="-1"></a>    genes_to_check <span class="ot">&lt;-</span> <span class="fu">str_to_upper</span>(<span class="fu">get</span>(x))</span>
-<span id="cb62-5"><a href="多样本分析.html#cb62-5" tabindex="-1"></a>    </span>
-<span id="cb62-6"><a href="多样本分析.html#cb62-6" tabindex="-1"></a>    plot1 <span class="ot">&lt;-</span> <span class="fu">DotPlot</span>(sce.all, <span class="at">features =</span> genes_to_check) <span class="sc">+</span> </span>
-<span id="cb62-7"><a href="多样本分析.html#cb62-7" tabindex="-1"></a>      <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
-<span id="cb62-8"><a href="多样本分析.html#cb62-8" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
-<span id="cb62-9"><a href="多样本分析.html#cb62-9" tabindex="-1"></a>    </span>
-<span id="cb62-10"><a href="多样本分析.html#cb62-10" tabindex="-1"></a>    <span class="co"># 如果需要保存图形，可以取消注释以下行</span></span>
-<span id="cb62-11"><a href="多样本分析.html#cb62-11" tabindex="-1"></a>    <span class="co"># h = length(genes_to_check) / 6 + 4</span></span>
-<span id="cb62-12"><a href="多样本分析.html#cb62-12" tabindex="-1"></a>    <span class="co"># ggsave(paste(&#39;check_for_&#39;, x, &#39;.pdf&#39;), height = h)</span></span>
-<span id="cb62-13"><a href="多样本分析.html#cb62-13" tabindex="-1"></a>    </span>
-<span id="cb62-14"><a href="多样本分析.html#cb62-14" tabindex="-1"></a>    <span class="fu">return</span>(plot1)  <span class="co"># 返回图形对象</span></span>
-<span id="cb62-15"><a href="多样本分析.html#cb62-15" tabindex="-1"></a>  })</span>
-<span id="cb62-16"><a href="多样本分析.html#cb62-16" tabindex="-1"></a>  </span>
-<span id="cb62-17"><a href="多样本分析.html#cb62-17" tabindex="-1"></a>  plot_list2 <span class="ot">&lt;-</span> <span class="fu">lapply</span>(markers_list, <span class="cf">function</span>(x) {</span>
-<span id="cb62-18"><a href="多样本分析.html#cb62-18" tabindex="-1"></a>    genes_to_check <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">get</span>(x), str_to_upper)</span>
-<span id="cb62-19"><a href="多样本分析.html#cb62-19" tabindex="-1"></a>    dup <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">table</span>(<span class="fu">unlist</span>(genes_to_check)))[<span class="fu">table</span>(<span class="fu">unlist</span>(genes_to_check)) <span class="sc">&gt;</span> <span class="dv">1</span>]</span>
-<span id="cb62-20"><a href="多样本分析.html#cb62-20" tabindex="-1"></a>    genes_to_check <span class="ot">&lt;-</span> <span class="fu">lapply</span>(genes_to_check, <span class="cf">function</span>(x) x[<span class="sc">!</span>x <span class="sc">%in%</span> dup])</span>
-<span id="cb62-21"><a href="多样本分析.html#cb62-21" tabindex="-1"></a>    </span>
-<span id="cb62-22"><a href="多样本分析.html#cb62-22" tabindex="-1"></a>    plot2 <span class="ot">&lt;-</span> <span class="fu">DotPlot</span>(sce.all, <span class="at">features =</span> genes_to_check) <span class="sc">+</span> </span>
-<span id="cb62-23"><a href="多样本分析.html#cb62-23" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
-<span id="cb62-24"><a href="多样本分析.html#cb62-24" tabindex="-1"></a>    </span>
-<span id="cb62-25"><a href="多样本分析.html#cb62-25" tabindex="-1"></a>    <span class="co"># 如果需要保存图形，可以取消注释以下行</span></span>
-<span id="cb62-26"><a href="多样本分析.html#cb62-26" tabindex="-1"></a>    <span class="co"># w = length(unique(unlist(genes_to_check))) / 5 + 7</span></span>
-<span id="cb62-27"><a href="多样本分析.html#cb62-27" tabindex="-1"></a>    <span class="co"># ggsave(paste(&#39;check_for_&#39;, x, &#39;.pdf&#39;), width = w)</span></span>
-<span id="cb62-28"><a href="多样本分析.html#cb62-28" tabindex="-1"></a>    </span>
-<span id="cb62-29"><a href="多样本分析.html#cb62-29" tabindex="-1"></a>    <span class="fu">return</span>(plot2)  <span class="co"># 返回图形对象</span></span>
-<span id="cb62-30"><a href="多样本分析.html#cb62-30" tabindex="-1"></a>  })</span>
-<span id="cb62-31"><a href="多样本分析.html#cb62-31" tabindex="-1"></a>  </span>
-<span id="cb62-32"><a href="多样本分析.html#cb62-32" tabindex="-1"></a>  last_markers_to_check <span class="ot">&lt;&lt;-</span> <span class="fu">str_to_upper</span>(last_markers) </span>
-<span id="cb62-33"><a href="多样本分析.html#cb62-33" tabindex="-1"></a>  </span>
-<span id="cb62-34"><a href="多样本分析.html#cb62-34" tabindex="-1"></a>  <span class="co"># 打印所有的图形</span></span>
-<span id="cb62-35"><a href="多样本分析.html#cb62-35" tabindex="-1"></a>  <span class="fu">plot_grid</span>(<span class="at">plotlist =</span> <span class="fu">c</span>(plot_list1, plot_list2), <span class="at">ncol =</span> <span class="dv">3</span>)</span>
-<span id="cb62-36"><a href="多样本分析.html#cb62-36" tabindex="-1"></a></span>
-<span id="cb62-37"><a href="多样本分析.html#cb62-37" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span>(sp <span class="sc">==</span> <span class="st">&#39;mouse&#39;</span>) {</span>
-<span id="cb62-38"><a href="多样本分析.html#cb62-38" tabindex="-1"></a>  <span class="co"># 创建一个列表来存储所有的DotPlot图</span></span>
-<span id="cb62-39"><a href="多样本分析.html#cb62-39" tabindex="-1"></a>  plot_list1 <span class="ot">&lt;-</span> <span class="fu">lapply</span>(markers, <span class="cf">function</span>(x) {</span>
-<span id="cb62-40"><a href="多样本分析.html#cb62-40" tabindex="-1"></a>    genes_to_check <span class="ot">&lt;-</span> <span class="fu">str_to_title</span>(<span class="fu">get</span>(x))</span>
-<span id="cb62-41"><a href="多样本分析.html#cb62-41" tabindex="-1"></a>    </span>
-<span id="cb62-42"><a href="多样本分析.html#cb62-42" tabindex="-1"></a>    plot1 <span class="ot">&lt;-</span> <span class="fu">DotPlot</span>(sce.all, <span class="at">features =</span> genes_to_check) <span class="sc">+</span> </span>
-<span id="cb62-43"><a href="多样本分析.html#cb62-43" tabindex="-1"></a>      <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
-<span id="cb62-44"><a href="多样本分析.html#cb62-44" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
-<span id="cb62-45"><a href="多样本分析.html#cb62-45" tabindex="-1"></a>    </span>
-<span id="cb62-46"><a href="多样本分析.html#cb62-46" tabindex="-1"></a>    <span class="co"># 如果需要保存图形，可以取消注释以下行</span></span>
-<span id="cb62-47"><a href="多样本分析.html#cb62-47" tabindex="-1"></a>    <span class="co"># h = length(genes_to_check) / 6 + 4</span></span>
-<span id="cb62-48"><a href="多样本分析.html#cb62-48" tabindex="-1"></a>    <span class="co"># ggsave(paste(&#39;check_for_&#39;, x, &#39;.pdf&#39;), height = h)</span></span>
-<span id="cb62-49"><a href="多样本分析.html#cb62-49" tabindex="-1"></a>    </span>
-<span id="cb62-50"><a href="多样本分析.html#cb62-50" tabindex="-1"></a>    <span class="fu">return</span>(plot1)  <span class="co"># 返回图形对象</span></span>
-<span id="cb62-51"><a href="多样本分析.html#cb62-51" tabindex="-1"></a>  })</span>
-<span id="cb62-52"><a href="多样本分析.html#cb62-52" tabindex="-1"></a>  </span>
-<span id="cb62-53"><a href="多样本分析.html#cb62-53" tabindex="-1"></a>  plot_list2 <span class="ot">&lt;-</span> <span class="fu">lapply</span>(markers_list, <span class="cf">function</span>(x) {</span>
-<span id="cb62-54"><a href="多样本分析.html#cb62-54" tabindex="-1"></a>    genes_to_check <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">get</span>(x), str_to_title)</span>
-<span id="cb62-55"><a href="多样本分析.html#cb62-55" tabindex="-1"></a>    dup <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">table</span>(<span class="fu">unlist</span>(genes_to_check)))[<span class="fu">table</span>(<span class="fu">unlist</span>(genes_to_check)) <span class="sc">&gt;</span> <span class="dv">1</span>]</span>
-<span id="cb62-56"><a href="多样本分析.html#cb62-56" tabindex="-1"></a>    genes_to_check <span class="ot">&lt;-</span> <span class="fu">lapply</span>(genes_to_check, <span class="cf">function</span>(x) x[<span class="sc">!</span>x <span class="sc">%in%</span> dup])</span>
-<span id="cb62-57"><a href="多样本分析.html#cb62-57" tabindex="-1"></a>    </span>
-<span id="cb62-58"><a href="多样本分析.html#cb62-58" tabindex="-1"></a>    plot2 <span class="ot">&lt;-</span> <span class="fu">DotPlot</span>(sce.all, <span class="at">features =</span> genes_to_check) <span class="sc">+</span> </span>
-<span id="cb62-59"><a href="多样本分析.html#cb62-59" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
-<span id="cb62-60"><a href="多样本分析.html#cb62-60" tabindex="-1"></a>    </span>
-<span id="cb62-61"><a href="多样本分析.html#cb62-61" tabindex="-1"></a>    <span class="co"># 如果需要保存图形，可以取消注释以下行</span></span>
-<span id="cb62-62"><a href="多样本分析.html#cb62-62" tabindex="-1"></a>    <span class="co"># w = length(unique(unlist(genes_to_check))) / 5 + 6</span></span>
-<span id="cb62-63"><a href="多样本分析.html#cb62-63" tabindex="-1"></a>    <span class="co"># ggsave(paste(&#39;check_for_&#39;, x, &#39;.pdf&#39;), width = w)</span></span>
-<span id="cb62-64"><a href="多样本分析.html#cb62-64" tabindex="-1"></a>    </span>
-<span id="cb62-65"><a href="多样本分析.html#cb62-65" tabindex="-1"></a>    <span class="fu">return</span>(plot2)  <span class="co"># 返回图形对象</span></span>
-<span id="cb62-66"><a href="多样本分析.html#cb62-66" tabindex="-1"></a>  })</span>
-<span id="cb62-67"><a href="多样本分析.html#cb62-67" tabindex="-1"></a>  </span>
-<span id="cb62-68"><a href="多样本分析.html#cb62-68" tabindex="-1"></a>  last_markers_to_check <span class="ot">&lt;&lt;-</span> <span class="fu">str_to_title</span>(last_markers) </span>
-<span id="cb62-69"><a href="多样本分析.html#cb62-69" tabindex="-1"></a>  </span>
-<span id="cb62-70"><a href="多样本分析.html#cb62-70" tabindex="-1"></a>  <span class="co"># 打印所有的图形</span></span>
-<span id="cb62-71"><a href="多样本分析.html#cb62-71" tabindex="-1"></a>  <span class="fu">plot_grid</span>(<span class="at">plotlist =</span> <span class="fu">c</span>(plot_list1, plot_list2), <span class="at">ncol =</span> <span class="dv">3</span>)</span>
-<span id="cb62-72"><a href="多样本分析.html#cb62-72" tabindex="-1"></a>  </span>
-<span id="cb62-73"><a href="多样本分析.html#cb62-73" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb62-74"><a href="多样本分析.html#cb62-74" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;we only accept human or mouse&#39;</span>)</span>
-<span id="cb62-75"><a href="多样本分析.html#cb62-75" tabindex="-1"></a>}</span></code></pre></div>
-<p><img src="04-multi_files/figure-html/unnamed-chunk-17-1.png" width="3840" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="多样本分析.html#cb63-1" tabindex="-1"></a><span class="fu">DotPlot</span>(sce.all , <span class="at">features =</span> last_markers_to_check ) <span class="sc">+</span> </span>
-<span id="cb63-2"><a href="多样本分析.html#cb63-2" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
-<span id="cb63-3"><a href="多样本分析.html#cb63-3" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">45</span>,<span class="at">hjust =</span> <span class="dv">1</span>))<span class="sc">|</span></span>
-<span id="cb63-4"><a href="多样本分析.html#cb63-4" tabindex="-1"></a><span class="fu">DimPlot</span>(sce.all, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>,<span class="at">raster =</span> F,</span>
-<span id="cb63-5"><a href="多样本分析.html#cb63-5" tabindex="-1"></a>               <span class="at">label =</span> T,<span class="at">repel =</span> T)</span></code></pre></div>
-<p><img src="04-multi_files/figure-html/unnamed-chunk-18-1.png" width="1632" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="多样本分析.html#cb62-1" tabindex="-1"></a>sp<span class="ot">=</span><span class="st">&#39;human&#39;</span> <span class="co"># human/mouse</span></span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="多样本分析.html#cb63-1" tabindex="-1"></a><span class="cf">if</span>(sp <span class="sc">==</span> <span class="st">&#39;human&#39;</span>) {</span>
+<span id="cb63-2"><a href="多样本分析.html#cb63-2" tabindex="-1"></a>  <span class="co"># 创建一个列表来存储所有的DotPlot图</span></span>
+<span id="cb63-3"><a href="多样本分析.html#cb63-3" tabindex="-1"></a>  plot_list1 <span class="ot">&lt;-</span> <span class="fu">lapply</span>(markers, <span class="cf">function</span>(x) {</span>
+<span id="cb63-4"><a href="多样本分析.html#cb63-4" tabindex="-1"></a>    genes_to_check <span class="ot">&lt;-</span> <span class="fu">str_to_upper</span>(<span class="fu">get</span>(x))</span>
+<span id="cb63-5"><a href="多样本分析.html#cb63-5" tabindex="-1"></a>    </span>
+<span id="cb63-6"><a href="多样本分析.html#cb63-6" tabindex="-1"></a>    plot1 <span class="ot">&lt;-</span> <span class="fu">DotPlot</span>(sce.all, <span class="at">features =</span> genes_to_check) <span class="sc">+</span> </span>
+<span id="cb63-7"><a href="多样本分析.html#cb63-7" tabindex="-1"></a>      <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
+<span id="cb63-8"><a href="多样本分析.html#cb63-8" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
+<span id="cb63-9"><a href="多样本分析.html#cb63-9" tabindex="-1"></a>    </span>
+<span id="cb63-10"><a href="多样本分析.html#cb63-10" tabindex="-1"></a>    <span class="co"># 如果需要保存图形，可以取消注释以下行</span></span>
+<span id="cb63-11"><a href="多样本分析.html#cb63-11" tabindex="-1"></a>    <span class="co"># h = length(genes_to_check) / 6 + 4</span></span>
+<span id="cb63-12"><a href="多样本分析.html#cb63-12" tabindex="-1"></a>    <span class="co"># ggsave(paste(&#39;check_for_&#39;, x, &#39;.pdf&#39;), height = h)</span></span>
+<span id="cb63-13"><a href="多样本分析.html#cb63-13" tabindex="-1"></a>    </span>
+<span id="cb63-14"><a href="多样本分析.html#cb63-14" tabindex="-1"></a>    <span class="fu">return</span>(plot1)  <span class="co"># 返回图形对象</span></span>
+<span id="cb63-15"><a href="多样本分析.html#cb63-15" tabindex="-1"></a>  })</span>
+<span id="cb63-16"><a href="多样本分析.html#cb63-16" tabindex="-1"></a>  </span>
+<span id="cb63-17"><a href="多样本分析.html#cb63-17" tabindex="-1"></a>  plot_list2 <span class="ot">&lt;-</span> <span class="fu">lapply</span>(markers_list, <span class="cf">function</span>(x) {</span>
+<span id="cb63-18"><a href="多样本分析.html#cb63-18" tabindex="-1"></a>    genes_to_check <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">get</span>(x), str_to_upper)</span>
+<span id="cb63-19"><a href="多样本分析.html#cb63-19" tabindex="-1"></a>    dup <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">table</span>(<span class="fu">unlist</span>(genes_to_check)))[<span class="fu">table</span>(<span class="fu">unlist</span>(genes_to_check)) <span class="sc">&gt;</span> <span class="dv">1</span>]</span>
+<span id="cb63-20"><a href="多样本分析.html#cb63-20" tabindex="-1"></a>    genes_to_check <span class="ot">&lt;-</span> <span class="fu">lapply</span>(genes_to_check, <span class="cf">function</span>(x) x[<span class="sc">!</span>x <span class="sc">%in%</span> dup])</span>
+<span id="cb63-21"><a href="多样本分析.html#cb63-21" tabindex="-1"></a>    </span>
+<span id="cb63-22"><a href="多样本分析.html#cb63-22" tabindex="-1"></a>    plot2 <span class="ot">&lt;-</span> <span class="fu">DotPlot</span>(sce.all, <span class="at">features =</span> genes_to_check) <span class="sc">+</span> </span>
+<span id="cb63-23"><a href="多样本分析.html#cb63-23" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
+<span id="cb63-24"><a href="多样本分析.html#cb63-24" tabindex="-1"></a>    </span>
+<span id="cb63-25"><a href="多样本分析.html#cb63-25" tabindex="-1"></a>    <span class="co"># 如果需要保存图形，可以取消注释以下行</span></span>
+<span id="cb63-26"><a href="多样本分析.html#cb63-26" tabindex="-1"></a>    <span class="co"># w = length(unique(unlist(genes_to_check))) / 5 + 7</span></span>
+<span id="cb63-27"><a href="多样本分析.html#cb63-27" tabindex="-1"></a>    <span class="co"># ggsave(paste(&#39;check_for_&#39;, x, &#39;.pdf&#39;), width = w)</span></span>
+<span id="cb63-28"><a href="多样本分析.html#cb63-28" tabindex="-1"></a>    </span>
+<span id="cb63-29"><a href="多样本分析.html#cb63-29" tabindex="-1"></a>    <span class="fu">return</span>(plot2)  <span class="co"># 返回图形对象</span></span>
+<span id="cb63-30"><a href="多样本分析.html#cb63-30" tabindex="-1"></a>  })</span>
+<span id="cb63-31"><a href="多样本分析.html#cb63-31" tabindex="-1"></a>  </span>
+<span id="cb63-32"><a href="多样本分析.html#cb63-32" tabindex="-1"></a>  last_markers_to_check <span class="ot">&lt;&lt;-</span> <span class="fu">str_to_upper</span>(last_markers) </span>
+<span id="cb63-33"><a href="多样本分析.html#cb63-33" tabindex="-1"></a>  </span>
+<span id="cb63-34"><a href="多样本分析.html#cb63-34" tabindex="-1"></a>  <span class="co"># 打印所有的图形</span></span>
+<span id="cb63-35"><a href="多样本分析.html#cb63-35" tabindex="-1"></a>  <span class="fu">plot_grid</span>(<span class="at">plotlist =</span> <span class="fu">c</span>(plot_list1, plot_list2), <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb63-36"><a href="多样本分析.html#cb63-36" tabindex="-1"></a></span>
+<span id="cb63-37"><a href="多样本分析.html#cb63-37" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span>(sp <span class="sc">==</span> <span class="st">&#39;mouse&#39;</span>) {</span>
+<span id="cb63-38"><a href="多样本分析.html#cb63-38" tabindex="-1"></a>  <span class="co"># 创建一个列表来存储所有的DotPlot图</span></span>
+<span id="cb63-39"><a href="多样本分析.html#cb63-39" tabindex="-1"></a>  plot_list1 <span class="ot">&lt;-</span> <span class="fu">lapply</span>(markers, <span class="cf">function</span>(x) {</span>
+<span id="cb63-40"><a href="多样本分析.html#cb63-40" tabindex="-1"></a>    genes_to_check <span class="ot">&lt;-</span> <span class="fu">str_to_title</span>(<span class="fu">get</span>(x))</span>
+<span id="cb63-41"><a href="多样本分析.html#cb63-41" tabindex="-1"></a>    </span>
+<span id="cb63-42"><a href="多样本分析.html#cb63-42" tabindex="-1"></a>    plot1 <span class="ot">&lt;-</span> <span class="fu">DotPlot</span>(sce.all, <span class="at">features =</span> genes_to_check) <span class="sc">+</span> </span>
+<span id="cb63-43"><a href="多样本分析.html#cb63-43" tabindex="-1"></a>      <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
+<span id="cb63-44"><a href="多样本分析.html#cb63-44" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
+<span id="cb63-45"><a href="多样本分析.html#cb63-45" tabindex="-1"></a>    </span>
+<span id="cb63-46"><a href="多样本分析.html#cb63-46" tabindex="-1"></a>    <span class="co"># 如果需要保存图形，可以取消注释以下行</span></span>
+<span id="cb63-47"><a href="多样本分析.html#cb63-47" tabindex="-1"></a>    <span class="co"># h = length(genes_to_check) / 6 + 4</span></span>
+<span id="cb63-48"><a href="多样本分析.html#cb63-48" tabindex="-1"></a>    <span class="co"># ggsave(paste(&#39;check_for_&#39;, x, &#39;.pdf&#39;), height = h)</span></span>
+<span id="cb63-49"><a href="多样本分析.html#cb63-49" tabindex="-1"></a>    </span>
+<span id="cb63-50"><a href="多样本分析.html#cb63-50" tabindex="-1"></a>    <span class="fu">return</span>(plot1)  <span class="co"># 返回图形对象</span></span>
+<span id="cb63-51"><a href="多样本分析.html#cb63-51" tabindex="-1"></a>  })</span>
+<span id="cb63-52"><a href="多样本分析.html#cb63-52" tabindex="-1"></a>  </span>
+<span id="cb63-53"><a href="多样本分析.html#cb63-53" tabindex="-1"></a>  plot_list2 <span class="ot">&lt;-</span> <span class="fu">lapply</span>(markers_list, <span class="cf">function</span>(x) {</span>
+<span id="cb63-54"><a href="多样本分析.html#cb63-54" tabindex="-1"></a>    genes_to_check <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">get</span>(x), str_to_title)</span>
+<span id="cb63-55"><a href="多样本分析.html#cb63-55" tabindex="-1"></a>    dup <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">table</span>(<span class="fu">unlist</span>(genes_to_check)))[<span class="fu">table</span>(<span class="fu">unlist</span>(genes_to_check)) <span class="sc">&gt;</span> <span class="dv">1</span>]</span>
+<span id="cb63-56"><a href="多样本分析.html#cb63-56" tabindex="-1"></a>    genes_to_check <span class="ot">&lt;-</span> <span class="fu">lapply</span>(genes_to_check, <span class="cf">function</span>(x) x[<span class="sc">!</span>x <span class="sc">%in%</span> dup])</span>
+<span id="cb63-57"><a href="多样本分析.html#cb63-57" tabindex="-1"></a>    </span>
+<span id="cb63-58"><a href="多样本分析.html#cb63-58" tabindex="-1"></a>    plot2 <span class="ot">&lt;-</span> <span class="fu">DotPlot</span>(sce.all, <span class="at">features =</span> genes_to_check) <span class="sc">+</span> </span>
+<span id="cb63-59"><a href="多样本分析.html#cb63-59" tabindex="-1"></a>      <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
+<span id="cb63-60"><a href="多样本分析.html#cb63-60" tabindex="-1"></a>    </span>
+<span id="cb63-61"><a href="多样本分析.html#cb63-61" tabindex="-1"></a>    <span class="co"># 如果需要保存图形，可以取消注释以下行</span></span>
+<span id="cb63-62"><a href="多样本分析.html#cb63-62" tabindex="-1"></a>    <span class="co"># w = length(unique(unlist(genes_to_check))) / 5 + 6</span></span>
+<span id="cb63-63"><a href="多样本分析.html#cb63-63" tabindex="-1"></a>    <span class="co"># ggsave(paste(&#39;check_for_&#39;, x, &#39;.pdf&#39;), width = w)</span></span>
+<span id="cb63-64"><a href="多样本分析.html#cb63-64" tabindex="-1"></a>    </span>
+<span id="cb63-65"><a href="多样本分析.html#cb63-65" tabindex="-1"></a>    <span class="fu">return</span>(plot2)  <span class="co"># 返回图形对象</span></span>
+<span id="cb63-66"><a href="多样本分析.html#cb63-66" tabindex="-1"></a>  })</span>
+<span id="cb63-67"><a href="多样本分析.html#cb63-67" tabindex="-1"></a>  </span>
+<span id="cb63-68"><a href="多样本分析.html#cb63-68" tabindex="-1"></a>  last_markers_to_check <span class="ot">&lt;&lt;-</span> <span class="fu">str_to_title</span>(last_markers) </span>
+<span id="cb63-69"><a href="多样本分析.html#cb63-69" tabindex="-1"></a>  </span>
+<span id="cb63-70"><a href="多样本分析.html#cb63-70" tabindex="-1"></a>  <span class="co"># 打印所有的图形</span></span>
+<span id="cb63-71"><a href="多样本分析.html#cb63-71" tabindex="-1"></a>  <span class="fu">plot_grid</span>(<span class="at">plotlist =</span> <span class="fu">c</span>(plot_list1, plot_list2), <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb63-72"><a href="多样本分析.html#cb63-72" tabindex="-1"></a>  </span>
+<span id="cb63-73"><a href="多样本分析.html#cb63-73" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb63-74"><a href="多样本分析.html#cb63-74" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&#39;we only accept human or mouse&#39;</span>)</span>
+<span id="cb63-75"><a href="多样本分析.html#cb63-75" tabindex="-1"></a>}</span></code></pre></div>
+<p><img src="04-multi_files/figure-html/unnamed-chunk-18-1.png" width="3840" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="多样本分析.html#cb64-1" tabindex="-1"></a><span class="fu">DotPlot</span>(sce.all , <span class="at">features =</span> last_markers_to_check ) <span class="sc">+</span> </span>
+<span id="cb64-2"><a href="多样本分析.html#cb64-2" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
+<span id="cb64-3"><a href="多样本分析.html#cb64-3" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">45</span>,<span class="at">hjust =</span> <span class="dv">1</span>))<span class="sc">|</span></span>
+<span id="cb64-4"><a href="多样本分析.html#cb64-4" tabindex="-1"></a><span class="fu">DimPlot</span>(sce.all, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>,<span class="at">raster =</span> F,</span>
+<span id="cb64-5"><a href="多样本分析.html#cb64-5" tabindex="-1"></a>               <span class="at">label =</span> T,<span class="at">repel =</span> T)</span></code></pre></div>
+<p><img src="04-multi_files/figure-html/unnamed-chunk-19-1.png" width="1632" style="display: block; margin: auto;" /></p>
 </div>
-<div id="亚群命名-1" class="section level2 unnumbered hasAnchor">
-<h2>亚群命名<a href="多样本分析.html#亚群命名-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="亚群命名-1" class="section level2 hasAnchor" number="8.6">
+<h2><span class="header-section-number">8.6</span> 亚群命名<a href="多样本分析.html#亚群命名-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>我们找到合适的 marker 基因后就可以进一步去可视化（我的理解是拿这些图在文章中展示），
 判断单细胞亚群的生物学名字。这里我们直接使用已经定义好的名字。</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="多样本分析.html#cb64-1" tabindex="-1"></a><span class="co"># 这里只是为了展示代码，就拿0.1分辨率的结果来展示</span></span>
-<span id="cb64-2"><a href="多样本分析.html#cb64-2" tabindex="-1"></a><span class="fu">colnames</span>(sce.all<span class="sc">@</span>meta.data)</span>
-<span id="cb64-3"><a href="多样本分析.html#cb64-3" tabindex="-1"></a><span class="do">##  [1] &quot;orig.ident&quot;       &quot;nCount_RNA&quot;       &quot;nFeature_RNA&quot;     &quot;group&quot;           </span></span>
-<span id="cb64-4"><a href="多样本分析.html#cb64-4" tabindex="-1"></a><span class="do">##  [5] &quot;percent_mito&quot;     &quot;percent_ribo&quot;     &quot;percent_hb&quot;       &quot;RNA_snn_res.0.01&quot;</span></span>
-<span id="cb64-5"><a href="多样本分析.html#cb64-5" tabindex="-1"></a><span class="do">##  [9] &quot;seurat_clusters&quot;  &quot;RNA_snn_res.0.05&quot; &quot;RNA_snn_res.0.1&quot;  &quot;RNA_snn_res.0.2&quot; </span></span>
-<span id="cb64-6"><a href="多样本分析.html#cb64-6" tabindex="-1"></a><span class="do">## [13] &quot;RNA_snn_res.0.3&quot;  &quot;RNA_snn_res.0.5&quot;  &quot;RNA_snn_res.0.8&quot;  &quot;RNA_snn_res.1&quot;</span></span>
-<span id="cb64-7"><a href="多样本分析.html#cb64-7" tabindex="-1"></a><span class="fu">DimPlot</span>(sce.all, <span class="at">group.by =</span> <span class="st">&quot;RNA_snn_res.0.1&quot;</span>)</span></code></pre></div>
-<p><img src="04-multi_files/figure-html/unnamed-chunk-19-1.png" width="1152" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="多样本分析.html#cb65-1" tabindex="-1"></a>astrocytes <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;AQP4&quot;</span>, <span class="st">&quot;ADGRV1&quot;</span>, <span class="st">&quot;GPC5&quot;</span>, <span class="st">&quot;RYR3&quot;</span>) </span>
-<span id="cb65-2"><a href="多样本分析.html#cb65-2" tabindex="-1"></a>endothelial <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;CLDN5&quot;</span>, <span class="st">&quot;ABCB1&quot;</span>, <span class="st">&quot;EBF1&quot;</span>) </span>
-<span id="cb65-3"><a href="多样本分析.html#cb65-3" tabindex="-1"></a>excitatory <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;CAMK2A&quot;</span>, <span class="st">&quot;CBLN2&quot;</span>, <span class="st">&quot;LDB2&quot;</span>) </span>
-<span id="cb65-4"><a href="多样本分析.html#cb65-4" tabindex="-1"></a>inhibitory <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;GAD1&quot;</span>, <span class="st">&quot;LHFPL3&quot;</span>, <span class="st">&quot;PCDH15&quot;</span>) </span>
-<span id="cb65-5"><a href="多样本分析.html#cb65-5" tabindex="-1"></a>microglia <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;C3&quot;</span>, <span class="st">&quot;LRMDA&quot;</span>, <span class="st">&quot;DOCK8&quot;</span>) </span>
-<span id="cb65-6"><a href="多样本分析.html#cb65-6" tabindex="-1"></a>oligodendrocytes <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;MBP&quot;</span>, <span class="st">&quot;PLP1&quot;</span>, <span class="st">&quot;ST18&quot;</span>) </span>
-<span id="cb65-7"><a href="多样本分析.html#cb65-7" tabindex="-1"></a>OPC<span class="ot">=</span><span class="st">&#39;Tnr,Igsf21,Neu4,Gpr17&#39;</span></span>
-<span id="cb65-8"><a href="多样本分析.html#cb65-8" tabindex="-1"></a>Ependymal<span class="ot">=</span><span class="st">&#39;Cfap126,Fam183b,Tmem212,pifo,Tekt1,Dnah12&#39;</span></span>
-<span id="cb65-9"><a href="多样本分析.html#cb65-9" tabindex="-1"></a>pericyte<span class="ot">=</span><span class="fu">c</span>(  <span class="st">&#39;DCN&#39;</span>, <span class="st">&#39;LUM&#39;</span>,  <span class="st">&#39;GSN&#39;</span> ,<span class="st">&#39;FGF7&#39;</span>,<span class="st">&#39;MME&#39;</span>, <span class="st">&#39;ACTA2&#39;</span>,<span class="st">&#39;RGS5&#39;</span>)</span>
-<span id="cb65-10"><a href="多样本分析.html#cb65-10" tabindex="-1"></a>Neurons<span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;RBFOX1&quot;</span>, <span class="st">&quot;RBFOX3&quot;</span>, <span class="st">&quot;SYT1&quot;</span>)</span>
-<span id="cb65-11"><a href="多样本分析.html#cb65-11" tabindex="-1"></a></span>
-<span id="cb65-12"><a href="多样本分析.html#cb65-12" tabindex="-1"></a>gene_list <span class="ot">=</span> <span class="fu">list</span>(</span>
-<span id="cb65-13"><a href="多样本分析.html#cb65-13" tabindex="-1"></a>  <span class="at">Astro =</span> astrocytes,</span>
-<span id="cb65-14"><a href="多样本分析.html#cb65-14" tabindex="-1"></a>  <span class="at">Endo =</span> endothelial,</span>
-<span id="cb65-15"><a href="多样本分析.html#cb65-15" tabindex="-1"></a>  <span class="at">Excit =</span> excitatory,</span>
-<span id="cb65-16"><a href="多样本分析.html#cb65-16" tabindex="-1"></a>  <span class="at">Inhib =</span> inhibitory,</span>
-<span id="cb65-17"><a href="多样本分析.html#cb65-17" tabindex="-1"></a>  <span class="at">Mic =</span> microglia,</span>
-<span id="cb65-18"><a href="多样本分析.html#cb65-18" tabindex="-1"></a>  <span class="at">Oligo =</span> oligodendrocytes,</span>
-<span id="cb65-19"><a href="多样本分析.html#cb65-19" tabindex="-1"></a>  <span class="at">OPC=</span> <span class="fu">str_to_upper</span>(<span class="fu">trimws</span>(<span class="fu">strsplit</span>(OPC,<span class="st">&#39;,&#39;</span>)[[<span class="dv">1</span>]])),</span>
-<span id="cb65-20"><a href="多样本分析.html#cb65-20" tabindex="-1"></a>  <span class="at">Ependymal=</span> <span class="fu">str_to_upper</span>(<span class="fu">trimws</span>(<span class="fu">strsplit</span>(Ependymal,<span class="st">&#39;,&#39;</span>)[[<span class="dv">1</span>]])) ,</span>
-<span id="cb65-21"><a href="多样本分析.html#cb65-21" tabindex="-1"></a>  <span class="at">peri =</span> pericyte ,</span>
-<span id="cb65-22"><a href="多样本分析.html#cb65-22" tabindex="-1"></a>  <span class="at">Neur =</span> Neurons</span>
-<span id="cb65-23"><a href="多样本分析.html#cb65-23" tabindex="-1"></a>)</span>
-<span id="cb65-24"><a href="多样本分析.html#cb65-24" tabindex="-1"></a></span>
-<span id="cb65-25"><a href="多样本分析.html#cb65-25" tabindex="-1"></a>gene_list <span class="ot">=</span> <span class="fu">lapply</span>(gene_list, <span class="cf">function</span>(x){</span>
-<span id="cb65-26"><a href="多样本分析.html#cb65-26" tabindex="-1"></a>  <span class="fu">unique</span>(<span class="fu">c</span>(<span class="fu">str_to_title</span>(x), <span class="fu">str_to_upper</span>(x)))</span>
-<span id="cb65-27"><a href="多样本分析.html#cb65-27" tabindex="-1"></a>})</span>
-<span id="cb65-28"><a href="多样本分析.html#cb65-28" tabindex="-1"></a></span>
-<span id="cb65-29"><a href="多样本分析.html#cb65-29" tabindex="-1"></a>gene_list</span>
-<span id="cb65-30"><a href="多样本分析.html#cb65-30" tabindex="-1"></a><span class="do">## $Astro</span></span>
-<span id="cb65-31"><a href="多样本分析.html#cb65-31" tabindex="-1"></a><span class="do">## [1] &quot;Aqp4&quot;   &quot;Adgrv1&quot; &quot;Gpc5&quot;   &quot;Ryr3&quot;   &quot;AQP4&quot;   &quot;ADGRV1&quot; &quot;GPC5&quot;   &quot;RYR3&quot;  </span></span>
-<span id="cb65-32"><a href="多样本分析.html#cb65-32" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb65-33"><a href="多样本分析.html#cb65-33" tabindex="-1"></a><span class="do">## $Endo</span></span>
-<span id="cb65-34"><a href="多样本分析.html#cb65-34" tabindex="-1"></a><span class="do">## [1] &quot;Cldn5&quot; &quot;Abcb1&quot; &quot;Ebf1&quot;  &quot;CLDN5&quot; &quot;ABCB1&quot; &quot;EBF1&quot; </span></span>
-<span id="cb65-35"><a href="多样本分析.html#cb65-35" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb65-36"><a href="多样本分析.html#cb65-36" tabindex="-1"></a><span class="do">## $Excit</span></span>
-<span id="cb65-37"><a href="多样本分析.html#cb65-37" tabindex="-1"></a><span class="do">## [1] &quot;Camk2a&quot; &quot;Cbln2&quot;  &quot;Ldb2&quot;   &quot;CAMK2A&quot; &quot;CBLN2&quot;  &quot;LDB2&quot;  </span></span>
-<span id="cb65-38"><a href="多样本分析.html#cb65-38" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb65-39"><a href="多样本分析.html#cb65-39" tabindex="-1"></a><span class="do">## $Inhib</span></span>
-<span id="cb65-40"><a href="多样本分析.html#cb65-40" tabindex="-1"></a><span class="do">## [1] &quot;Gad1&quot;   &quot;Lhfpl3&quot; &quot;Pcdh15&quot; &quot;GAD1&quot;   &quot;LHFPL3&quot; &quot;PCDH15&quot;</span></span>
-<span id="cb65-41"><a href="多样本分析.html#cb65-41" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb65-42"><a href="多样本分析.html#cb65-42" tabindex="-1"></a><span class="do">## $Mic</span></span>
-<span id="cb65-43"><a href="多样本分析.html#cb65-43" tabindex="-1"></a><span class="do">## [1] &quot;C3&quot;    &quot;Lrmda&quot; &quot;Dock8&quot; &quot;LRMDA&quot; &quot;DOCK8&quot;</span></span>
-<span id="cb65-44"><a href="多样本分析.html#cb65-44" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb65-45"><a href="多样本分析.html#cb65-45" tabindex="-1"></a><span class="do">## $Oligo</span></span>
-<span id="cb65-46"><a href="多样本分析.html#cb65-46" tabindex="-1"></a><span class="do">## [1] &quot;Mbp&quot;  &quot;Plp1&quot; &quot;St18&quot; &quot;MBP&quot;  &quot;PLP1&quot; &quot;ST18&quot;</span></span>
-<span id="cb65-47"><a href="多样本分析.html#cb65-47" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb65-48"><a href="多样本分析.html#cb65-48" tabindex="-1"></a><span class="do">## $OPC</span></span>
-<span id="cb65-49"><a href="多样本分析.html#cb65-49" tabindex="-1"></a><span class="do">## [1] &quot;Tnr&quot;    &quot;Igsf21&quot; &quot;Neu4&quot;   &quot;Gpr17&quot;  &quot;TNR&quot;    &quot;IGSF21&quot; &quot;NEU4&quot;   &quot;GPR17&quot; </span></span>
-<span id="cb65-50"><a href="多样本分析.html#cb65-50" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb65-51"><a href="多样本分析.html#cb65-51" tabindex="-1"></a><span class="do">## $Ependymal</span></span>
-<span id="cb65-52"><a href="多样本分析.html#cb65-52" tabindex="-1"></a><span class="do">##  [1] &quot;Cfap126&quot; &quot;Fam183b&quot; &quot;Tmem212&quot; &quot;Pifo&quot;    &quot;Tekt1&quot;   &quot;Dnah12&quot;  &quot;CFAP126&quot;</span></span>
-<span id="cb65-53"><a href="多样本分析.html#cb65-53" tabindex="-1"></a><span class="do">##  [8] &quot;FAM183B&quot; &quot;TMEM212&quot; &quot;PIFO&quot;    &quot;TEKT1&quot;   &quot;DNAH12&quot; </span></span>
-<span id="cb65-54"><a href="多样本分析.html#cb65-54" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb65-55"><a href="多样本分析.html#cb65-55" tabindex="-1"></a><span class="do">## $peri</span></span>
-<span id="cb65-56"><a href="多样本分析.html#cb65-56" tabindex="-1"></a><span class="do">##  [1] &quot;Dcn&quot;   &quot;Lum&quot;   &quot;Gsn&quot;   &quot;Fgf7&quot;  &quot;Mme&quot;   &quot;Acta2&quot; &quot;Rgs5&quot;  &quot;DCN&quot;   &quot;LUM&quot;  </span></span>
-<span id="cb65-57"><a href="多样本分析.html#cb65-57" tabindex="-1"></a><span class="do">## [10] &quot;GSN&quot;   &quot;FGF7&quot;  &quot;MME&quot;   &quot;ACTA2&quot; &quot;RGS5&quot; </span></span>
-<span id="cb65-58"><a href="多样本分析.html#cb65-58" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb65-59"><a href="多样本分析.html#cb65-59" tabindex="-1"></a><span class="do">## $Neur</span></span>
-<span id="cb65-60"><a href="多样本分析.html#cb65-60" tabindex="-1"></a><span class="do">## [1] &quot;Rbfox1&quot; &quot;Rbfox3&quot; &quot;Syt1&quot;   &quot;RBFOX1&quot; &quot;RBFOX3&quot; &quot;SYT1&quot;</span></span></code></pre></div>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="多样本分析.html#cb66-1" tabindex="-1"></a> p1<span class="ot">=</span><span class="fu">DotPlot</span>(sce.all, <span class="at">assay =</span> <span class="st">&quot;RNA&quot;</span>, <span class="at">features =</span> gene_list, </span>
-<span id="cb66-2"><a href="多样本分析.html#cb66-2" tabindex="-1"></a>            <span class="at">group.by =</span> <span class="st">&#39;RNA_snn_res.0.1&#39;</span>) <span class="sc">+</span> </span>
-<span id="cb66-3"><a href="多样本分析.html#cb66-3" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, </span>
-<span id="cb66-4"><a href="多样本分析.html#cb66-4" tabindex="-1"></a>                                     <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust=</span><span class="fl">0.5</span>));p1</span></code></pre></div>
-<p><img src="04-multi_files/figure-html/unnamed-chunk-21-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="多样本分析.html#cb65-1" tabindex="-1"></a><span class="co"># 这里只是为了展示代码，就拿0.1分辨率的结果来展示</span></span>
+<span id="cb65-2"><a href="多样本分析.html#cb65-2" tabindex="-1"></a><span class="fu">colnames</span>(sce.all<span class="sc">@</span>meta.data)</span>
+<span id="cb65-3"><a href="多样本分析.html#cb65-3" tabindex="-1"></a><span class="do">##  [1] &quot;orig.ident&quot;       &quot;nCount_RNA&quot;       &quot;nFeature_RNA&quot;     &quot;group&quot;           </span></span>
+<span id="cb65-4"><a href="多样本分析.html#cb65-4" tabindex="-1"></a><span class="do">##  [5] &quot;percent_mito&quot;     &quot;percent_ribo&quot;     &quot;percent_hb&quot;       &quot;RNA_snn_res.0.01&quot;</span></span>
+<span id="cb65-5"><a href="多样本分析.html#cb65-5" tabindex="-1"></a><span class="do">##  [9] &quot;seurat_clusters&quot;  &quot;RNA_snn_res.0.05&quot; &quot;RNA_snn_res.0.1&quot;  &quot;RNA_snn_res.0.2&quot; </span></span>
+<span id="cb65-6"><a href="多样本分析.html#cb65-6" tabindex="-1"></a><span class="do">## [13] &quot;RNA_snn_res.0.3&quot;  &quot;RNA_snn_res.0.5&quot;  &quot;RNA_snn_res.0.8&quot;  &quot;RNA_snn_res.1&quot;</span></span>
+<span id="cb65-7"><a href="多样本分析.html#cb65-7" tabindex="-1"></a><span class="fu">DimPlot</span>(sce.all, <span class="at">group.by =</span> <span class="st">&quot;RNA_snn_res.0.1&quot;</span>)</span></code></pre></div>
+<p><img src="04-multi_files/figure-html/unnamed-chunk-20-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="多样本分析.html#cb66-1" tabindex="-1"></a>astrocytes <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;AQP4&quot;</span>, <span class="st">&quot;ADGRV1&quot;</span>, <span class="st">&quot;GPC5&quot;</span>, <span class="st">&quot;RYR3&quot;</span>) </span>
+<span id="cb66-2"><a href="多样本分析.html#cb66-2" tabindex="-1"></a>endothelial <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;CLDN5&quot;</span>, <span class="st">&quot;ABCB1&quot;</span>, <span class="st">&quot;EBF1&quot;</span>) </span>
+<span id="cb66-3"><a href="多样本分析.html#cb66-3" tabindex="-1"></a>excitatory <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;CAMK2A&quot;</span>, <span class="st">&quot;CBLN2&quot;</span>, <span class="st">&quot;LDB2&quot;</span>) </span>
+<span id="cb66-4"><a href="多样本分析.html#cb66-4" tabindex="-1"></a>inhibitory <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;GAD1&quot;</span>, <span class="st">&quot;LHFPL3&quot;</span>, <span class="st">&quot;PCDH15&quot;</span>) </span>
+<span id="cb66-5"><a href="多样本分析.html#cb66-5" tabindex="-1"></a>microglia <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;C3&quot;</span>, <span class="st">&quot;LRMDA&quot;</span>, <span class="st">&quot;DOCK8&quot;</span>) </span>
+<span id="cb66-6"><a href="多样本分析.html#cb66-6" tabindex="-1"></a>oligodendrocytes <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;MBP&quot;</span>, <span class="st">&quot;PLP1&quot;</span>, <span class="st">&quot;ST18&quot;</span>) </span>
+<span id="cb66-7"><a href="多样本分析.html#cb66-7" tabindex="-1"></a>OPC<span class="ot">=</span><span class="st">&#39;Tnr,Igsf21,Neu4,Gpr17&#39;</span></span>
+<span id="cb66-8"><a href="多样本分析.html#cb66-8" tabindex="-1"></a>Ependymal<span class="ot">=</span><span class="st">&#39;Cfap126,Fam183b,Tmem212,pifo,Tekt1,Dnah12&#39;</span></span>
+<span id="cb66-9"><a href="多样本分析.html#cb66-9" tabindex="-1"></a>pericyte<span class="ot">=</span><span class="fu">c</span>(  <span class="st">&#39;DCN&#39;</span>, <span class="st">&#39;LUM&#39;</span>,  <span class="st">&#39;GSN&#39;</span> ,<span class="st">&#39;FGF7&#39;</span>,<span class="st">&#39;MME&#39;</span>, <span class="st">&#39;ACTA2&#39;</span>,<span class="st">&#39;RGS5&#39;</span>)</span>
+<span id="cb66-10"><a href="多样本分析.html#cb66-10" tabindex="-1"></a>Neurons<span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;RBFOX1&quot;</span>, <span class="st">&quot;RBFOX3&quot;</span>, <span class="st">&quot;SYT1&quot;</span>)</span>
+<span id="cb66-11"><a href="多样本分析.html#cb66-11" tabindex="-1"></a></span>
+<span id="cb66-12"><a href="多样本分析.html#cb66-12" tabindex="-1"></a>gene_list <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb66-13"><a href="多样本分析.html#cb66-13" tabindex="-1"></a>  <span class="at">Astro =</span> astrocytes,</span>
+<span id="cb66-14"><a href="多样本分析.html#cb66-14" tabindex="-1"></a>  <span class="at">Endo =</span> endothelial,</span>
+<span id="cb66-15"><a href="多样本分析.html#cb66-15" tabindex="-1"></a>  <span class="at">Excit =</span> excitatory,</span>
+<span id="cb66-16"><a href="多样本分析.html#cb66-16" tabindex="-1"></a>  <span class="at">Inhib =</span> inhibitory,</span>
+<span id="cb66-17"><a href="多样本分析.html#cb66-17" tabindex="-1"></a>  <span class="at">Mic =</span> microglia,</span>
+<span id="cb66-18"><a href="多样本分析.html#cb66-18" tabindex="-1"></a>  <span class="at">Oligo =</span> oligodendrocytes,</span>
+<span id="cb66-19"><a href="多样本分析.html#cb66-19" tabindex="-1"></a>  <span class="at">OPC=</span> <span class="fu">str_to_upper</span>(<span class="fu">trimws</span>(<span class="fu">strsplit</span>(OPC,<span class="st">&#39;,&#39;</span>)[[<span class="dv">1</span>]])),</span>
+<span id="cb66-20"><a href="多样本分析.html#cb66-20" tabindex="-1"></a>  <span class="at">Ependymal=</span> <span class="fu">str_to_upper</span>(<span class="fu">trimws</span>(<span class="fu">strsplit</span>(Ependymal,<span class="st">&#39;,&#39;</span>)[[<span class="dv">1</span>]])) ,</span>
+<span id="cb66-21"><a href="多样本分析.html#cb66-21" tabindex="-1"></a>  <span class="at">peri =</span> pericyte ,</span>
+<span id="cb66-22"><a href="多样本分析.html#cb66-22" tabindex="-1"></a>  <span class="at">Neur =</span> Neurons</span>
+<span id="cb66-23"><a href="多样本分析.html#cb66-23" tabindex="-1"></a>)</span>
+<span id="cb66-24"><a href="多样本分析.html#cb66-24" tabindex="-1"></a></span>
+<span id="cb66-25"><a href="多样本分析.html#cb66-25" tabindex="-1"></a>gene_list <span class="ot">=</span> <span class="fu">lapply</span>(gene_list, <span class="cf">function</span>(x){</span>
+<span id="cb66-26"><a href="多样本分析.html#cb66-26" tabindex="-1"></a>  <span class="fu">unique</span>(<span class="fu">c</span>(<span class="fu">str_to_title</span>(x), <span class="fu">str_to_upper</span>(x)))</span>
+<span id="cb66-27"><a href="多样本分析.html#cb66-27" tabindex="-1"></a>})</span>
+<span id="cb66-28"><a href="多样本分析.html#cb66-28" tabindex="-1"></a></span>
+<span id="cb66-29"><a href="多样本分析.html#cb66-29" tabindex="-1"></a>gene_list</span>
+<span id="cb66-30"><a href="多样本分析.html#cb66-30" tabindex="-1"></a><span class="do">## $Astro</span></span>
+<span id="cb66-31"><a href="多样本分析.html#cb66-31" tabindex="-1"></a><span class="do">## [1] &quot;Aqp4&quot;   &quot;Adgrv1&quot; &quot;Gpc5&quot;   &quot;Ryr3&quot;   &quot;AQP4&quot;   &quot;ADGRV1&quot; &quot;GPC5&quot;   &quot;RYR3&quot;  </span></span>
+<span id="cb66-32"><a href="多样本分析.html#cb66-32" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb66-33"><a href="多样本分析.html#cb66-33" tabindex="-1"></a><span class="do">## $Endo</span></span>
+<span id="cb66-34"><a href="多样本分析.html#cb66-34" tabindex="-1"></a><span class="do">## [1] &quot;Cldn5&quot; &quot;Abcb1&quot; &quot;Ebf1&quot;  &quot;CLDN5&quot; &quot;ABCB1&quot; &quot;EBF1&quot; </span></span>
+<span id="cb66-35"><a href="多样本分析.html#cb66-35" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb66-36"><a href="多样本分析.html#cb66-36" tabindex="-1"></a><span class="do">## $Excit</span></span>
+<span id="cb66-37"><a href="多样本分析.html#cb66-37" tabindex="-1"></a><span class="do">## [1] &quot;Camk2a&quot; &quot;Cbln2&quot;  &quot;Ldb2&quot;   &quot;CAMK2A&quot; &quot;CBLN2&quot;  &quot;LDB2&quot;  </span></span>
+<span id="cb66-38"><a href="多样本分析.html#cb66-38" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb66-39"><a href="多样本分析.html#cb66-39" tabindex="-1"></a><span class="do">## $Inhib</span></span>
+<span id="cb66-40"><a href="多样本分析.html#cb66-40" tabindex="-1"></a><span class="do">## [1] &quot;Gad1&quot;   &quot;Lhfpl3&quot; &quot;Pcdh15&quot; &quot;GAD1&quot;   &quot;LHFPL3&quot; &quot;PCDH15&quot;</span></span>
+<span id="cb66-41"><a href="多样本分析.html#cb66-41" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb66-42"><a href="多样本分析.html#cb66-42" tabindex="-1"></a><span class="do">## $Mic</span></span>
+<span id="cb66-43"><a href="多样本分析.html#cb66-43" tabindex="-1"></a><span class="do">## [1] &quot;C3&quot;    &quot;Lrmda&quot; &quot;Dock8&quot; &quot;LRMDA&quot; &quot;DOCK8&quot;</span></span>
+<span id="cb66-44"><a href="多样本分析.html#cb66-44" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb66-45"><a href="多样本分析.html#cb66-45" tabindex="-1"></a><span class="do">## $Oligo</span></span>
+<span id="cb66-46"><a href="多样本分析.html#cb66-46" tabindex="-1"></a><span class="do">## [1] &quot;Mbp&quot;  &quot;Plp1&quot; &quot;St18&quot; &quot;MBP&quot;  &quot;PLP1&quot; &quot;ST18&quot;</span></span>
+<span id="cb66-47"><a href="多样本分析.html#cb66-47" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb66-48"><a href="多样本分析.html#cb66-48" tabindex="-1"></a><span class="do">## $OPC</span></span>
+<span id="cb66-49"><a href="多样本分析.html#cb66-49" tabindex="-1"></a><span class="do">## [1] &quot;Tnr&quot;    &quot;Igsf21&quot; &quot;Neu4&quot;   &quot;Gpr17&quot;  &quot;TNR&quot;    &quot;IGSF21&quot; &quot;NEU4&quot;   &quot;GPR17&quot; </span></span>
+<span id="cb66-50"><a href="多样本分析.html#cb66-50" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb66-51"><a href="多样本分析.html#cb66-51" tabindex="-1"></a><span class="do">## $Ependymal</span></span>
+<span id="cb66-52"><a href="多样本分析.html#cb66-52" tabindex="-1"></a><span class="do">##  [1] &quot;Cfap126&quot; &quot;Fam183b&quot; &quot;Tmem212&quot; &quot;Pifo&quot;    &quot;Tekt1&quot;   &quot;Dnah12&quot;  &quot;CFAP126&quot;</span></span>
+<span id="cb66-53"><a href="多样本分析.html#cb66-53" tabindex="-1"></a><span class="do">##  [8] &quot;FAM183B&quot; &quot;TMEM212&quot; &quot;PIFO&quot;    &quot;TEKT1&quot;   &quot;DNAH12&quot; </span></span>
+<span id="cb66-54"><a href="多样本分析.html#cb66-54" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb66-55"><a href="多样本分析.html#cb66-55" tabindex="-1"></a><span class="do">## $peri</span></span>
+<span id="cb66-56"><a href="多样本分析.html#cb66-56" tabindex="-1"></a><span class="do">##  [1] &quot;Dcn&quot;   &quot;Lum&quot;   &quot;Gsn&quot;   &quot;Fgf7&quot;  &quot;Mme&quot;   &quot;Acta2&quot; &quot;Rgs5&quot;  &quot;DCN&quot;   &quot;LUM&quot;  </span></span>
+<span id="cb66-57"><a href="多样本分析.html#cb66-57" tabindex="-1"></a><span class="do">## [10] &quot;GSN&quot;   &quot;FGF7&quot;  &quot;MME&quot;   &quot;ACTA2&quot; &quot;RGS5&quot; </span></span>
+<span id="cb66-58"><a href="多样本分析.html#cb66-58" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb66-59"><a href="多样本分析.html#cb66-59" tabindex="-1"></a><span class="do">## $Neur</span></span>
+<span id="cb66-60"><a href="多样本分析.html#cb66-60" tabindex="-1"></a><span class="do">## [1] &quot;Rbfox1&quot; &quot;Rbfox3&quot; &quot;Syt1&quot;   &quot;RBFOX1&quot; &quot;RBFOX3&quot; &quot;SYT1&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="多样本分析.html#cb67-1" tabindex="-1"></a> p1<span class="ot">=</span><span class="fu">DotPlot</span>(sce.all, <span class="at">assay =</span> <span class="st">&quot;RNA&quot;</span>, <span class="at">features =</span> gene_list, </span>
+<span id="cb67-2"><a href="多样本分析.html#cb67-2" tabindex="-1"></a>            <span class="at">group.by =</span> <span class="st">&#39;RNA_snn_res.0.1&#39;</span>) <span class="sc">+</span> </span>
+<span id="cb67-3"><a href="多样本分析.html#cb67-3" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, </span>
+<span id="cb67-4"><a href="多样本分析.html#cb67-4" tabindex="-1"></a>                                     <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust=</span><span class="fl">0.5</span>));p1</span></code></pre></div>
+<p><img src="04-multi_files/figure-html/unnamed-chunk-22-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <p>根据最终的可视化图，我们就可以手动的给亚群命名了。</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="多样本分析.html#cb67-1" tabindex="-1"></a>sce.all</span>
-<span id="cb67-2"><a href="多样本分析.html#cb67-2" tabindex="-1"></a><span class="do">## An object of class Seurat </span></span>
-<span id="cb67-3"><a href="多样本分析.html#cb67-3" tabindex="-1"></a><span class="do">## 28985 features across 20269 samples within 1 assay </span></span>
-<span id="cb67-4"><a href="多样本分析.html#cb67-4" tabindex="-1"></a><span class="do">## Active assay: RNA (28985 features, 2000 variable features)</span></span>
-<span id="cb67-5"><a href="多样本分析.html#cb67-5" tabindex="-1"></a><span class="do">##  3 layers present: counts, data, scale.data</span></span>
-<span id="cb67-6"><a href="多样本分析.html#cb67-6" tabindex="-1"></a><span class="do">##  3 dimensional reductions calculated: pca, harmony, umap</span></span>
-<span id="cb67-7"><a href="多样本分析.html#cb67-7" tabindex="-1"></a><span class="fu">dim</span>(sce.all)</span>
-<span id="cb67-8"><a href="多样本分析.html#cb67-8" tabindex="-1"></a><span class="do">## [1] 28985 20269</span></span>
-<span id="cb67-9"><a href="多样本分析.html#cb67-9" tabindex="-1"></a></span>
-<span id="cb67-10"><a href="多样本分析.html#cb67-10" tabindex="-1"></a>sel.clust <span class="ot">=</span> <span class="st">&quot;RNA_snn_res.0.1&quot;</span></span>
-<span id="cb67-11"><a href="多样本分析.html#cb67-11" tabindex="-1"></a>sce.all <span class="ot">&lt;-</span> <span class="fu">SetIdent</span>(sce.all, <span class="at">value =</span> sel.clust)</span>
-<span id="cb67-12"><a href="多样本分析.html#cb67-12" tabindex="-1"></a></span>
-<span id="cb67-13"><a href="多样本分析.html#cb67-13" tabindex="-1"></a>res_len <span class="ot">&lt;-</span> <span class="fu">table</span>(sce.all<span class="sc">@</span>active.ident) <span class="sc">%&gt;%</span> <span class="fu">length</span>();res_len</span>
-<span id="cb67-14"><a href="多样本分析.html#cb67-14" tabindex="-1"></a><span class="do">## [1] 11</span></span>
-<span id="cb67-15"><a href="多样本分析.html#cb67-15" tabindex="-1"></a>celltype<span class="ot">=</span><span class="fu">data.frame</span>(<span class="at">ClusterID=</span>(<span class="dv">0</span><span class="sc">:</span>(res_len<span class="dv">-1</span>)),</span>
-<span id="cb67-16"><a href="多样本分析.html#cb67-16" tabindex="-1"></a>                    <span class="at">celltype=</span> (<span class="dv">0</span><span class="sc">:</span>(res_len<span class="dv">-1</span>)))</span></code></pre></div>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="多样本分析.html#cb68-1" tabindex="-1"></a><span class="co"># 自定义细胞亚群        </span></span>
-<span id="cb68-2"><a href="多样本分析.html#cb68-2" tabindex="-1"></a>celltype[celltype<span class="sc">$</span>ClusterID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>),<span class="dv">2</span>]<span class="ot">=</span><span class="st">&#39;astrocytes&#39;</span></span>
-<span id="cb68-3"><a href="多样本分析.html#cb68-3" tabindex="-1"></a>celltype[celltype<span class="sc">$</span>ClusterID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">4</span>),<span class="dv">2</span>]<span class="ot">=</span><span class="st">&#39;endothelial&#39;</span> </span>
-<span id="cb68-4"><a href="多样本分析.html#cb68-4" tabindex="-1"></a>celltype[celltype<span class="sc">$</span>ClusterID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">3</span>),<span class="dv">2</span>]<span class="ot">=</span><span class="st">&#39;microglia&#39;</span>  </span>
-<span id="cb68-5"><a href="多样本分析.html#cb68-5" tabindex="-1"></a>celltype[celltype<span class="sc">$</span>ClusterID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>),<span class="dv">2</span>]<span class="ot">=</span><span class="st">&#39;oligodendrocytes&#39;</span></span>
-<span id="cb68-6"><a href="多样本分析.html#cb68-6" tabindex="-1"></a>celltype[celltype<span class="sc">$</span>ClusterID <span class="sc">%in%</span> <span class="fu">c</span>( <span class="dv">7</span> ),<span class="dv">2</span>]<span class="ot">=</span><span class="st">&#39;OPC&#39;</span></span>
-<span id="cb68-7"><a href="多样本分析.html#cb68-7" tabindex="-1"></a>celltype[celltype<span class="sc">$</span>ClusterID <span class="sc">%in%</span> <span class="fu">c</span>( <span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">10</span> ),<span class="dv">2</span>]<span class="ot">=</span><span class="st">&#39;Neurons&#39;</span> </span>
-<span id="cb68-8"><a href="多样本分析.html#cb68-8" tabindex="-1"></a>celltype[celltype<span class="sc">$</span>ClusterID <span class="sc">%in%</span> <span class="fu">c</span>( <span class="dv">9</span> ),<span class="dv">2</span>]<span class="ot">=</span><span class="st">&#39;Ependymal&#39;</span></span>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="多样本分析.html#cb68-1" tabindex="-1"></a>sce.all</span>
+<span id="cb68-2"><a href="多样本分析.html#cb68-2" tabindex="-1"></a><span class="do">## An object of class Seurat </span></span>
+<span id="cb68-3"><a href="多样本分析.html#cb68-3" tabindex="-1"></a><span class="do">## 28985 features across 20269 samples within 1 assay </span></span>
+<span id="cb68-4"><a href="多样本分析.html#cb68-4" tabindex="-1"></a><span class="do">## Active assay: RNA (28985 features, 2000 variable features)</span></span>
+<span id="cb68-5"><a href="多样本分析.html#cb68-5" tabindex="-1"></a><span class="do">##  3 layers present: counts, data, scale.data</span></span>
+<span id="cb68-6"><a href="多样本分析.html#cb68-6" tabindex="-1"></a><span class="do">##  3 dimensional reductions calculated: pca, harmony, umap</span></span>
+<span id="cb68-7"><a href="多样本分析.html#cb68-7" tabindex="-1"></a><span class="fu">dim</span>(sce.all)</span>
+<span id="cb68-8"><a href="多样本分析.html#cb68-8" tabindex="-1"></a><span class="do">## [1] 28985 20269</span></span>
 <span id="cb68-9"><a href="多样本分析.html#cb68-9" tabindex="-1"></a></span>
-<span id="cb68-10"><a href="多样本分析.html#cb68-10" tabindex="-1"></a><span class="fu">head</span>(celltype)</span>
-<span id="cb68-11"><a href="多样本分析.html#cb68-11" tabindex="-1"></a><span class="do">##   ClusterID         celltype</span></span>
-<span id="cb68-12"><a href="多样本分析.html#cb68-12" tabindex="-1"></a><span class="do">## 1         0 oligodendrocytes</span></span>
-<span id="cb68-13"><a href="多样本分析.html#cb68-13" tabindex="-1"></a><span class="do">## 2         1          Neurons</span></span>
-<span id="cb68-14"><a href="多样本分析.html#cb68-14" tabindex="-1"></a><span class="do">## 3         2       astrocytes</span></span>
-<span id="cb68-15"><a href="多样本分析.html#cb68-15" tabindex="-1"></a><span class="do">## 4         3        microglia</span></span>
-<span id="cb68-16"><a href="多样本分析.html#cb68-16" tabindex="-1"></a><span class="do">## 5         4      endothelial</span></span>
-<span id="cb68-17"><a href="多样本分析.html#cb68-17" tabindex="-1"></a><span class="do">## 6         5          Neurons</span></span>
-<span id="cb68-18"><a href="多样本分析.html#cb68-18" tabindex="-1"></a><span class="fu">table</span>(celltype<span class="sc">$</span>celltype)</span>
-<span id="cb68-19"><a href="多样本分析.html#cb68-19" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb68-20"><a href="多样本分析.html#cb68-20" tabindex="-1"></a><span class="do">##       astrocytes      endothelial        Ependymal        microglia </span></span>
-<span id="cb68-21"><a href="多样本分析.html#cb68-21" tabindex="-1"></a><span class="do">##                1                1                1                1 </span></span>
-<span id="cb68-22"><a href="多样本分析.html#cb68-22" tabindex="-1"></a><span class="do">##          Neurons oligodendrocytes              OPC </span></span>
-<span id="cb68-23"><a href="多样本分析.html#cb68-23" tabindex="-1"></a><span class="do">##                5                1                1</span></span>
-<span id="cb68-24"><a href="多样本分析.html#cb68-24" tabindex="-1"></a></span>
-<span id="cb68-25"><a href="多样本分析.html#cb68-25" tabindex="-1"></a>sce.all<span class="sc">@</span>meta.data<span class="sc">$</span>celltype <span class="ot">=</span> <span class="st">&quot;NA&quot;</span></span>
-<span id="cb68-26"><a href="多样本分析.html#cb68-26" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(celltype)){</span>
-<span id="cb68-27"><a href="多样本分析.html#cb68-27" tabindex="-1"></a>    sce.all<span class="sc">@</span>meta.data[<span class="fu">which</span>(sce.all<span class="sc">@</span>meta.data[[sel.clust]] <span class="sc">==</span> celltype<span class="sc">$</span>ClusterID[i]),<span class="st">&#39;celltype&#39;</span>] <span class="ot">&lt;-</span> celltype<span class="sc">$</span>celltype[i]}</span>
-<span id="cb68-28"><a href="多样本分析.html#cb68-28" tabindex="-1"></a></span>
-<span id="cb68-29"><a href="多样本分析.html#cb68-29" tabindex="-1"></a><span class="fu">Idents</span>(sce.all)<span class="ot">=</span>sce.all<span class="sc">$</span>celltype</span>
-<span id="cb68-30"><a href="多样本分析.html#cb68-30" tabindex="-1"></a><span class="fu">table</span>(sce.all<span class="sc">@</span>active.ident)</span>
-<span id="cb68-31"><a href="多样本分析.html#cb68-31" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb68-32"><a href="多样本分析.html#cb68-32" tabindex="-1"></a><span class="do">## oligodendrocytes          Neurons       astrocytes              OPC </span></span>
-<span id="cb68-33"><a href="多样本分析.html#cb68-33" tabindex="-1"></a><span class="do">##             6832             6971             3145              735 </span></span>
-<span id="cb68-34"><a href="多样本分析.html#cb68-34" tabindex="-1"></a><span class="do">##        microglia      endothelial        Ependymal </span></span>
-<span id="cb68-35"><a href="多样本分析.html#cb68-35" tabindex="-1"></a><span class="do">##             1295             1154              137</span></span></code></pre></div>
+<span id="cb68-10"><a href="多样本分析.html#cb68-10" tabindex="-1"></a>sel.clust <span class="ot">=</span> <span class="st">&quot;RNA_snn_res.0.1&quot;</span></span>
+<span id="cb68-11"><a href="多样本分析.html#cb68-11" tabindex="-1"></a>sce.all <span class="ot">&lt;-</span> <span class="fu">SetIdent</span>(sce.all, <span class="at">value =</span> sel.clust)</span>
+<span id="cb68-12"><a href="多样本分析.html#cb68-12" tabindex="-1"></a></span>
+<span id="cb68-13"><a href="多样本分析.html#cb68-13" tabindex="-1"></a>res_len <span class="ot">&lt;-</span> <span class="fu">table</span>(sce.all<span class="sc">@</span>active.ident) <span class="sc">%&gt;%</span> <span class="fu">length</span>();res_len</span>
+<span id="cb68-14"><a href="多样本分析.html#cb68-14" tabindex="-1"></a><span class="do">## [1] 11</span></span>
+<span id="cb68-15"><a href="多样本分析.html#cb68-15" tabindex="-1"></a>celltype<span class="ot">=</span><span class="fu">data.frame</span>(<span class="at">ClusterID=</span>(<span class="dv">0</span><span class="sc">:</span>(res_len<span class="dv">-1</span>)),</span>
+<span id="cb68-16"><a href="多样本分析.html#cb68-16" tabindex="-1"></a>                    <span class="at">celltype=</span> (<span class="dv">0</span><span class="sc">:</span>(res_len<span class="dv">-1</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="多样本分析.html#cb69-1" tabindex="-1"></a><span class="co"># 自定义细胞亚群        </span></span>
+<span id="cb69-2"><a href="多样本分析.html#cb69-2" tabindex="-1"></a>celltype[celltype<span class="sc">$</span>ClusterID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>),<span class="dv">2</span>]<span class="ot">=</span><span class="st">&#39;astrocytes&#39;</span></span>
+<span id="cb69-3"><a href="多样本分析.html#cb69-3" tabindex="-1"></a>celltype[celltype<span class="sc">$</span>ClusterID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">4</span>),<span class="dv">2</span>]<span class="ot">=</span><span class="st">&#39;endothelial&#39;</span> </span>
+<span id="cb69-4"><a href="多样本分析.html#cb69-4" tabindex="-1"></a>celltype[celltype<span class="sc">$</span>ClusterID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">3</span>),<span class="dv">2</span>]<span class="ot">=</span><span class="st">&#39;microglia&#39;</span>  </span>
+<span id="cb69-5"><a href="多样本分析.html#cb69-5" tabindex="-1"></a>celltype[celltype<span class="sc">$</span>ClusterID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>),<span class="dv">2</span>]<span class="ot">=</span><span class="st">&#39;oligodendrocytes&#39;</span></span>
+<span id="cb69-6"><a href="多样本分析.html#cb69-6" tabindex="-1"></a>celltype[celltype<span class="sc">$</span>ClusterID <span class="sc">%in%</span> <span class="fu">c</span>( <span class="dv">7</span> ),<span class="dv">2</span>]<span class="ot">=</span><span class="st">&#39;OPC&#39;</span></span>
+<span id="cb69-7"><a href="多样本分析.html#cb69-7" tabindex="-1"></a>celltype[celltype<span class="sc">$</span>ClusterID <span class="sc">%in%</span> <span class="fu">c</span>( <span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">10</span> ),<span class="dv">2</span>]<span class="ot">=</span><span class="st">&#39;Neurons&#39;</span> </span>
+<span id="cb69-8"><a href="多样本分析.html#cb69-8" tabindex="-1"></a>celltype[celltype<span class="sc">$</span>ClusterID <span class="sc">%in%</span> <span class="fu">c</span>( <span class="dv">9</span> ),<span class="dv">2</span>]<span class="ot">=</span><span class="st">&#39;Ependymal&#39;</span></span>
+<span id="cb69-9"><a href="多样本分析.html#cb69-9" tabindex="-1"></a></span>
+<span id="cb69-10"><a href="多样本分析.html#cb69-10" tabindex="-1"></a><span class="fu">head</span>(celltype)</span>
+<span id="cb69-11"><a href="多样本分析.html#cb69-11" tabindex="-1"></a><span class="do">##   ClusterID         celltype</span></span>
+<span id="cb69-12"><a href="多样本分析.html#cb69-12" tabindex="-1"></a><span class="do">## 1         0 oligodendrocytes</span></span>
+<span id="cb69-13"><a href="多样本分析.html#cb69-13" tabindex="-1"></a><span class="do">## 2         1          Neurons</span></span>
+<span id="cb69-14"><a href="多样本分析.html#cb69-14" tabindex="-1"></a><span class="do">## 3         2       astrocytes</span></span>
+<span id="cb69-15"><a href="多样本分析.html#cb69-15" tabindex="-1"></a><span class="do">## 4         3        microglia</span></span>
+<span id="cb69-16"><a href="多样本分析.html#cb69-16" tabindex="-1"></a><span class="do">## 5         4      endothelial</span></span>
+<span id="cb69-17"><a href="多样本分析.html#cb69-17" tabindex="-1"></a><span class="do">## 6         5          Neurons</span></span>
+<span id="cb69-18"><a href="多样本分析.html#cb69-18" tabindex="-1"></a><span class="fu">table</span>(celltype<span class="sc">$</span>celltype)</span>
+<span id="cb69-19"><a href="多样本分析.html#cb69-19" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb69-20"><a href="多样本分析.html#cb69-20" tabindex="-1"></a><span class="do">##       astrocytes      endothelial        Ependymal        microglia </span></span>
+<span id="cb69-21"><a href="多样本分析.html#cb69-21" tabindex="-1"></a><span class="do">##                1                1                1                1 </span></span>
+<span id="cb69-22"><a href="多样本分析.html#cb69-22" tabindex="-1"></a><span class="do">##          Neurons oligodendrocytes              OPC </span></span>
+<span id="cb69-23"><a href="多样本分析.html#cb69-23" tabindex="-1"></a><span class="do">##                5                1                1</span></span>
+<span id="cb69-24"><a href="多样本分析.html#cb69-24" tabindex="-1"></a></span>
+<span id="cb69-25"><a href="多样本分析.html#cb69-25" tabindex="-1"></a>sce.all<span class="sc">@</span>meta.data<span class="sc">$</span>celltype <span class="ot">=</span> <span class="st">&quot;NA&quot;</span></span>
+<span id="cb69-26"><a href="多样本分析.html#cb69-26" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(celltype)){</span>
+<span id="cb69-27"><a href="多样本分析.html#cb69-27" tabindex="-1"></a>    sce.all<span class="sc">@</span>meta.data[<span class="fu">which</span>(sce.all<span class="sc">@</span>meta.data[[sel.clust]] <span class="sc">==</span> celltype<span class="sc">$</span>ClusterID[i]),<span class="st">&#39;celltype&#39;</span>] <span class="ot">&lt;-</span> celltype<span class="sc">$</span>celltype[i]}</span>
+<span id="cb69-28"><a href="多样本分析.html#cb69-28" tabindex="-1"></a></span>
+<span id="cb69-29"><a href="多样本分析.html#cb69-29" tabindex="-1"></a><span class="fu">Idents</span>(sce.all)<span class="ot">=</span>sce.all<span class="sc">$</span>celltype</span>
+<span id="cb69-30"><a href="多样本分析.html#cb69-30" tabindex="-1"></a><span class="fu">table</span>(sce.all<span class="sc">@</span>active.ident)</span>
+<span id="cb69-31"><a href="多样本分析.html#cb69-31" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb69-32"><a href="多样本分析.html#cb69-32" tabindex="-1"></a><span class="do">## oligodendrocytes          Neurons       astrocytes              OPC </span></span>
+<span id="cb69-33"><a href="多样本分析.html#cb69-33" tabindex="-1"></a><span class="do">##             6832             6971             3145              735 </span></span>
+<span id="cb69-34"><a href="多样本分析.html#cb69-34" tabindex="-1"></a><span class="do">##        microglia      endothelial        Ependymal </span></span>
+<span id="cb69-35"><a href="多样本分析.html#cb69-35" tabindex="-1"></a><span class="do">##             1295             1154              137</span></span></code></pre></div>
 <p>最后我们就可以可视化我们的命名效果了。</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="多样本分析.html#cb69-1" tabindex="-1"></a><span class="fu">DimPlot</span>(sce.all, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>,<span class="at">raster =</span> F,</span>
-<span id="cb69-2"><a href="多样本分析.html#cb69-2" tabindex="-1"></a>        <span class="at">label =</span> T,<span class="at">repel =</span> T)  <span class="sc">+</span></span>
-<span id="cb69-3"><a href="多样本分析.html#cb69-3" tabindex="-1"></a>  <span class="fu">theme_dr</span>(<span class="at">xlength =</span> <span class="fl">0.22</span>, <span class="at">ylength =</span> <span class="fl">0.22</span>, <span class="at">arrow =</span> grid<span class="sc">::</span><span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.15</span>, <span class="st">&quot;inches&quot;</span>), <span class="at">type =</span> <span class="st">&quot;closed&quot;</span>))<span class="sc">+</span></span>
-<span id="cb69-4"><a href="多样本分析.html#cb69-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
-<p><img src="04-multi_files/figure-html/unnamed-chunk-24-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="多样本分析.html#cb70-1" tabindex="-1"></a><span class="fu">DimPlot</span>(sce.all, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>,<span class="at">raster =</span> F,</span>
+<span id="cb70-2"><a href="多样本分析.html#cb70-2" tabindex="-1"></a>        <span class="at">label =</span> T,<span class="at">repel =</span> T)  <span class="sc">+</span></span>
+<span id="cb70-3"><a href="多样本分析.html#cb70-3" tabindex="-1"></a>  <span class="fu">theme_dr</span>(<span class="at">xlength =</span> <span class="fl">0.22</span>, <span class="at">ylength =</span> <span class="fl">0.22</span>, <span class="at">arrow =</span> grid<span class="sc">::</span><span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.15</span>, <span class="st">&quot;inches&quot;</span>), <span class="at">type =</span> <span class="st">&quot;closed&quot;</span>))<span class="sc">+</span></span>
+<span id="cb70-4"><a href="多样本分析.html#cb70-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
+<p><img src="04-multi_files/figure-html/unnamed-chunk-25-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <p>保存Seurat对象以便后续分析</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="多样本分析.html#cb70-1" tabindex="-1"></a><span class="fu">saveRDS</span>(sce.all, <span class="at">file =</span> <span class="st">&quot;./sce.all_final.rds&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="多样本分析.html#cb71-1" tabindex="-1"></a><span class="fu">saveRDS</span>(sce.all, <span class="at">file =</span> <span class="st">&quot;./sce.all_final.rds&quot;</span>)</span></code></pre></div>
 
 </div>
 </div>
@@ -909,8 +964,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="单样本分析.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="单样本分析.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="part-多样本分析-pipline.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

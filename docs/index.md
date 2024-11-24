@@ -2,7 +2,7 @@
 title: "scRNA-Seq 分析笔记"
 author:
   - 苏总华
-date: "2024-11-15"
+date: "2024-11-24"
 documentclass: ctexbook
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike

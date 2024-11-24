@@ -1,4 +1,4 @@
-# (PART) scRNA-Seq 入门 {.unnumbered}
+# (PART) scRNA-Seq 入门 
 
 # 单样本分析
 
@@ -12,7 +12,7 @@
 <img src="images/single-01.png" width="884" style="display: block; margin: auto;" />
 
 
-## 设置Seurat对象 {.unnumbered}
+## 设置Seurat对象 
 
 首先读取数据。`Read10X()` 函数读取来自 10X 的 cellranger pipline 的输出，返回一个唯一分子标识（UMI）计数矩阵。该矩阵中的值表示在每个单元（即细胞；列）中检测到的每个特征（即基因；行）的分子数量。然后我们使用计数矩阵来创建Seurat对象。该对象充当一个容器，其中包含单细胞数据集的数据（如计数矩阵）和分析（如 PCA 或聚类结果）。
 
@@ -40,12 +40,12 @@ pbmc
 ```
 
 
-## 质量控制 {.unnumbered}
+## 质量控制 
 
 在创建Seurat时 (`CreateSeuratObject`) 已经完成了基本的质量控制，即每个基因至少在3个细胞中检测到，每个细胞至少检测到200个基因。
 但仍然可以根据需要进一步过滤数据。例如高基因计数、高线粒体比例的细胞。
 
-### 计算每个细胞线粒体基因的百分比 {.unnumbered}
+### 计算每个细胞线粒体基因的百分比
 
 ``` r
 pbmc[["percent.mt"]] <- PercentageFeatureSet(pbmc, pattern = "^MT-")
@@ -102,8 +102,7 @@ FeatureScatter(pbmc, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
 
 <details>
 
-### 过滤 {.unnumbered}
-
+### 过滤
 根据我们的过滤标准，我们可以过滤掉一些质量较差的细胞。
 
 这里我们过滤掉
@@ -119,7 +118,7 @@ dim(pbmc)
 ```
 可以看到过滤后我们的细胞数从`2700`降到`2638`。
 
-## 数据标准化 {.unnumbered}
+## 数据标准化
 
 
 ``` r
@@ -158,7 +157,7 @@ hist(k2, main="hisogram of normalized data")
 <img src="03-single_files/figure-html/unnamed-chunk-10-1.png" width="50%" style="display: block; margin: auto;" /><img src="03-single_files/figure-html/unnamed-chunk-10-2.png" width="50%" style="display: block; margin: auto;" />
 </details> 
 
-## 识别高变基因 {.unnumbered}
+## 识别高变基因
 
 识别高变基因通过`FindVariableFeatures`函数实现。该函数计算每个基因的方差，并根据方差的大小对基因进行排序。我们可以选择一定数量的高变基因用于下游分析。
 默认情况下，每个数据集会返回`2000`个高变基因。
@@ -194,7 +193,7 @@ pbmc[["RNA"]]@meta.data$var.features %>%
 可以看到我们的数据集中识别到的`2000`个高变基因。
 </details> 
 
-## 缩放数据 {.unnumbered}
+## 缩放数据
 
 
 应用线性变换（“scaling”）缩放数据，这是PCA等降维技术之前的标准预处理步骤，使用`ScaleData`函数完成这一步。
@@ -242,7 +241,7 @@ pbmc <- ScaleData(pbmc, vars.to.regress = "percent.mt")
 
 
 
-## PCA 线性降维 {.unnumbered}
+## PCA 线性降维
 
 PCA 是一种常用的降维技术，用于将高维数据转换为低维数据。在单细胞数据中，PCA通常用于发现数据中的主要变化方向，以便在后续分析中使用。
 
@@ -311,7 +310,7 @@ DimHeatmap(pbmc, dims = 1:15, cells = 500, balanced = TRUE)
 <img src="03-single_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" />
 </details>
 
-### 确定数据集的“维度” {.unnumbered}
+### 确定数据集的“维度”
 
 单个特征的技术噪声在 scRNA-seq 数据中通常很大。为了克服这一问题，Seurat 根据细胞的 PCA 分数进行聚类，每个主成分（PC）实际上代表一个“元特征”，它结合了多个相关特征的信息。因此，前几个主成分代表了数据集的一个稳健压缩。但是面临的一个重要问题是应该选择多少个主成分来包括在分析中，比如 10 个、20 个还是 100 个？
 
@@ -326,7 +325,7 @@ ElbowPlot(pbmc)
 
 在这个例子中，可以观察到大约在第 9-10 个主成分处出现一个“肘部”，这表明前 10 个主成分捕捉到了大部分的真实信号。
 
-## 细胞聚类 {.unnumbered}
+## 细胞聚类
 
 `FindNeighbors()`函数将先前定义的数据集维度（前 10 个 PC）作为输入。
 
@@ -358,7 +357,7 @@ head(Idents(pbmc), 5)
 ## Levels: 0 1 2 3 4 5 6 7 8
 ```
 
-## 非线性降维UMAP/tSNE {.unnumbered}
+## 非线性降维UMAP/tSNE
 
 Seurat 提供了几种非线性降维技术，例如 tSNE 和 UMAP，用于可视化和探索这些数据集。这些算法的目标是学习数据集中的底层结构，以便在低维空间中将相似的细胞放在一起。因此，在上述基于图的聚类中被分组在一起的细胞应该在这些降维图上共定位。
 
@@ -387,7 +386,7 @@ DimPlot(pbmc, reduction = "tsne")
 ``` r
 saveRDS(pbmc, file = "../output/pbmc_tutorial.rds")
 ```
-## marker 基因 {.unnumbered}
+## marker 基因
 
 Seurat 可以通过差异表达（DE）帮助你找到定义聚类的标志物。默认情况下，它会识别一个聚类（在 ident.1中指定）的正负标志物，并将其与所有其他细胞进行比较。FindAllMarkers() 函数可以自动完成所有聚类的这个过程，但你也可以测试聚类组之间的差异，或者将其与所有细胞进行比较。
 
@@ -501,7 +500,7 @@ RidgePlot(pbmc, features = top10$gene[1:6])
 <img src="03-single_files/figure-html/unnamed-chunk-37-1.png" width="1152" style="display: block; margin: auto;" />
 
 
-## 亚群命名 {.unnumbered}
+## 亚群命名
 
 ``` r
 new.cluster.ids <- c("Naive CD4 T", "CD14+ Mono", "Memory CD4 T", "B", "CD8 T", "FCGR3A+ Mono",

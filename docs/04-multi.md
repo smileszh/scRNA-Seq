@@ -2,7 +2,7 @@
 
 
 
-## 加载包 {.unnumbered}
+## 加载包
 
 ``` r
 library(COSG)
@@ -20,7 +20,7 @@ library(tidyverse)
 library(tidydr)
 ```
 
-## 创建多样本Seurat对象 {.unnumbered}
+## 创建多样本Seurat对象
 
 不同于单样本分析，多样本分析需要将多个样本整合到一个Seurat对象中。这里我们使用`lapply`函数，将多个样本的数据读取并整合到一个列表中。进而创建Searut对象。
 
@@ -83,7 +83,7 @@ table(sce.all@meta.data$orig.ident)
 ```
 
 
-## 质控 {.unnumbered}
+## 质控
 
 第一步我们先计算关注的指标
 
@@ -205,7 +205,7 @@ p2_filtered
 
 <img src="04-multi_files/figure-html/unnamed-chunk-6-2.png" width="1152" style="display: block; margin: auto;" />
 
-## harmony流程 {.unnumbered}
+## harmony流程
 
 
 ``` r
@@ -329,7 +329,7 @@ p2_tree=clustree(sce.all@meta.data, prefix = "RNA_snn_res.");p2_tree
 <img src="04-multi_files/figure-html/unnamed-chunk-13-1.png" width="1152" style="display: block; margin: auto;" />
 
 
-## marker 基因{.unnumbered}
+## marker 基因
 选择需要的阈值，可视化一些marker基因辅助后续的单细胞亚群定义
 这里直接选0.8
 
@@ -343,6 +343,51 @@ table(sce.all@active.ident)
 ## 3590 2144 2122 2062 2006 1225  801  740  605  584  569  553  522  397  285  266 
 ##   16   17   18   19   20   21   22   23   24   25   26 
 ##  265  254  225  213  183  158  135  123   92   83   67
+```
+
+可以选择marker基因手动注释
+
+
+``` r
+marker_cosg <- cosg(
+    sce.all,
+    groups='all',
+    assay='RNA',
+    slot='data',
+    mu=1,
+    n_genes_user=100)
+
+cat(paste0('cluster',0:10,':',
+           unlist(apply(marker_cosg$names,2,function(x){
+             paste(head(x),collapse=',')
+           })),'\n'))
+## cluster0:PLP1,QDPR,RNF220,PEX5L,ST18,ENPP2
+##  cluster1:SLC5A11,AC090502.1,MOBP,LINC00639,SH3TC2,SYNJ2
+##  cluster2:RNF219-AS1,ADGRV1,RANBP3L,PRDM16,ZNF98,HPSE2
+##  cluster3:SAMD5,GRM1,AL033504.1,HTR4,ADAMTS19,AP005212.5
+##  cluster4:AC069437.1,AL117190.2,NNAT,LAMP5,PCDH11X,COCH
+##  cluster5:TBXAS1,DOCK8,APBB1IP,FYB1,RBM47,SYK
+##  cluster6:HPCA,NEFM,NRGN,CTXN1,GPR88,PHYHIP
+##  cluster7:CA10,MEGF11,TNR,AC004852.2,SMOC1,COL9A1
+##  cluster8:TUBB2B,GFAP,AGT,ENHO,CHI3L2,AQP4
+##  cluster9:DCN,ADGRD1,NOTCH3,COL1A2,NR2F2,GJC1
+##  cluster10:CLDN5,FLT1,VWF,TGM2,ADGRL4,MECOM
+##  cluster0:GBP1,IFIT2,ISG15,APOL2,IFIT3,RARRES3
+##  cluster1:PTPRQ,AC138646.1,AL138720.1,COL25A1,CTXN3,LOXHD1
+##  cluster2:KCNJ6,SLC18A2,SLC6A3,VWC2L,AC007091.1,CLSTN2
+##  cluster3:AC106869.1,ATAD3C,RAPGEF3,ST18,HIP1,AC009063.2
+##  cluster4:RXFP1,FBXL21,ZNF804B,CASZ1,STAC,FRMD7
+##  cluster5:PDE1A,MIR219A2,LINC00844,PPP1R14A,CHRM5,LINC01170
+##  cluster6:LINC00836,AC073941.1,CD44,LINC02251,CYP4F3,TNC
+##  cluster7:IL1RAPL2,LINC01885,AP002989.1,EXOC1L,KCNC2,PDGFD
+##  cluster8:CHRM2,TAC3,AC134980.1,NXPH2,NELL1,GFRA2
+##  cluster9:CR382287.2,SLC26A3,ADAMTSL1,MT-ND4L,AL353148.1,MT-ATP8
+##  cluster10:SOD3,CHI3L2,MTCO1P12,CXCL14,OTOS,TMPRSS3
+##  cluster0:C4orf22,AL672167.1,ADGB,CFAP157,TEKT1,FAM183A
+##  cluster1:SLC35F3,ROBO2,RBFOX1,KCNIP4,MACROD2,KCNQ5
+##  cluster2:LINC01520,AC087321.1,AC004704.1,AC020704.1,LINC01967,LINC01305
+##  cluster3:PSPHP1,DRAXIN,CERS3,AC083902.2,LINC01924,AC103949.1
+##  cluster4:SKAP1,IKZF3,GRAP2,LINC00861,PRF1,CD2
 ```
 
 可以根据经验构建自己的注释集合（可选）
@@ -626,7 +671,7 @@ if(sp == 'human') {
 }
 ```
 
-<img src="04-multi_files/figure-html/unnamed-chunk-17-1.png" width="3840" style="display: block; margin: auto;" />
+<img src="04-multi_files/figure-html/unnamed-chunk-18-1.png" width="3840" style="display: block; margin: auto;" />
 
 
 ``` r
@@ -637,10 +682,10 @@ DimPlot(sce.all, reduction = "umap",raster = F,
                label = T,repel = T)
 ```
 
-<img src="04-multi_files/figure-html/unnamed-chunk-18-1.png" width="1632" style="display: block; margin: auto;" />
+<img src="04-multi_files/figure-html/unnamed-chunk-19-1.png" width="1632" style="display: block; margin: auto;" />
 
 
-## 亚群命名 {.unnumbered}
+## 亚群命名
 我们找到合适的 marker 基因后就可以进一步去可视化（我的理解是拿这些图在文章中展示），
 判断单细胞亚群的生物学名字。这里我们直接使用已经定义好的名字。
 
@@ -655,7 +700,7 @@ colnames(sce.all@meta.data)
 DimPlot(sce.all, group.by = "RNA_snn_res.0.1")
 ```
 
-<img src="04-multi_files/figure-html/unnamed-chunk-19-1.png" width="1152" style="display: block; margin: auto;" />
+<img src="04-multi_files/figure-html/unnamed-chunk-20-1.png" width="1152" style="display: block; margin: auto;" />
 
 ``` r
 astrocytes = c("AQP4", "ADGRV1", "GPC5", "RYR3") 
@@ -728,7 +773,7 @@ gene_list
                                      vjust = 0.5, hjust=0.5));p1
 ```
 
-<img src="04-multi_files/figure-html/unnamed-chunk-21-1.png" width="1152" style="display: block; margin: auto;" />
+<img src="04-multi_files/figure-html/unnamed-chunk-22-1.png" width="1152" style="display: block; margin: auto;" />
 
 根据最终的可视化图，我们就可以手动的给亚群命名了。
 
@@ -799,7 +844,7 @@ DimPlot(sce.all, reduction = "umap",raster = F,
   theme(panel.grid = element_blank())
 ```
 
-<img src="04-multi_files/figure-html/unnamed-chunk-24-1.png" width="1152" style="display: block; margin: auto;" />
+<img src="04-multi_files/figure-html/unnamed-chunk-25-1.png" width="1152" style="display: block; margin: auto;" />
 
 保存Seurat对象以便后续分析
 
