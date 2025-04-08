@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>第 7 章 细胞通讯分析 | scRNA-Seq</title>
+  <meta name="description" content="This is an online note of the scRNA-Seq analysis." />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="第 7 章 细胞通讯分析 | scRNA-Seq" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is an online note of the scRNA-Seq analysis." />
+  <meta name="github-repo" content="smileszh/scRNA-Seq" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="第 7 章 细胞通讯分析 | scRNA-Seq" />
+  
+  <meta name="twitter:description" content="This is an online note of the scRNA-Seq analysis." />
+  
+
+<meta name="author" content="苏总华" />
+
+
+<meta name="date" content="2025-04-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="多样本拟时序分析.html"/>
+<link rel="next" href="gsva-分析.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">scRNA-Seq</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>前言</a></li>
+<li class="part"><span><b>I 单样本分析</b></span></li>
+<li class="chapter" data-level="1" data-path="seurat-教程.html"><a href="seurat-教程.html"><i class="fa fa-check"></i><b>1</b> Seurat 教程</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="seurat-教程.html"><a href="seurat-教程.html#数据和r包准备"><i class="fa fa-check"></i><b>1.1</b> 数据和R包准备</a></li>
+<li class="chapter" data-level="1.2" data-path="seurat-教程.html"><a href="seurat-教程.html#读取数据"><i class="fa fa-check"></i><b>1.2</b> 读取数据</a></li>
+<li class="chapter" data-level="1.3" data-path="seurat-教程.html"><a href="seurat-教程.html#质控"><i class="fa fa-check"></i><b>1.3</b> 质控</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="seurat-教程.html"><a href="seurat-教程.html#查看三个指标"><i class="fa fa-check"></i><b>1.3.1</b> 查看三个指标</a></li>
+<li class="chapter" data-level="1.3.2" data-path="seurat-教程.html"><a href="seurat-教程.html#三个指标之间的相关性"><i class="fa fa-check"></i><b>1.3.2</b> 三个指标之间的相关性</a></li>
+<li class="chapter" data-level="1.3.3" data-path="seurat-教程.html"><a href="seurat-教程.html#过滤"><i class="fa fa-check"></i><b>1.3.3</b> 过滤</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="seurat-教程.html"><a href="seurat-教程.html#找高变基因-hvg"><i class="fa fa-check"></i><b>1.4</b> 找高变基因 (HVG)</a></li>
+<li class="chapter" data-level="1.5" data-path="seurat-教程.html"><a href="seurat-教程.html#标准化和降维"><i class="fa fa-check"></i><b>1.5</b> 标准化和降维</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="seurat-教程.html"><a href="seurat-教程.html#线性降维pca"><i class="fa fa-check"></i><b>1.5.1</b> 线性降维PCA</a></li>
+<li class="chapter" data-level="1.5.2" data-path="seurat-教程.html"><a href="seurat-教程.html#umap-和-t-sne"><i class="fa fa-check"></i><b>1.5.2</b> UMAP 和 t-sne</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="seurat-教程.html"><a href="seurat-教程.html#找-marker-基因"><i class="fa fa-check"></i><b>1.6</b> 找 marker 基因</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="seurat-教程.html"><a href="seurat-教程.html#比较某个基因在几个cluster之间的表达量"><i class="fa fa-check"></i><b>1.6.1</b> 比较某个基因在几个cluster之间的表达量</a></li>
+<li class="chapter" data-level="1.6.2" data-path="seurat-教程.html"><a href="seurat-教程.html#marker基因的热图"><i class="fa fa-check"></i><b>1.6.2</b> marker基因的热图</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="seurat-教程.html"><a href="seurat-教程.html#根据marker基因确定细胞"><i class="fa fa-check"></i><b>1.7</b> 根据marker基因确定细胞</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="单样本分析.html"><a href="单样本分析.html"><i class="fa fa-check"></i><b>2</b> 单样本分析</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="单样本分析.html"><a href="单样本分析.html#创建seurat对象"><i class="fa fa-check"></i><b>2.1</b> 创建Seurat对象</a></li>
+<li class="chapter" data-level="2.2" data-path="单样本分析.html"><a href="单样本分析.html#降维聚类分群"><i class="fa fa-check"></i><b>2.2</b> 降维聚类分群</a></li>
+<li class="chapter" data-level="2.3" data-path="单样本分析.html"><a href="单样本分析.html#maker-基因"><i class="fa fa-check"></i><b>2.3</b> maker 基因</a></li>
+<li class="chapter" data-level="2.4" data-path="单样本分析.html"><a href="单样本分析.html#maker-基因可视化"><i class="fa fa-check"></i><b>2.4</b> maker 基因可视化</a></li>
+<li class="chapter" data-level="2.5" data-path="单样本分析.html"><a href="单样本分析.html#注释亚群"><i class="fa fa-check"></i><b>2.5</b> 注释亚群</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html"><i class="fa fa-check"></i><b>3</b> 单细胞二次分群</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#示例数据"><i class="fa fa-check"></i><b>3.1</b> 示例数据</a></li>
+<li class="chapter" data-level="3.2" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#二次分群"><i class="fa fa-check"></i><b>3.2</b> 二次分群</a></li>
+<li class="chapter" data-level="3.3" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#marker基因及其可视化"><i class="fa fa-check"></i><b>3.3</b> marker基因及其可视化</a></li>
+<li class="chapter" data-level="3.4" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#放回原来的seurat对象里面"><i class="fa fa-check"></i><b>3.4</b> 放回原来的Seurat对象里面</a></li>
+</ul></li>
+<li class="part"><span><b>II 多样本分析</b></span></li>
+<li class="chapter" data-level="4" data-path="多样本分析.html"><a href="多样本分析.html"><i class="fa fa-check"></i><b>4</b> 多样本分析</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="多样本分析.html"><a href="多样本分析.html#整理数据"><i class="fa fa-check"></i><b>4.1</b> 整理数据</a></li>
+<li class="chapter" data-level="4.2" data-path="多样本分析.html"><a href="多样本分析.html#批量读取"><i class="fa fa-check"></i><b>4.2</b> 批量读取</a></li>
+<li class="chapter" data-level="4.3" data-path="多样本分析.html"><a href="多样本分析.html#质控指标"><i class="fa fa-check"></i><b>4.3</b> 质控指标</a></li>
+<li class="chapter" data-level="4.4" data-path="多样本分析.html"><a href="多样本分析.html#整合降维聚类分群"><i class="fa fa-check"></i><b>4.4</b> 整合降维聚类分群</a></li>
+<li class="chapter" data-level="4.5" data-path="多样本分析.html"><a href="多样本分析.html#注释"><i class="fa fa-check"></i><b>4.5</b> 注释</a></li>
+<li class="chapter" data-level="4.6" data-path="多样本分析.html"><a href="多样本分析.html#分组可视化及组件细胞比例比较"><i class="fa fa-check"></i><b>4.6</b> 分组可视化及组件细胞比例比较</a></li>
+<li class="chapter" data-level="4.7" data-path="多样本分析.html"><a href="多样本分析.html#差异分析"><i class="fa fa-check"></i><b>4.7</b> 差异分析</a></li>
+<li class="chapter" data-level="4.8" data-path="多样本分析.html"><a href="多样本分析.html#伪bulk-转录组差异分析"><i class="fa fa-check"></i><b>4.8</b> 伪bulk 转录组差异分析</a></li>
+</ul></li>
+<li class="part"><span><b>III 高阶分析</b></span></li>
+<li class="chapter" data-level="5" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html"><i class="fa fa-check"></i><b>5</b> 单样本拟时序分析</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html#构建细胞发育轨迹"><i class="fa fa-check"></i><b>5.1</b> 构建细胞发育轨迹</a></li>
+<li class="chapter" data-level="5.2" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html#绘图展示"><i class="fa fa-check"></i><b>5.2</b> 绘图展示</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html"><i class="fa fa-check"></i><b>6</b> 多样本拟时序分析</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html#构建细胞发育轨迹-1"><i class="fa fa-check"></i><b>6.1</b> 构建细胞发育轨迹</a></li>
+<li class="chapter" data-level="6.2" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html#绘图展示-1"><i class="fa fa-check"></i><b>6.2</b> 绘图展示</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html"><i class="fa fa-check"></i><b>7</b> 细胞通讯分析</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#r包和数据"><i class="fa fa-check"></i><b>7.1</b> R包和数据</a></li>
+<li class="chapter" data-level="7.2" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#了解参考数据"><i class="fa fa-check"></i><b>7.2</b> 了解参考数据</a></li>
+<li class="chapter" data-level="7.3" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#构建cellchat对象"><i class="fa fa-check"></i><b>7.3</b> 构建cellchat对象</a></li>
+<li class="chapter" data-level="7.4" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#细胞通讯网络分析"><i class="fa fa-check"></i><b>7.4</b> 细胞通讯网络分析</a></li>
+<li class="chapter" data-level="7.5" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#画图展示"><i class="fa fa-check"></i><b>7.5</b> 画图展示</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#circle-plot"><i class="fa fa-check"></i><b>7.5.1</b> circle plot</a></li>
+<li class="chapter" data-level="7.5.2" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#chord-plot"><i class="fa fa-check"></i><b>7.5.2</b> chord plot</a></li>
+<li class="chapter" data-level="7.5.3" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#heatmap"><i class="fa fa-check"></i><b>7.5.3</b> heatmap</a></li>
+<li class="chapter" data-level="7.5.4" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#热图-展示每一类细胞是什么角色"><i class="fa fa-check"></i><b>7.5.4</b> 热图-展示每一类细胞是什么角色</a></li>
+<li class="chapter" data-level="7.5.5" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#气泡图-显示所有的显著的配体-受体对"><i class="fa fa-check"></i><b>7.5.5</b> 气泡图-显示所有的显著的配体-受体对</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#细胞通讯模式和信号网络"><i class="fa fa-check"></i><b>7.6</b> 细胞通讯模式和信号网络</a>
+<ul>
+<li class="chapter" data-level="7.6.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#选择合适的partten细胞通讯模式的数量"><i class="fa fa-check"></i><b>7.6.1</b> 选择合适的partten（细胞通讯模式）的数量</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="gsva-分析.html"><a href="gsva-分析.html"><i class="fa fa-check"></i><b>8</b> GSVA 分析</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="gsva-分析.html"><a href="gsva-分析.html#加载数据和r包"><i class="fa fa-check"></i><b>8.1</b> 加载数据和R包</a></li>
+<li class="chapter" data-level="8.2" data-path="gsva-分析.html"><a href="gsva-分析.html#做gsva"><i class="fa fa-check"></i><b>8.2</b> 做GSVA</a></li>
+<li class="chapter" data-level="8.3" data-path="gsva-分析.html"><a href="gsva-分析.html#热图可视化"><i class="fa fa-check"></i><b>8.3</b> 热图可视化</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="细胞周期.html"><a href="细胞周期.html"><i class="fa fa-check"></i><b>9</b> 细胞周期</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="细胞周期.html"><a href="细胞周期.html#读取数据并做好前期的质控"><i class="fa fa-check"></i><b>9.1</b> 读取数据并做好前期的质控</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="细胞周期.html"><a href="细胞周期.html#gse218208"><i class="fa fa-check"></i><b>9.1.1</b> GSE218208</a></li>
+<li class="chapter" data-level="9.1.2" data-path="细胞周期.html"><a href="细胞周期.html#marrow"><i class="fa fa-check"></i><b>9.1.2</b> marrow</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="细胞周期.html"><a href="细胞周期.html#计算细胞周期评分"><i class="fa fa-check"></i><b>9.2</b> 计算细胞周期评分</a></li>
+<li class="chapter" data-level="9.3" data-path="细胞周期.html"><a href="细胞周期.html#比较两个数据的细胞周期评分和pca"><i class="fa fa-check"></i><b>9.3</b> 比较两个数据的细胞周期评分和PCA</a></li>
+<li class="chapter" data-level="9.4" data-path="细胞周期.html"><a href="细胞周期.html#比较去除和不去处细胞周期影响的下游注释"><i class="fa fa-check"></i><b>9.4</b> 比较去除和不去处细胞周期影响的下游注释</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="细胞周期.html"><a href="细胞周期.html#不考虑细胞周期的降维聚类分群"><i class="fa fa-check"></i><b>9.4.1</b> 不考虑细胞周期的降维聚类分群</a></li>
+<li class="chapter" data-level="9.4.2" data-path="细胞周期.html"><a href="细胞周期.html#考虑细胞周期的降维聚类分群"><i class="fa fa-check"></i><b>9.4.2</b> 考虑细胞周期的降维聚类分群</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://space.bilibili.com/338686099" target="blank">本笔记来自 生信技能书</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">scRNA-Seq</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="细胞通讯分析" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">第 7 章</span> 细胞通讯分析<a href="细胞通讯分析.html#细胞通讯分析" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><strong>背景知识</strong></p>
+<p>细胞通讯是单细胞数据高级分析中比较常见的一个，我们习惯使用的R包是CellChat。</p>
+<p>这个是CellChat的一手教程：</p>
+<p><a href="https://htmlpreview.github.io/?https://github.com/jinworks/CellChat/blob/master/tutorial/CellChat-vignette.html" class="uri">https://htmlpreview.github.io/?https://github.com/jinworks/CellChat/blob/master/tutorial/CellChat-vignette.html</a></p>
+<p>让AI来告诉我们做细胞通讯分析的用途：</p>
+<blockquote>
+<p>细胞通讯分析是生物学研究中的一个重要领域，它涉及研究细胞之间如何通过信号传递来协调它们的功能和行为。以下是一些细胞通讯分析的主要用途：</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>疾病诊断和治疗</strong>：了解细胞如何交流可以帮助诊断和治疗疾病，特别是那些与细胞通讯失调有关的疾病，如癌症、自身免疫疾病和神经退行性疾病。</p></li>
+<li><p><strong>药物开发</strong>：通过研究细胞间通讯的机制，可以发现新的药物靶点，从而开发出更有效的治疗药物。</p></li>
+<li><p><strong>发育生物学</strong>：细胞通讯在胚胎发育和组织形成中起着关键作用。研究这些过程有助于我们理解正常和异常发育的机制。</p></li>
+<li><p><strong>组织工程</strong>：在组织工程中，细胞通讯对于细胞的增殖、分化和组织结构的形成至关重要。</p></li>
+<li><p><strong>细胞信号传导研究</strong>：细胞通讯分析有助于揭示细胞内信号传导的复杂网络，这对于理解细胞如何响应外界刺激非常重要。</p></li>
+<li><p><strong>生物防御机制</strong>：研究细胞如何通过通讯来协调免疫反应，可以帮助我们更好地理解生物体如何抵御病原体。</p></li>
+<li><p><strong>神经科学</strong>：在神经科学领域，细胞通讯分析有助于我们理解大脑如何通过神经细胞间的信号传递来处理信息。</p></li>
+<li><p><strong>生物信息学和系统生物学</strong>：通过分析细胞通讯网络，可以构建生物系统的数学模型，帮助我们从系统层面理解生物过程。</p></li>
+<li><p><strong>环境生物学</strong>：研究细胞如何响应环境变化，例如温度、光照和化学物质，可以揭示生物如何适应环境。</p></li>
+<li><p><strong>农业和植物科学</strong>：在植物科学中，了解植物细胞如何通过通讯来协调生长、发育和对环境的响应，对于提高作物产量和抗逆性至关重要。</p></li>
+</ol>
+<p>细胞通讯分析是一个多学科交叉的领域，它结合了分子生物学、细胞生物学、生物化学、生物信息学和其他学科的知识和技术。通过这种分析，科学家可以更深入地理解生命过程，并开发出新的生物技术和治疗方法。</p>
+</blockquote>
+<div id="r包和数据" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> R包和数据<a href="细胞通讯分析.html#r包和数据" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>使用的数据sce.all.Rdata是Seurat降维聚类分群注释的结果，有两个样本。和多样本拟时序用的是同一个数据。</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="细胞通讯分析.html#cb82-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb82-2"><a href="细胞通讯分析.html#cb82-2" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(NMF))<span class="fu">install.packages</span>(<span class="st">&quot;NMF&quot;</span>,<span class="at">update =</span> F,<span class="at">ask =</span> F)</span>
+<span id="cb82-3"><a href="细胞通讯分析.html#cb82-3" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(presto))devtools<span class="sc">::</span><span class="fu">install_local</span>(<span class="st">&#39;presto-master.zip&#39;</span>,<span class="at">upgrade =</span> F,<span class="at">dependencies =</span> T)</span>
+<span id="cb82-4"><a href="细胞通讯分析.html#cb82-4" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(CellChat))devtools<span class="sc">::</span><span class="fu">install_local</span>(<span class="st">&quot;CellChat-main/&quot;</span>,<span class="at">upgrade =</span> F,<span class="at">dependencies =</span> T)</span>
+<span id="cb82-5"><a href="细胞通讯分析.html#cb82-5" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(ggalluvial))<span class="fu">install.packages</span>(<span class="st">&quot;ggalluvial&quot;</span>,<span class="at">update =</span> F,<span class="at">ask =</span> F)</span>
+<span id="cb82-6"><a href="细胞通讯分析.html#cb82-6" tabindex="-1"></a><span class="fu">library</span>(CellChat)</span>
+<span id="cb82-7"><a href="细胞通讯分析.html#cb82-7" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb82-8"><a href="细胞通讯分析.html#cb82-8" tabindex="-1"></a><span class="fu">library</span>(Seurat)</span>
+<span id="cb82-9"><a href="细胞通讯分析.html#cb82-9" tabindex="-1"></a><span class="fu">library</span>(ggalluvial)</span>
+<span id="cb82-10"><a href="细胞通讯分析.html#cb82-10" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;../5.monocle_mulitisample/sce.all.Rdata&quot;</span>)</span>
+<span id="cb82-11"><a href="细胞通讯分析.html#cb82-11" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">Idents</span>(sce.all))</span>
+<span id="cb82-12"><a href="细胞通讯分析.html#cb82-12" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb82-13"><a href="细胞通讯分析.html#cb82-13" tabindex="-1"></a><span class="do">##    CD14 Mono          pDC CD4 Memory T  T activated  CD4 Naive T        CD8 T </span></span>
+<span id="cb82-14"><a href="细胞通讯分析.html#cb82-14" tabindex="-1"></a><span class="do">##          100          100          100          100          100          100 </span></span>
+<span id="cb82-15"><a href="细胞通讯分析.html#cb82-15" tabindex="-1"></a><span class="do">##           Mk  B Activated            B           DC    CD16 Mono           NK </span></span>
+<span id="cb82-16"><a href="细胞通讯分析.html#cb82-16" tabindex="-1"></a><span class="do">##          100          100          100          100          100          100</span></span>
+<span id="cb82-17"><a href="细胞通讯分析.html#cb82-17" tabindex="-1"></a>scRNA <span class="ot">=</span> sce.all</span></code></pre></div>
+<p>因为细胞通讯更更更费计算资源，我们还是抽样，实战中不能抽样的。</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="细胞通讯分析.html#cb83-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">112</span>)</span>
+<span id="cb83-2"><a href="细胞通讯分析.html#cb83-2" tabindex="-1"></a>scRNA <span class="ot">=</span> <span class="fu">subset</span>(scRNA,<span class="at">downsample =</span> <span class="dv">100</span>)</span>
+<span id="cb83-3"><a href="细胞通讯分析.html#cb83-3" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">Idents</span>(scRNA))</span>
+<span id="cb83-4"><a href="细胞通讯分析.html#cb83-4" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb83-5"><a href="细胞通讯分析.html#cb83-5" tabindex="-1"></a><span class="do">##    CD14 Mono          pDC CD4 Memory T  T activated  CD4 Naive T        CD8 T </span></span>
+<span id="cb83-6"><a href="细胞通讯分析.html#cb83-6" tabindex="-1"></a><span class="do">##          100          100          100          100          100          100 </span></span>
+<span id="cb83-7"><a href="细胞通讯分析.html#cb83-7" tabindex="-1"></a><span class="do">##           Mk  B Activated            B           DC    CD16 Mono           NK </span></span>
+<span id="cb83-8"><a href="细胞通讯分析.html#cb83-8" tabindex="-1"></a><span class="do">##          100          100          100          100          100          100</span></span></code></pre></div>
+</div>
+<div id="了解参考数据" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> 了解参考数据<a href="细胞通讯分析.html#了解参考数据" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>CellChatDB.human,CellChatDB.mouse分别是人和小鼠的配受体数据库</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="细胞通讯分析.html#cb84-1" tabindex="-1"></a><span class="fu">str</span>(CellChatDB.human,<span class="at">max.level =</span> <span class="dv">1</span>)</span>
+<span id="cb84-2"><a href="细胞通讯分析.html#cb84-2" tabindex="-1"></a><span class="do">## List of 4</span></span>
+<span id="cb84-3"><a href="细胞通讯分析.html#cb84-3" tabindex="-1"></a><span class="do">##  $ interaction:&#39;data.frame&#39;: 1939 obs. of  11 variables:</span></span>
+<span id="cb84-4"><a href="细胞通讯分析.html#cb84-4" tabindex="-1"></a><span class="do">##  $ complex    :&#39;data.frame&#39;: 157 obs. of  4 variables:</span></span>
+<span id="cb84-5"><a href="细胞通讯分析.html#cb84-5" tabindex="-1"></a><span class="do">##  $ cofactor   :&#39;data.frame&#39;: 31 obs. of  16 variables:</span></span>
+<span id="cb84-6"><a href="细胞通讯分析.html#cb84-6" tabindex="-1"></a><span class="do">##  $ geneInfo   :&#39;data.frame&#39;: 41787 obs. of  6 variables:</span></span>
+<span id="cb84-7"><a href="细胞通讯分析.html#cb84-7" tabindex="-1"></a><span class="fu">table</span>(CellChatDB.human<span class="sc">$</span>interaction<span class="sc">$</span>annotation)</span>
+<span id="cb84-8"><a href="细胞通讯分析.html#cb84-8" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb84-9"><a href="细胞通讯分析.html#cb84-9" tabindex="-1"></a><span class="do">##  Cell-Cell Contact       ECM-Receptor Secreted Signaling </span></span>
+<span id="cb84-10"><a href="细胞通讯分析.html#cb84-10" tabindex="-1"></a><span class="do">##                319                421               1199</span></span></code></pre></div>
+<p>PPI.human和PPI.mouse是稀疏矩阵，是STRING数据库里高等级证据的相互作用关系组成的0-1矩阵。</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="细胞通讯分析.html#cb85-1" tabindex="-1"></a><span class="fu">class</span>(PPI.human)</span>
+<span id="cb85-2"><a href="细胞通讯分析.html#cb85-2" tabindex="-1"></a><span class="do">## [1] &quot;dgCMatrix&quot;</span></span>
+<span id="cb85-3"><a href="细胞通讯分析.html#cb85-3" tabindex="-1"></a><span class="do">## attr(,&quot;package&quot;)</span></span>
+<span id="cb85-4"><a href="细胞通讯分析.html#cb85-4" tabindex="-1"></a><span class="do">## [1] &quot;Matrix&quot;</span></span>
+<span id="cb85-5"><a href="细胞通讯分析.html#cb85-5" tabindex="-1"></a><span class="fu">dim</span>(PPI.human)</span>
+<span id="cb85-6"><a href="细胞通讯分析.html#cb85-6" tabindex="-1"></a><span class="do">## [1] 4815 4815</span></span>
+<span id="cb85-7"><a href="细胞通讯分析.html#cb85-7" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">as.numeric</span>(PPI.human))</span>
+<span id="cb85-8"><a href="细胞通讯分析.html#cb85-8" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb85-9"><a href="细胞通讯分析.html#cb85-9" tabindex="-1"></a><span class="do">##        0        1 </span></span>
+<span id="cb85-10"><a href="细胞通讯分析.html#cb85-10" tabindex="-1"></a><span class="do">## 23156523    27702</span></span></code></pre></div>
+</div>
+<div id="构建cellchat对象" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> 构建cellchat对象<a href="细胞通讯分析.html#构建cellchat对象" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>seurat对象可以直接转换。<a href="mailto:在@DB加上要使用的配体受体数据库" class="email">在@DB加上要使用的配体受体数据库</a>，注意物种</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="细胞通讯分析.html#cb86-1" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">createCellChat</span>(sce.all,</span>
+<span id="cb86-2"><a href="细胞通讯分析.html#cb86-2" tabindex="-1"></a>                           <span class="at">group.by =</span> <span class="st">&quot;ident&quot;</span>,</span>
+<span id="cb86-3"><a href="细胞通讯分析.html#cb86-3" tabindex="-1"></a>                           <span class="at">assay =</span> <span class="st">&quot;RNA&quot;</span>)</span>
+<span id="cb86-4"><a href="细胞通讯分析.html#cb86-4" tabindex="-1"></a><span class="do">## [1] &quot;Create a CellChat object from a Seurat object&quot;</span></span>
+<span id="cb86-5"><a href="细胞通讯分析.html#cb86-5" tabindex="-1"></a><span class="do">## The `meta.data` slot in the Seurat object is used as cell meta information </span></span>
+<span id="cb86-6"><a href="细胞通讯分析.html#cb86-6" tabindex="-1"></a><span class="do">## Set cell identities for the new CellChat object </span></span>
+<span id="cb86-7"><a href="细胞通讯分析.html#cb86-7" tabindex="-1"></a><span class="do">## The cell groups used for CellChat analysis are  CD14 Mono pDC CD4 Memory T T activated CD4 Naive T CD8 T Mk B Activated B DC CD16 Mono NK</span></span>
+<span id="cb86-8"><a href="细胞通讯分析.html#cb86-8" tabindex="-1"></a>cellchat<span class="sc">@</span>DB <span class="ot">&lt;-</span> <span class="fu">subsetDB</span>(CellChatDB.human, </span>
+<span id="cb86-9"><a href="细胞通讯分析.html#cb86-9" tabindex="-1"></a>                        <span class="at">search =</span> <span class="st">&quot;Secreted Signaling&quot;</span>)</span>
+<span id="cb86-10"><a href="细胞通讯分析.html#cb86-10" tabindex="-1"></a><span class="co">#search可以选择的值是： table(CellChatDB.human$interaction$annotation)</span></span>
+<span id="cb86-11"><a href="细胞通讯分析.html#cb86-11" tabindex="-1"></a><span class="co"># 提取数据库支持的基因的表达矩阵子集</span></span>
+<span id="cb86-12"><a href="细胞通讯分析.html#cb86-12" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">subsetData</span>(cellchat) </span>
+<span id="cb86-13"><a href="细胞通讯分析.html#cb86-13" tabindex="-1"></a><span class="fu">dim</span>(cellchat<span class="sc">@</span>data.signaling) </span>
+<span id="cb86-14"><a href="细胞通讯分析.html#cb86-14" tabindex="-1"></a><span class="do">## [1]  337 1200</span></span></code></pre></div>
+</div>
+<div id="细胞通讯网络分析" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> 细胞通讯网络分析<a href="细胞通讯分析.html#细胞通讯网络分析" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="细胞通讯分析.html#cb87-1" tabindex="-1"></a><span class="co"># 识别过表达基因</span></span>
+<span id="cb87-2"><a href="细胞通讯分析.html#cb87-2" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">identifyOverExpressedGenes</span>(cellchat)</span>
+<span id="cb87-3"><a href="细胞通讯分析.html#cb87-3" tabindex="-1"></a><span class="co"># 识别配体-受体对</span></span>
+<span id="cb87-4"><a href="细胞通讯分析.html#cb87-4" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">identifyOverExpressedInteractions</span>(cellchat)</span>
+<span id="cb87-5"><a href="细胞通讯分析.html#cb87-5" tabindex="-1"></a><span class="co"># 将配体、受体投射到PPI网络</span></span>
+<span id="cb87-6"><a href="细胞通讯分析.html#cb87-6" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">projectData</span>(cellchat, PPI.human)<span class="co">#慢</span></span>
+<span id="cb87-7"><a href="细胞通讯分析.html#cb87-7" tabindex="-1"></a><span class="do">## 推测细胞通讯网络</span></span>
+<span id="cb87-8"><a href="细胞通讯分析.html#cb87-8" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">computeCommunProb</span>(cellchat) <span class="co">#慢</span></span>
+<span id="cb87-9"><a href="细胞通讯分析.html#cb87-9" tabindex="-1"></a><span class="do">## triMean is used for calculating the average gene expression per cell group. </span></span>
+<span id="cb87-10"><a href="细胞通讯分析.html#cb87-10" tabindex="-1"></a><span class="do">## [1] &quot;&gt;&gt;&gt; Run CellChat on sc/snRNA-seq data &lt;&lt;&lt; [2025-04-07 20:21:48.305586]&quot;</span></span>
+<span id="cb87-11"><a href="细胞通讯分析.html#cb87-11" tabindex="-1"></a><span class="do">## [1] &quot;&gt;&gt;&gt; CellChat inference is done. Parameter values are stored in `object@options$parameter` &lt;&lt;&lt; [2025-04-07 20:22:10.138138]&quot;</span></span>
+<span id="cb87-12"><a href="细胞通讯分析.html#cb87-12" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">computeCommunProbPathway</span>(cellchat)</span>
+<span id="cb87-13"><a href="细胞通讯分析.html#cb87-13" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">aggregateNet</span>(cellchat)</span></code></pre></div>
+</div>
+<div id="画图展示" class="section level2 hasAnchor" number="7.5">
+<h2><span class="header-section-number">7.5</span> 画图展示<a href="细胞通讯分析.html#画图展示" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>分析出来的重要信号通路如下</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="细胞通讯分析.html#cb88-1" tabindex="-1"></a>cellchat<span class="sc">@</span>netP<span class="sc">$</span>pathways</span>
+<span id="cb88-2"><a href="细胞通讯分析.html#cb88-2" tabindex="-1"></a><span class="do">## [1] &quot;GALECTIN&quot; &quot;CCL&quot;      &quot;ANNEXIN&quot;  &quot;CXCL&quot;     &quot;IL1&quot;</span></span></code></pre></div>
+<p>每个通路都可以画多种图出来，图中线的颜色与发射信号的细胞一致，线的粗细代表的是信号强弱，线越粗信号越强。点的大小一般是按照每种细胞的数量来分配。</p>
+<p>pathways.show是要画的信号通路，<a href="mailto:可以换成cellchat@netP" class="email">可以换成cellchat@netP</a>$pathways显示的其他通路</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="细胞通讯分析.html#cb89-1" tabindex="-1"></a>pathways.show <span class="ot">&lt;-</span> <span class="st">&quot;GALECTIN&quot;</span></span></code></pre></div>
+<div id="hierarchy-plot" class="section level5 hasAnchor" number="7.5.0.0.1">
+<h5><span class="header-section-number">7.5.0.0.1</span> hierarchy plot<a href="细胞通讯分析.html#hierarchy-plot" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="细胞通讯分析.html#cb90-1" tabindex="-1"></a>groupSize <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">table</span>(cellchat<span class="sc">@</span>idents)) </span>
+<span id="cb90-2"><a href="细胞通讯分析.html#cb90-2" tabindex="-1"></a>vertex.receiver <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">nlevels</span>(scRNA)<span class="sc">/</span><span class="dv">2</span>);vertex.receiver</span>
+<span id="cb90-3"><a href="细胞通讯分析.html#cb90-3" tabindex="-1"></a><span class="do">## [1] 1 2 3 4 5 6</span></span>
+<span id="cb90-4"><a href="细胞通讯分析.html#cb90-4" tabindex="-1"></a><span class="fu">netVisual_aggregate</span>(cellchat, <span class="at">signaling =</span> pathways.show, <span class="at">layout =</span> <span class="st">&quot;hierarchy&quot;</span>, <span class="at">vertex.receiver =</span> vertex.receiver, <span class="at">vertex.weight  =</span> groupSize)  </span></code></pre></div>
+<p><img src="03-3-%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>这个图分了两张子图，其实是分两次说明了所有细胞类型之间的互作。两张子图的差别是中间的圆圈，第一张子图中，第二列的圆圈意义同第一列，第二张子图中，第二列的圆圈意义同第三列，从”Target”这个单词的颜色和哪个”source”一致可以看出。</p>
+<p>互作方向也有了，是从两边的source到中间的target。</p>
+</div>
+<div id="circle-plot" class="section level3 hasAnchor" number="7.5.1">
+<h3><span class="header-section-number">7.5.1</span> circle plot<a href="细胞通讯分析.html#circle-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>circle plot 只是换了一个布局，一张图展示出来。</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="细胞通讯分析.html#cb91-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">xpd=</span><span class="cn">TRUE</span>,<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb91-2"><a href="细胞通讯分析.html#cb91-2" tabindex="-1"></a><span class="fu">netVisual_aggregate</span>(cellchat, <span class="at">signaling =</span> pathways.show, </span>
+<span id="cb91-3"><a href="细胞通讯分析.html#cb91-3" tabindex="-1"></a>                    <span class="at">layout =</span> <span class="st">&quot;circle&quot;</span>, </span>
+<span id="cb91-4"><a href="细胞通讯分析.html#cb91-4" tabindex="-1"></a>                    <span class="at">vertex.receiver =</span> vertex.receiver,</span>
+<span id="cb91-5"><a href="细胞通讯分析.html#cb91-5" tabindex="-1"></a>                    <span class="at">vertex.weight  =</span> groupSize)</span></code></pre></div>
+<p><img src="03-3-%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="chord-plot" class="section level3 hasAnchor" number="7.5.2">
+<h3><span class="header-section-number">7.5.2</span> chord plot<a href="细胞通讯分析.html#chord-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>弦图还是很有细节的，内圈小短线代表发射出的信号被谁接收，和接受者颜色一致，发射端是平的且有小短线，接收端是尖的。</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="细胞通讯分析.html#cb92-1" tabindex="-1"></a><span class="fu">netVisual_aggregate</span>(cellchat, <span class="at">signaling =</span> pathways.show, <span class="at">layout =</span> <span class="st">&quot;chord&quot;</span>, <span class="at">vertex.receiver =</span> vertex.receiver, <span class="at">vertex.weight  =</span> groupSize)</span></code></pre></div>
+<p><img src="03-3-%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="heatmap" class="section level3 hasAnchor" number="7.5.3">
+<h3><span class="header-section-number">7.5.3</span> heatmap<a href="细胞通讯分析.html#heatmap" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>热图，纵坐标是发射端，横坐标是接收端，有颜色代表横纵坐标所指的两类细胞之间有通讯，颜色深浅代表通讯概率。右侧和上方的条形图是该行/列通讯概率之和</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="细胞通讯分析.html#cb93-1" tabindex="-1"></a><span class="fu">netVisual_heatmap</span>(cellchat, <span class="at">signaling =</span> pathways.show, <span class="at">color.heatmap =</span> <span class="st">&quot;Reds&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>计算配体-受体对信号网络的贡献度</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="细胞通讯分析.html#cb94-1" tabindex="-1"></a><span class="fu">netAnalysis_contribution</span>(cellchat, <span class="at">signaling =</span> pathways.show)</span></code></pre></div>
+<p><img src="03-3-%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="热图-展示每一类细胞是什么角色" class="section level3 hasAnchor" number="7.5.4">
+<h3><span class="header-section-number">7.5.4</span> 热图-展示每一类细胞是什么角色<a href="细胞通讯分析.html#热图-展示每一类细胞是什么角色" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>分析细胞在信号网络中角色：发送者、接收者、调解者和影响者。</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="细胞通讯分析.html#cb95-1" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">netAnalysis_computeCentrality</span>(cellchat, <span class="at">slot.name =</span> <span class="st">&quot;netP&quot;</span>) <span class="co"># the slot &#39;netP&#39; means the inferred intercellular communication network of signaling pathways</span></span>
+<span id="cb95-2"><a href="细胞通讯分析.html#cb95-2" tabindex="-1"></a><span class="fu">netAnalysis_signalingRole_network</span>(cellchat, <span class="at">signaling =</span> pathways.show, <span class="at">width =</span> <span class="dv">12</span>, <span class="at">height =</span> <span class="dv">5</span>, <span class="at">font.size =</span> <span class="dv">10</span>)</span></code></pre></div>
+<p><img src="03-3-%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="气泡图-显示所有的显著的配体-受体对" class="section level3 hasAnchor" number="7.5.5">
+<h3><span class="header-section-number">7.5.5</span> 气泡图-显示所有的显著的配体-受体对<a href="细胞通讯分析.html#气泡图-显示所有的显著的配体-受体对" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>只有p&lt;0.05的才会被画出来，颜色仍然是通讯概率，圈的大小是按照p值，p值越小圈越大。</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="细胞通讯分析.html#cb96-1" tabindex="-1"></a><span class="co">#可以分开，也可以合到一起</span></span>
+<span id="cb96-2"><a href="细胞通讯分析.html#cb96-2" tabindex="-1"></a><span class="fu">netVisual_bubble</span>(cellchat, <span class="at">sources.use =</span> <span class="dv">1</span>, </span>
+<span id="cb96-3"><a href="细胞通讯分析.html#cb96-3" tabindex="-1"></a>                 <span class="at">targets.use =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlevels</span>(scRNA), </span>
+<span id="cb96-4"><a href="细胞通讯分析.html#cb96-4" tabindex="-1"></a>                 <span class="at">remove.isolate =</span> <span class="cn">FALSE</span>) </span></code></pre></div>
+<p><img src="03-3-%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-15-1.png" width="960" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="细胞通讯分析.html#cb97-1" tabindex="-1"></a><span class="co">#从第一类细胞到全部细胞</span></span>
+<span id="cb97-2"><a href="细胞通讯分析.html#cb97-2" tabindex="-1"></a><span class="fu">netVisual_bubble</span>(cellchat, <span class="at">sources.use =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlevels</span>(scRNA), </span>
+<span id="cb97-3"><a href="细胞通讯分析.html#cb97-3" tabindex="-1"></a>                 <span class="at">targets.use =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlevels</span>(scRNA), </span>
+<span id="cb97-4"><a href="细胞通讯分析.html#cb97-4" tabindex="-1"></a>                 <span class="at">remove.isolate =</span> <span class="cn">FALSE</span>)<span class="co">#从全部细胞到全部细胞</span></span></code></pre></div>
+<p><img src="03-3-%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-16-1.png" width="1920" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="细胞通讯模式和信号网络" class="section level2 hasAnchor" number="7.6">
+<h2><span class="header-section-number">7.6</span> 细胞通讯模式和信号网络<a href="细胞通讯分析.html#细胞通讯模式和信号网络" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>传出模式，揭示了发射端细胞如何相互协调，以及它们如何与某些信号通路协调以驱动通信。</p>
+<p>传入模式，显示接收端细胞如何相互协调，以及它们如何与某些信号通路协调以响应输入信号。</p>
+<div id="选择合适的partten细胞通讯模式的数量" class="section level3 hasAnchor" number="7.6.1">
+<h3><span class="header-section-number">7.6.1</span> 选择合适的partten（细胞通讯模式）的数量<a href="细胞通讯分析.html#选择合适的partten细胞通讯模式的数量" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="细胞通讯分析.html#cb98-1" tabindex="-1"></a><span class="fu">library</span>(NMF)</span>
+<span id="cb98-2"><a href="细胞通讯分析.html#cb98-2" tabindex="-1"></a><span class="fu">selectK</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;outgoing&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="细胞通讯分析.html#cb99-1" tabindex="-1"></a><span class="fu">selectK</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;incoming&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-17-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>在帮助文档里面有解释：For a range of the number of patterns, a suitable number of patterns is the one at which Cophenetic and Silhouette values begin to drop suddenly。</p>
+<p>这两个指标都是评估聚类稳定性的，二者都突然下降的值对应的横坐标就是合适的聚类数</p>
+<p>这里是用parttern-细胞，parttern-通路矩阵画的热图。identifyCommunicationPatterns函数识别通讯模式，并画出热图</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="细胞通讯分析.html#cb100-1" tabindex="-1"></a><span class="co">#传出</span></span>
+<span id="cb100-2"><a href="细胞通讯分析.html#cb100-2" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">identifyCommunicationPatterns</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;outgoing&quot;</span>, <span class="at">k =</span> <span class="dv">3</span>)<span class="co"># k是parttern的数量，根据上图选择的，嫌麻烦也可以用默认值5</span></span>
+<span id="cb100-3"><a href="细胞通讯分析.html#cb100-3" tabindex="-1"></a><span class="co">#传入</span></span>
+<span id="cb100-4"><a href="细胞通讯分析.html#cb100-4" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">identifyCommunicationPatterns</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;incoming&quot;</span>, <span class="at">k =</span>  <span class="dv">3</span>)<span class="co"># k是parttern的数量，根据上图选择的，嫌麻烦也可以用默认值5</span></span></code></pre></div>
+<p><img src="03-3-%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>用桑基图和气泡图展示每种细胞传入/传出的信号都是属于哪些通路的</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="细胞通讯分析.html#cb101-1" tabindex="-1"></a><span class="co"># 桑基图</span></span>
+<span id="cb101-2"><a href="细胞通讯分析.html#cb101-2" tabindex="-1"></a><span class="fu">netAnalysis_river</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;outgoing&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="细胞通讯分析.html#cb102-1" tabindex="-1"></a><span class="fu">netAnalysis_river</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;incoming&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-19-2.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="细胞通讯分析.html#cb103-1" tabindex="-1"></a><span class="co"># 气泡图</span></span>
+<span id="cb103-2"><a href="细胞通讯分析.html#cb103-2" tabindex="-1"></a><span class="fu">netAnalysis_dot</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;outgoing&quot;</span>,<span class="at">dot.size =</span> <span class="dv">4</span>)</span></code></pre></div>
+<p><img src="03-3-%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-19-3.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="细胞通讯分析.html#cb104-1" tabindex="-1"></a><span class="fu">netAnalysis_dot</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;incoming&quot;</span>,<span class="at">dot.size =</span> <span class="dv">4</span>)</span></code></pre></div>
+<p><img src="03-3-%E7%BB%86%E8%83%9E%E9%80%9A%E8%AE%AF%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-19-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>气泡图的颜色是按照细胞类型来分配，大小按照每个通路对每个细胞类型的贡献程度分配。</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="多样本拟时序分析.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="gsva-分析.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/smileszh/scRNA-Seq/edit/master/03-3-细胞通讯分析.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>

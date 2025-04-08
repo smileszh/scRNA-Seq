@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>第 3 章 单细胞二次分群 | scRNA-Seq</title>
+  <meta name="description" content="This is an online note of the scRNA-Seq analysis." />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="第 3 章 单细胞二次分群 | scRNA-Seq" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is an online note of the scRNA-Seq analysis." />
+  <meta name="github-repo" content="smileszh/scRNA-Seq" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="第 3 章 单细胞二次分群 | scRNA-Seq" />
+  
+  <meta name="twitter:description" content="This is an online note of the scRNA-Seq analysis." />
+  
+
+<meta name="author" content="苏总华" />
+
+
+<meta name="date" content="2025-04-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="单样本分析.html"/>
+<link rel="next" href="多样本分析.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">scRNA-Seq</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>前言</a></li>
+<li class="part"><span><b>I 单样本分析</b></span></li>
+<li class="chapter" data-level="1" data-path="seurat-教程.html"><a href="seurat-教程.html"><i class="fa fa-check"></i><b>1</b> Seurat 教程</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="seurat-教程.html"><a href="seurat-教程.html#数据和r包准备"><i class="fa fa-check"></i><b>1.1</b> 数据和R包准备</a></li>
+<li class="chapter" data-level="1.2" data-path="seurat-教程.html"><a href="seurat-教程.html#读取数据"><i class="fa fa-check"></i><b>1.2</b> 读取数据</a></li>
+<li class="chapter" data-level="1.3" data-path="seurat-教程.html"><a href="seurat-教程.html#质控"><i class="fa fa-check"></i><b>1.3</b> 质控</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="seurat-教程.html"><a href="seurat-教程.html#查看三个指标"><i class="fa fa-check"></i><b>1.3.1</b> 查看三个指标</a></li>
+<li class="chapter" data-level="1.3.2" data-path="seurat-教程.html"><a href="seurat-教程.html#三个指标之间的相关性"><i class="fa fa-check"></i><b>1.3.2</b> 三个指标之间的相关性</a></li>
+<li class="chapter" data-level="1.3.3" data-path="seurat-教程.html"><a href="seurat-教程.html#过滤"><i class="fa fa-check"></i><b>1.3.3</b> 过滤</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="seurat-教程.html"><a href="seurat-教程.html#找高变基因-hvg"><i class="fa fa-check"></i><b>1.4</b> 找高变基因 (HVG)</a></li>
+<li class="chapter" data-level="1.5" data-path="seurat-教程.html"><a href="seurat-教程.html#标准化和降维"><i class="fa fa-check"></i><b>1.5</b> 标准化和降维</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="seurat-教程.html"><a href="seurat-教程.html#线性降维pca"><i class="fa fa-check"></i><b>1.5.1</b> 线性降维PCA</a></li>
+<li class="chapter" data-level="1.5.2" data-path="seurat-教程.html"><a href="seurat-教程.html#umap-和-t-sne"><i class="fa fa-check"></i><b>1.5.2</b> UMAP 和 t-sne</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="seurat-教程.html"><a href="seurat-教程.html#找-marker-基因"><i class="fa fa-check"></i><b>1.6</b> 找 marker 基因</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="seurat-教程.html"><a href="seurat-教程.html#比较某个基因在几个cluster之间的表达量"><i class="fa fa-check"></i><b>1.6.1</b> 比较某个基因在几个cluster之间的表达量</a></li>
+<li class="chapter" data-level="1.6.2" data-path="seurat-教程.html"><a href="seurat-教程.html#marker基因的热图"><i class="fa fa-check"></i><b>1.6.2</b> marker基因的热图</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="seurat-教程.html"><a href="seurat-教程.html#根据marker基因确定细胞"><i class="fa fa-check"></i><b>1.7</b> 根据marker基因确定细胞</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="单样本分析.html"><a href="单样本分析.html"><i class="fa fa-check"></i><b>2</b> 单样本分析</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="单样本分析.html"><a href="单样本分析.html#创建seurat对象"><i class="fa fa-check"></i><b>2.1</b> 创建Seurat对象</a></li>
+<li class="chapter" data-level="2.2" data-path="单样本分析.html"><a href="单样本分析.html#降维聚类分群"><i class="fa fa-check"></i><b>2.2</b> 降维聚类分群</a></li>
+<li class="chapter" data-level="2.3" data-path="单样本分析.html"><a href="单样本分析.html#maker-基因"><i class="fa fa-check"></i><b>2.3</b> maker 基因</a></li>
+<li class="chapter" data-level="2.4" data-path="单样本分析.html"><a href="单样本分析.html#maker-基因可视化"><i class="fa fa-check"></i><b>2.4</b> maker 基因可视化</a></li>
+<li class="chapter" data-level="2.5" data-path="单样本分析.html"><a href="单样本分析.html#注释亚群"><i class="fa fa-check"></i><b>2.5</b> 注释亚群</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html"><i class="fa fa-check"></i><b>3</b> 单细胞二次分群</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#示例数据"><i class="fa fa-check"></i><b>3.1</b> 示例数据</a></li>
+<li class="chapter" data-level="3.2" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#二次分群"><i class="fa fa-check"></i><b>3.2</b> 二次分群</a></li>
+<li class="chapter" data-level="3.3" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#marker基因及其可视化"><i class="fa fa-check"></i><b>3.3</b> marker基因及其可视化</a></li>
+<li class="chapter" data-level="3.4" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#放回原来的seurat对象里面"><i class="fa fa-check"></i><b>3.4</b> 放回原来的Seurat对象里面</a></li>
+</ul></li>
+<li class="part"><span><b>II 多样本分析</b></span></li>
+<li class="chapter" data-level="4" data-path="多样本分析.html"><a href="多样本分析.html"><i class="fa fa-check"></i><b>4</b> 多样本分析</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="多样本分析.html"><a href="多样本分析.html#整理数据"><i class="fa fa-check"></i><b>4.1</b> 整理数据</a></li>
+<li class="chapter" data-level="4.2" data-path="多样本分析.html"><a href="多样本分析.html#批量读取"><i class="fa fa-check"></i><b>4.2</b> 批量读取</a></li>
+<li class="chapter" data-level="4.3" data-path="多样本分析.html"><a href="多样本分析.html#质控指标"><i class="fa fa-check"></i><b>4.3</b> 质控指标</a></li>
+<li class="chapter" data-level="4.4" data-path="多样本分析.html"><a href="多样本分析.html#整合降维聚类分群"><i class="fa fa-check"></i><b>4.4</b> 整合降维聚类分群</a></li>
+<li class="chapter" data-level="4.5" data-path="多样本分析.html"><a href="多样本分析.html#注释"><i class="fa fa-check"></i><b>4.5</b> 注释</a></li>
+<li class="chapter" data-level="4.6" data-path="多样本分析.html"><a href="多样本分析.html#分组可视化及组件细胞比例比较"><i class="fa fa-check"></i><b>4.6</b> 分组可视化及组件细胞比例比较</a></li>
+<li class="chapter" data-level="4.7" data-path="多样本分析.html"><a href="多样本分析.html#差异分析"><i class="fa fa-check"></i><b>4.7</b> 差异分析</a></li>
+<li class="chapter" data-level="4.8" data-path="多样本分析.html"><a href="多样本分析.html#伪bulk-转录组差异分析"><i class="fa fa-check"></i><b>4.8</b> 伪bulk 转录组差异分析</a></li>
+</ul></li>
+<li class="part"><span><b>III 高阶分析</b></span></li>
+<li class="chapter" data-level="5" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html"><i class="fa fa-check"></i><b>5</b> 单样本拟时序分析</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html#构建细胞发育轨迹"><i class="fa fa-check"></i><b>5.1</b> 构建细胞发育轨迹</a></li>
+<li class="chapter" data-level="5.2" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html#绘图展示"><i class="fa fa-check"></i><b>5.2</b> 绘图展示</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html"><i class="fa fa-check"></i><b>6</b> 多样本拟时序分析</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html#构建细胞发育轨迹-1"><i class="fa fa-check"></i><b>6.1</b> 构建细胞发育轨迹</a></li>
+<li class="chapter" data-level="6.2" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html#绘图展示-1"><i class="fa fa-check"></i><b>6.2</b> 绘图展示</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html"><i class="fa fa-check"></i><b>7</b> 细胞通讯分析</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#r包和数据"><i class="fa fa-check"></i><b>7.1</b> R包和数据</a></li>
+<li class="chapter" data-level="7.2" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#了解参考数据"><i class="fa fa-check"></i><b>7.2</b> 了解参考数据</a></li>
+<li class="chapter" data-level="7.3" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#构建cellchat对象"><i class="fa fa-check"></i><b>7.3</b> 构建cellchat对象</a></li>
+<li class="chapter" data-level="7.4" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#细胞通讯网络分析"><i class="fa fa-check"></i><b>7.4</b> 细胞通讯网络分析</a></li>
+<li class="chapter" data-level="7.5" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#画图展示"><i class="fa fa-check"></i><b>7.5</b> 画图展示</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#circle-plot"><i class="fa fa-check"></i><b>7.5.1</b> circle plot</a></li>
+<li class="chapter" data-level="7.5.2" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#chord-plot"><i class="fa fa-check"></i><b>7.5.2</b> chord plot</a></li>
+<li class="chapter" data-level="7.5.3" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#heatmap"><i class="fa fa-check"></i><b>7.5.3</b> heatmap</a></li>
+<li class="chapter" data-level="7.5.4" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#热图-展示每一类细胞是什么角色"><i class="fa fa-check"></i><b>7.5.4</b> 热图-展示每一类细胞是什么角色</a></li>
+<li class="chapter" data-level="7.5.5" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#气泡图-显示所有的显著的配体-受体对"><i class="fa fa-check"></i><b>7.5.5</b> 气泡图-显示所有的显著的配体-受体对</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#细胞通讯模式和信号网络"><i class="fa fa-check"></i><b>7.6</b> 细胞通讯模式和信号网络</a>
+<ul>
+<li class="chapter" data-level="7.6.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#选择合适的partten细胞通讯模式的数量"><i class="fa fa-check"></i><b>7.6.1</b> 选择合适的partten（细胞通讯模式）的数量</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="gsva-分析.html"><a href="gsva-分析.html"><i class="fa fa-check"></i><b>8</b> GSVA 分析</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="gsva-分析.html"><a href="gsva-分析.html#加载数据和r包"><i class="fa fa-check"></i><b>8.1</b> 加载数据和R包</a></li>
+<li class="chapter" data-level="8.2" data-path="gsva-分析.html"><a href="gsva-分析.html#做gsva"><i class="fa fa-check"></i><b>8.2</b> 做GSVA</a></li>
+<li class="chapter" data-level="8.3" data-path="gsva-分析.html"><a href="gsva-分析.html#热图可视化"><i class="fa fa-check"></i><b>8.3</b> 热图可视化</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="细胞周期.html"><a href="细胞周期.html"><i class="fa fa-check"></i><b>9</b> 细胞周期</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="细胞周期.html"><a href="细胞周期.html#读取数据并做好前期的质控"><i class="fa fa-check"></i><b>9.1</b> 读取数据并做好前期的质控</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="细胞周期.html"><a href="细胞周期.html#gse218208"><i class="fa fa-check"></i><b>9.1.1</b> GSE218208</a></li>
+<li class="chapter" data-level="9.1.2" data-path="细胞周期.html"><a href="细胞周期.html#marrow"><i class="fa fa-check"></i><b>9.1.2</b> marrow</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="细胞周期.html"><a href="细胞周期.html#计算细胞周期评分"><i class="fa fa-check"></i><b>9.2</b> 计算细胞周期评分</a></li>
+<li class="chapter" data-level="9.3" data-path="细胞周期.html"><a href="细胞周期.html#比较两个数据的细胞周期评分和pca"><i class="fa fa-check"></i><b>9.3</b> 比较两个数据的细胞周期评分和PCA</a></li>
+<li class="chapter" data-level="9.4" data-path="细胞周期.html"><a href="细胞周期.html#比较去除和不去处细胞周期影响的下游注释"><i class="fa fa-check"></i><b>9.4</b> 比较去除和不去处细胞周期影响的下游注释</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="细胞周期.html"><a href="细胞周期.html#不考虑细胞周期的降维聚类分群"><i class="fa fa-check"></i><b>9.4.1</b> 不考虑细胞周期的降维聚类分群</a></li>
+<li class="chapter" data-level="9.4.2" data-path="细胞周期.html"><a href="细胞周期.html#考虑细胞周期的降维聚类分群"><i class="fa fa-check"></i><b>9.4.2</b> 考虑细胞周期的降维聚类分群</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://space.bilibili.com/338686099" target="blank">本笔记来自 生信技能书</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">scRNA-Seq</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="单细胞二次分群" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">第 3 章</span> 单细胞二次分群<a href="单细胞二次分群.html#单细胞二次分群" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><strong>背景知识</strong></p>
+<p>Seurat里的FindClusters函数设置的resolution数值越大，分群的数量就越多，但是当单细胞数量太多的时候，会遇到resolution再变大，分群的数量也不再增加的情况。一次分群分不开时就会需要二次分群。</p>
+<div id="示例数据" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> 示例数据<a href="单细胞二次分群.html#示例数据" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>这里的示例数据seu.obj.Rdata是GSE218208降维聚类分群的结果，因为文件太大，没有直接放进文件夹里，如果load报错就自己运行一下隔壁GSE218208的代码得到这个文件再跑。</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="单细胞二次分群.html#cb39-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb39-2"><a href="单细胞二次分群.html#cb39-2" tabindex="-1"></a><span class="fu">library</span>(Seurat)</span>
+<span id="cb39-3"><a href="单细胞二次分群.html#cb39-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb39-4"><a href="单细胞二次分群.html#cb39-4" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;../2.GSE218208/seu.obj.Rdata&quot;</span>)</span>
+<span id="cb39-5"><a href="单细胞二次分群.html#cb39-5" tabindex="-1"></a>p1 <span class="ot">=</span> <span class="fu">DimPlot</span>(seu.obj, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>,<span class="at">label=</span>T)<span class="sc">+</span><span class="fu">NoLegend</span>()</span>
+<span id="cb39-6"><a href="单细胞二次分群.html#cb39-6" tabindex="-1"></a>p1</span></code></pre></div>
+<p><img src="01-3-%E4%BA%8C%E6%AC%A1%E5%88%86%E7%BE%A4_files/figure-html/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="二次分群" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> 二次分群<a href="单细胞二次分群.html#二次分群" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>这里以树突细胞(DC)为例进行二次分群，想要切换别的细胞类型直接修改下面的my_sub即可。</p>
+<p>核心就是提取感兴趣的亚群的细胞，后面就是标准流程和可视化了，没有区别</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="单细胞二次分群.html#cb40-1" tabindex="-1"></a>my_sub <span class="ot">=</span> <span class="st">&quot;DC&quot;</span> <span class="co">#⭐</span></span>
+<span id="cb40-2"><a href="单细胞二次分群.html#cb40-2" tabindex="-1"></a>sub.cells <span class="ot">&lt;-</span> <span class="fu">subset</span>(seu.obj, <span class="at">idents =</span> my_sub)</span>
+<span id="cb40-3"><a href="单细胞二次分群.html#cb40-3" tabindex="-1"></a>f <span class="ot">=</span> <span class="st">&quot;obj.Rdata&quot;</span></span>
+<span id="cb40-4"><a href="单细胞二次分群.html#cb40-4" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(f)){</span>
+<span id="cb40-5"><a href="单细胞二次分群.html#cb40-5" tabindex="-1"></a>  sub.cells <span class="ot">=</span> sub.cells <span class="sc">%&gt;%</span></span>
+<span id="cb40-6"><a href="单细胞二次分群.html#cb40-6" tabindex="-1"></a>  <span class="fu">NormalizeData</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb40-7"><a href="单细胞二次分群.html#cb40-7" tabindex="-1"></a>  <span class="fu">FindVariableFeatures</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb40-8"><a href="单细胞二次分群.html#cb40-8" tabindex="-1"></a>  <span class="fu">ScaleData</span>(<span class="at">features =</span> <span class="fu">rownames</span>(.)) <span class="sc">%&gt;%</span></span>
+<span id="cb40-9"><a href="单细胞二次分群.html#cb40-9" tabindex="-1"></a>  <span class="fu">RunPCA</span>(<span class="at">features =</span> <span class="fu">VariableFeatures</span>(.))  <span class="sc">%&gt;%</span></span>
+<span id="cb40-10"><a href="单细胞二次分群.html#cb40-10" tabindex="-1"></a>  <span class="fu">FindNeighbors</span>(<span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb40-11"><a href="单细胞二次分群.html#cb40-11" tabindex="-1"></a>  <span class="fu">FindClusters</span>(<span class="at">resolution =</span> <span class="fl">0.5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb40-12"><a href="单细胞二次分群.html#cb40-12" tabindex="-1"></a>  <span class="fu">RunUMAP</span>(<span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>) </span>
+<span id="cb40-13"><a href="单细胞二次分群.html#cb40-13" tabindex="-1"></a>  <span class="fu">save</span>(sub.cells,<span class="at">file =</span> f)</span>
+<span id="cb40-14"><a href="单细胞二次分群.html#cb40-14" tabindex="-1"></a>}</span>
+<span id="cb40-15"><a href="单细胞二次分群.html#cb40-15" tabindex="-1"></a><span class="do">## Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck</span></span>
+<span id="cb40-16"><a href="单细胞二次分群.html#cb40-16" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb40-17"><a href="单细胞二次分群.html#cb40-17" tabindex="-1"></a><span class="do">## Number of nodes: 88</span></span>
+<span id="cb40-18"><a href="单细胞二次分群.html#cb40-18" tabindex="-1"></a><span class="do">## Number of edges: 1998</span></span>
+<span id="cb40-19"><a href="单细胞二次分群.html#cb40-19" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb40-20"><a href="单细胞二次分群.html#cb40-20" tabindex="-1"></a><span class="do">## Running Louvain algorithm...</span></span>
+<span id="cb40-21"><a href="单细胞二次分群.html#cb40-21" tabindex="-1"></a><span class="do">## Maximum modularity in 10 random starts: 0.7358</span></span>
+<span id="cb40-22"><a href="单细胞二次分群.html#cb40-22" tabindex="-1"></a><span class="do">## Number of communities: 2</span></span>
+<span id="cb40-23"><a href="单细胞二次分群.html#cb40-23" tabindex="-1"></a><span class="do">## Elapsed time: 0 seconds</span></span>
+<span id="cb40-24"><a href="单细胞二次分群.html#cb40-24" tabindex="-1"></a><span class="fu">load</span>(f)</span>
+<span id="cb40-25"><a href="单细胞二次分群.html#cb40-25" tabindex="-1"></a><span class="fu">DimPlot</span>(sub.cells, <span class="at">reduction =</span> <span class="st">&#39;umap&#39;</span>,<span class="at">label =</span> T)<span class="sc">+</span><span class="fu">NoLegend</span>()</span></code></pre></div>
+<p><img src="01-3-%E4%BA%8C%E6%AC%A1%E5%88%86%E7%BE%A4_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="marker基因及其可视化" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> marker基因及其可视化<a href="单细胞二次分群.html#marker基因及其可视化" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="单细胞二次分群.html#cb41-1" tabindex="-1"></a>sub.cells.markers <span class="ot">&lt;-</span> <span class="fu">FindAllMarkers</span>(sub.cells, <span class="at">only.pos =</span> <span class="cn">TRUE</span>,  </span>
+<span id="cb41-2"><a href="单细胞二次分群.html#cb41-2" tabindex="-1"></a>                            <span class="at">min.pct =</span> <span class="fl">0.25</span>, <span class="at">logfc.threshold =</span> <span class="fl">0.25</span>)</span>
+<span id="cb41-3"><a href="单细胞二次分群.html#cb41-3" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="单细胞二次分群.html#cb41-4" tabindex="-1"></a>top10 <span class="ot">&lt;-</span> sub.cells.markers <span class="sc">%&gt;%</span> </span>
+<span id="cb41-5"><a href="单细胞二次分群.html#cb41-5" tabindex="-1"></a>  <span class="fu">group_by</span>(cluster) <span class="sc">%&gt;%</span> </span>
+<span id="cb41-6"><a href="单细胞二次分群.html#cb41-6" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">wt =</span> avg_log2FC) <span class="sc">%&gt;%</span> </span>
+<span id="cb41-7"><a href="单细胞二次分群.html#cb41-7" tabindex="-1"></a>  <span class="fu">pull</span>(gene);top10</span>
+<span id="cb41-8"><a href="单细胞二次分群.html#cb41-8" tabindex="-1"></a><span class="do">##  [1] &quot;LYZ&quot;     &quot;TIMP1&quot;   &quot;GPAT3&quot;   &quot;ITGAX&quot;   &quot;SAMSN1&quot;  &quot;OLR1&quot;    &quot;FPR3&quot;   </span></span>
+<span id="cb41-9"><a href="单细胞二次分群.html#cb41-9" tabindex="-1"></a><span class="do">##  [8] &quot;EREG&quot;    &quot;FCN1&quot;    &quot;AKAP12&quot;  &quot;JCHAIN&quot;  &quot;IGKC&quot;    &quot;MZB1&quot;    &quot;PACSIN1&quot;</span></span>
+<span id="cb41-10"><a href="单细胞二次分群.html#cb41-10" tabindex="-1"></a><span class="do">## [15] &quot;WNT10A&quot;  &quot;MAP1A&quot;   &quot;VASH2&quot;   &quot;NIBAN3&quot;  &quot;SMPD3&quot;   &quot;TNFRSF4&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="单细胞二次分群.html#cb42-1" tabindex="-1"></a><span class="fu">VlnPlot</span>(sub.cells, <span class="at">features =</span> top10)</span></code></pre></div>
+<p><img src="01-3-%E4%BA%8C%E6%AC%A1%E5%88%86%E7%BE%A4_files/figure-html/unnamed-chunk-4-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="单细胞二次分群.html#cb43-1" tabindex="-1"></a><span class="fu">RidgePlot</span>(sub.cells, <span class="at">features =</span> top10)</span></code></pre></div>
+<p><img src="01-3-%E4%BA%8C%E6%AC%A1%E5%88%86%E7%BE%A4_files/figure-html/unnamed-chunk-4-2.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="单细胞二次分群.html#cb44-1" tabindex="-1"></a><span class="fu">FeaturePlot</span>(sub.cells, <span class="at">features =</span> top10)</span></code></pre></div>
+<p><img src="01-3-%E4%BA%8C%E6%AC%A1%E5%88%86%E7%BE%A4_files/figure-html/unnamed-chunk-4-3.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="单细胞二次分群.html#cb45-1" tabindex="-1"></a><span class="fu">DotPlot</span>(sub.cells,<span class="at">features =</span> top10)<span class="sc">+</span> <span class="fu">RotatedAxis</span>()</span></code></pre></div>
+<p><img src="01-3-%E4%BA%8C%E6%AC%A1%E5%88%86%E7%BE%A4_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="单细胞二次分群.html#cb46-1" tabindex="-1"></a><span class="fu">DoHeatmap</span>(sub.cells, <span class="at">features =</span> top10) <span class="sc">+</span> <span class="fu">NoLegend</span>()</span></code></pre></div>
+<p><img src="01-3-%E4%BA%8C%E6%AC%A1%E5%88%86%E7%BE%A4_files/figure-html/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="放回原来的seurat对象里面" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> 放回原来的Seurat对象里面<a href="单细胞二次分群.html#放回原来的seurat对象里面" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>上面的umap图是感兴趣的单独的展示，也可以把它放回原来的seurat对象里。</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="单细胞二次分群.html#cb47-1" tabindex="-1"></a>sub.cells<span class="sc">@</span>meta.data<span class="sc">$</span>celltype <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">&quot;M&quot;</span>,sub.cells<span class="sc">$</span>seurat_clusters)</span>
+<span id="cb47-2"><a href="单细胞二次分群.html#cb47-2" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="单细胞二次分群.html#cb47-3" tabindex="-1"></a>seu.obj<span class="sc">$</span>celltype <span class="ot">=</span> <span class="fu">as.character</span>(<span class="fu">Idents</span>(seu.obj))</span>
+<span id="cb47-4"><a href="单细胞二次分群.html#cb47-4" tabindex="-1"></a>seu.obj<span class="sc">$</span>celltype <span class="ot">=</span> <span class="fu">ifelse</span>(seu.obj<span class="sc">$</span>celltype<span class="sc">==</span>my_sub,</span>
+<span id="cb47-5"><a href="单细胞二次分群.html#cb47-5" tabindex="-1"></a>       sub.cells<span class="sc">$</span>celltype[<span class="fu">match</span>(<span class="fu">colnames</span>(seu.obj),<span class="fu">colnames</span>(sub.cells))],</span>
+<span id="cb47-6"><a href="单细胞二次分群.html#cb47-6" tabindex="-1"></a>       seu.obj<span class="sc">$</span>celltype) </span>
+<span id="cb47-7"><a href="单细胞二次分群.html#cb47-7" tabindex="-1"></a><span class="fu">Idents</span>(seu.obj) <span class="ot">=</span> seu.obj<span class="sc">$</span>celltype</span>
+<span id="cb47-8"><a href="单细胞二次分群.html#cb47-8" tabindex="-1"></a>p2 <span class="ot">=</span> <span class="fu">DimPlot</span>(seu.obj,<span class="at">label =</span> T)<span class="sc">+</span><span class="fu">NoLegend</span>()</span>
+<span id="cb47-9"><a href="单细胞二次分群.html#cb47-9" tabindex="-1"></a>p1<span class="sc">+</span>p2</span></code></pre></div>
+<p><img src="01-3-%E4%BA%8C%E6%AC%A1%E5%88%86%E7%BE%A4_files/figure-html/unnamed-chunk-6-1.png" width="1152" style="display: block; margin: auto;" /></p>
+
+</div>
+</div>
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="单样本分析.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="多样本分析.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/smileszh/scRNA-Seq/edit/master/01-3-二次分群.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>

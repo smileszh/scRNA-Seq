@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>第 2 章 单样本注分析 | scRNA-Seq</title>
+  <meta name="description" content="This is an online note of the scRNA-Seq analysis." />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="第 2 章 单样本注分析 | scRNA-Seq" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is an online note of the scRNA-Seq analysis." />
+  <meta name="github-repo" content="smileszh/scRNA-Seq" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="第 2 章 单样本注分析 | scRNA-Seq" />
+  
+  <meta name="twitter:description" content="This is an online note of the scRNA-Seq analysis." />
+  
+
+<meta name="author" content="苏总华" />
+
+
+<meta name="date" content="2025-04-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="seurat-教程.html"/>
+<link rel="next" href="单细胞二次分群.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">scRNA-Seq</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>前言</a></li>
+<li class="part"><span><b>I 单样本分析</b></span></li>
+<li class="chapter" data-level="1" data-path="seurat-教程.html"><a href="seurat-教程.html"><i class="fa fa-check"></i><b>1</b> Seurat 教程</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="seurat-教程.html"><a href="seurat-教程.html#数据和r包准备"><i class="fa fa-check"></i><b>1.1</b> 数据和R包准备</a></li>
+<li class="chapter" data-level="1.2" data-path="seurat-教程.html"><a href="seurat-教程.html#读取数据"><i class="fa fa-check"></i><b>1.2</b> 读取数据</a></li>
+<li class="chapter" data-level="1.3" data-path="seurat-教程.html"><a href="seurat-教程.html#质控"><i class="fa fa-check"></i><b>1.3</b> 质控</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="seurat-教程.html"><a href="seurat-教程.html#查看三个指标"><i class="fa fa-check"></i><b>1.3.1</b> 查看三个指标</a></li>
+<li class="chapter" data-level="1.3.2" data-path="seurat-教程.html"><a href="seurat-教程.html#三个指标之间的相关性"><i class="fa fa-check"></i><b>1.3.2</b> 三个指标之间的相关性</a></li>
+<li class="chapter" data-level="1.3.3" data-path="seurat-教程.html"><a href="seurat-教程.html#过滤"><i class="fa fa-check"></i><b>1.3.3</b> 过滤</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="seurat-教程.html"><a href="seurat-教程.html#找高变基因-hvg"><i class="fa fa-check"></i><b>1.4</b> 找高变基因 (HVG)</a></li>
+<li class="chapter" data-level="1.5" data-path="seurat-教程.html"><a href="seurat-教程.html#标准化和降维"><i class="fa fa-check"></i><b>1.5</b> 标准化和降维</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="seurat-教程.html"><a href="seurat-教程.html#线性降维pca"><i class="fa fa-check"></i><b>1.5.1</b> 线性降维PCA</a></li>
+<li class="chapter" data-level="1.5.2" data-path="seurat-教程.html"><a href="seurat-教程.html#umap-和-t-sne"><i class="fa fa-check"></i><b>1.5.2</b> UMAP 和 t-sne</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="seurat-教程.html"><a href="seurat-教程.html#找-marker-基因"><i class="fa fa-check"></i><b>1.6</b> 找 marker 基因</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="seurat-教程.html"><a href="seurat-教程.html#比较某个基因在几个cluster之间的表达量"><i class="fa fa-check"></i><b>1.6.1</b> 比较某个基因在几个cluster之间的表达量</a></li>
+<li class="chapter" data-level="1.6.2" data-path="seurat-教程.html"><a href="seurat-教程.html#marker基因的热图"><i class="fa fa-check"></i><b>1.6.2</b> marker基因的热图</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="seurat-教程.html"><a href="seurat-教程.html#根据marker基因确定细胞"><i class="fa fa-check"></i><b>1.7</b> 根据marker基因确定细胞</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="单样本注分析.html"><a href="单样本注分析.html"><i class="fa fa-check"></i><b>2</b> 单样本注分析</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="单样本注分析.html"><a href="单样本注分析.html#创建seurat对象"><i class="fa fa-check"></i><b>2.1</b> 创建Seurat对象</a></li>
+<li class="chapter" data-level="2.2" data-path="单样本注分析.html"><a href="单样本注分析.html#降维聚类分群"><i class="fa fa-check"></i><b>2.2</b> 降维聚类分群</a></li>
+<li class="chapter" data-level="2.3" data-path="单样本注分析.html"><a href="单样本注分析.html#maker-基因"><i class="fa fa-check"></i><b>2.3</b> maker 基因</a></li>
+<li class="chapter" data-level="2.4" data-path="单样本注分析.html"><a href="单样本注分析.html#maker-基因可视化"><i class="fa fa-check"></i><b>2.4</b> maker 基因可视化</a></li>
+<li class="chapter" data-level="2.5" data-path="单样本注分析.html"><a href="单样本注分析.html#注释亚群"><i class="fa fa-check"></i><b>2.5</b> 注释亚群</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html"><i class="fa fa-check"></i><b>3</b> 单细胞二次分群</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#示例数据"><i class="fa fa-check"></i><b>3.1</b> 示例数据</a></li>
+<li class="chapter" data-level="3.2" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#二次分群"><i class="fa fa-check"></i><b>3.2</b> 二次分群</a></li>
+<li class="chapter" data-level="3.3" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#marker基因及其可视化"><i class="fa fa-check"></i><b>3.3</b> marker基因及其可视化</a></li>
+<li class="chapter" data-level="3.4" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#放回原来的seurat对象里面"><i class="fa fa-check"></i><b>3.4</b> 放回原来的Seurat对象里面</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://space.bilibili.com/338686099" target="blank">本笔记来自 生信技能书</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">scRNA-Seq</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="单样本注分析" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">第 2 章</span> 单样本注分析<a href="单样本注分析.html#单样本注分析" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="创建seurat对象" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> 创建Seurat对象<a href="单样本注分析.html#创建seurat对象" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="单样本注分析.html#cb25-1" tabindex="-1"></a><span class="co">#https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10039079/</span></span>
+<span id="cb25-2"><a href="单样本注分析.html#cb25-2" tabindex="-1"></a><span class="co">#untar(&quot;GSE218208_RAW.tar&quot;)</span></span>
+<span id="cb25-3"><a href="单样本注分析.html#cb25-3" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb25-4"><a href="单样本注分析.html#cb25-4" tabindex="-1"></a>a <span class="ot">=</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="st">&quot;GSM6736629_10x-PBMC-1_ds0.1974_CountMatrix.tsv.gz&quot;</span>,<span class="at">data.table =</span> F)</span>
+<span id="cb25-5"><a href="单样本注分析.html#cb25-5" tabindex="-1"></a>a[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb25-6"><a href="单样本注分析.html#cb25-6" tabindex="-1"></a><span class="do">##                 alias:gene AAACCCAAGTAGGGTC AAACCCACACCATTCC AAACCCATCTACACTT</span></span>
+<span id="cb25-7"><a href="单样本注分析.html#cb25-7" tabindex="-1"></a><span class="do">## 1   TSPAN6:ENSG00000000003                0                0                0</span></span>
+<span id="cb25-8"><a href="单样本注分析.html#cb25-8" tabindex="-1"></a><span class="do">## 2     DPM1:ENSG00000000419                0                1                0</span></span>
+<span id="cb25-9"><a href="单样本注分析.html#cb25-9" tabindex="-1"></a><span class="do">## 3    SCYL3:ENSG00000000457                0                0                0</span></span>
+<span id="cb25-10"><a href="单样本注分析.html#cb25-10" tabindex="-1"></a><span class="do">## 4 C1orf112:ENSG00000000460                0                0                0</span></span>
+<span id="cb25-11"><a href="单样本注分析.html#cb25-11" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb25-12"><a href="单样本注分析.html#cb25-12" tabindex="-1"></a>a<span class="sc">$</span><span class="st">`</span><span class="at">alias:gene</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">str_split</span>(a<span class="sc">$</span><span class="st">`</span><span class="at">alias:gene</span><span class="st">`</span>,<span class="st">&quot;:&quot;</span>,<span class="at">simplify =</span> T)[,<span class="dv">1</span>]</span>
+<span id="cb25-13"><a href="单样本注分析.html#cb25-13" tabindex="-1"></a><span class="co">#str_split_i(a$`alias:gene`,&quot;:&quot;,i = 1)</span></span>
+<span id="cb25-14"><a href="单样本注分析.html#cb25-14" tabindex="-1"></a>a <span class="ot">=</span> <span class="fu">distinct</span>(a,<span class="st">`</span><span class="at">alias:gene</span><span class="st">`</span>,<span class="at">.keep_all =</span> T)</span>
+<span id="cb25-15"><a href="单样本注分析.html#cb25-15" tabindex="-1"></a>a <span class="ot">=</span> <span class="fu">column_to_rownames</span>(a,<span class="at">var =</span> <span class="st">&quot;alias:gene&quot;</span>)</span>
+<span id="cb25-16"><a href="单样本注分析.html#cb25-16" tabindex="-1"></a>a[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb25-17"><a href="单样本注分析.html#cb25-17" tabindex="-1"></a><span class="do">##          AAACCCAAGTAGGGTC AAACCCACACCATTCC AAACCCATCTACACTT AAACGAAAGCACGTCC</span></span>
+<span id="cb25-18"><a href="单样本注分析.html#cb25-18" tabindex="-1"></a><span class="do">## TSPAN6                  0                0                0                0</span></span>
+<span id="cb25-19"><a href="单样本注分析.html#cb25-19" tabindex="-1"></a><span class="do">## DPM1                    0                1                0                0</span></span>
+<span id="cb25-20"><a href="单样本注分析.html#cb25-20" tabindex="-1"></a><span class="do">## SCYL3                   0                0                0                0</span></span>
+<span id="cb25-21"><a href="单样本注分析.html#cb25-21" tabindex="-1"></a><span class="do">## C1orf112                0                0                0                0</span></span>
+<span id="cb25-22"><a href="单样本注分析.html#cb25-22" tabindex="-1"></a><span class="fu">library</span>(Seurat)</span>
+<span id="cb25-23"><a href="单样本注分析.html#cb25-23" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">CreateSeuratObject</span>(<span class="at">counts =</span> a, </span>
+<span id="cb25-24"><a href="单样本注分析.html#cb25-24" tabindex="-1"></a>                           <span class="at">project =</span> <span class="st">&quot;a&quot;</span>, </span>
+<span id="cb25-25"><a href="单样本注分析.html#cb25-25" tabindex="-1"></a>                           <span class="at">min.cells =</span> <span class="dv">3</span>, </span>
+<span id="cb25-26"><a href="单样本注分析.html#cb25-26" tabindex="-1"></a>                           <span class="at">min.features =</span> <span class="dv">200</span>)</span></code></pre></div>
+<div id="质控-1" class="section level4 hasAnchor" number="2.1.0.1">
+<h4><span class="header-section-number">2.1.0.1</span> 2.质控<a href="单样本注分析.html#质控-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="单样本注分析.html#cb26-1" tabindex="-1"></a>pbmc[[<span class="st">&quot;percent.mt&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">PercentageFeatureSet</span>(pbmc, <span class="at">pattern =</span> <span class="st">&quot;^MT-&quot;</span>)</span>
+<span id="cb26-2"><a href="单样本注分析.html#cb26-2" tabindex="-1"></a><span class="fu">head</span>(pbmc<span class="sc">@</span>meta.data, <span class="dv">3</span>)</span>
+<span id="cb26-3"><a href="单样本注分析.html#cb26-3" tabindex="-1"></a><span class="do">##                  orig.ident nCount_RNA nFeature_RNA percent.mt</span></span>
+<span id="cb26-4"><a href="单样本注分析.html#cb26-4" tabindex="-1"></a><span class="do">## AAACCCAAGTAGGGTC          a      10768         3213   7.030089</span></span>
+<span id="cb26-5"><a href="单样本注分析.html#cb26-5" tabindex="-1"></a><span class="do">## AAACCCACACCATTCC          a       4102         1676   5.046319</span></span>
+<span id="cb26-6"><a href="单样本注分析.html#cb26-6" tabindex="-1"></a><span class="do">## AAACCCATCTACACTT          a       4694         1740   6.305922</span></span>
+<span id="cb26-7"><a href="单样本注分析.html#cb26-7" tabindex="-1"></a><span class="fu">VlnPlot</span>(pbmc, </span>
+<span id="cb26-8"><a href="单样本注分析.html#cb26-8" tabindex="-1"></a>        <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;nFeature_RNA&quot;</span>,</span>
+<span id="cb26-9"><a href="单样本注分析.html#cb26-9" tabindex="-1"></a>                     <span class="st">&quot;nCount_RNA&quot;</span>, </span>
+<span id="cb26-10"><a href="单样本注分析.html#cb26-10" tabindex="-1"></a>                     <span class="st">&quot;percent.mt&quot;</span>), </span>
+<span id="cb26-11"><a href="单样本注分析.html#cb26-11" tabindex="-1"></a>        <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">pt.size =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="01-2-%E5%8D%95%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="单样本注分析.html#cb27-1" tabindex="-1"></a>pbmc <span class="ot">=</span> <span class="fu">subset</span>(pbmc,nFeature_RNA <span class="sc">&lt;</span> <span class="dv">4200</span> <span class="sc">&amp;</span></span>
+<span id="cb27-2"><a href="单样本注分析.html#cb27-2" tabindex="-1"></a>                nCount_RNA <span class="sc">&lt;</span> <span class="dv">18000</span> <span class="sc">&amp;</span></span>
+<span id="cb27-3"><a href="单样本注分析.html#cb27-3" tabindex="-1"></a>                percent.mt <span class="sc">&lt;</span> <span class="dv">18</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="降维聚类分群" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> 降维聚类分群<a href="单样本注分析.html#降维聚类分群" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="单样本注分析.html#cb28-1" tabindex="-1"></a>f <span class="ot">=</span> <span class="st">&quot;obj.Rdata&quot;</span></span>
+<span id="cb28-2"><a href="单样本注分析.html#cb28-2" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(f)){</span>
+<span id="cb28-3"><a href="单样本注分析.html#cb28-3" tabindex="-1"></a>  pbmc <span class="ot">=</span> pbmc <span class="sc">%&gt;%</span> </span>
+<span id="cb28-4"><a href="单样本注分析.html#cb28-4" tabindex="-1"></a>  <span class="fu">NormalizeData</span>() <span class="sc">%&gt;%</span>  </span>
+<span id="cb28-5"><a href="单样本注分析.html#cb28-5" tabindex="-1"></a>  <span class="fu">FindVariableFeatures</span>() <span class="sc">%&gt;%</span>  </span>
+<span id="cb28-6"><a href="单样本注分析.html#cb28-6" tabindex="-1"></a>  <span class="fu">ScaleData</span>(<span class="at">features =</span> <span class="fu">rownames</span>(.)) <span class="sc">%&gt;%</span>  </span>
+<span id="cb28-7"><a href="单样本注分析.html#cb28-7" tabindex="-1"></a>  <span class="fu">RunPCA</span>(<span class="at">features =</span> <span class="fu">VariableFeatures</span>(.))  <span class="sc">%&gt;%</span></span>
+<span id="cb28-8"><a href="单样本注分析.html#cb28-8" tabindex="-1"></a>  <span class="fu">FindNeighbors</span>(<span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-9"><a href="单样本注分析.html#cb28-9" tabindex="-1"></a>  <span class="fu">FindClusters</span>(<span class="at">resolution =</span> <span class="fl">0.5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-10"><a href="单样本注分析.html#cb28-10" tabindex="-1"></a>  <span class="fu">RunUMAP</span>(<span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-11"><a href="单样本注分析.html#cb28-11" tabindex="-1"></a>  <span class="fu">RunTSNE</span>(<span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>)</span>
+<span id="cb28-12"><a href="单样本注分析.html#cb28-12" tabindex="-1"></a>  <span class="fu">save</span>(pbmc,<span class="at">file =</span> f)</span>
+<span id="cb28-13"><a href="单样本注分析.html#cb28-13" tabindex="-1"></a>}</span>
+<span id="cb28-14"><a href="单样本注分析.html#cb28-14" tabindex="-1"></a><span class="fu">load</span>(f)</span>
+<span id="cb28-15"><a href="单样本注分析.html#cb28-15" tabindex="-1"></a><span class="fu">ElbowPlot</span>(pbmc)</span></code></pre></div>
+<p><img src="01-2-%E5%8D%95%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="单样本注分析.html#cb29-1" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">DimPlot</span>(pbmc, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>,<span class="at">label =</span> T)<span class="sc">+</span><span class="fu">NoLegend</span>();p1</span></code></pre></div>
+<p><img src="01-2-%E5%8D%95%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="maker-基因" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> maker 基因<a href="单样本注分析.html#maker-基因" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="单样本注分析.html#cb30-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb30-2"><a href="单样本注分析.html#cb30-2" tabindex="-1"></a>f <span class="ot">=</span> <span class="st">&quot;markers.Rdata&quot;</span></span>
+<span id="cb30-3"><a href="单样本注分析.html#cb30-3" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(f)){</span>
+<span id="cb30-4"><a href="单样本注分析.html#cb30-4" tabindex="-1"></a>  pbmc.markers <span class="ot">&lt;-</span> <span class="fu">FindAllMarkers</span>(pbmc, <span class="at">only.pos =</span> <span class="cn">TRUE</span>,<span class="at">min.pct =</span> <span class="fl">0.25</span>)</span>
+<span id="cb30-5"><a href="单样本注分析.html#cb30-5" tabindex="-1"></a>  <span class="fu">save</span>(pbmc.markers,<span class="at">file =</span> f)</span>
+<span id="cb30-6"><a href="单样本注分析.html#cb30-6" tabindex="-1"></a>}</span>
+<span id="cb30-7"><a href="单样本注分析.html#cb30-7" tabindex="-1"></a><span class="fu">load</span>(f)</span>
+<span id="cb30-8"><a href="单样本注分析.html#cb30-8" tabindex="-1"></a>mks <span class="ot">=</span> pbmc.markers <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(cluster) <span class="sc">%&gt;%</span> <span class="fu">top_n</span>(<span class="at">n =</span> <span class="dv">2</span>, <span class="at">wt =</span> avg_log2FC)</span>
+<span id="cb30-9"><a href="单样本注分析.html#cb30-9" tabindex="-1"></a>g <span class="ot">=</span> <span class="fu">unique</span>(mks<span class="sc">$</span>gene)</span></code></pre></div>
+</div>
+<div id="maker-基因可视化" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> maker 基因可视化<a href="单样本注分析.html#maker-基因可视化" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="单样本注分析.html#cb31-1" tabindex="-1"></a><span class="fu">DoHeatmap</span>(pbmc, <span class="at">features =</span> g) <span class="sc">+</span> <span class="fu">NoLegend</span>()<span class="sc">+</span></span>
+<span id="cb31-2"><a href="单样本注分析.html#cb31-2" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(<span class="at">colors =</span> <span class="fu">c</span>(<span class="st">&quot;#2fa1dd&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;#f87669&quot;</span>))</span></code></pre></div>
+<p><img src="01-2-%E5%8D%95%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="单样本注分析.html#cb32-1" tabindex="-1"></a></span>
+<span id="cb32-2"><a href="单样本注分析.html#cb32-2" tabindex="-1"></a><span class="fu">DotPlot</span>(pbmc, <span class="at">features =</span> g,<span class="at">cols =</span> <span class="st">&quot;RdYlBu&quot;</span>) <span class="sc">+</span></span>
+<span id="cb32-3"><a href="单样本注分析.html#cb32-3" tabindex="-1"></a>  <span class="fu">RotatedAxis</span>()</span></code></pre></div>
+<p><img src="01-2-%E5%8D%95%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="单样本注分析.html#cb33-1" tabindex="-1"></a></span>
+<span id="cb33-2"><a href="单样本注分析.html#cb33-2" tabindex="-1"></a><span class="fu">VlnPlot</span>(pbmc, <span class="at">features =</span> g[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span></code></pre></div>
+<p><img src="01-2-%E5%8D%95%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="单样本注分析.html#cb34-1" tabindex="-1"></a></span>
+<span id="cb34-2"><a href="单样本注分析.html#cb34-2" tabindex="-1"></a><span class="fu">FeaturePlot</span>(pbmc, <span class="at">features =</span> g[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span></code></pre></div>
+<p><img src="01-2-%E5%8D%95%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-5-4.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="注释亚群" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> 注释亚群<a href="单样本注分析.html#注释亚群" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>手动注释</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="单样本注分析.html#cb35-1" tabindex="-1"></a>a <span class="ot">=</span> <span class="fu">read.delim</span>(<span class="st">&quot;../supp/markers.txt&quot;</span>,<span class="at">header =</span> F)</span>
+<span id="cb35-2"><a href="单样本注分析.html#cb35-2" tabindex="-1"></a>gt <span class="ot">=</span> <span class="fu">split</span>(a[,<span class="dv">2</span>],a[,<span class="dv">1</span>])</span>
+<span id="cb35-3"><a href="单样本注分析.html#cb35-3" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="单样本注分析.html#cb35-4" tabindex="-1"></a><span class="fu">DotPlot</span>(pbmc, <span class="at">features =</span> gt,<span class="at">cols =</span> <span class="st">&quot;RdYlBu&quot;</span>) <span class="sc">+</span></span>
+<span id="cb35-5"><a href="单样本注分析.html#cb35-5" tabindex="-1"></a>  <span class="fu">RotatedAxis</span>()</span></code></pre></div>
+<p><img src="01-2-%E5%8D%95%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="单样本注分析.html#cb36-1" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">paste0</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">11</span>,<span class="st">&quot;,&quot;</span>))</span>
+<span id="cb36-2"><a href="单样本注分析.html#cb36-2" tabindex="-1"></a><span class="do">## 0,</span></span>
+<span id="cb36-3"><a href="单样本注分析.html#cb36-3" tabindex="-1"></a><span class="do">## 1,</span></span>
+<span id="cb36-4"><a href="单样本注分析.html#cb36-4" tabindex="-1"></a><span class="do">## 2,</span></span>
+<span id="cb36-5"><a href="单样本注分析.html#cb36-5" tabindex="-1"></a><span class="do">## 3,</span></span>
+<span id="cb36-6"><a href="单样本注分析.html#cb36-6" tabindex="-1"></a><span class="do">## 4,</span></span>
+<span id="cb36-7"><a href="单样本注分析.html#cb36-7" tabindex="-1"></a><span class="do">## 5,</span></span>
+<span id="cb36-8"><a href="单样本注分析.html#cb36-8" tabindex="-1"></a><span class="do">## 6,</span></span>
+<span id="cb36-9"><a href="单样本注分析.html#cb36-9" tabindex="-1"></a><span class="do">## 7,</span></span>
+<span id="cb36-10"><a href="单样本注分析.html#cb36-10" tabindex="-1"></a><span class="do">## 8,</span></span>
+<span id="cb36-11"><a href="单样本注分析.html#cb36-11" tabindex="-1"></a><span class="do">## 9,</span></span>
+<span id="cb36-12"><a href="单样本注分析.html#cb36-12" tabindex="-1"></a><span class="do">## 10,</span></span>
+<span id="cb36-13"><a href="单样本注分析.html#cb36-13" tabindex="-1"></a><span class="do">## 11,</span></span>
+<span id="cb36-14"><a href="单样本注分析.html#cb36-14" tabindex="-1"></a>celltype <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;anno.txt&quot;</span>,<span class="at">sep =</span> <span class="st">&quot;,&quot;</span>) <span class="co">#自己照着DotPlot图填的</span></span>
+<span id="cb36-15"><a href="单样本注分析.html#cb36-15" tabindex="-1"></a>celltype</span>
+<span id="cb36-16"><a href="单样本注分析.html#cb36-16" tabindex="-1"></a><span class="do">##    V1           V2</span></span>
+<span id="cb36-17"><a href="单样本注分析.html#cb36-17" tabindex="-1"></a><span class="do">## 1   0  Naive CD4 T</span></span>
+<span id="cb36-18"><a href="单样本注分析.html#cb36-18" tabindex="-1"></a><span class="do">## 2   1   CD14+ Mono</span></span>
+<span id="cb36-19"><a href="单样本注分析.html#cb36-19" tabindex="-1"></a><span class="do">## 3   2            B</span></span>
+<span id="cb36-20"><a href="单样本注分析.html#cb36-20" tabindex="-1"></a><span class="do">## 4   3        CD8 T</span></span>
+<span id="cb36-21"><a href="单样本注分析.html#cb36-21" tabindex="-1"></a><span class="do">## 5   4           NK</span></span>
+<span id="cb36-22"><a href="单样本注分析.html#cb36-22" tabindex="-1"></a><span class="do">## 6   5  Naive CD4 T</span></span>
+<span id="cb36-23"><a href="单样本注分析.html#cb36-23" tabindex="-1"></a><span class="do">## 7   6  Naive CD4 T</span></span>
+<span id="cb36-24"><a href="单样本注分析.html#cb36-24" tabindex="-1"></a><span class="do">## 8   7 FCGR3A+ Mono</span></span>
+<span id="cb36-25"><a href="单样本注分析.html#cb36-25" tabindex="-1"></a><span class="do">## 9   8   CD14+ Mono</span></span>
+<span id="cb36-26"><a href="单样本注分析.html#cb36-26" tabindex="-1"></a><span class="do">## 10  9     Platelet</span></span>
+<span id="cb36-27"><a href="单样本注分析.html#cb36-27" tabindex="-1"></a><span class="do">## 11 10           DC</span></span>
+<span id="cb36-28"><a href="单样本注分析.html#cb36-28" tabindex="-1"></a><span class="do">## 12 11           DC</span></span>
+<span id="cb36-29"><a href="单样本注分析.html#cb36-29" tabindex="-1"></a>new.cluster.ids <span class="ot">&lt;-</span> celltype<span class="sc">$</span>V2</span>
+<span id="cb36-30"><a href="单样本注分析.html#cb36-30" tabindex="-1"></a><span class="fu">names</span>(new.cluster.ids) <span class="ot">&lt;-</span> <span class="fu">levels</span>(pbmc)</span>
+<span id="cb36-31"><a href="单样本注分析.html#cb36-31" tabindex="-1"></a>seu.obj <span class="ot">&lt;-</span> <span class="fu">RenameIdents</span>(pbmc, new.cluster.ids)</span>
+<span id="cb36-32"><a href="单样本注分析.html#cb36-32" tabindex="-1"></a><span class="fu">save</span>(seu.obj,<span class="at">file =</span> <span class="st">&quot;seu.obj.Rdata&quot;</span>)</span>
+<span id="cb36-33"><a href="单样本注分析.html#cb36-33" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">DimPlot</span>(seu.obj, </span>
+<span id="cb36-34"><a href="单样本注分析.html#cb36-34" tabindex="-1"></a>        <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>, </span>
+<span id="cb36-35"><a href="单样本注分析.html#cb36-35" tabindex="-1"></a>        <span class="at">label =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb36-36"><a href="单样本注分析.html#cb36-36" tabindex="-1"></a>        <span class="at">pt.size =</span> <span class="fl">0.5</span>) <span class="sc">+</span> <span class="fu">NoLegend</span>()</span>
+<span id="cb36-37"><a href="单样本注分析.html#cb36-37" tabindex="-1"></a>p2</span></code></pre></div>
+<p><img src="01-2-%E5%8D%95%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>自动注释</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="单样本注分析.html#cb37-1" tabindex="-1"></a><span class="fu">library</span>(celldex)</span>
+<span id="cb37-2"><a href="单样本注分析.html#cb37-2" tabindex="-1"></a><span class="fu">library</span>(SingleR)</span>
+<span id="cb37-3"><a href="单样本注分析.html#cb37-3" tabindex="-1"></a><span class="fu">ls</span>(<span class="st">&quot;package:celldex&quot;</span>)</span>
+<span id="cb37-4"><a href="单样本注分析.html#cb37-4" tabindex="-1"></a><span class="do">##  [1] &quot;BlueprintEncodeData&quot;              &quot;DatabaseImmuneCellExpressionData&quot;</span></span>
+<span id="cb37-5"><a href="单样本注分析.html#cb37-5" tabindex="-1"></a><span class="do">##  [3] &quot;defineTextQuery&quot;                  &quot;fetchLatestVersion&quot;              </span></span>
+<span id="cb37-6"><a href="单样本注分析.html#cb37-6" tabindex="-1"></a><span class="do">##  [5] &quot;fetchMetadata&quot;                    &quot;fetchReference&quot;                  </span></span>
+<span id="cb37-7"><a href="单样本注分析.html#cb37-7" tabindex="-1"></a><span class="do">##  [7] &quot;HumanPrimaryCellAtlasData&quot;        &quot;ImmGenData&quot;                      </span></span>
+<span id="cb37-8"><a href="单样本注分析.html#cb37-8" tabindex="-1"></a><span class="do">##  [9] &quot;listReferences&quot;                   &quot;listVersions&quot;                    </span></span>
+<span id="cb37-9"><a href="单样本注分析.html#cb37-9" tabindex="-1"></a><span class="do">## [11] &quot;MonacoImmuneData&quot;                 &quot;MouseRNAseqData&quot;                 </span></span>
+<span id="cb37-10"><a href="单样本注分析.html#cb37-10" tabindex="-1"></a><span class="do">## [13] &quot;NovershternHematopoieticData&quot;     &quot;saveReference&quot;                   </span></span>
+<span id="cb37-11"><a href="单样本注分析.html#cb37-11" tabindex="-1"></a><span class="do">## [15] &quot;searchReferences&quot;                 &quot;surveyReferences&quot;</span></span>
+<span id="cb37-12"><a href="单样本注分析.html#cb37-12" tabindex="-1"></a>f <span class="ot">=</span> <span class="st">&quot;../supp/single_ref/ref_BlueprintEncode.RData&quot;</span></span>
+<span id="cb37-13"><a href="单样本注分析.html#cb37-13" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(f)){</span>
+<span id="cb37-14"><a href="单样本注分析.html#cb37-14" tabindex="-1"></a>  ref <span class="ot">&lt;-</span> celldex<span class="sc">::</span><span class="fu">BlueprintEncodeData</span>()</span>
+<span id="cb37-15"><a href="单样本注分析.html#cb37-15" tabindex="-1"></a>  <span class="fu">save</span>(ref,<span class="at">file =</span> f)</span>
+<span id="cb37-16"><a href="单样本注分析.html#cb37-16" tabindex="-1"></a>}</span>
+<span id="cb37-17"><a href="单样本注分析.html#cb37-17" tabindex="-1"></a>ref <span class="ot">&lt;-</span> <span class="fu">get</span>(<span class="fu">load</span>(f))</span>
+<span id="cb37-18"><a href="单样本注分析.html#cb37-18" tabindex="-1"></a><span class="fu">library</span>(BiocParallel)</span>
+<span id="cb37-19"><a href="单样本注分析.html#cb37-19" tabindex="-1"></a>scRNA <span class="ot">=</span> pbmc</span>
+<span id="cb37-20"><a href="单样本注分析.html#cb37-20" tabindex="-1"></a>test <span class="ot">=</span> scRNA<span class="sc">@</span>assays<span class="sc">$</span>RNA<span class="sc">$</span>data</span>
+<span id="cb37-21"><a href="单样本注分析.html#cb37-21" tabindex="-1"></a>pred.scRNA <span class="ot">&lt;-</span> <span class="fu">SingleR</span>(<span class="at">test =</span> test, </span>
+<span id="cb37-22"><a href="单样本注分析.html#cb37-22" tabindex="-1"></a>                      <span class="at">ref =</span> ref,</span>
+<span id="cb37-23"><a href="单样本注分析.html#cb37-23" tabindex="-1"></a>                      <span class="at">labels =</span> ref<span class="sc">$</span>label.main, </span>
+<span id="cb37-24"><a href="单样本注分析.html#cb37-24" tabindex="-1"></a>                      <span class="at">clusters =</span> scRNA<span class="sc">@</span>active.ident)</span>
+<span id="cb37-25"><a href="单样本注分析.html#cb37-25" tabindex="-1"></a>pred.scRNA<span class="sc">$</span>pruned.labels</span>
+<span id="cb37-26"><a href="单样本注分析.html#cb37-26" tabindex="-1"></a><span class="do">##  [1] &quot;CD4+ T-cells&quot; &quot;Monocytes&quot;    &quot;B-cells&quot;      &quot;CD8+ T-cells&quot; &quot;NK cells&quot;    </span></span>
+<span id="cb37-27"><a href="单样本注分析.html#cb37-27" tabindex="-1"></a><span class="do">##  [6] &quot;CD4+ T-cells&quot; &quot;CD4+ T-cells&quot; &quot;Monocytes&quot;    &quot;Monocytes&quot;    &quot;Monocytes&quot;   </span></span>
+<span id="cb37-28"><a href="单样本注分析.html#cb37-28" tabindex="-1"></a><span class="do">## [11] &quot;DC&quot;           &quot;Monocytes&quot;</span></span>
+<span id="cb37-29"><a href="单样本注分析.html#cb37-29" tabindex="-1"></a><span class="co">#查看注释准确性 </span></span>
+<span id="cb37-30"><a href="单样本注分析.html#cb37-30" tabindex="-1"></a><span class="fu">plotScoreHeatmap</span>(pred.scRNA, <span class="at">clusters=</span>pred.scRNA<span class="sc">@</span>rownames, <span class="at">fontsize.row =</span> <span class="dv">9</span>,<span class="at">show_colnames =</span> T)</span></code></pre></div>
+<p><img src="01-2-%E5%8D%95%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="单样本注分析.html#cb38-1" tabindex="-1"></a>new.cluster.ids <span class="ot">&lt;-</span> pred.scRNA<span class="sc">$</span>pruned.labels</span>
+<span id="cb38-2"><a href="单样本注分析.html#cb38-2" tabindex="-1"></a><span class="fu">names</span>(new.cluster.ids) <span class="ot">&lt;-</span> <span class="fu">levels</span>(scRNA)</span>
+<span id="cb38-3"><a href="单样本注分析.html#cb38-3" tabindex="-1"></a><span class="fu">levels</span>(scRNA)</span>
+<span id="cb38-4"><a href="单样本注分析.html#cb38-4" tabindex="-1"></a><span class="do">##  [1] &quot;0&quot;  &quot;1&quot;  &quot;2&quot;  &quot;3&quot;  &quot;4&quot;  &quot;5&quot;  &quot;6&quot;  &quot;7&quot;  &quot;8&quot;  &quot;9&quot;  &quot;10&quot; &quot;11&quot;</span></span>
+<span id="cb38-5"><a href="单样本注分析.html#cb38-5" tabindex="-1"></a>scRNA <span class="ot">&lt;-</span> <span class="fu">RenameIdents</span>(scRNA,new.cluster.ids)</span>
+<span id="cb38-6"><a href="单样本注分析.html#cb38-6" tabindex="-1"></a><span class="fu">levels</span>(scRNA)</span>
+<span id="cb38-7"><a href="单样本注分析.html#cb38-7" tabindex="-1"></a><span class="do">## [1] &quot;CD4+ T-cells&quot; &quot;Monocytes&quot;    &quot;B-cells&quot;      &quot;CD8+ T-cells&quot; &quot;NK cells&quot;    </span></span>
+<span id="cb38-8"><a href="单样本注分析.html#cb38-8" tabindex="-1"></a><span class="do">## [6] &quot;DC&quot;</span></span>
+<span id="cb38-9"><a href="单样本注分析.html#cb38-9" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">DimPlot</span>(scRNA, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>,<span class="at">label =</span> T,<span class="at">pt.size =</span> <span class="fl">0.5</span>) <span class="sc">+</span> <span class="fu">NoLegend</span>()</span>
+<span id="cb38-10"><a href="单样本注分析.html#cb38-10" tabindex="-1"></a>p2<span class="sc">+</span>p3</span></code></pre></div>
+<p><img src="01-2-%E5%8D%95%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="seurat-教程.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="单细胞二次分群.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/smileszh/scRNA-Seq/edit/master/01-2-单样本分析.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>

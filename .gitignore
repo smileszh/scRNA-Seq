@@ -21,6 +21,7 @@ _book/
 
 # data
 data/
+Rdata/
 
 # raw Rmd
 *.Rmd
