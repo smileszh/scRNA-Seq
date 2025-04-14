@@ -24,7 +24,7 @@ data/
 Rdata/
 
 # raw Rmd
-*.Rmd
+# *.Rmd
 
 
 .Rproj.user
