@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>第 1 章 Seurat 标准处理流程 | scRNA-Seq</title>
+  <meta name="description" content="This is an online note of the scRNA-Seq analysis." />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="第 1 章 Seurat 标准处理流程 | scRNA-Seq" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is an online note of the scRNA-Seq analysis." />
+  <meta name="github-repo" content="smileszh/scRNA-Seq" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="第 1 章 Seurat 标准处理流程 | scRNA-Seq" />
+  
+  <meta name="twitter:description" content="This is an online note of the scRNA-Seq analysis." />
+  
+
+<meta name="author" content="苏总华" />
+
+
+<meta name="date" content="2025-04-14" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="seurat-数据可视化.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">scRNA-Seq</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>前言</a></li>
+<li class="part"><span><b>I Seurat</b></span></li>
+<li class="chapter" data-level="1" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html"><i class="fa fa-check"></i><b>1</b> Seurat 标准处理流程</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#设置-seurat-对象"><i class="fa fa-check"></i><b>1.1</b> 设置 Seurat 对象</a></li>
+<li class="chapter" data-level="1.2" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#qc-和选择细胞进行进一步分析"><i class="fa fa-check"></i><b>1.2</b> QC 和选择细胞进行进一步分析</a></li>
+<li class="chapter" data-level="1.3" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#数据标准化"><i class="fa fa-check"></i><b>1.3</b> 数据标准化</a></li>
+<li class="chapter" data-level="1.4" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#高度可变特征的识别特征选择"><i class="fa fa-check"></i><b>1.4</b> 高度可变特征的识别（特征选择）</a></li>
+<li class="chapter" data-level="1.5" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#缩放数据"><i class="fa fa-check"></i><b>1.5</b> 缩放数据</a></li>
+<li class="chapter" data-level="1.6" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#线性降维"><i class="fa fa-check"></i><b>1.6</b> 线性降维</a></li>
+<li class="chapter" data-level="1.7" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#确定数据集的维度"><i class="fa fa-check"></i><b>1.7</b> 确定数据集的“维度”</a></li>
+<li class="chapter" data-level="1.8" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#细胞聚类"><i class="fa fa-check"></i><b>1.8</b> 细胞聚类</a></li>
+<li class="chapter" data-level="1.9" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#运行非线性降维umaptsne"><i class="fa fa-check"></i><b>1.9</b> 运行非线性降维（UMAP/tSNE）</a></li>
+<li class="chapter" data-level="1.10" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#寻找差异表达的特征聚类-marker"><i class="fa fa-check"></i><b>1.10</b> 寻找差异表达的特征（聚类 Marker）</a></li>
+<li class="chapter" data-level="1.11" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#根据-marker-基因确定细胞"><i class="fa fa-check"></i><b>1.11</b> 根据 marker 基因确定细胞</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html"><i class="fa fa-check"></i><b>2</b> Seurat 数据可视化</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#标记-marker-基因表达的五种可视化方式"><i class="fa fa-check"></i><b>2.1</b> 标记 Marker 基因表达的五种可视化方式</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#山脊图"><i class="fa fa-check"></i><b>2.1.1</b> 山脊图</a></li>
+<li class="chapter" data-level="2.1.2" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#小提琴图"><i class="fa fa-check"></i><b>2.1.2</b> 小提琴图</a></li>
+<li class="chapter" data-level="2.1.3" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#特征图"><i class="fa fa-check"></i><b>2.1.3</b> 特征图</a></li>
+<li class="chapter" data-level="2.1.4" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#点图"><i class="fa fa-check"></i><b>2.1.4</b> 点图</a></li>
+<li class="chapter" data-level="2.1.5" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#热图"><i class="fa fa-check"></i><b>2.1.5</b> 热图</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#ggplot2-联用"><i class="fa fa-check"></i><b>2.2</b> ggplot2 联用</a></li>
+<li class="chapter" data-level="2.3" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#交互式绘图功能"><i class="fa fa-check"></i><b>2.3</b> 交互式绘图功能</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#hoverlocator"><i class="fa fa-check"></i><b>2.3.1</b> HoverLocator</a></li>
+<li class="chapter" data-level="2.3.2" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#cellselector"><i class="fa fa-check"></i><b>2.3.2</b> CellSelector</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#绘图辅助工具"><i class="fa fa-check"></i><b>2.4</b> 绘图辅助工具</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="seurat-中使用-sctransform-方法.html"><a href="seurat-中使用-sctransform-方法.html"><i class="fa fa-check"></i><b>3</b> Seurat 中使用 sctransform 方法</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="seurat-中使用-sctransform-方法.html"><a href="seurat-中使用-sctransform-方法.html#设置-seurat-对象-1"><i class="fa fa-check"></i><b>3.1</b> 设置 Seurat 对象</a></li>
+<li class="chapter" data-level="3.2" data-path="seurat-中使用-sctransform-方法.html"><a href="seurat-中使用-sctransform-方法.html#应用-sctransform-标准化方法"><i class="fa fa-check"></i><b>3.2</b> 应用 sctransform 标准化方法</a></li>
+<li class="chapter" data-level="3.3" data-path="seurat-中使用-sctransform-方法.html"><a href="seurat-中使用-sctransform-方法.html#通过-pca-降维和-umap-嵌入进行维度缩减"><i class="fa fa-check"></i><b>3.3</b> 通过 PCA 降维和 UMAP 嵌入进行维度缩减</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html"><i class="fa fa-check"></i><b>4</b> scRNA-Seq 整合简介</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#设置-seurat-对象-2"><i class="fa fa-check"></i><b>4.1</b> 设置 Seurat 对象</a></li>
+<li class="chapter" data-level="4.2" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#执行非整合分析"><i class="fa fa-check"></i><b>4.2</b> 执行非整合分析</a></li>
+<li class="chapter" data-level="4.3" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#执行整合"><i class="fa fa-check"></i><b>4.3</b> 执行整合</a></li>
+<li class="chapter" data-level="4.4" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#识别保守的细胞类型标记基因"><i class="fa fa-check"></i><b>4.4</b> 识别保守的细胞类型标记基因</a></li>
+<li class="chapter" data-level="4.5" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#识别不同条件下的差异表达基因"><i class="fa fa-check"></i><b>4.5</b> 识别不同条件下的差异表达基因</a></li>
+<li class="chapter" data-level="4.6" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#使用-sctransform-标准化数据集进行整合"><i class="fa fa-check"></i><b>4.6</b> 使用 SCTransform 标准化数据集进行整合</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="searat-整合.html"><a href="searat-整合.html"><i class="fa fa-check"></i><b>5</b> Searat 整合</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="searat-整合.html"><a href="searat-整合.html#seurat-v5-对象中的层次结构"><i class="fa fa-check"></i><b>5.1</b> Seurat v5 对象中的层次结构</a></li>
+<li class="chapter" data-level="5.2" data-path="searat-整合.html"><a href="searat-整合.html#执行简化单行整合分析"><i class="fa fa-check"></i><b>5.2</b> 执行简化（单行）整合分析</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="映射与注释查询数据集.html"><a href="映射与注释查询数据集.html"><i class="fa fa-check"></i><b>6</b> 映射与注释查询数据集</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="映射与注释查询数据集.html"><a href="映射与注释查询数据集.html#数据集预处理"><i class="fa fa-check"></i><b>6.1</b> 数据集预处理</a></li>
+<li class="chapter" data-level="6.2" data-path="映射与注释查询数据集.html"><a href="映射与注释查询数据集.html#使用集成参考进行细胞类型分类"><i class="fa fa-check"></i><b>6.2</b> 使用集成参考进行细胞类型分类</a></li>
+<li class="chapter" data-level="6.3" data-path="映射与注释查询数据集.html"><a href="映射与注释查询数据集.html#单模态-umap-投影"><i class="fa fa-check"></i><b>6.3</b> 单模态 UMAP 投影</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="差异表达分析.html"><a href="差异表达分析.html"><i class="fa fa-check"></i><b>7</b> 差异表达分析</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="差异表达分析.html"><a href="差异表达分析.html#执行默认差异表达分析"><i class="fa fa-check"></i><b>7.1</b> 执行默认差异表达分析</a></li>
+<li class="chapter" data-level="7.2" data-path="差异表达分析.html"><a href="差异表达分析.html#在同一细胞类型内跨条件进行差异表达分析"><i class="fa fa-check"></i><b>7.2</b> 在同一细胞类型内跨条件进行差异表达分析</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="差异表达分析.html"><a href="差异表达分析.html#执行伪批量分析后的差异表达分析"><i class="fa fa-check"></i><b>7.2.1</b> 执行伪批量分析后的差异表达分析</a></li>
+<li class="chapter" data-level="7.2.2" data-path="差异表达分析.html"><a href="差异表达分析.html#使用其他检验进行差异表达分析"><i class="fa fa-check"></i><b>7.2.2</b> 使用其他检验进行差异表达分析</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html"><i class="fa fa-check"></i><b>8</b> Seurat 命令列表</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#标准-seurat-工作流程"><i class="fa fa-check"></i><b>8.1</b> 标准 Seurat 工作流程</a></li>
+<li class="chapter" data-level="8.2" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#sctransform-版本"><i class="fa fa-check"></i><b>8.2</b> SCtransform 版本</a></li>
+<li class="chapter" data-level="8.3" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#seurat-对象数据访问"><i class="fa fa-check"></i><b>8.3</b> Seurat 对象数据访问</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#细胞基因及层级名称"><i class="fa fa-check"></i><b>8.3.1</b> 细胞、基因及层级名称</a></li>
+<li class="chapter" data-level="8.3.2" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#身份类别标签"><i class="fa fa-check"></i><b>8.3.2</b> 身份类别标签</a></li>
+<li class="chapter" data-level="8.3.3" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#细胞元数据"><i class="fa fa-check"></i><b>8.3.3</b> 细胞元数据</a></li>
+<li class="chapter" data-level="8.3.4" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#表达数据在-seurat-v5-中以图层形式存储"><i class="fa fa-check"></i><b>8.3.4</b> 表达数据（在 Seurat v5 中以图层形式存储）</a></li>
+<li class="chapter" data-level="8.3.5" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#降维"><i class="fa fa-check"></i><b>8.3.5</b> 降维</a></li>
+<li class="chapter" data-level="8.3.6" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#数据获取"><i class="fa fa-check"></i><b>8.3.6</b> 数据获取</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#子集划分与合并"><i class="fa fa-check"></i><b>8.4</b> 子集划分与合并</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#子集-seurat-对象"><i class="fa fa-check"></i><b>8.4.1</b> 子集 Seurat 对象</a></li>
+<li class="chapter" data-level="8.4.2" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#分割图层"><i class="fa fa-check"></i><b>8.4.2</b> 分割图层</a></li>
+<li class="chapter" data-level="8.4.3" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#合并对象不带整合"><i class="fa fa-check"></i><b>8.4.3</b> 合并对象（不带整合)</a></li>
+<li class="chapter" data-level="8.4.4" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#合并对象带整合"><i class="fa fa-check"></i><b>8.4.4</b> 合并对象（带整合）’</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#伪-bulk-分析"><i class="fa fa-check"></i><b>8.5</b> 伪 bulk 分析</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#基于多个类别将细胞分组"><i class="fa fa-check"></i><b>8.5.1</b> 基于多个类别将细胞分组</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#在-seurat-中进行可视化"><i class="fa fa-check"></i><b>8.6</b> 在 Seurat 中进行可视化</a></li>
+<li class="chapter" data-level="8.7" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#多检测特征"><i class="fa fa-check"></i><b>8.7</b> 多检测特征</a></li>
+</ul></li>
+<li class="part"><span><b>II Seurat 实战</b></span></li>
+<li class="chapter" data-level="9" data-path="单样本分析.html"><a href="单样本分析.html"><i class="fa fa-check"></i><b>9</b> 单样本分析</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="单样本分析.html"><a href="单样本分析.html#创建seurat对象"><i class="fa fa-check"></i><b>9.1</b> 创建Seurat对象</a></li>
+<li class="chapter" data-level="9.2" data-path="单样本分析.html"><a href="单样本分析.html#降维聚类分群"><i class="fa fa-check"></i><b>9.2</b> 降维聚类分群</a></li>
+<li class="chapter" data-level="9.3" data-path="单样本分析.html"><a href="单样本分析.html#maker-基因"><i class="fa fa-check"></i><b>9.3</b> maker 基因</a></li>
+<li class="chapter" data-level="9.4" data-path="单样本分析.html"><a href="单样本分析.html#maker-基因可视化"><i class="fa fa-check"></i><b>9.4</b> maker 基因可视化</a></li>
+<li class="chapter" data-level="9.5" data-path="单样本分析.html"><a href="单样本分析.html#注释亚群"><i class="fa fa-check"></i><b>9.5</b> 注释亚群</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html"><i class="fa fa-check"></i><b>10</b> 单细胞二次分群</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#示例数据"><i class="fa fa-check"></i><b>10.1</b> 示例数据</a></li>
+<li class="chapter" data-level="10.2" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#二次分群"><i class="fa fa-check"></i><b>10.2</b> 二次分群</a></li>
+<li class="chapter" data-level="10.3" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#marker基因及其可视化"><i class="fa fa-check"></i><b>10.3</b> marker基因及其可视化</a></li>
+<li class="chapter" data-level="10.4" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#放回原来的seurat对象里面"><i class="fa fa-check"></i><b>10.4</b> 放回原来的Seurat对象里面</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="多样本分析.html"><a href="多样本分析.html"><i class="fa fa-check"></i><b>11</b> 多样本分析</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="多样本分析.html"><a href="多样本分析.html#整理数据"><i class="fa fa-check"></i><b>11.1</b> 整理数据</a></li>
+<li class="chapter" data-level="11.2" data-path="多样本分析.html"><a href="多样本分析.html#批量读取"><i class="fa fa-check"></i><b>11.2</b> 批量读取</a></li>
+<li class="chapter" data-level="11.3" data-path="多样本分析.html"><a href="多样本分析.html#质控指标"><i class="fa fa-check"></i><b>11.3</b> 质控指标</a></li>
+<li class="chapter" data-level="11.4" data-path="多样本分析.html"><a href="多样本分析.html#整合降维聚类分群"><i class="fa fa-check"></i><b>11.4</b> 整合降维聚类分群</a></li>
+<li class="chapter" data-level="11.5" data-path="多样本分析.html"><a href="多样本分析.html#注释"><i class="fa fa-check"></i><b>11.5</b> 注释</a></li>
+<li class="chapter" data-level="11.6" data-path="多样本分析.html"><a href="多样本分析.html#分组可视化及组件细胞比例比较"><i class="fa fa-check"></i><b>11.6</b> 分组可视化及组件细胞比例比较</a></li>
+<li class="chapter" data-level="11.7" data-path="多样本分析.html"><a href="多样本分析.html#差异分析"><i class="fa fa-check"></i><b>11.7</b> 差异分析</a></li>
+<li class="chapter" data-level="11.8" data-path="多样本分析.html"><a href="多样本分析.html#伪bulk-转录组差异分析"><i class="fa fa-check"></i><b>11.8</b> 伪bulk 转录组差异分析</a></li>
+</ul></li>
+<li class="part"><span><b>III 拟时序分析</b></span></li>
+<li class="chapter" data-level="12" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html"><i class="fa fa-check"></i><b>12</b> 单样本拟时序分析</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html#构建细胞发育轨迹"><i class="fa fa-check"></i><b>12.1</b> 构建细胞发育轨迹</a></li>
+<li class="chapter" data-level="12.2" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html#绘图展示"><i class="fa fa-check"></i><b>12.2</b> 绘图展示</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html"><i class="fa fa-check"></i><b>13</b> 多样本拟时序分析</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html#构建细胞发育轨迹-1"><i class="fa fa-check"></i><b>13.1</b> 构建细胞发育轨迹</a></li>
+<li class="chapter" data-level="13.2" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html#绘图展示-1"><i class="fa fa-check"></i><b>13.2</b> 绘图展示</a></li>
+</ul></li>
+<li class="part"><span><b>IV CellChat</b></span></li>
+<li class="chapter" data-level="14" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html"><i class="fa fa-check"></i><b>14</b> cellchat 单数据集分析</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#数据输入处理及-cellchat-对象初始化"><i class="fa fa-check"></i><b>14.1</b> 数据输入、处理及 cellchat 对象初始化</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#创建-cellchat-对象"><i class="fa fa-check"></i><b>14.1.1</b> 创建 cellchat 对象</a></li>
+<li class="chapter" data-level="14.1.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#设置配体-受体相互作用数据库"><i class="fa fa-check"></i><b>14.1.2</b> 设置配体-受体相互作用数据库</a></li>
+<li class="chapter" data-level="14.1.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#细胞间通讯分析的表达数据预处理"><i class="fa fa-check"></i><b>14.1.3</b> 细胞间通讯分析的表达数据预处理</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#细胞间通讯网络推断"><i class="fa fa-check"></i><b>14.2</b> 细胞间通讯网络推断</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#计算通讯概率并推断细胞通讯网络"><i class="fa fa-check"></i><b>14.2.1</b> 计算通讯概率并推断细胞通讯网络</a></li>
+<li class="chapter" data-level="14.2.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#将推断出的细胞通讯网络提取为一个数据框"><i class="fa fa-check"></i><b>14.2.2</b> 将推断出的细胞通讯网络提取为一个数据框。</a></li>
+<li class="chapter" data-level="14.2.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#在信号通路级别推断细胞-细胞通讯"><i class="fa fa-check"></i><b>14.2.3</b> 在信号通路级别推断细胞-细胞通讯</a></li>
+<li class="chapter" data-level="14.2.4" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#计算聚合的细胞-细胞通信网络"><i class="fa fa-check"></i><b>14.2.4</b> 计算聚合的细胞-细胞通信网络</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#细胞间通信网络的可视化"><i class="fa fa-check"></i><b>14.3</b> 细胞间通信网络的可视化</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#使用层次图圆形图或和弦图可视化每个信号通路"><i class="fa fa-check"></i><b>14.3.1</b> 使用层次图、圆形图或和弦图可视化每个信号通路</a></li>
+<li class="chapter" data-level="14.3.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#计算每个配体-受体对对整体信号通路的贡献并可视化由单个配体-受体对介导的细胞间通信"><i class="fa fa-check"></i><b>14.3.2</b> 计算每个配体-受体对对整体信号通路的贡献，并可视化由单个配体-受体对介导的细胞间通信</a></li>
+<li class="chapter" data-level="14.3.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#可视化由多个配体-受体或信号通路介导的细胞间通信"><i class="fa fa-check"></i><b>14.3.3</b> 可视化由多个配体-受体或信号通路介导的细胞间通信</a></li>
+<li class="chapter" data-level="14.3.4" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#使用小提琴图点图绘制信号基因表达分布"><i class="fa fa-check"></i><b>14.3.4</b> 使用小提琴图/点图绘制信号基因表达分布</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#细胞间通信网络的系统分析"><i class="fa fa-check"></i><b>14.4</b> 细胞间通信网络的系统分析</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#确定细胞群体的信号角色例如主要发送者接收者以及主要贡献的信号"><i class="fa fa-check"></i><b>14.4.1</b> 确定细胞群体的信号角色（例如，主要发送者、接收者）以及主要贡献的信号</a></li>
+<li class="chapter" data-level="14.4.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#识别全局通讯模式探索多种细胞类型与信号通路如何协同作用"><i class="fa fa-check"></i><b>14.4.2</b> 识别全局通讯模式，探索多种细胞类型与信号通路如何协同作用</a></li>
+<li class="chapter" data-level="14.4.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#信号网络的流形与分类学习分析"><i class="fa fa-check"></i><b>14.4.3</b> 信号网络的流形与分类学习分析</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#保存-cellchaat-对象"><i class="fa fa-check"></i><b>14.5</b> 保存 cellchaat 对象</a></li>
+<li class="chapter" data-level="14.6" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#通过交互式-cellchat-探索器探索细胞间通讯"><i class="fa fa-check"></i><b>14.6</b> 通过交互式 CellChat 探索器探索细胞间通讯</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html"><i class="fa fa-check"></i><b>15</b> cellchat 多数据集对比分析</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#加载各数据集的-cellchat-对象并合并"><i class="fa fa-check"></i><b>15.1</b> 加载各数据集的 CellChat 对象并合并</a></li>
+<li class="chapter" data-level="15.2" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别改变的互作与细胞群体"><i class="fa fa-check"></i><b>15.2</b> 识别改变的互作与细胞群体</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#比较相互作用的总数量及相互作用强度"><i class="fa fa-check"></i><b>15.2.1</b> 比较相互作用的总数量及相互作用强度</a></li>
+<li class="chapter" data-level="15.2.2" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#比较不同细胞群体间的相互作用数量及相互作用强度"><i class="fa fa-check"></i><b>15.2.2</b> 比较不同细胞群体间的相互作用数量及相互作用强度</a></li>
+<li class="chapter" data-level="15.2.3" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#在二维空间中比较主要来源和目标"><i class="fa fa-check"></i><b>15.2.3</b> 在二维空间中比较主要来源和目标</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别具有不同网络架构及相互作用强度的信号变化"><i class="fa fa-check"></i><b>15.3</b> 识别具有不同网络架构及相互作用强度的信号变化</a>
+<ul>
+<li class="chapter" data-level="15.3.1" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别差异较大或较小的信号网络并基于其功能结构相似性划分信号组"><i class="fa fa-check"></i><b>15.3.1</b> 识别差异较大（或较小）的信号网络，并基于其功能/结构相似性划分信号组</a></li>
+<li class="chapter" data-level="15.3.2" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别具有不同交互强度的改变信号"><i class="fa fa-check"></i><b>15.3.2</b> 识别具有不同交互强度的改变信号</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别上调和下调的信号配体-受体对"><i class="fa fa-check"></i><b>15.4</b> 识别上调和下调的信号配体-受体对</a>
+<ul>
+<li class="chapter" data-level="15.4.1" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#通过比较通信概率来识别功能失调的信号传导"><i class="fa fa-check"></i><b>15.4.1</b> 通过比较通信概率来识别功能失调的信号传导</a></li>
+<li class="chapter" data-level="15.4.2" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#通过使用差异表达分析识别功能失调的信号传导"><i class="fa fa-check"></i><b>15.4.2</b> 通过使用差异表达分析识别功能失调的信号传导</a></li>
+<li class="chapter" data-level="15.4.3" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#可视化识别出的上调和下调的信号配体-受体对"><i class="fa fa-check"></i><b>15.4.3</b> 可视化识别出的上调和下调的信号配体-受体对</a></li>
+</ul></li>
+<li class="chapter" data-level="15.5" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#使用层次图圆形图或和弦图可视化比较细胞间通信"><i class="fa fa-check"></i><b>15.5</b> 使用层次图、圆形图或和弦图可视化比较细胞间通信</a></li>
+<li class="chapter" data-level="15.6" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#比较不同数据集之间信号基因表达分布"><i class="fa fa-check"></i><b>15.6</b> 比较不同数据集之间信号基因表达分布</a></li>
+<li class="chapter" data-level="15.7" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#保存合并的-cellchat-对象"><i class="fa fa-check"></i><b>15.7</b> 保存合并的 CellChat 对象</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html"><i class="fa fa-check"></i><b>16</b> 细胞通讯分析</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#r包和数据"><i class="fa fa-check"></i><b>16.1</b> R包和数据</a></li>
+<li class="chapter" data-level="16.2" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#了解参考数据"><i class="fa fa-check"></i><b>16.2</b> 了解参考数据</a></li>
+<li class="chapter" data-level="16.3" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#构建cellchat对象"><i class="fa fa-check"></i><b>16.3</b> 构建cellchat对象</a></li>
+<li class="chapter" data-level="16.4" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#细胞通讯网络分析"><i class="fa fa-check"></i><b>16.4</b> 细胞通讯网络分析</a></li>
+<li class="chapter" data-level="16.5" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#画图展示"><i class="fa fa-check"></i><b>16.5</b> 画图展示</a>
+<ul>
+<li class="chapter" data-level="16.5.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#circle-plot"><i class="fa fa-check"></i><b>16.5.1</b> circle plot</a></li>
+<li class="chapter" data-level="16.5.2" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#chord-plot"><i class="fa fa-check"></i><b>16.5.2</b> chord plot</a></li>
+<li class="chapter" data-level="16.5.3" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#heatmap"><i class="fa fa-check"></i><b>16.5.3</b> heatmap</a></li>
+<li class="chapter" data-level="16.5.4" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#热图-展示每一类细胞是什么角色"><i class="fa fa-check"></i><b>16.5.4</b> 热图-展示每一类细胞是什么角色</a></li>
+<li class="chapter" data-level="16.5.5" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#气泡图-显示所有的显著的配体-受体对"><i class="fa fa-check"></i><b>16.5.5</b> 气泡图-显示所有的显著的配体-受体对</a></li>
+</ul></li>
+<li class="chapter" data-level="16.6" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#细胞通讯模式和信号网络"><i class="fa fa-check"></i><b>16.6</b> 细胞通讯模式和信号网络</a>
+<ul>
+<li class="chapter" data-level="16.6.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#选择合适的partten细胞通讯模式的数量"><i class="fa fa-check"></i><b>16.6.1</b> 选择合适的partten（细胞通讯模式）的数量</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="gsva-分析.html"><a href="gsva-分析.html"><i class="fa fa-check"></i><b>17</b> GSVA 分析</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="gsva-分析.html"><a href="gsva-分析.html#加载数据和r包"><i class="fa fa-check"></i><b>17.1</b> 加载数据和R包</a></li>
+<li class="chapter" data-level="17.2" data-path="gsva-分析.html"><a href="gsva-分析.html#做gsva"><i class="fa fa-check"></i><b>17.2</b> 做GSVA</a></li>
+<li class="chapter" data-level="17.3" data-path="gsva-分析.html"><a href="gsva-分析.html#热图可视化"><i class="fa fa-check"></i><b>17.3</b> 热图可视化</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="细胞周期.html"><a href="细胞周期.html"><i class="fa fa-check"></i><b>18</b> 细胞周期</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="细胞周期.html"><a href="细胞周期.html#读取数据并做好前期的质控"><i class="fa fa-check"></i><b>18.1</b> 读取数据并做好前期的质控</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="细胞周期.html"><a href="细胞周期.html#gse218208"><i class="fa fa-check"></i><b>18.1.1</b> GSE218208</a></li>
+<li class="chapter" data-level="18.1.2" data-path="细胞周期.html"><a href="细胞周期.html#marrow"><i class="fa fa-check"></i><b>18.1.2</b> marrow</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="细胞周期.html"><a href="细胞周期.html#计算细胞周期评分"><i class="fa fa-check"></i><b>18.2</b> 计算细胞周期评分</a></li>
+<li class="chapter" data-level="18.3" data-path="细胞周期.html"><a href="细胞周期.html#比较两个数据的细胞周期评分和pca"><i class="fa fa-check"></i><b>18.3</b> 比较两个数据的细胞周期评分和PCA</a></li>
+<li class="chapter" data-level="18.4" data-path="细胞周期.html"><a href="细胞周期.html#比较去除和不去处细胞周期影响的下游注释"><i class="fa fa-check"></i><b>18.4</b> 比较去除和不去处细胞周期影响的下游注释</a>
+<ul>
+<li class="chapter" data-level="18.4.1" data-path="细胞周期.html"><a href="细胞周期.html#不考虑细胞周期的降维聚类分群"><i class="fa fa-check"></i><b>18.4.1</b> 不考虑细胞周期的降维聚类分群</a></li>
+<li class="chapter" data-level="18.4.2" data-path="细胞周期.html"><a href="细胞周期.html#考虑细胞周期的降维聚类分群"><i class="fa fa-check"></i><b>18.4.2</b> 考虑细胞周期的降维聚类分群</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://space.bilibili.com/338686099" target="blank">本笔记来自 生信技能书</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">scRNA-Seq</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="seurat-标准处理流程" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">第 1 章</span> Seurat 标准处理流程<a href="seurat-标准处理流程.html#seurat-标准处理流程" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Seurat 是一个 R 软件包，用于单细胞 RNA 测序数据的质量控制、分析和探索。Seurat 旨在帮助用户识别和解释单细胞转录组测量中的异质性来源，并整合不同类型的单细胞数据。</p>
+<p>代码：<a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial" class="uri">https://satijalab.org/seurat/articles/pbmc3k_tutorial</a></p>
+<p>数据：<a href="https://cf.10xgenomics.com/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz" class="uri">https://cf.10xgenomics.com/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz</a></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="seurat-标准处理流程.html#cb1-1" tabindex="-1"></a><span class="co"># 加载包</span></span>
+<span id="cb1-2"><a href="seurat-标准处理流程.html#cb1-2" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb1-3"><a href="seurat-标准处理流程.html#cb1-3" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="seurat-标准处理流程.html#cb1-4" tabindex="-1"></a><span class="fu">library</span>(Seurat)</span>
+<span id="cb1-5"><a href="seurat-标准处理流程.html#cb1-5" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span></code></pre></div>
+<div id="设置-seurat-对象" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> 设置 Seurat 对象<a href="seurat-标准处理流程.html#设置-seurat-对象" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>10X的输入数据是固定的三个文件，在工作目录下新建01_data/，把三个文件放进去。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="seurat-标准处理流程.html#cb2-1" tabindex="-1"></a>pbmc.data <span class="ot">&lt;-</span> <span class="fu">Read10X</span>(<span class="at">data.dir =</span> <span class="st">&quot;01_data/&quot;</span>)</span>
+<span id="cb2-2"><a href="seurat-标准处理流程.html#cb2-2" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">CreateSeuratObject</span>(<span class="at">counts =</span> pbmc.data, </span>
+<span id="cb2-3"><a href="seurat-标准处理流程.html#cb2-3" tabindex="-1"></a>                           <span class="at">project =</span> <span class="st">&quot;pbmc3k&quot;</span>, </span>
+<span id="cb2-4"><a href="seurat-标准处理流程.html#cb2-4" tabindex="-1"></a>                           <span class="at">min.cells =</span> <span class="dv">3</span>, <span class="co"># 一个基因至少要在3个细胞里面有表达，才被保留</span></span>
+<span id="cb2-5"><a href="seurat-标准处理流程.html#cb2-5" tabindex="-1"></a>                           <span class="at">min.features =</span> <span class="dv">200</span>) <span class="co"># 一个细胞里面至少要表达两百个基因，才被保留。</span></span>
+<span id="cb2-6"><a href="seurat-标准处理流程.html#cb2-6" tabindex="-1"></a>pbmc</span>
+<span id="cb2-7"><a href="seurat-标准处理流程.html#cb2-7" tabindex="-1"></a><span class="do">## An object of class Seurat </span></span>
+<span id="cb2-8"><a href="seurat-标准处理流程.html#cb2-8" tabindex="-1"></a><span class="do">## 13714 features across 2700 samples within 1 assay </span></span>
+<span id="cb2-9"><a href="seurat-标准处理流程.html#cb2-9" tabindex="-1"></a><span class="do">## Active assay: RNA (13714 features, 0 variable features)</span></span>
+<span id="cb2-10"><a href="seurat-标准处理流程.html#cb2-10" tabindex="-1"></a><span class="do">##  1 layer present: counts</span></span></code></pre></div>
+</div>
+<div id="qc-和选择细胞进行进一步分析" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> QC 和选择细胞进行进一步分析<a href="seurat-标准处理流程.html#qc-和选择细胞进行进一步分析" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>常用的几个 QC 指标包括：</p>
+<ul>
+<li>每个细胞中检测到的独特基因的数量。
+<ul>
+<li>低质量的细胞或空液滴通常只有很少的基因。<br />
+</li>
+<li>细胞双胞胎或多胞胎可能表现出异常高的基因计数。<br />
+</li>
+</ul></li>
+<li>在细胞内检测到的分子总数（与独特的基因强烈相关）<br />
+</li>
+<li>映射到线粒体基因组的 reads 百分比。
+<ul>
+<li>低质量/垂死的细胞通常表现出广泛的线粒体污染。<br />
+</li>
+<li>使用 <code>PercentageFeatureSet()</code> 函数计算线粒体 QC 指标，该函数计算源自一组特征的计数百分比。</li>
+<li>使用所有以 MT- 开头的基因作为一组线粒体基因。</li>
+</ul></li>
+</ul>
+<blockquote>
+<p>nFeature_RNA是每个细胞中检测到的基因数量。nCount_RNA是细胞内检测到的分子总数。nFeature_RNA过低，表示该细胞可能已死/将死或是空液滴。太高的nCount_RNA和/或nFeature_RNA表明“细胞”实际上可以是两个或多个细胞。结合线粒体基因count数除去异常值，即可除去大多数双峰/死细胞/空液滴，因此它们过滤是常见的预处理步骤。 参考自：<a href="https://www.biostars.org/p/407036/" class="uri">https://www.biostars.org/p/407036/</a></p>
+</blockquote>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="seurat-标准处理流程.html#cb3-1" tabindex="-1"></a><span class="co"># [[ 操作符可以将列添加到对象元数据中。这是存放 QC 统计数据的好地方。</span></span>
+<span id="cb3-2"><a href="seurat-标准处理流程.html#cb3-2" tabindex="-1"></a>pbmc[[<span class="st">&quot;percent.mt&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">PercentageFeatureSet</span>(pbmc, <span class="at">pattern =</span> <span class="st">&quot;^MT-&quot;</span>)</span></code></pre></div>
+<details>
+<summary>
+QC指标储存位置
+</summary>
+<p>在 <code>CreateSeuratObject()</code> 期间，会自动计算唯一基因的数量和总分子数</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="seurat-标准处理流程.html#cb4-1" tabindex="-1"></a><span class="fu">head</span>(pbmc<span class="sc">@</span>meta.data, <span class="dv">5</span>)</span>
+<span id="cb4-2"><a href="seurat-标准处理流程.html#cb4-2" tabindex="-1"></a><span class="do">##                  orig.ident nCount_RNA nFeature_RNA percent.mt</span></span>
+<span id="cb4-3"><a href="seurat-标准处理流程.html#cb4-3" tabindex="-1"></a><span class="do">## AAACATACAACCAC-1     pbmc3k       2419          779  3.0177759</span></span>
+<span id="cb4-4"><a href="seurat-标准处理流程.html#cb4-4" tabindex="-1"></a><span class="do">## AAACATTGAGCTAC-1     pbmc3k       4903         1352  3.7935958</span></span>
+<span id="cb4-5"><a href="seurat-标准处理流程.html#cb4-5" tabindex="-1"></a><span class="do">## AAACATTGATCAGC-1     pbmc3k       3147         1129  0.8897363</span></span>
+<span id="cb4-6"><a href="seurat-标准处理流程.html#cb4-6" tabindex="-1"></a><span class="do">## AAACCGTGCTTCCG-1     pbmc3k       2639          960  1.7430845</span></span>
+<span id="cb4-7"><a href="seurat-标准处理流程.html#cb4-7" tabindex="-1"></a><span class="do">## AAACCGTGTATGCG-1     pbmc3k        980          521  1.2244898</span></span></code></pre></div>
+<p>第一列<code>orig.ident</code>是原始细胞的标识；
+第二列<code>nCount_RNA</code>是每个细胞的RNA分子数；
+第三列<code>nFeature_RNA</code>是每个细胞检测到的基因数。</p>
+</details>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="seurat-标准处理流程.html#cb5-1" tabindex="-1"></a><span class="co"># 将 QC 指标可视化为小提琴图</span></span>
+<span id="cb5-2"><a href="seurat-标准处理流程.html#cb5-2" tabindex="-1"></a><span class="fu">VlnPlot</span>(pbmc, </span>
+<span id="cb5-3"><a href="seurat-标准处理流程.html#cb5-3" tabindex="-1"></a>        <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;nFeature_RNA&quot;</span>, <span class="st">&quot;nCount_RNA&quot;</span>, <span class="st">&quot;percent.mt&quot;</span>), </span>
+<span id="cb5-4"><a href="seurat-标准处理流程.html#cb5-4" tabindex="-1"></a>        <span class="at">ncol =</span> <span class="dv">3</span>,</span>
+<span id="cb5-5"><a href="seurat-标准处理流程.html#cb5-5" tabindex="-1"></a>        <span class="at">pt.size =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="01-1-1-Seurat_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="seurat-标准处理流程.html#cb6-1" tabindex="-1"></a><span class="co"># FeatureScatter 通常用于可视化特征-特征关系，但也可以用于对象计算的任何内容，即对象元数据中的列、主成分得分等。</span></span>
+<span id="cb6-2"><a href="seurat-标准处理流程.html#cb6-2" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> <span class="fu">FeatureScatter</span>(pbmc, <span class="at">feature1 =</span> <span class="st">&quot;nCount_RNA&quot;</span>, <span class="at">feature2 =</span> <span class="st">&quot;percent.mt&quot;</span>)</span>
+<span id="cb6-3"><a href="seurat-标准处理流程.html#cb6-3" tabindex="-1"></a>plot2 <span class="ot">&lt;-</span> <span class="fu">FeatureScatter</span>(pbmc, <span class="at">feature1 =</span> <span class="st">&quot;nCount_RNA&quot;</span>, <span class="at">feature2 =</span> <span class="st">&quot;nFeature_RNA&quot;</span>)</span>
+<span id="cb6-4"><a href="seurat-标准处理流程.html#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="seurat-标准处理流程.html#cb6-5" tabindex="-1"></a>plot1 <span class="sc">+</span> plot2</span></code></pre></div>
+<p><img src="01-1-1-Seurat_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="seurat-标准处理流程.html#cb7-1" tabindex="-1"></a><span class="co"># 我们过滤掉具有超过 2,500 或少于 200 个基因的细胞。</span></span>
+<span id="cb7-2"><a href="seurat-标准处理流程.html#cb7-2" tabindex="-1"></a><span class="co"># 过滤掉线粒体计数&gt;5%的细胞。</span></span>
+<span id="cb7-3"><a href="seurat-标准处理流程.html#cb7-3" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">subset</span>(pbmc, <span class="at">subset =</span> nFeature_RNA <span class="sc">&gt;</span> <span class="dv">200</span> <span class="sc">&amp;</span> nFeature_RNA <span class="sc">&lt;</span> <span class="dv">2500</span> <span class="sc">&amp;</span> percent.mt <span class="sc">&lt;</span> <span class="dv">5</span>)</span></code></pre></div>
+</div>
+<div id="数据标准化" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> 数据标准化<a href="seurat-标准处理流程.html#数据标准化" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>从数据集中移除不需要的细胞后，下一步是标准化数据。默认情况下，我们采用全局缩放标准化方法 “LogNormalize”，该方法通过总表达量对每个细胞的特征表达测量值进行标准化，然后将其乘以一个比例因子（默认为 10,000），并对结果进行对数转换。在 Seurat v5 中，标准化值存储在 <code>pbmc[["RNA"]]$data</code> 中。</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="seurat-标准处理流程.html#cb8-1" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">NormalizeData</span>(pbmc)</span>
+<span id="cb8-2"><a href="seurat-标准处理流程.html#cb8-2" tabindex="-1"></a><span class="co"># pbmc &lt;- NormalizeData(pbmc, normalization.method = &quot;LogNormalize&quot;, scale.factor = 10000) # 默认值</span></span></code></pre></div>
+<p>虽然这种标准化方法是 scRNA-seq 分析中的标准且广泛使用的方法，但全局缩放依赖于每个细胞最初包含相同数量 RNA 分子的假设。我们和其他人已经开发了单细胞预处理的替代工作流程，这些工作流程不作这些假设。对于感兴趣的用户，请查看我们的 <code>SCTransform()</code> 标准化工作流程。该方法在我们的论文中有所描述，此处提供了一个使用 Seurat 的单独 vignette。使用 SCTransform 取代了运行 NormalizeData 、 FindVariableFeatures 或 ScaleData （如下所述）的需要。</p>
+</div>
+<div id="高度可变特征的识别特征选择" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> 高度可变特征的识别（特征选择）<a href="seurat-标准处理流程.html#高度可变特征的识别特征选择" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>计算数据集中表现出高度细胞间变异的特征子集（即，它们在某些细胞中高度表达，而在另一些细胞中低表达）。在下游分析中关注这些基因有助于突出单细胞数据集中的生物学信号。</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="seurat-标准处理流程.html#cb9-1" tabindex="-1"></a><span class="co"># 默认情况下，我们每个数据集返回 2,000 个特征。这些将用于下游分析，如 PCA。</span></span>
+<span id="cb9-2"><a href="seurat-标准处理流程.html#cb9-2" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">FindVariableFeatures</span>(pbmc, <span class="at">selection.method =</span> <span class="st">&quot;vst&quot;</span>, <span class="at">nfeatures =</span> <span class="dv">2000</span>)</span>
+<span id="cb9-3"><a href="seurat-标准处理流程.html#cb9-3" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="seurat-标准处理流程.html#cb9-4" tabindex="-1"></a><span class="co"># 识别 10 个变异程度最高的基因</span></span>
+<span id="cb9-5"><a href="seurat-标准处理流程.html#cb9-5" tabindex="-1"></a>top10 <span class="ot">&lt;-</span> <span class="fu">head</span>(<span class="fu">VariableFeatures</span>(pbmc), <span class="dv">10</span>)</span>
+<span id="cb9-6"><a href="seurat-标准处理流程.html#cb9-6" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="seurat-标准处理流程.html#cb9-7" tabindex="-1"></a><span class="co"># 绘制带标签和不带标签的变量特征</span></span>
+<span id="cb9-8"><a href="seurat-标准处理流程.html#cb9-8" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> <span class="fu">VariableFeaturePlot</span>(pbmc)</span>
+<span id="cb9-9"><a href="seurat-标准处理流程.html#cb9-9" tabindex="-1"></a>plot2 <span class="ot">&lt;-</span> <span class="fu">LabelPoints</span>(<span class="at">plot =</span> plot1, <span class="at">points =</span> top10, <span class="at">repel =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-10"><a href="seurat-标准处理流程.html#cb9-10" tabindex="-1"></a>plot1 <span class="sc">+</span> plot2</span></code></pre></div>
+<p><img src="01-1-1-Seurat_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="缩放数据" class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> 缩放数据<a href="seurat-标准处理流程.html#缩放数据" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>应用线性变换（“缩放”），这是像 PCA 这样的降维技术之前的标准预处理步骤。</p>
+<p><code>ScaleData()</code> 函数：<br />
+- 移动每个基因的表达，使细胞间的平均表达为 0.
+- 缩放每个基因的表达，使细胞间的方差为 1.<br />
+- 这一步在下游分析中给予相同的权重，以便高表达的基因不会占主导地位.<br />
+- 结果存储在 pbmc[[“RNA”]]$scale.data 中.
+- 默认情况下，仅缩放可变特征。<br />
+- 可以指定 features 参数来缩放其他特征</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="seurat-标准处理流程.html#cb10-1" tabindex="-1"></a>all.genes <span class="ot">&lt;-</span> <span class="fu">rownames</span>(pbmc)</span>
+<span id="cb10-2"><a href="seurat-标准处理流程.html#cb10-2" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">ScaleData</span>(pbmc, <span class="at">features =</span> all.genes)</span></code></pre></div>
+<details>
+<summary>
+如何消除不希望的变异来源
+</summary>
+<p>在 Seurat 中，还可以使用 <code>ScaleData()</code> 函数从单细胞数据集中去除不需要的变异来源。例如，我们可以“消除”与细胞周期阶段或线粒体污染相关的异质性，即：</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="seurat-标准处理流程.html#cb11-1" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">ScaleData</span>(pbmc, <span class="at">vars.to.regress =</span> <span class="st">&quot;percent.mt&quot;</span>)</span></code></pre></div>
+</details>
+</div>
+<div id="线性降维" class="section level2 hasAnchor" number="1.6">
+<h2><span class="header-section-number">1.6</span> 线性降维<a href="seurat-标准处理流程.html#线性降维" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>对缩放后的数据执行 PCA。默认情况下，仅使用先前确定的可变特征作为输入，但如果您想选择不同的子集，可以使用 <code>features</code> 参数进行定义（如果您确实想使用自定义的特征子集，请确保首先将这些特征传递给 <code>ScaleData</code> ）。</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="seurat-标准处理流程.html#cb12-1" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">RunPCA</span>(pbmc, <span class="at">features =</span> <span class="fu">VariableFeatures</span>(<span class="at">object =</span> pbmc))</span>
+<span id="cb12-2"><a href="seurat-标准处理流程.html#cb12-2" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="seurat-标准处理流程.html#cb12-3" tabindex="-1"></a><span class="fu">print</span>(pbmc[[<span class="st">&quot;pca&quot;</span>]], <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">nfeatures =</span> <span class="dv">5</span>)</span>
+<span id="cb12-4"><a href="seurat-标准处理流程.html#cb12-4" tabindex="-1"></a><span class="do">## PC_ 1 </span></span>
+<span id="cb12-5"><a href="seurat-标准处理流程.html#cb12-5" tabindex="-1"></a><span class="do">## Positive:  CST3, TYROBP, LST1, AIF1, FTL </span></span>
+<span id="cb12-6"><a href="seurat-标准处理流程.html#cb12-6" tabindex="-1"></a><span class="do">## Negative:  MALAT1, LTB, IL32, IL7R, CD2 </span></span>
+<span id="cb12-7"><a href="seurat-标准处理流程.html#cb12-7" tabindex="-1"></a><span class="do">## PC_ 2 </span></span>
+<span id="cb12-8"><a href="seurat-标准处理流程.html#cb12-8" tabindex="-1"></a><span class="do">## Positive:  CD79A, MS4A1, TCL1A, HLA-DQA1, HLA-DQB1 </span></span>
+<span id="cb12-9"><a href="seurat-标准处理流程.html#cb12-9" tabindex="-1"></a><span class="do">## Negative:  NKG7, PRF1, CST7, GZMB, GZMA </span></span>
+<span id="cb12-10"><a href="seurat-标准处理流程.html#cb12-10" tabindex="-1"></a><span class="do">## PC_ 3 </span></span>
+<span id="cb12-11"><a href="seurat-标准处理流程.html#cb12-11" tabindex="-1"></a><span class="do">## Positive:  HLA-DQA1, CD79A, CD79B, HLA-DQB1, HLA-DPB1 </span></span>
+<span id="cb12-12"><a href="seurat-标准处理流程.html#cb12-12" tabindex="-1"></a><span class="do">## Negative:  PPBP, PF4, SDPR, SPARC, GNG11 </span></span>
+<span id="cb12-13"><a href="seurat-标准处理流程.html#cb12-13" tabindex="-1"></a><span class="do">## PC_ 4 </span></span>
+<span id="cb12-14"><a href="seurat-标准处理流程.html#cb12-14" tabindex="-1"></a><span class="do">## Positive:  HLA-DQA1, CD79B, CD79A, MS4A1, HLA-DQB1 </span></span>
+<span id="cb12-15"><a href="seurat-标准处理流程.html#cb12-15" tabindex="-1"></a><span class="do">## Negative:  VIM, IL7R, S100A6, IL32, S100A8 </span></span>
+<span id="cb12-16"><a href="seurat-标准处理流程.html#cb12-16" tabindex="-1"></a><span class="do">## PC_ 5 </span></span>
+<span id="cb12-17"><a href="seurat-标准处理流程.html#cb12-17" tabindex="-1"></a><span class="do">## Positive:  GZMB, NKG7, S100A8, FGFBP2, GNLY </span></span>
+<span id="cb12-18"><a href="seurat-标准处理流程.html#cb12-18" tabindex="-1"></a><span class="do">## Negative:  LTB, IL7R, CKB, VIM, MS4A7</span></span></code></pre></div>
+<p>Seurat 提供了几种有用的方法来可视化定义 PCA 的细胞和特征，包括 <code>VizDimReduction()</code> 、 <code>DimPlot()</code> 和 <code>DimHeatmap()</code></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="seurat-标准处理流程.html#cb13-1" tabindex="-1"></a><span class="fu">VizDimLoadings</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">reduction =</span> <span class="st">&quot;pca&quot;</span>)</span></code></pre></div>
+<p><img src="01-1-1-Seurat_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="seurat-标准处理流程.html#cb14-1" tabindex="-1"></a><span class="fu">DimPlot</span>(pbmc, <span class="at">reduction =</span> <span class="st">&quot;pca&quot;</span>) <span class="sc">+</span> <span class="fu">NoLegend</span>()</span></code></pre></div>
+<p><img src="01-1-1-Seurat_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="seurat-标准处理流程.html#cb15-1" tabindex="-1"></a><span class="co"># 将 cells 设置为一个数字会绘制光谱两端的“极端”单元格，这大大加快了大型数据集的绘图速度。</span></span>
+<span id="cb15-2"><a href="seurat-标准处理流程.html#cb15-2" tabindex="-1"></a><span class="fu">DimHeatmap</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span>, <span class="at">cells =</span> <span class="dv">500</span>, <span class="at">balanced =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="01-1-1-Seurat_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="seurat-标准处理流程.html#cb16-1" tabindex="-1"></a><span class="fu">DimHeatmap</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">cells =</span> <span class="dv">500</span>, <span class="at">balanced =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+</div>
+<div id="确定数据集的维度" class="section level2 hasAnchor" number="1.7">
+<h2><span class="header-section-number">1.7</span> 确定数据集的“维度”<a href="seurat-标准处理流程.html#确定数据集的维度" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>为了克服 scRNA-seq 数据中单个特征的大量技术噪音，Seurat 基于细胞的 PCA 得分对细胞进行聚类，每个 PC 本质上代表一个“元特征”，它整合了相关特征集的信息。因此，最重要的主成分代表了数据集的稳健压缩。但是，我们应该选择包含多少个组件呢？</p>
+<p>“肘部图”：基于每个主成分解释的方差百分比对主成分进行排序（ ElbowPlot() 函数）。</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="seurat-标准处理流程.html#cb17-1" tabindex="-1"></a><span class="fu">ElbowPlot</span>(pbmc)</span></code></pre></div>
+<p><img src="01-1-1-Seurat_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" />
+可以观察到 PC9-10 附近的“肘部”，这表明大部分真实信号都在前 10 个 PC 中捕获。</p>
+<details>
+<summary>
+确定 “维度” 的其他函数
+</summary>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="seurat-标准处理流程.html#cb18-1" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">JackStraw</span>(pbmc, <span class="at">num.replicate =</span> <span class="dv">100</span>) <span class="co"># 通过置换检验来评估每个主成分的重要性。</span></span>
+<span id="cb18-2"><a href="seurat-标准处理流程.html#cb18-2" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">ScoreJackStraw</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>)  <span class="co"># 比较实际数据和置换数据之间的差异，计算每个主成分的显著性得分。</span></span>
+<span id="cb18-3"><a href="seurat-标准处理流程.html#cb18-3" tabindex="-1"></a><span class="fu">JackStrawPlot</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>) <span class="co"># 可视化每个主成分的显著性得分</span></span></code></pre></div>
+</details>
+</div>
+<div id="细胞聚类" class="section level2 hasAnchor" number="1.8">
+<h2><span class="header-section-number">1.8</span> 细胞聚类<a href="seurat-标准处理流程.html#细胞聚类" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Seurat 应用了一种基于图的聚类方法，该方法建立在 (Macosko et al) 中的初始策略之上。重要的是，驱动聚类分析的距离度量（基于先前识别的 PC）保持不变。简而言之，这些方法将细胞嵌入到图结构中——例如，K 最近邻 (KNN) 图，其中在具有相似特征表达模式的细胞之间绘制边，然后尝试将此图划分为高度互连的“准团”或“社区”。</p>
+<p>与 PhenoGraph 类似，我们首先基于 PCA 空间中的欧几里得距离构建 KNN 图，并根据其局部邻域中的共享重叠（Jaccard 相似性）细化任意两个细胞之间的边缘权重。此步骤使用 FindNeighbors() 函数执行，并将先前定义的数据集维度（前 10 个 PC）作为输入。</p>
+<p>为了对细胞进行聚类，我们接下来应用模块化优化技术，例如 Louvain 算法（默认）或 SLM [SLM, Blondel et al., Journal of Statistical Mechanics]，以迭代地将细胞组合在一起，目标是优化标准模块化函数。 <code>FindClusters()</code> 函数实现了此过程，并包含一个分辨率参数，该参数设置下游聚类的“粒度”，增加的值会导致更多的聚类。我们发现，将此参数设置为 0.4-1.2 通常会为大约 3K 细胞的单细胞数据集返回良好的结果。对于较大的数据集，最佳分辨率通常会增加。可以使用 <code>Idents()</code> 函数找到聚类。</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="seurat-标准处理流程.html#cb19-1" tabindex="-1"></a><span class="co"># 结合JackStrawPlot和ElbowPlot，挑选10个PC，所以这里dims定义为1:10</span></span>
+<span id="cb19-2"><a href="seurat-标准处理流程.html#cb19-2" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">FindNeighbors</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb19-3"><a href="seurat-标准处理流程.html#cb19-3" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">FindClusters</span>(pbmc, <span class="at">resolution =</span> <span class="fl">0.5</span>)</span>
+<span id="cb19-4"><a href="seurat-标准处理流程.html#cb19-4" tabindex="-1"></a><span class="do">## Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck</span></span>
+<span id="cb19-5"><a href="seurat-标准处理流程.html#cb19-5" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb19-6"><a href="seurat-标准处理流程.html#cb19-6" tabindex="-1"></a><span class="do">## Number of nodes: 2638</span></span>
+<span id="cb19-7"><a href="seurat-标准处理流程.html#cb19-7" tabindex="-1"></a><span class="do">## Number of edges: 95927</span></span>
+<span id="cb19-8"><a href="seurat-标准处理流程.html#cb19-8" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb19-9"><a href="seurat-标准处理流程.html#cb19-9" tabindex="-1"></a><span class="do">## Running Louvain algorithm...</span></span>
+<span id="cb19-10"><a href="seurat-标准处理流程.html#cb19-10" tabindex="-1"></a><span class="do">## Maximum modularity in 10 random starts: 0.8728</span></span>
+<span id="cb19-11"><a href="seurat-标准处理流程.html#cb19-11" tabindex="-1"></a><span class="do">## Number of communities: 9</span></span>
+<span id="cb19-12"><a href="seurat-标准处理流程.html#cb19-12" tabindex="-1"></a><span class="do">## Elapsed time: 0 seconds</span></span>
+<span id="cb19-13"><a href="seurat-标准处理流程.html#cb19-13" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="seurat-标准处理流程.html#cb19-14" tabindex="-1"></a><span class="co"># 结果聚成几类，用Idents查看</span></span>
+<span id="cb19-15"><a href="seurat-标准处理流程.html#cb19-15" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">Idents</span>(pbmc), <span class="dv">5</span>)</span>
+<span id="cb19-16"><a href="seurat-标准处理流程.html#cb19-16" tabindex="-1"></a><span class="do">## AAACATACAACCAC-1 AAACATTGAGCTAC-1 AAACATTGATCAGC-1 AAACCGTGCTTCCG-1 </span></span>
+<span id="cb19-17"><a href="seurat-标准处理流程.html#cb19-17" tabindex="-1"></a><span class="do">##                2                3                2                1 </span></span>
+<span id="cb19-18"><a href="seurat-标准处理流程.html#cb19-18" tabindex="-1"></a><span class="do">## AAACCGTGTATGCG-1 </span></span>
+<span id="cb19-19"><a href="seurat-标准处理流程.html#cb19-19" tabindex="-1"></a><span class="do">##                6 </span></span>
+<span id="cb19-20"><a href="seurat-标准处理流程.html#cb19-20" tabindex="-1"></a><span class="do">## Levels: 0 1 2 3 4 5 6 7 8</span></span>
+<span id="cb19-21"><a href="seurat-标准处理流程.html#cb19-21" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">levels</span>(<span class="fu">Idents</span>(pbmc)))</span>
+<span id="cb19-22"><a href="seurat-标准处理流程.html#cb19-22" tabindex="-1"></a><span class="do">## [1] 9</span></span></code></pre></div>
+<details>
+<summary>
+确定聚类“粒度”的方法
+</summary>
+<p>设置不同的分辨率，观察分群效果()</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="seurat-标准处理流程.html#cb20-1" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span>
+<span id="cb20-2"><a href="seurat-标准处理流程.html#cb20-2" tabindex="-1"></a><span class="fu">library</span>(clustree)</span>
+<span id="cb20-3"><a href="seurat-标准处理流程.html#cb20-3" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="seurat-标准处理流程.html#cb20-4" tabindex="-1"></a>input_sce.all <span class="ot">&lt;-</span> pbmc</span>
+<span id="cb20-5"><a href="seurat-标准处理流程.html#cb20-5" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="seurat-标准处理流程.html#cb20-6" tabindex="-1"></a><span class="cf">for</span> (res <span class="cf">in</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.8</span>, <span class="dv">1</span>)) {</span>
+<span id="cb20-7"><a href="seurat-标准处理流程.html#cb20-7" tabindex="-1"></a>    input_sce.all <span class="ot">&lt;-</span> <span class="fu">FindClusters</span>(input_sce.all, <span class="co">#graph.name = &quot;CCA_snn&quot;, </span></span>
+<span id="cb20-8"><a href="seurat-标准处理流程.html#cb20-8" tabindex="-1"></a>                                  <span class="at">resolution =</span> res, </span>
+<span id="cb20-9"><a href="seurat-标准处理流程.html#cb20-9" tabindex="-1"></a>                                  <span class="at">algorithm =</span> <span class="dv">1</span>)</span>
+<span id="cb20-10"><a href="seurat-标准处理流程.html#cb20-10" tabindex="-1"></a>}</span>
+<span id="cb20-11"><a href="seurat-标准处理流程.html#cb20-11" tabindex="-1"></a><span class="fu">apply</span>(input_sce.all<span class="sc">@</span>meta.data[,<span class="fu">grep</span>(<span class="st">&quot;RNA_snn&quot;</span>,<span class="fu">colnames</span>(input_sce.all<span class="sc">@</span>meta.data))],<span class="dv">2</span>,table)</span>
+<span id="cb20-12"><a href="seurat-标准处理流程.html#cb20-12" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="seurat-标准处理流程.html#cb20-13" tabindex="-1"></a></span>
+<span id="cb20-14"><a href="seurat-标准处理流程.html#cb20-14" tabindex="-1"></a>  </span>
+<span id="cb20-15"><a href="seurat-标准处理流程.html#cb20-15" tabindex="-1"></a>p1_dim <span class="ot">&lt;-</span> <span class="fu">plot_grid</span>(<span class="at">ncol =</span> <span class="dv">4</span>, </span>
+<span id="cb20-16"><a href="seurat-标准处理流程.html#cb20-16" tabindex="-1"></a>                    <span class="fu">DimPlot</span>(input_sce.all, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>, <span class="at">group.by =</span> <span class="st">&quot;RNA_snn_res.0.01&quot;</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;louvain_0.01&quot;</span>),</span>
+<span id="cb20-17"><a href="seurat-标准处理流程.html#cb20-17" tabindex="-1"></a>                    <span class="fu">DimPlot</span>(input_sce.all, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>, <span class="at">group.by =</span> <span class="st">&quot;RNA_snn_res.0.05&quot;</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;louvain_0.05&quot;</span>),</span>
+<span id="cb20-18"><a href="seurat-标准处理流程.html#cb20-18" tabindex="-1"></a>                    <span class="fu">DimPlot</span>(input_sce.all, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>, <span class="at">group.by =</span> <span class="st">&quot;RNA_snn_res.0.1&quot;</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;louvain_0.1&quot;</span>),</span>
+<span id="cb20-19"><a href="seurat-标准处理流程.html#cb20-19" tabindex="-1"></a>                    <span class="fu">DimPlot</span>(input_sce.all, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>, <span class="at">group.by =</span> <span class="st">&quot;RNA_snn_res.0.2&quot;</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;louvain_0.2&quot;</span>))</span>
+<span id="cb20-20"><a href="seurat-标准处理流程.html#cb20-20" tabindex="-1"></a></span>
+<span id="cb20-21"><a href="seurat-标准处理流程.html#cb20-21" tabindex="-1"></a>p1_dim</span>
+<span id="cb20-22"><a href="seurat-标准处理流程.html#cb20-22" tabindex="-1"></a><span class="co"># ggsave(plot=p1_dim, filename=&quot;Dimplot_diff_resolution_low.pdf&quot;,width = 14)</span></span>
+<span id="cb20-23"><a href="seurat-标准处理流程.html#cb20-23" tabindex="-1"></a>  </span>
+<span id="cb20-24"><a href="seurat-标准处理流程.html#cb20-24" tabindex="-1"></a>p2_dim <span class="ot">&lt;-</span> <span class="fu">plot_grid</span>(<span class="at">ncol =</span> <span class="dv">4</span>,</span>
+<span id="cb20-25"><a href="seurat-标准处理流程.html#cb20-25" tabindex="-1"></a>                    <span class="fu">DimPlot</span>(input_sce.all, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>, <span class="at">group.by =</span> <span class="st">&quot;RNA_snn_res.0.3&quot;</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;louvain_0.3&quot;</span>),</span>
+<span id="cb20-26"><a href="seurat-标准处理流程.html#cb20-26" tabindex="-1"></a>                    <span class="fu">DimPlot</span>(input_sce.all, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>, <span class="at">group.by =</span> <span class="st">&quot;RNA_snn_res.0.5&quot;</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;louvain_0.5&quot;</span>),</span>
+<span id="cb20-27"><a href="seurat-标准处理流程.html#cb20-27" tabindex="-1"></a>                    <span class="fu">DimPlot</span>(input_sce.all, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>, <span class="at">group.by =</span> <span class="st">&quot;RNA_snn_res.0.8&quot;</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;louvain_0.8&quot;</span>),</span>
+<span id="cb20-28"><a href="seurat-标准处理流程.html#cb20-28" tabindex="-1"></a>                    <span class="fu">DimPlot</span>(input_sce.all, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>, <span class="at">group.by =</span> <span class="st">&quot;RNA_snn_res.1&quot;</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;louvain_1&quot;</span>))</span>
+<span id="cb20-29"><a href="seurat-标准处理流程.html#cb20-29" tabindex="-1"></a>p2_dim</span>
+<span id="cb20-30"><a href="seurat-标准处理流程.html#cb20-30" tabindex="-1"></a><span class="co"># ggsave(plot = p2_dim, filename = &quot;Dimplot_diff_resolution_high.pdf&quot;, width = 18)</span></span>
+<span id="cb20-31"><a href="seurat-标准处理流程.html#cb20-31" tabindex="-1"></a>  </span>
+<span id="cb20-32"><a href="seurat-标准处理流程.html#cb20-32" tabindex="-1"></a>p2_tree <span class="ot">&lt;-</span> <span class="fu">clustree</span>(input_sce.all<span class="sc">@</span>meta.data, <span class="at">prefix =</span> <span class="st">&quot;RNA_snn_res.&quot;</span>)</span>
+<span id="cb20-33"><a href="seurat-标准处理流程.html#cb20-33" tabindex="-1"></a>p2_tree</span>
+<span id="cb20-34"><a href="seurat-标准处理流程.html#cb20-34" tabindex="-1"></a><span class="co"># ggsave(plot = p2_tree, filename=&quot;Tree_diff_resolution.pdf&quot;)</span></span></code></pre></div>
+</details>
+</div>
+<div id="运行非线性降维umaptsne" class="section level2 hasAnchor" number="1.9">
+<h2><span class="header-section-number">1.9</span> 运行非线性降维（UMAP/tSNE）<a href="seurat-标准处理流程.html#运行非线性降维umaptsne" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Seurat 提供了几种非线性降维技术，例如 tSNE 和 UMAP，用于可视化和探索这些数据集。这些算法的目标是学习数据集中的底层结构，以便将相似的细胞放置在低维空间中。因此，在上面确定的基于图的聚类中分组在一起的细胞应该在这些降维图中共同定位。</p>
+<p>虽然我们和其他人经常发现像 tSNE 和 UMAP 这样的 2D 可视化技术是探索数据集的宝贵工具，但所有可视化技术都有局限性，并且无法完全代表底层数据的复杂性。特别是，这些方法旨在保留数据集中的局部距离（即，确保具有非常相似的基因表达谱的细胞共同定位），但通常不保留更全局的关系。我们鼓励用户利用像 UMAP 这样的技术进行可视化，但要避免仅基于可视化技术得出生物学结论。</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="seurat-标准处理流程.html#cb21-1" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">RunUMAP</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="seurat-标准处理流程.html#cb22-1" tabindex="-1"></a><span class="co"># 可以设置 `label = TRUE` 或使用 LabelClusters 函数来帮助标记各个簇</span></span>
+<span id="cb22-2"><a href="seurat-标准处理流程.html#cb22-2" tabindex="-1"></a><span class="fu">DimPlot</span>(pbmc, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>, <span class="at">label =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="01-1-1-Seurat_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="寻找差异表达的特征聚类-marker" class="section level2 hasAnchor" number="1.10">
+<h2><span class="header-section-number">1.10</span> 寻找差异表达的特征（聚类 Marker）<a href="seurat-标准处理流程.html#寻找差异表达的特征聚类-marker" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>啥叫marker基因呢。和差异基因里面的上调基因有点类似，某个基因在某一簇细胞里表达量都很高，在其他簇表达量很低，那么这个基因就是这簇细胞的象征。</p>
+<p>Seurat 可以帮助您找到通过差异表达 (DE) 定义聚类的标记。默认情况下，它识别单个聚类的阳性和阴性标记（在 ident.1 中指定），与其他所有细胞相比。 FindAllMarkers() 自动执行所有聚类的此过程，但您也可以测试聚类组之间，或针对所有细胞进行测试。</p>
+<p>在 Seurat v5 中，我们使用 presto 包以显著提高 DE 分析的速度，特别是对于大型数据集。对于未使用 presto 的用户，您可以查看此函数 ( ?FindMarkers ) 的文档，以探索 min.pct 和 logfc.threshold 参数，可以增加这些参数以提高 DE 测试的速度。</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="seurat-标准处理流程.html#cb23-1" tabindex="-1"></a><span class="co"># 找到 cluster 2 的 marker 基因</span></span>
+<span id="cb23-2"><a href="seurat-标准处理流程.html#cb23-2" tabindex="-1"></a>cluster2.markers <span class="ot">&lt;-</span> <span class="fu">FindMarkers</span>(pbmc, <span class="at">ident.1 =</span> <span class="dv">2</span>)</span>
+<span id="cb23-3"><a href="seurat-标准处理流程.html#cb23-3" tabindex="-1"></a><span class="fu">head</span>(cluster2.markers, <span class="at">n =</span> <span class="dv">5</span>)</span>
+<span id="cb23-4"><a href="seurat-标准处理流程.html#cb23-4" tabindex="-1"></a><span class="do">##             p_val avg_log2FC pct.1 pct.2    p_val_adj</span></span>
+<span id="cb23-5"><a href="seurat-标准处理流程.html#cb23-5" tabindex="-1"></a><span class="do">## IL32 2.892340e-90  1.3070772 0.947 0.465 3.966555e-86</span></span>
+<span id="cb23-6"><a href="seurat-标准处理流程.html#cb23-6" tabindex="-1"></a><span class="do">## LTB  1.060121e-86  1.3312674 0.981 0.643 1.453850e-82</span></span>
+<span id="cb23-7"><a href="seurat-标准处理流程.html#cb23-7" tabindex="-1"></a><span class="do">## CD3D 8.794641e-71  1.0597620 0.922 0.432 1.206097e-66</span></span>
+<span id="cb23-8"><a href="seurat-标准处理流程.html#cb23-8" tabindex="-1"></a><span class="do">## IL7R 3.516098e-68  1.4377848 0.750 0.326 4.821977e-64</span></span>
+<span id="cb23-9"><a href="seurat-标准处理流程.html#cb23-9" tabindex="-1"></a><span class="do">## LDHB 1.642480e-67  0.9911924 0.954 0.614 2.252497e-63</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="seurat-标准处理流程.html#cb24-1" tabindex="-1"></a><span class="co"># 找出区分簇 5 与簇 0 和簇 3 的所有标记</span></span>
+<span id="cb24-2"><a href="seurat-标准处理流程.html#cb24-2" tabindex="-1"></a>cluster5.markers <span class="ot">&lt;-</span> <span class="fu">FindMarkers</span>(pbmc, <span class="at">ident.1 =</span> <span class="dv">5</span>, <span class="at">ident.2 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>))</span>
+<span id="cb24-3"><a href="seurat-标准处理流程.html#cb24-3" tabindex="-1"></a><span class="fu">head</span>(cluster5.markers, <span class="at">n =</span> <span class="dv">5</span>)</span>
+<span id="cb24-4"><a href="seurat-标准处理流程.html#cb24-4" tabindex="-1"></a><span class="do">##                       p_val avg_log2FC pct.1 pct.2     p_val_adj</span></span>
+<span id="cb24-5"><a href="seurat-标准处理流程.html#cb24-5" tabindex="-1"></a><span class="do">## FCGR3A        8.246578e-205   6.794969 0.975 0.040 1.130936e-200</span></span>
+<span id="cb24-6"><a href="seurat-标准处理流程.html#cb24-6" tabindex="-1"></a><span class="do">## IFITM3        1.677613e-195   6.192558 0.975 0.049 2.300678e-191</span></span>
+<span id="cb24-7"><a href="seurat-标准处理流程.html#cb24-7" tabindex="-1"></a><span class="do">## CFD           2.401156e-193   6.015172 0.938 0.038 3.292945e-189</span></span>
+<span id="cb24-8"><a href="seurat-标准处理流程.html#cb24-8" tabindex="-1"></a><span class="do">## CD68          2.900384e-191   5.530330 0.926 0.035 3.977587e-187</span></span>
+<span id="cb24-9"><a href="seurat-标准处理流程.html#cb24-9" tabindex="-1"></a><span class="do">## RP11-290F20.3 2.513244e-186   6.297999 0.840 0.017 3.446663e-182</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="seurat-标准处理流程.html#cb25-1" tabindex="-1"></a><span class="co"># 为每个簇与所有剩余细胞相比寻找标记物，仅报告阳性结果</span></span>
+<span id="cb25-2"><a href="seurat-标准处理流程.html#cb25-2" tabindex="-1"></a>pbmc.markers <span class="ot">&lt;-</span> <span class="fu">FindAllMarkers</span>(pbmc, <span class="at">only.pos =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-3"><a href="seurat-标准处理流程.html#cb25-3" tabindex="-1"></a>pbmc.markers <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="seurat-标准处理流程.html#cb25-4" tabindex="-1"></a>    <span class="fu">group_by</span>(cluster) <span class="sc">%&gt;%</span></span>
+<span id="cb25-5"><a href="seurat-标准处理流程.html#cb25-5" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(avg_log2FC <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
+<span id="cb25-6"><a href="seurat-标准处理流程.html#cb25-6" tabindex="-1"></a><span class="do">## # A tibble: 7,019 × 7</span></span>
+<span id="cb25-7"><a href="seurat-标准处理流程.html#cb25-7" tabindex="-1"></a><span class="do">## # Groups:   cluster [9]</span></span>
+<span id="cb25-8"><a href="seurat-标准处理流程.html#cb25-8" tabindex="-1"></a><span class="do">##        p_val avg_log2FC pct.1 pct.2 p_val_adj cluster gene     </span></span>
+<span id="cb25-9"><a href="seurat-标准处理流程.html#cb25-9" tabindex="-1"></a><span class="do">##        &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;   &lt;chr&gt;    </span></span>
+<span id="cb25-10"><a href="seurat-标准处理流程.html#cb25-10" tabindex="-1"></a><span class="do">##  1 3.75e-112       1.21 0.912 0.592 5.14e-108 0       LDHB     </span></span>
+<span id="cb25-11"><a href="seurat-标准处理流程.html#cb25-11" tabindex="-1"></a><span class="do">##  2 9.57e- 88       2.40 0.447 0.108 1.31e- 83 0       CCR7     </span></span>
+<span id="cb25-12"><a href="seurat-标准处理流程.html#cb25-12" tabindex="-1"></a><span class="do">##  3 1.15e- 76       1.06 0.845 0.406 1.58e- 72 0       CD3D     </span></span>
+<span id="cb25-13"><a href="seurat-标准处理流程.html#cb25-13" tabindex="-1"></a><span class="do">##  4 1.12e- 54       1.04 0.731 0.4   1.54e- 50 0       CD3E     </span></span>
+<span id="cb25-14"><a href="seurat-标准处理流程.html#cb25-14" tabindex="-1"></a><span class="do">##  5 1.35e- 51       2.14 0.342 0.103 1.86e- 47 0       LEF1     </span></span>
+<span id="cb25-15"><a href="seurat-标准处理流程.html#cb25-15" tabindex="-1"></a><span class="do">##  6 1.94e- 47       1.20 0.629 0.359 2.66e- 43 0       NOSIP    </span></span>
+<span id="cb25-16"><a href="seurat-标准处理流程.html#cb25-16" tabindex="-1"></a><span class="do">##  7 2.81e- 44       1.53 0.443 0.185 3.85e- 40 0       PIK3IP1  </span></span>
+<span id="cb25-17"><a href="seurat-标准处理流程.html#cb25-17" tabindex="-1"></a><span class="do">##  8 6.27e- 43       1.99 0.33  0.112 8.60e- 39 0       PRKCQ-AS1</span></span>
+<span id="cb25-18"><a href="seurat-标准处理流程.html#cb25-18" tabindex="-1"></a><span class="do">##  9 1.16e- 40       2.70 0.2   0.04  1.59e- 36 0       FHIT     </span></span>
+<span id="cb25-19"><a href="seurat-标准处理流程.html#cb25-19" tabindex="-1"></a><span class="do">## 10 1.34e- 34       1.96 0.268 0.087 1.84e- 30 0       MAL      </span></span>
+<span id="cb25-20"><a href="seurat-标准处理流程.html#cb25-20" tabindex="-1"></a><span class="do">## # ℹ 7,009 more rows</span></span></code></pre></div>
+<p>我们包含几个用于可视化标记表达的工具。 <code>VlnPlot()</code> （显示跨集群的表达概率分布）和 <code>FeaturePlot()</code> （在 tSNE 或 PCA 图上可视化特征表达）是我们最常用的可视化方法。我们还建议探索 <code>RidgePlot()</code> 、 <code>CellScatter()</code> 和 <code>DotPlot()</code> 作为查看数据集的附加方法。</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="seurat-标准处理流程.html#cb26-1" tabindex="-1"></a><span class="fu">VlnPlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;MS4A1&quot;</span>, <span class="st">&quot;CD79A&quot;</span>))</span></code></pre></div>
+<p><img src="01-1-1-Seurat_files/figure-html/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="seurat-标准处理流程.html#cb27-1" tabindex="-1"></a><span class="co"># 你也可以绘制原始计数</span></span>
+<span id="cb27-2"><a href="seurat-标准处理流程.html#cb27-2" tabindex="-1"></a><span class="fu">VlnPlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;NKG7&quot;</span>, <span class="st">&quot;PF4&quot;</span>), <span class="at">slot =</span> <span class="st">&quot;counts&quot;</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="01-1-1-Seurat_files/figure-html/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="seurat-标准处理流程.html#cb28-1" tabindex="-1"></a><span class="fu">FeaturePlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;MS4A1&quot;</span>, <span class="st">&quot;GNLY&quot;</span>, <span class="st">&quot;CD3E&quot;</span>, <span class="st">&quot;CD14&quot;</span>))</span></code></pre></div>
+<p><img src="01-1-1-Seurat_files/figure-html/unnamed-chunk-28-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="seurat-标准处理流程.html#cb29-1" tabindex="-1"></a>pbmc.markers <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="seurat-标准处理流程.html#cb29-2" tabindex="-1"></a>    <span class="fu">group_by</span>(cluster) <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="seurat-标准处理流程.html#cb29-3" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(avg_log2FC <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-4"><a href="seurat-标准处理流程.html#cb29-4" tabindex="-1"></a>    <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-5"><a href="seurat-标准处理流程.html#cb29-5" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="ot">-&gt;</span> top10</span>
+<span id="cb29-6"><a href="seurat-标准处理流程.html#cb29-6" tabindex="-1"></a><span class="fu">DoHeatmap</span>(pbmc, <span class="at">features =</span> top10<span class="sc">$</span>gene) <span class="sc">+</span> <span class="fu">NoLegend</span>()</span></code></pre></div>
+<p><img src="01-1-1-Seurat_files/figure-html/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="根据-marker-基因确定细胞" class="section level2 hasAnchor" number="1.11">
+<h2><span class="header-section-number">1.11</span> 根据 marker 基因确定细胞<a href="seurat-标准处理流程.html#根据-marker-基因确定细胞" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="seurat-标准处理流程.html#cb30-1" tabindex="-1"></a>new.cluster.ids <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Naive CD4 T&quot;</span>, <span class="st">&quot;CD14+ Mono&quot;</span>, <span class="st">&quot;Memory CD4 T&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;CD8 T&quot;</span>, <span class="st">&quot;FCGR3A+ Mono&quot;</span>,</span>
+<span id="cb30-2"><a href="seurat-标准处理流程.html#cb30-2" tabindex="-1"></a>    <span class="st">&quot;NK&quot;</span>, <span class="st">&quot;DC&quot;</span>, <span class="st">&quot;Platelet&quot;</span>)</span>
+<span id="cb30-3"><a href="seurat-标准处理流程.html#cb30-3" tabindex="-1"></a><span class="fu">names</span>(new.cluster.ids) <span class="ot">&lt;-</span> <span class="fu">levels</span>(pbmc)</span>
+<span id="cb30-4"><a href="seurat-标准处理流程.html#cb30-4" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">RenameIdents</span>(pbmc, new.cluster.ids)</span>
+<span id="cb30-5"><a href="seurat-标准处理流程.html#cb30-5" tabindex="-1"></a>pbmc<span class="sc">$</span>seurat_annotations <span class="ot">&lt;-</span> <span class="fu">Idents</span>(pbmc)</span>
+<span id="cb30-6"><a href="seurat-标准处理流程.html#cb30-6" tabindex="-1"></a><span class="fu">DimPlot</span>(pbmc, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">pt.size =</span> <span class="fl">0.5</span>) <span class="sc">+</span> <span class="fu">NoLegend</span>()</span></code></pre></div>
+<p><img src="01-1-1-Seurat_files/figure-html/unnamed-chunk-30-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>保存结果</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="seurat-标准处理流程.html#cb31-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb31-2"><a href="seurat-标准处理流程.html#cb31-2" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">DimPlot</span>(pbmc, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">label.size =</span> <span class="fl">4.5</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;UMAP 1&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;UMAP 2&quot;</span>) <span class="sc">+</span></span>
+<span id="cb31-3"><a href="seurat-标准处理流程.html#cb31-3" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">18</span>), <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">18</span>)) <span class="sc">+</span> <span class="fu">guides</span>(<span class="at">colour =</span> <span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">size =</span> <span class="dv">10</span>)))</span>
+<span id="cb31-4"><a href="seurat-标准处理流程.html#cb31-4" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;../output/images/pbmc3k_umap.jpg&quot;</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">width =</span> <span class="dv">12</span>, <span class="at">plot =</span> plot, <span class="at">quality =</span> <span class="dv">50</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="seurat-标准处理流程.html#cb32-1" tabindex="-1"></a><span class="fu">saveRDS</span>(pbmc, <span class="at">file =</span> <span class="st">&quot;../output/pbmc3k_final.rds&quot;</span>)</span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="seurat-数据可视化.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/smileszh/scRNA-Seq/edit/master/01-1-1-Seurat.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>

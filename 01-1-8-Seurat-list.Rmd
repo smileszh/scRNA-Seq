@@ -1,0 +1,407 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r setup, include=FALSE}
+library(knitr)
+library(kableExtra)
+library(DT)
+knitr::opts_chunk$set(
+	eval = F,
+	echo = T,
+	error = F,
+	message = FALSE,
+	warning = FALSE,
+	cache = T,
+	collapse = T,
+	# fig.width = 8,
+	fig.height = 4,
+	unit='cm',
+	fig.align='center'
+)
+
+
+rm(list = ls())  ## 魔幻操作，一键清空~
+options(stringsAsFactors = F)
+
+getOption('timeout')
+options(timeout=10000) 
+```
+
+# Seurat 命令列表
+
+
+## 标准 Seurat 工作流程
+```{r}
+pbmc <- NormalizeData(object = pbmc)
+pbmc <- FindVariableFeatures(object = pbmc)
+pbmc <- ScaleData(object = pbmc)
+pbmc <- RunPCA(object = pbmc)
+pbmc <- FindNeighbors(object = pbmc, dims = 1:30)
+pbmc <- FindClusters(object = pbmc)
+pbmc <- RunUMAP(object = pbmc, dims = 1:30)
+DimPlot(object = pbmc, reduction = "umap")
+```
+
+
+##  SCtransform 版本
+```{r}
+pbmc <- SCTransform(object = pbmc)
+pbmc <- RunPCA(object = pbmc)
+pbmc <- FindNeighbors(object = pbmc, dims = 1:30)
+pbmc <- FindClusters(object = pbmc)
+pbmc <- RunUMAP(object = pbmc, dims = 1:30)
+DimPlot(object = pbmc, reduction = "umap")
+```
+
+```{r}
+# 请注意，您可以使用 %>% 将多个命令串联在一起
+pbmc <- SCTransform(pbmc) %>%
+    RunPCA() %>%
+    FindNeighbors(dims = 1:30) %>%
+    FindClusters() %>%
+    RunUMAP(dims = 1:30)
+```
+
+
+## Seurat 对象数据访问
+
+### 细胞、基因及层级名称
+
+```{r}
+# 获取细胞和特征名称及总数 我们展示了多种获取相同输出细胞名称的方法
+colnames(pbmc)
+Cells(pbmc)
+
+# 基因名
+Features(pbmc)
+rownames(pbmc)
+
+# 细胞/基因数量
+num_cells <- ncol(pbmc)
+num_features <- nrow(pbmc)
+
+# 对象层级列表
+Layers(pbmc)
+
+# 使用多模态对象列表检测
+Assays(cbmc)
+
+# 检测特异性基因（基因/ADT）
+Features(cbmc[["RNA"]])
+Features(cbmc[["ADT"]])
+
+# 可变基因名称
+VariableFeatures(pbmc)
+```
+
+
+### 身份类别标签
+```{r}
+# 设置和检索细胞标识
+
+# Set identity classes to an existing column in meta data
+Idents(object = pbmc) <- "seurat_annotations"
+
+# 将元数据中的现有列设置为身份类别
+Idents(pbmc)
+table(Idents(pbmc))
+
+# 将所有细胞的 identity 设置为 CD4 T 细胞
+Idents(pbmc) <- "CD4 T cells"
+
+# 为选定的一组细胞设置
+pbmc.cells <- Cells(pbmc)
+Idents(object = pbmc, cells = pbmc.cells[1:10]) <- "CD4 T cells"
+
+# 获取细胞身份类别
+Idents(object = pbmc)
+levels(x = pbmc)
+
+#将细胞身份类别存储在元数据中
+pbmc[["old.ident"]] <- Idents(object = pbmc)
+pbmc <- StashIdent(object = pbmc, save.name = "old.ident")
+
+# 重命名身份类别
+pbmc <- RenameIdents(object = pbmc, `CD4 T cells` = "T Helper cells")
+```
+
+
+### 细胞元数据
+```{r}
+# 查看元数据数据框，存储在 object@meta.data 中
+pbmc[[]]
+
+# 从元数据中检索特定值
+pbmc$nCount_RNA
+pbmc[[c("percent.mito", "nFeature_RNA")]]
+
+# 添加元数据，参见 ?AddMetaData
+random_group_labels <- sample(x = c("g1", "g2"), size = ncol(x = pbmc), replace = TRUE)
+pbmc$groups <- random_group_labels
+```
+
+
+### 表达数据（在 Seurat v5 中以图层形式存储）
+```{r}
+# 以表达矩阵 RNA 计数矩阵的形式检索数据
+pbmc[["RNA"]]$counts
+
+# 具有相同结果的替代访问器函数
+LayerData(pbmc, assay = "RNA", layer = "counts")
+
+# Seurat v4 中的 GetAssayData 功能仍受支持
+GetAssayData(object = pbmc, assay = "RNA", slot = "counts")
+
+# ADT 计数矩阵（多模态对象）
+cbmc[["ADT"]]$counts
+
+# 设置表达式数据假设 new.data 是一个新的表达式矩阵
+pbmc[["RNA"]]$counts <- new.data
+
+# 具有相同结果的替代设置函数
+LayerData(pbmc, assay = "RNA", layer = "counts") <- new.data
+
+# Seurat v4 中的 SetAssayData 功能仍受支持
+pbmc <- SetAssayData(object = pbmc, slot = "counts", new.data = new.data)
+```
+
+
+
+### 降维
+```{r}
+# 获取存储在 pbmc[['pca']]@cell.embeddings 中的细胞嵌入和特征载荷
+Embeddings(pbmc, reduction = "pca")
+
+# 存储在 pbmc[['pca']]@feature.loadings 中
+Loadings(pbmc, reduction = "pca")
+
+# 可选择创建自定义降维负载矩阵
+new_reduction <- CreateDimReducObject(embeddings = new.embeddings, loadings = new.loadings, key = "custom_pca")
+pbmc[["custom_pca"]] <- new_reduction
+```
+
+
+### 数据获取
+```{r}
+# FetchData 可以访问表达式矩阵、细胞嵌入或元数据中的任何内容。使用之前列出的命令访问整个矩阵，使用 FetchData 访问单个/小组变量
+FetchData(object = pbmc, vars = c("PC_1", "nFeature_RNA", "MS4A1"), layer = "counts")
+```
+
+
+## 子集划分与合并
+
+### 子集 Seurat 对象
+```{r}
+# 根据身份类别子集化 Seurat 对象，另请参阅?SubsetData
+subset(x = pbmc, idents = "B")
+subset(x = pbmc, idents = c("Naive CD4 T", "CD8 T"), invert = TRUE)
+
+# 根据基因/特征的表达水平进行子集筛选
+subset(x = pbmc, subset = MS4A1 > 2.5)
+
+# 基于多重条件的子集筛选
+subset(x = pbmc, subset = MS4A1 > 2.5 & PC_1 > 5)
+subset(x = pbmc, subset = MS4A1 > 2.5, idents = "B")
+
+# 根据对象元数据中的值进行子集筛选
+subset(x = pbmc, subset = groups == "g1")
+
+# 按身份类别对细胞数量进行下采样
+subset(x = pbmc, downsample = 100)
+```
+
+### 分割图层
+```{r}
+# 在 Seurat v5 中，用户现在可以直接将对象分割到不同层中，将表达数据保留在一个对象内，但将多个样本分割到各层中，分割层后可直接进入整合工作流程
+ifnb[["RNA"]] <- split(ifnb[["RNA"]], f = ifnb$stim)
+Layers(ifnb)
+
+# 如果需要，例如在整合后，这些层可以再次合并在一起
+ifnb <- JoinLayers(ifnb)
+```
+
+
+### 合并对象（不带整合)
+```{r}
+# 在 Seurat v5 中，合并会创建一个单一对象，但将表达信息保留在不同的层中以供整合。如果不进行整合，合并后需重新合并各层。
+
+# 合并两个 Seurat 对象
+merged_obj <- merge(x = ifnb_list$CTRL, y = ifnb_list$STIM)
+merged_obj[["RNA"]] <- JoinLayers(merged_obj)
+
+# 合并两个以上 Seurat 对象的示例
+merge(x = pbmc1, y = list(pbmc2, pbmc3))
+```
+
+### 合并对象（带整合）'
+更多信息请参阅[整合介绍](https://satijalab.org/seurat/articles/integration_introduction)。
+```{r}
+merged_obj <- merge(x = ifnb_list$CTRL, y = ifnb_list$STIM)
+merged_obj <- NormalizeData(merged_obj)
+merged_obj <- FindVariableFeatures(merged_obj)
+merged_obj <- ScaleData(merged_obj)
+merged_obj <- RunPCA(merged_obj)
+merged_obj <- IntegrateLayers(object = obj, method = RPCAIntegration, orig.reduction = "pca", new.reduction = "integrated.rpca",
+    verbose = FALSE)
+
+# 现在集成已完成，重新合并图层
+merged_obj[["RNA"]] <- JoinLayers(merged_obj)
+```
+
+
+## 伪 bulk 分析
+
+### 基于多个类别将细胞分组
+```{r}
+# 仅按细胞类型的伪 bulk
+bulk <- AggregateExpression(ifnb, group.by = "seurat_annotations", return.seurat = TRUE)
+Cells(bulk)
+
+# 按刺激条件和细胞类型分类的伪 bulk
+bulk <- AggregateExpression(ifnb, group.by = c("stim", "seurat_annotations"), return.seurat = TRUE)
+Cells(bulk)
+
+# 按刺激条件、细胞类型和供体进行伪 bulk 分析
+bulk <- AggregateExpression(ifnb, group.by = c("stim", "seurat_annotations", "donor_id"), return.seurat = TRUE)
+Cells(bulk)
+```
+
+
+## 在 Seurat 中进行可视化
+Seurat 拥有一个基于 ggplot2 的庞大绘图库。默认情况下，所有绘图函数都会返回一个 ggplot2 图形，便于利用 ggplot2 进行轻松自定义。
+
+```{r}
+# 降维图
+DimPlot(object = pbmc, reduction = "pca")
+
+# 降维图，细胞按定量特征着色，默认使用 UMAP（如果可用）
+FeaturePlot(object = pbmc, features = "MS4A1")
+
+# 单细胞散点图
+FeatureScatter(object = pbmc, feature1 = "MS4A1", feature2 = "PC_1")
+FeatureScatter(object = pbmc, feature1 = "MS4A1", feature2 = "CD3D")
+
+# 跨个体特征的散点图，替代 CellPlot
+CellScatter(object = pbmc, cell1 = "AGTCTACTAGGGTG", cell2 = "CACAGATGGTTTCT")
+
+VariableFeaturePlot(object = pbmc)
+
+# 小提琴图和山脊图
+VlnPlot(object = pbmc, features = c("LYZ", "CCL5", "IL32"))
+RidgePlot(object = pbmc, feature = c("LYZ", "CCL5", "IL32"))
+```
+
+```{r}
+# 热图（可视化 scale.data 数据槽）
+DimHeatmap(object = pbmc, reduction = "pca", cells = 200)
+
+# 标准工作流程
+pbmc <- ScaleData(pbmc, features = heatmap_markers)
+DoHeatmap(object = pbmc, features = heatmap_markers)
+
+# sctransform 工作流程
+pbmc <- GetResidual(pbmc, features = heatmap_markers)
+DoHeatmap(object = pbmc, features = heatmap_markers)
+
+# 每组最多 100 个单元格的热图
+DoHeatmap(pbmc, heatmap_markers, cells = subset(pbmc, downsample = 100))
+```
+
+```{r}
+# 新功能尝鲜！请注意，绘图函数现在会返回 ggplot2 对象，因此你可以为它们添加主题、标题和选项
+VlnPlot(object = pbmc, features = "MS4A1", split.by = "groups")
+DotPlot(object = pbmc, features = c("LYZ", "CCL5", "IL32"), split.by = "groups")
+FeaturePlot(object = pbmc, features = c("MS4A1", "CD79A"), blend = TRUE)
+DimPlot(object = pbmc) + DarkTheme()
+DimPlot(object = pbmc) + labs(title = "2,700 PBMCs clustered using Seurat and viewed\non a two-dimensional UMAP")
+```
+
+
+```{r, echo=FALSE, eval=T}
+library(knitr)
+library(kableExtra)
+
+custom_table <- data.frame(
+  "主题" = c("DarkTheme", 
+           "FontSize", 
+           "NoAxes",
+           "NoLegend",
+           "RestoreLegend",
+           "RotatedAxis"
+           ),
+  "功能" = c(
+   "设置黑色背景与白色文字",
+   "为图表中的不同元素设置字体大小",
+   "移除坐标轴及轴文本",
+   "移除所有图例元素",
+   "移除后恢复图例",
+   "旋转 X 轴标签"
+  )
+)
+
+kable(custom_table, "html") %>%
+  kable_styling(full_width = F, position = "center") %>%
+  row_spec(0, extra_css = "border-bottom: none;") %>% # 去掉标题行的横线
+  row_spec(1:nrow(custom_table), extra_css = "border-bottom: none;") # 去掉数据行的横线
+```
+
+
+```{r}
+# 绘图辅助函数适用于基于 ggplot2 的散点图，如 DimPlot、FeaturePlot、CellScatter 和 FeatureScatter
+plot <- DimPlot(object = pbmc) + NoLegend()
+
+# HoverLocator 取代了之前的 `do.hover` 参数，它还可以通过 `information` 参数显示额外数据，设计初衷是与 FetchData 无缝协作
+HoverLocator(plot = plot, information = FetchData(object = pbmc, vars = c("ident", "PC_1", "nFeature_RNA")))
+
+# FeatureLocator 取代了之前的`do.identify`
+select.cells <- FeatureLocator(plot = plot)
+
+# 在 ggplot 对象上标记点
+LabelPoints(plot = plot, points = TopCells(object = pbmc[["pca"]]), repel = TRUE)
+```
+
+
+
+## 多检测特征
+
+使用 Seurat，您可以在单细胞级别轻松切换不同的检测数据（如 CITE-seq 的 ADT 计数或整合/批次校正后的数据）。大多数函数现在接受 assay 参数，但您可设置默认检测以避免重复声明。
+
+```{r}
+cbmc <- CreateSeuratObject(counts = cbmc.rna)
+# 添加 ADT 数据
+cbmc[["ADT"]] <- CreateAssayObject(counts = cbmc.adt)
+# 通过指定要使用的检测方法运行分析
+NormalizeData(object = cbmc, assay = "RNA")
+NormalizeData(object = cbmc, assay = "ADT", method = "CLR")
+
+# 检索并设置默认检测
+DefaultAssay(object = cbmc)
+DefaultAssay(object = cbmc) <- "ADT"
+DefaultAssay(object = cbmc)
+
+# 通过使用键从两个检测中提取特征表达
+FetchData(object = cbmc, vars = c("rna_CD3E", "adt_CD3"))
+
+# 使用键绘制来自多个检测的数据
+FeatureScatter(object = cbmc, feature1 = "rna_CD3E", feature2 = "adt_CD3")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

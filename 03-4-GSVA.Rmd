@@ -1,0 +1,82 @@
+# (PART) 其他高级分析 {-}
+
+```{r setup, include=FALSE}
+library(knitr)
+library(kableExtra)
+library(DT)
+knitr::opts_chunk$set(
+	eval = T,
+	echo = T,
+	error = F,
+	message = FALSE,
+	warning = FALSE,
+	cache = T,
+	collapse = T,
+	# fig.width = 6,
+	fig.height = 4,
+	unit='cm',
+	fig.align='center'
+)
+
+opts_knit$set(root.dir = "data/8.scGSVA")
+
+rm(list = ls())  ## 魔幻操作，一键清空~
+options(stringsAsFactors = F)
+
+getOption('timeout')
+options(timeout=10000) 
+```
+
+# GSVA 分析
+> 单细胞数据的GSVA和芯片、bulk转录组的GSVA没有本质区别，就使用AverageExpression获取平均表达量得到新的表达矩阵再计算即可。
+
+## 加载数据和R包
+
+获得每种细胞的平均表达量.
+
+这里的示例数据seu.obj.Rdata是GSE218208降维聚类分群的结果，因为文件太大，没有直接放进文件夹里，如果load报错就自己运行一下隔壁GSE218208的代码得到这个文件再跑。
+
+![](https://upload-images.jianshu.io/upload_images/9475888-2e226458a1b95f77.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+```{r}
+rm(list = ls())
+library(Seurat)
+library(GSVA)
+library(clusterProfiler)
+load("../2.GSE218208/seu.obj.Rdata")
+table(Idents(seu.obj))
+exp  =  AverageExpression(seu.obj)[[1]]
+#exp =  AggregateExpression(seu.obj)[[1]]
+exp  =  as.matrix(exp)
+exp  =  exp[rowSums(exp)>0,] 
+exp[1:4,1:4]
+```
+
+Seurat v5 提示建议用AggregateExpression做伪bulk转录组分析，那个是用来求和的，目前查到的文献和教程都是使用平均值，这里就木有改动.
+
+## 做GSVA
+
+gmt文件下载自GSEA-msigdb官网
+
+```{r,results='hide'}
+h_df = read.gmt("h.all.v2023.2.Hs.symbols.gmt")[,c(2,1)]
+h_list = unstack(h_df)
+# ES  =  gsva(exp, h_list) #⭐R 语言版本4.3运行这一句，代替下面的两句
+gsvapar <- gsvaParam(exp, h_list, maxDiff=TRUE) 
+ES <- gsva(gsvapar)
+ES[1:4,1:4]
+```
+
+
+## 热图可视化
+
+```{r fig.height= 10}
+library(pheatmap)
+pheatmap(ES, scale = "row",angle_col = "45",
+         color = colorRampPalette(c("navy", "white", "firebrick3"))(50))
+```
+
+
+
+
+

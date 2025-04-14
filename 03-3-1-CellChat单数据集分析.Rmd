@@ -1,0 +1,561 @@
+# (PART) CellChat {-}
+
+```{r setup, include=FALSE}
+library(knitr)
+library(kableExtra)
+library(DT)
+knitr::opts_chunk$set(
+	eval = T,
+	echo = T,
+	error = F,
+	message = FALSE,
+	warning = FALSE,
+	cache = T,
+	collapse = T,
+	# fig.width = 6,
+	fig.height = 4,
+	unit='cm',
+	fig.align='center'
+)
+
+opts_knit$set(root.dir = "data/6.cellchat")
+
+rm(list = ls())  ## 魔幻操作，一键清空~
+options(stringsAsFactors = F)
+
+getOption('timeout')
+options(timeout=10000) 
+```
+
+# cellchat 单数据集分析
+```{r}
+library(CellChat)
+library(patchwork)
+library(NMF)
+library(ggalluvial)
+options(stringsAsFactors = FALSE)
+# reticulate::use_python("/Users/suoqinjin/anaconda3/bin/python", required=T) 
+```
+
+## 数据输入、处理及 cellchat 对象初始化
+CellChat 需要两个输入：一是细胞的基因表达数据，二是用户指定的细胞标签。
+
+CellChat 需要细胞的基因表达数据作为输入，并通过将基因表达与信号配体、受体及其辅因子之间相互作用的先验知识相结合来模拟细胞间通讯的概率。
+### 准备 cellchat 分析所需要的输入数据 (可选)
+#### （A）从计数矩阵开始
+```{r,eval=FALSE}
+data.input = data_humanSkin$data # normalized data matrix
+meta = data_humanSkin$meta # a dataframe with rownames containing cell mata data
+cell.use = rownames(meta)[meta$condition == "LS"] # extract the cell names from disease data
+```
+
+#### （B）从 Seurat 对象开始
+```{r, echo=FALSE}
+library(SeuratData)
+library(Seurat)
+data("pbmc3k.final")
+pbmc3k <- UpdateSeuratObject(pbmc3k.final)
+# saveRDS(pbmc3k, file = "pbmc3k.rds")
+```
+
+```{r}
+library(Seurat)
+seurat_object <- pbmc3k # load the Seurat objec
+Idents(seurat_object) <- seurat_object$seurat_annotations # set the cell indentity
+
+data.input <- seurat_object[["RNA"]]@data # normalized data matrix
+# For Seurat version <= “5.0.0”, get the normalized data via `seurat_object[["RNA"]]@data`
+labels <- Idents(seurat_object)
+meta <- data.frame(labels = labels, row.names = names(labels)) # create a dataframe of the cell labels
+```
+
+
+### 创建 cellchat 对象
+#### （B）从 Seurat 对象开始
+如果输入的是 Seurat 或 SingleCellExperiment 对象，则默认使用对象中的元数据，并且必须提供 group.by 来定义细胞组。例如，group.by = “ident” 表示 Seurat 对象中的默认细胞标识。
+```{r}
+cellchat <- createCellChat(object = seurat_object, group.by = "ident", assay = "RNA")
+```
+
+如果在创建 CellChat 对象时没有添加单元格 mata 信息，用户也可以稍后使用 addMeta 添加，并使用 setIdent 设置默认单元格标识。
+```{r, eval=FALSE}
+cellchat <- addMeta(cellchat, meta = meta)
+cellchat <- setIdent(cellchat, ident.use = "labels") # set "labels" as default cell identity
+levels(cellchat@idents) # show factor levels of the cell labels
+groupSize <- as.numeric(table(cellchat@idents)) # number of cells in each cell group
+```
+
+
+
+### 设置配体-受体相互作用数据库
+在使用 CellChat 推断细胞间通讯之前，需要设置配体-受体相互作用数据库并识别过度表达的配体或受体。
+
+
+CellChatDB 是一个人工整理的数据库，包含文献支持的人类和小鼠配体-受体相互作用。
+CellChatDB v2 包含约 3,300 个已验证的分子相互作用，
+其中包括约 40% 的分泌性自分泌/旁分泌信号相互作用、约 17% 的细胞外基质 (ECM)-受体相互作用、
+约 13% 的细胞间接触相互作用以及约 30% 的非蛋白信号传导。
+与 CellChatDB v1 相比，CellChatDB v2 增加了 1000 多种蛋白质和非蛋白质相互作用，
+例如代谢和突触信号。需要注意的是，对于与 scRNA-seq 中测量的基因无直接关联的分子，
+CellChat v2 会利用这些分子的关键介质或酶来估计配体和受体的表达，以了解可能由非蛋白介导的通讯。
+
+
+CellChatDB v2 还添加了配体-受体对的额外功能注释，
+例如 UniProtKB 关键词（包括生物过程、分子功能、功能类别、疾病等）、亚细胞定位和与神经递质的相关性。
+
+
+可以通过添加自己精选的配体-受体对来更新 CellChatDB。请查看[更新配体-受体相互作用数据库 CellChatDB 的教程](https://htmlpreview.github.io/?https://github.com/jinworks/CellChat/blob/master/tutorial/Update-CellChatDB.html) 。
+
+
+分析人体样本时，使用数据库 CellChatDB.human ; 分析小鼠时 样本，使用数据库 CellChatDB.mouse 。CellChatDB 将配体-受体对分为不同的类型，包括“分泌信号”、“ECM-受体”、“细胞-细胞接触”和“非蛋白信号”。默认情况下，“非蛋白信号”不使用。
+
+```{r}
+CellChatDB <- CellChatDB.human # use CellChatDB.mouse if running on mouse data
+showDatabaseCategory(CellChatDB)
+
+# Show the structure of the database
+dplyr::glimpse(CellChatDB$interaction)
+
+# use a subset of CellChatDB for cell-cell communication analysis
+CellChatDB.use <- subsetDB(CellChatDB, search = "Secreted Signaling", key = "annotation") # use Secreted Signaling
+
+# Only uses the Secreted Signaling from CellChatDB v1
+#  CellChatDB.use <- subsetDB(CellChatDB, search = list(c("Secreted Signaling"), c("CellChatDB v1")), key = c("annotation", "version"))
+
+# use all CellChatDB except for "Non-protein Signaling" for cell-cell communication analysis
+# CellChatDB.use <- subsetDB(CellChatDB)
+
+# use all CellChatDB for cell-cell communication analysis
+# CellChatDB.use <- CellChatDB # simply use the default CellChatDB. We do not suggest to use it in this way because CellChatDB v2 includes "Non-protein Signaling" (i.e., metabolic and synaptic signaling). 
+
+# set the used database in the object
+cellchat@DB <- CellChatDB.use
+```
+
+### 细胞间通讯分析的表达数据预处理
+为了推断细胞状态特定的通信，CellChat 会识别一个细胞组中过度表达的配体或受体，然后识别过度表达的配体-受体相互作用（如果配体或受体过度表达）。
+
+我们还提供了一个功能，可以将基因表达数据投射到蛋白质-蛋白质相互作用（PPI）网络上。具体来说，这个功能使用扩散过程来根据高置信度实验验证的蛋白质-蛋白质网络中定义的邻居来平滑基因的表达值。当分析测序深度较浅的单细胞数据时，这个功能非常有用，因为投射可以减少信号基因的掉落效应（dropout effects），特别是对于可能为零表达的配体/受体亚基。有人可能会担心这种扩散过程引入的可能伪影，然而，它只会引入非常弱的通讯。默认情况下，CellChat 使用原始数据（即，`object@data.signaling`）而不是投射数据。要使用投射数据，用户应在运行 `computeCommunProb` 之前运行 `projectData` 函数，然后在运行 `computeCommunProb` 时设置 `raw.use = FALSE`。
+
+```{r}
+# subset the expression data of signaling genes for saving computation cost
+cellchat <- subsetData(cellchat) # This step is necessary even if using the whole database
+future::plan("multisession", workers = 4) # do parallel
+cellchat <- identifyOverExpressedGenes(cellchat)
+cellchat <- identifyOverExpressedInteractions(cellchat)
+
+# project gene expression data onto PPI (Optional: when running it, USER should set `raw.use = FALSE` in the function `computeCommunProb()` in order to use the projected data)
+# cellchat <- projectData(cellchat, PPI.human)
+```
+
+## 细胞间通讯网络推断
+
+CellChat 通过为每个相互作用分配一个概率值并进行置换检验，推断具有生物学意义的细胞间通讯。CellChat 运用质量作用定律，将基因表达与信号传导配体、受体及其辅因子之间相互作用的已知知识相结合，从而建立细胞间通讯的概率模型。
+
+
+注意：推断的配体-受体对的数量明显依赖于计算每个细胞组平均基因表达的方法。默认情况下，CellChat 使用一种统计上稳健的均值方法，称为“trimean”，它产生的交互作用比其他方法少。然而，我们发现 CellChat 在预测更强的交互作用方面表现良好，这对于进一步的实验验证非常有帮助。在 `computeCommunProb` 中，我们提供了使用其他方法的选项，例如 5% 和 10% 截断均值，来计算平均基因表达。值得注意的是，“trimean”近似于 25% 截断均值，这意味着如果一个组中表达的细胞百分比少于 25%，则平均基因表达为零。要使用 10% 截断均值，用户可以设置 `type = "truncatedMean"` 和 `trim = 0.1`。为了确定合适的 `trim` 值，CellChat 提供了一个函数 `computeAveExpr`，它可以帮助检查感兴趣的信号基因的平均表达，例如，`computeAveExpr(cellchat, features = c("CXCL12","CXCR4"), type = "truncatedMean", trim = 0.1)`。因此，如果在研究的生物过程中没有预测到知名的信号通路，用户可以尝试使用较低的 `trim` 值的 `truncatedMean` 来改变每个细胞组平均基因表达的计算方法。
+
+
+在分析未分类的单细胞转录组时，基于这样一种假设：丰富的细胞群体往往比稀有的细胞群体发送更强的集体信号，CellChat 也可以在概率计算中考虑每个细胞组中细胞比例的影响。用户可以设置 `population.size = TRUE`。
+
+### 计算通讯概率并推断细胞通讯网络
+该分析的关键参数是 `type`，即计算每个细胞组平均基因表达的方法。默认情况下，`type = "triMean"`，这会产生较少但更强的交互作用。当设置 `type = "truncatedMean"` 时，需要为 `trim` 赋值，这会产生更多的交互作用。
+```{r}
+cellchat <- computeCommunProb(cellchat, type = "triMean")
+```
+用户可以过滤掉那些在某些细胞群体中只有少量细胞的细胞间通讯。默认情况下，每个细胞群体中进行细胞间通讯所需的最小细胞数量是10个。
+```{r}
+cellchat <- filterCommunication(cellchat, min.cells = 10)
+```
+
+### 将推断出的细胞通讯网络提取为一个数据框。
+
+我们提供了一个函数 `subsetCommunication`，以便轻松访问感兴趣的推断细胞间通讯。例如：
+
+`df.net <- subsetCommunication(cellchat)` 返回一个数据框，其中包含配体/受体水平的所有推断细胞间通讯。设置 `slot.name = "netP"` 可以访问信号通路水平的推断通讯。
+
+`df.net <- subsetCommunication(cellchat, sources.use = c(1,2), targets.use = c(4,5))` 提供从细胞群体 1 和 2 发送到细胞群体 4 和 5 的推断细胞间通讯。
+
+`df.net <- subsetCommunication(cellchat, signaling = c("WNT", "TGFb"))` 提供由 WNT 和 TGFb 信号介导的推断细胞间通讯。
+
+```{r}
+df.net <- subsetCommunication(cellchat, slot.name = "netP")
+```
+
+
+### 在信号通路级别推断细胞-细胞通讯
+
+CellChat 通过总结与每个信号通路相关的所有配体-受体相互作用的通信概率，计算信号通路级别的通信概率。     
+注意：每个配体-受体对和每个信号通路的推断细胞间通信网络存储在“net”和“netP”槽中。
+```{r}
+cellchat <- computeCommunProbPathway(cellchat)
+```
+
+### 计算聚合的细胞-细胞通信网络
+
+CellChat 通过计算链接数量或总结通信概率来计算聚合的细胞-细胞通信网络。用户还可以通过设置 `sources.use` 和 `targets.use` 来计算一组细胞群体之间的聚合网络。
+```{r}
+cellchat <- aggregateNet(cellchat)
+```
+
+CellChat 还可以可视化聚合的细胞间通信网络。例如，使用圆形图显示任意两个细胞组之间的交互次数或总交互强度（权重）。
+```{r}
+groupSize <- as.numeric(table(cellchat@idents))
+par(mfrow = c(1,2), xpd=TRUE)
+netVisual_circle(cellchat@net$count, vertex.weight = groupSize, weight.scale = T, label.edge= F, title.name = "Number of interactions")
+netVisual_circle(cellchat@net$weight, vertex.weight = groupSize, weight.scale = T, label.edge= F, title.name = "Interaction weights/strength")
+```
+
+由于复杂的细胞间通信网络，我们可以检查每个细胞组发送的信号。在这里，我们还控制参数 edge.weight.max ，以便比较不同网络之间的边权重。
+```{r, eval=FALSE}
+mat <- cellchat@net$weight
+par(mfrow = c(3,4), xpd=TRUE)
+for (i in 1:nrow(mat)) {
+  mat2 <- matrix(0, nrow = nrow(mat), ncol = ncol(mat), dimnames = dimnames(mat))
+  mat2[i, ] <- mat[i, ]
+  netVisual_circle(mat2, vertex.weight = groupSize, weight.scale = T, edge.weight.max = max(mat), title.name = rownames(mat)[i])
+}
+```
+
+## 细胞间通信网络的可视化
+在推断细胞间通信网络后，CellChat 提供了多种功能以便进一步的数据探索、分析和可视化。具体来说：  
+- 它提供了几种可视化细胞间通信网络的方法，包括层次图、圆形图、和弦图和气泡图。  
+- 它提供了一个易于使用的工具，用于提取和可视化推断网络的高阶信息。例如，它可以方便地预测细胞群体的主要信号输入和输出，以及这些群体和信号如何协调以实现功能。
+- 它可以通过结合社交网络分析、模式识别和流形学习方法，定量表征和比较推断的细胞间通信网络。  
+
+### 使用层次图、圆形图或和弦图可视化每个信号通路
+
+层次图：应定义 `vertex.receiver` ，这是一个数值向量，给出层次图左侧作为目标的细胞组的索引。该层次图由两个部分组成：左侧部分显示对某些感兴趣的细胞组（即定义的 `vertex.receiver` ）的自分泌和旁分泌信号，而右侧部分显示对数据集中其余细胞组的自分泌和旁分泌信号。因此，层次图提供了一种信息丰富且直观的方式来可视化感兴趣的细胞组之间的自分泌和旁分泌信号通信。例如，在研究成纤维细胞与免疫细胞之间的细胞间通信时，用户可以将 `vertex.receiver` 定义为所有成纤维细胞组。  
+
+
+和弦图：CellChat 提供了两个函数 `netVisual_chord_cell` 和 `netVisual_chord_gene` 用于以不同的目的和不同的层次可视化细胞间通信。
+`netVisual_chord_cell` 用于可视化不同细胞组之间的细胞间通信（和弦图中的每个扇区是一个细胞组）, `netVisual_chord_gene` 用于可视化由多个配体-受体或信号通路介导的细胞间通信（和弦图中的每个扇区是一个配体、受体或信号通路）。
+
+
+边缘颜色/权重、节点颜色/大小/形状的解释：在所有可视化图中，边缘颜色与作为发送者的源一致，边缘权重与交互强度成正比。边缘线越粗，信号越强。在层次图和圆形图中，圆圈的大小与每个细胞组中的细胞数量成正比。在层次图中，实心圆和空心圆分别表示源和目标。在和弦图中，内侧较细的条形颜色表示接收来自相应外侧条形信号的目标。内侧条形的大小与目标接收到的信号强度成正比。这种内侧条形有助于解释复杂的和弦图。请注意，某些细胞组存在没有任何和弦的内侧条形，请忽略它，因为这是 circlize 包尚未解决的问题。
+
+
+在不同层次上可视化细胞间通信：可以使用 `netVisual_aggregate` 可视化信号通路的推断通信网络，并使用 `netVisual_individual` 可视化与该信号通路相关的单个配对的推断通信网络。
+
+
+在这里，我们以一个信号通路作为例子。所有显示显著通信的信号通路可以通过 `cellchat@netP$pathways` 访问。
+
+#### 层次图
+```{r}
+pathways.show <- c("MIF") 
+# Hierarchy plot
+# Here we define `vertex.receive` so that the left portion of the hierarchy plot shows signaling to fibroblast and the right portion shows signaling to immune cells 
+vertex.receiver = c(1,2,5) # a numeric vector. 
+netVisual_aggregate(cellchat, signaling = pathways.show,  vertex.receiver = vertex.receiver, layout = "hierarchy")
+# Circle plot
+par(mfrow=c(1,1))
+netVisual_aggregate(cellchat, signaling = pathways.show, layout = "circle")
+```
+
+#### 弦图
+```{r}
+# Chord diagram
+par(mfrow=c(1,1))
+netVisual_aggregate(cellchat, signaling = pathways.show, layout = "chord")
+```
+
+对于弦图，CellChat 有一个独立的函数 netVisual_chord_cell ，可以通过调整 circlize 包中的不同参数灵活地可视化信号网络。例如，我们可以定义一个命名的字符向量 group 来创建多组和弦图，例如，将细胞簇分组为不同的细胞类型。
+```{r}
+# Chord diagram
+group.cellType <- c(rep("A", 4), rep("B", 4), rep("C", 4)) # grouping cell clusters into different cell types (example: A, B, C)
+names(group.cellType) <- levels(cellchat@idents)
+netVisual_chord_cell(cellchat, signaling = pathways.show, group = group.cellType, title.name = paste0(pathways.show, " signaling network"))
+```
+
+#### 热图
+```{r}
+# Heatmap
+par(mfrow=c(1,1))
+netVisual_heatmap(cellchat, signaling = pathways.show, color.heatmap = "Reds")
+```
+
+### 计算每个配体-受体对对整体信号通路的贡献，并可视化由单个配体-受体对介导的细胞间通信
+```{r}
+netAnalysis_contribution(cellchat, signaling = pathways.show)
+```
+
+我们还可以可视化由单一配体-受体对介导的细胞间通信。我们提供一个函数 extractEnrichedLR 来提取给定信号通路的所有显著相互作用（L-R 对）和相关信号基因。
+```{r}
+pairLR.CXCL <- extractEnrichedLR(cellchat, signaling = pathways.show, geneLR.return = FALSE)
+LR.show <- pairLR.CXCL[1:2,] # show one ligand-receptor pair
+
+# Hierarchy plot
+vertex.receiver = seq(1,4) # a numeric vector
+netVisual_individual(cellchat, signaling = pathways.show,  pairLR.use = LR.show, vertex.receiver = vertex.receiver, layout = "hierarchy" )
+
+# Circle plot
+netVisual_individual(cellchat, signaling = pathways.show, pairLR.use = LR.show, layout = "circle")
+
+# Chord diagram
+netVisual_individual(cellchat, signaling = pathways.show, pairLR.use = LR.show, layout = "chord")
+```
+
+#### 自动保存所有推断网络的图以便快速浏览
+
+在实际使用中，可以使用‘for … loop’自动保存所有推断的网络，以便使用 netVisual 进行快速探索。 netVisual 支持以 svg、png 和 pdf 格式输出。
+```{r, eval=FALSE}
+# Access all the signaling pathways showing significant communications
+pathways.show.all <- cellchat@netP$pathways
+# check the order of cell identity to set suitable vertex.receiver
+levels(cellchat@idents)
+vertex.receiver = seq(1,4)
+for (i in 1:length(pathways.show.all)) {
+  # Visualize communication network associated with both signaling pathway and individual L-R pairs
+  netVisual(cellchat, signaling = pathways.show.all[i], vertex.receiver = vertex.receiver, layout = "hierarchy")
+  # Compute and visualize the contribution of each ligand-receptor pair to the overall signaling pathway
+  gg <- netAnalysis_contribution(cellchat, signaling = pathways.show.all[i])
+  ggsave(filename=paste0(pathways.show.all[i], "_L-R_contribution.pdf"), plot=gg, width = 3, height = 2, units = 'in', dpi = 300)
+}
+```
+
+
+### 可视化由多个配体-受体或信号通路介导的细胞间通信
+
+CellChat 还可以显示由 L-R 对和信号通路介导的所有显著相互作用，以及用户从某些细胞群体到其他细胞群体提供的相互作用，
+使用功能 netVisual_bubble（选项 A）和 netVisual_chord_gene（选项 B）。
+
+#### A：气泡图
+我们还可以使用 netVisual_bubble 显示从某些细胞群体到其他细胞群体的所有显著相互作用（L-R 对）。
+```{r}
+# (1) show all the significant interactions (L-R pairs) from some cell groups (defined by 'sources.use') to other cell groups (defined by 'targets.use')
+netVisual_bubble(cellchat, sources.use = 2, targets.use = c(5:9), remove.isolate = FALSE)
+```
+
+```{r}
+# (2) show all the significant interactions (L-R pairs) associated with certain signaling pathways
+netVisual_bubble(cellchat, sources.use = 2, targets.use = c(5:9), signaling = c("MIF","GALECTIN"), remove.isolate = FALSE)
+```
+
+```{r}
+# (3) show all the significant interactions (L-R pairs) based on user's input (defined by `pairLR.use`)
+pairLR.use <- extractEnrichedLR(cellchat, signaling = c("MIF","GALECTIN","ANNEXIN"))
+netVisual_bubble(cellchat, sources.use = c(3,4), targets.use = c(5:8), pairLR.use = pairLR.use, remove.isolate = TRUE)
+```
+
+```{r, eval=FALSE}
+# set the order of interacting cell pairs on x-axis
+# (4) 默认情况下，细胞对是根据来源细胞在 `object@idents` 中的出现顺序进行排序的，如果来源相同，则根据目标细胞的出现顺序排序。
+# (5) 根据用户定义的目标 (target) 进行排序
+netVisual_bubble(cellchat, targets.use = c("MIF", "GALECTIN", "ANNEXIN", "CD40", "IL16"), pairLR.use = pairLR.use, remove.isolate = TRUE, sort.by.target = T)
+# (6) 根据用户定义的来源 (source) 进行排序
+netVisual_bubble(cellchat, sources.use = c("FBN1+ FIB","APOE+ FIB","Inflam. FIB"), pairLR.use = pairLR.use, remove.isolate = TRUE, sort.by.source = T)
+# (7) 先根据来源再根据目标进行排序
+netVisual_bubble(cellchat, sources.use = c("FBN1+ FIB","APOE+ FIB","Inflam. FIB"), targets.use = c("LC","Inflam. DC","cDC2","CD40LG+ TC"), pairLR.use = pairLR.use, remove.isolate = TRUE, sort.by.source = T, sort.by.target = T)
+# (8) 先根据目标再根据来源进行排序
+netVisual_bubble(cellchat, sources.use = c("FBN1+ FIB","APOE+ FIB","Inflam. FIB"), targets.use = c("LC","Inflam. DC","cDC2","CD40LG+ TC"), pairLR.use = pairLR.use, remove.isolate = TRUE, sort.by.source = T, sort.by.target = T, sort.by.source.priority = FALSE)
+```
+
+#### B：和弦图
+
+类似于气泡图，CellChat 提供了一个 netVisual_chord_gene 的功能来绘制弦图
+
+- 显示某些细胞组到其他细胞组的所有相互作用（L-R 对或信号通路）。有两种特殊情况：一种是显示从一个细胞组发送的所有相互作用，另一种是显示一个细胞组接收的所有相互作用 。    
+- 显示用户输入的相互作用或用户定义的某些信号通路
+
+```{r}
+# 显示从某些细胞群体（由 'sources.use' 定义）到其他细胞群体（由 'targets.use' 定义）的所有显著相互作用（配体-受体对）。
+# 显示从 B 细胞发送的所有相互作用。
+netVisual_chord_gene(cellchat, sources.use = 4, targets.use = c(1:9), lab.cex = 0.5, legend.pos.y = 30)
+```
+
+```{r}
+# 显示树突状细胞（DC）接收到的所有相互作用。
+netVisual_chord_gene(cellchat, sources.use = c(1,2,3,4,5,6), targets.use = 8, legend.pos.x = 15)
+```
+
+```{r}
+# 显示与特定信号通路相关的所有显著相互作用（配体-受体对）。
+netVisual_chord_gene(cellchat, sources.use = c(1,2,3,4), targets.use = c(5:9), signaling = c("MIF","GALECTIN"),legend.pos.x = 8)
+```
+
+```{r}
+# 显示从某些细胞群体（由 'sources.use' 定义）到其他细胞群体（由 'targets.use' 定义）的所有显著信号通路。
+netVisual_chord_gene(cellchat, sources.use = c(1,2,3,4), targets.use = c(5:8), slot.name = "netP", legend.pos.x = 10)
+```
+注意：生成图表时请忽略诸如“注意：第一个连接端绘制在‘MIF’扇区之外”的注释。若基因名称重叠，可通过减小参数 `small.gap` 的值进行调整。
+
+
+
+### 使用小提琴图/点图绘制信号基因表达分布
+
+若已安装 Seurat R 包，CellChat 可通过其封装函数 plotGeneExpression 绘制与配体-受体对或信号通路相关的信号基因表达分布图。
+该函数提供三种可视化类型：“violin”（小提琴图）、“dot”（点图）、“bar”（条形图）。
+用户亦可使用 extractEnrichedLR 提取推断出的配体-受体对或信号通路相关信号基因，再借助 Seurat 或其他软件包进行基因表达可视化。
+
+```{r}
+plotGeneExpression(cellchat, signaling = "CD40", enriched.only = TRUE, type = "violin")
+```
+
+默认情况下， plotGeneExpression 仅显示与推断出的显著通讯相关的信号基因表达。用户可通过设置展示特定信号通路下所有相关信号基因的表达情况。
+```{r}
+plotGeneExpression(cellchat, signaling = "CD40", enriched.only = FALSE)
+```
+
+
+## 细胞间通信网络的系统分析
+
+为便于解析复杂的细胞间通讯网络，CellChat 通过从图论 (graph theory)、模式识别 (pattern recognition) 和流形学习 (manifold learning) 的方法对网络进行量化分析。
+
+
+- 它可以使用网络分析中的中心性度量来确定给定信号网络中的主要信号源和目标，以及介导者和影响者。
+
+- 它可以通过利用模式识别方法预测特定细胞类型的关键进出信号以及不同细胞类型之间的协调反应。
+
+- 它可以通过定义相似性度量并从功能和拓扑的角度进行流形学习来对信号通路进行分组。
+
+- 它可以通过对多个网络的联合流形学习来描绘保守和特定上下文的信号通路。
+
+
+### 确定细胞群体的信号角色（例如，主要发送者、接收者）以及主要贡献的信号
+
+CellChat 通过计算每个细胞组的多个网络中心性度量，允许快速识别细胞间通信网络中的主导发送者、接收者、中介和影响者。具体而言，我们使用加权有向网络中的度量，包括出度、入度、流动介数和信息中心性，分别识别细胞间通信的主导发送者、接收者、中介和影响者。在一个加权有向网络中，权重为计算得出的通信概率，出度计算为细胞组发出的信号的通信概率之和，入度计算为细胞组接收的信号的通信概率之和，可以分别用于识别信号网络的主导细胞发送者和接收者。
+
+
+#### （A）计算并可视化网络中心性分数
+```{r}
+# 计算网络中心性得分
+cellchat <- netAnalysis_computeCentrality(cellchat, slot.name = "netP") # 插槽 'netP' 指的是推断的细胞间信号通路通信网络
+# 使用热图可视化计算出的中心性得分，便于识别细胞群体的主要信号作用
+netAnalysis_signalingRole_network(cellchat, signaling = pathways.show, width = 8, height = 2.5, font.size = 10)
+```
+
+#### （B）在 2D 空间中可视化主要发送者（来源）和接收者（目标）
+CellChat 还提供了一种直观的方式，通过散点图在 2D 空间中可视化主要发送者（来源）和接收者（目标）。x 轴和 y 轴分别是与每个细胞群体相关的总外向或内向通信概率。点的大小与每个细胞群体相关的推断链接数量（包括外向和内向）成正比。点的颜色表示不同的细胞群体。如果定义了 `group` ，点的形状表示不同类别的细胞群体。
+```{r}
+# 对所有信号通路的聚合细胞间通信网络进行信号作用分析
+gg1 <- netAnalysis_signalingRole_scatter(cellchat)
+# 对感兴趣的细胞间通信网络的信号作用分析
+gg2 <- netAnalysis_signalingRole_scatter(cellchat, signaling = c("MIF","GALECTIN"))
+
+gg1 + gg2
+```
+
+#### （C）识别对特定细胞群输出或输入信号贡献最大的信号
+我们还能解答哪些信号对特定细胞群的输出或输入信号贡献最大的问题。在此热图中，颜色条代表信号通路在不同细胞群间的相对信号强度（注：数值经过行标准化）。顶部彩色条形图通过汇总热图中所有信号通路来展示细胞群的总信号强度。右侧灰色条形图则通过汇总所有显示的细胞群来展示信号通路的总信号强度。
+
+```{r}
+# 从所有信号通路对细胞-细胞通讯网络的聚集信号作用进行分析
+ht1 <- netAnalysis_signalingRole_heatmap(cellchat, pattern = "outgoing")
+ht2 <- netAnalysis_signalingRole_heatmap(cellchat, pattern = "incoming")
+ht1 + ht2
+```
+
+### 识别全局通讯模式，探索多种细胞类型与信号通路如何协同作用
+除了探究单个通路的详细通讯情况外，一个重要问题是多个细胞群与信号通路如何协调运作。CellChat 采用模式识别方法来识别全局通讯模式。
+
+
+随着模式数量的增加，可能会出现冗余模式，从而难以解释通信模式。我们默认选择五种模式。通常情况下，模式数量大于 2 时具有生物学意义。此外，我们还提供了一个函数 `selectK` 来推断模式数量，该函数基于 NMF R 包中已实现的两个指标，包括 Cophenetic 和 Silhouette。这两个指标基于共识矩阵的层次聚类来衡量特定数量模式的稳定性。对于一定范围内的模式数量，合适的模式数量是 Cophenetic 和 Silhouette 值突然开始下降时的数值。
+
+
+该分析可针对传出（选项 A）和传入（选项 B）信号模式进行。传出模式揭示了发送细胞（即作为信号源的细胞）如何相互协调，以及它们如何与特定信号通路协同驱动通讯。传入模式则展示了目标细胞（即作为信号接收者的细胞）如何相互协调，以及它们如何与特定信号通路协同响应传入信号。
+
+#### （A）识别并可视化分泌细胞的传出通讯模式
+
+传出模式揭示了发送细胞（即作为信号源的细胞）如何相互协调，以及它们如何与特定信号通路协同驱动通讯。
+
+
+对于输出（或输入）模式，通过矩阵分解输出的细胞群模式矩阵 W 展示了这些细胞群如何协同发送（或接收）信号，而信号通路模式矩阵 H 则揭示了这些信号通路如何共同作用以发送（或接收）信号。为了直观展示潜在模式与细胞群、配体-受体对或信号通路之间的关联，我们采用了河流（冲积）图。首先，我们将 W 的每一行和 H 的每一列归一化至[0,1]范围，随后将 W 和 H 中小于阈值（默认值为 0.5）的元素设为零。这种阈值处理有助于揭示与每个推断模式相关的最富集细胞群和信号通路。经过阈值处理的矩阵 W 和 H 将作为创建冲积图的输入数据。
+
+
+此外，为了直接将细胞群与其富集的信号通路关联起来，我们设定矩阵 W 和 H 中的元素若小于阈值（默认值为 1/R，其中 R 为潜在模式数量）则置零。通过采用较宽松的阈值，可能获得更多与各细胞群相关的富集信号通路。利用通过 W 乘以 H 计算得到的各细胞群对每条信号通路的贡献分数，我们构建了点阵图——图中点的大小与贡献分数成正比，用以展示细胞群与其富集信号通路之间的关联。用户还可调低参数 cutoff 以显示更多与各细胞群相关的富集信号通路。
+
+
+
+```{r}
+selectK(cellchat, pattern = "outgoing")
+```
+
+当外向通信模式数量为 2 时，同构系数和轮廓系数均开始骤降。
+```{r}
+nPatterns = 2
+cellchat <- identifyCommunicationPatterns(cellchat, pattern = "outgoing", k = nPatterns)
+```
+
+
+```{r}
+# river plot
+netAnalysis_river(cellchat, pattern = "outgoing")
+```
+
+
+```{r}
+# dot plot
+netAnalysis_dot(cellchat, pattern = "outgoing")
+```
+
+#### (B) 识别并可视化目标细胞的传入通信模式
+传入模式展示了靶细胞（即作为信号接收者的细胞）如何相互协调，以及它们如何与特定信号通路协调以响应传入信号。
+```{r}
+selectK(cellchat, pattern = "incoming")
+```
+
+当传入模式数量为 3 时，共表型值开始下降。
+```{r}
+nPatterns = 3
+cellchat <- identifyCommunicationPatterns(cellchat, pattern = "incoming", k = nPatterns)
+```
+
+```{r}
+# river plot
+netAnalysis_river(cellchat, pattern = "incoming")
+```
+
+```{r}
+# dot plot
+netAnalysis_dot(cellchat, pattern = "incoming")
+```
+
+### 信号网络的流形与分类学习分析
+
+此外，CellChat 能够量化所有重要信号通路之间的相似性，并根据它们的细胞通讯网络相似性进行分组。分组可以基于功能相似性或结构相似性来完成。
+
+
+功能相似性：高度的功能相似性表明主要的发送者和接收者相似，可以解释为这两种信号通路或两种配体-受体对表现出相似和/或冗余的作用。功能相似性分析要求两个数据集之间具有相同的细胞群体组成。
+
+
+结构相似性：采用结构相似性来比较它们的信号网络结构，不考虑发送者和接收者的相似性。
+
+
+#### 基于功能相似性识别信号组
+```{r, eval=FALSE}
+cellchat <- computeNetSimilarity(cellchat, type = "functional")
+cellchat <- netEmbedding(cellchat, type = "functional")
+cellchat <- netClustering(cellchat, type = "functional")
+
+netVisual_embedding(cellchat, type = "functional", label.size = 3.5)
+```
+
+```{r,eval=FALSE}
+netVisual_embeddingZoomIn(cellchat, type = "functional", nCol = 2)
+```
+
+#### 基于结构相似性识别信号组
+```{r, eval=FALSE}
+cellchat <- computeNetSimilarity(cellchat, type = "structural")
+cellchat <- netEmbedding(cellchat, type = "structural")
+cellchat <- netClustering(cellchat, type = "structural")
+netVisual_embedding(cellchat, type = "structural", label.size = 3.5)
+```
+
+```{r, eval=FALSE}
+netVisual_embeddingZoomIn(cellchat, type = "structural", nCol = 2)
+```
+
+
+## 保存 cellchaat 对象
+```{r, eval=FALSE}
+saveRDS(cellchat, file = "cellchat_humanSkin_LS.rds")
+```
+
+## 通过交互式 CellChat 探索器探索细胞间通讯
+
+进行单细胞转录组 CellChat 分析时，请确保 `object@dr` 包含数据的低维空间（如“umap”和“tsne”），以便生成信号基因的特征图。可通过 `addReduction` 函数添加新的降维空间。
+
+```{r, eval=FALSE}
+runCellChatApp(cellchat)
+```

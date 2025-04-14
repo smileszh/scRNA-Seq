@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>第 1 章 Seurat 教程 | scRNA-Seq</title>
+  <title>第 1 章 Seurat 教程 | cellchat</title>
   <meta name="description" content="This is an online note of the scRNA-Seq analysis." />
   <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="第 1 章 Seurat 教程 | scRNA-Seq" />
+  <meta property="og:title" content="第 1 章 Seurat 教程 | cellchat" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is an online note of the scRNA-Seq analysis." />
   <meta name="github-repo" content="smileszh/scRNA-Seq" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="第 1 章 Seurat 教程 | scRNA-Seq" />
+  <meta name="twitter:title" content="第 1 章 Seurat 教程 | cellchat" />
   
   <meta name="twitter:description" content="This is an online note of the scRNA-Seq analysis." />
   
@@ -23,7 +23,7 @@
 <meta name="author" content="苏总华" />
 
 
-<meta name="date" content="2025-04-08" />
+<meta name="date" content="2025-04-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -66,7 +66,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -192,7 +192,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.7" data-path="多样本分析.html"><a href="多样本分析.html#差异分析"><i class="fa fa-check"></i><b>4.7</b> 差异分析</a></li>
 <li class="chapter" data-level="4.8" data-path="多样本分析.html"><a href="多样本分析.html#伪bulk-转录组差异分析"><i class="fa fa-check"></i><b>4.8</b> 伪bulk 转录组差异分析</a></li>
 </ul></li>
-<li class="part"><span><b>III 高阶分析</b></span></li>
+<li class="part"><span><b>III 拟时序分析</b></span></li>
 <li class="chapter" data-level="5" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html"><i class="fa fa-check"></i><b>5</b> 单样本拟时序分析</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html#构建细胞发育轨迹"><i class="fa fa-check"></i><b>5.1</b> 构建细胞发育轨迹</a></li>
@@ -203,44 +203,100 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html#构建细胞发育轨迹-1"><i class="fa fa-check"></i><b>6.1</b> 构建细胞发育轨迹</a></li>
 <li class="chapter" data-level="6.2" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html#绘图展示-1"><i class="fa fa-check"></i><b>6.2</b> 绘图展示</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html"><i class="fa fa-check"></i><b>7</b> 细胞通讯分析</a>
+<li class="part"><span><b>IV CellChat</b></span></li>
+<li class="chapter" data-level="7" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html"><i class="fa fa-check"></i><b>7</b> cellchat 单数据集分析</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#r包和数据"><i class="fa fa-check"></i><b>7.1</b> R包和数据</a></li>
-<li class="chapter" data-level="7.2" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#了解参考数据"><i class="fa fa-check"></i><b>7.2</b> 了解参考数据</a></li>
-<li class="chapter" data-level="7.3" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#构建cellchat对象"><i class="fa fa-check"></i><b>7.3</b> 构建cellchat对象</a></li>
-<li class="chapter" data-level="7.4" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#细胞通讯网络分析"><i class="fa fa-check"></i><b>7.4</b> 细胞通讯网络分析</a></li>
-<li class="chapter" data-level="7.5" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#画图展示"><i class="fa fa-check"></i><b>7.5</b> 画图展示</a>
+<li class="chapter" data-level="7.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#数据输入处理及-cellchat-对象初始化"><i class="fa fa-check"></i><b>7.1</b> 数据输入、处理及 cellchat 对象初始化</a>
 <ul>
-<li class="chapter" data-level="7.5.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#circle-plot"><i class="fa fa-check"></i><b>7.5.1</b> circle plot</a></li>
-<li class="chapter" data-level="7.5.2" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#chord-plot"><i class="fa fa-check"></i><b>7.5.2</b> chord plot</a></li>
-<li class="chapter" data-level="7.5.3" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#heatmap"><i class="fa fa-check"></i><b>7.5.3</b> heatmap</a></li>
-<li class="chapter" data-level="7.5.4" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#热图-展示每一类细胞是什么角色"><i class="fa fa-check"></i><b>7.5.4</b> 热图-展示每一类细胞是什么角色</a></li>
-<li class="chapter" data-level="7.5.5" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#气泡图-显示所有的显著的配体-受体对"><i class="fa fa-check"></i><b>7.5.5</b> 气泡图-显示所有的显著的配体-受体对</a></li>
+<li class="chapter" data-level="7.1.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#创建-cellchat-对象"><i class="fa fa-check"></i><b>7.1.1</b> 创建 cellchat 对象</a></li>
+<li class="chapter" data-level="7.1.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#设置配体-受体相互作用数据库"><i class="fa fa-check"></i><b>7.1.2</b> 设置配体-受体相互作用数据库</a></li>
+<li class="chapter" data-level="7.1.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#细胞间通讯分析的表达数据预处理"><i class="fa fa-check"></i><b>7.1.3</b> 细胞间通讯分析的表达数据预处理</a></li>
 </ul></li>
-<li class="chapter" data-level="7.6" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#细胞通讯模式和信号网络"><i class="fa fa-check"></i><b>7.6</b> 细胞通讯模式和信号网络</a>
+<li class="chapter" data-level="7.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#细胞间通讯网络推断"><i class="fa fa-check"></i><b>7.2</b> 细胞间通讯网络推断</a>
 <ul>
-<li class="chapter" data-level="7.6.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#选择合适的partten细胞通讯模式的数量"><i class="fa fa-check"></i><b>7.6.1</b> 选择合适的partten（细胞通讯模式）的数量</a></li>
+<li class="chapter" data-level="7.2.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#计算通讯概率并推断细胞通讯网络"><i class="fa fa-check"></i><b>7.2.1</b> 计算通讯概率并推断细胞通讯网络</a></li>
+<li class="chapter" data-level="7.2.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#将推断出的细胞通讯网络提取为一个数据框"><i class="fa fa-check"></i><b>7.2.2</b> 将推断出的细胞通讯网络提取为一个数据框。</a></li>
+<li class="chapter" data-level="7.2.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#在信号通路级别推断细胞-细胞通讯"><i class="fa fa-check"></i><b>7.2.3</b> 在信号通路级别推断细胞-细胞通讯</a></li>
+<li class="chapter" data-level="7.2.4" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#计算聚合的细胞-细胞通信网络"><i class="fa fa-check"></i><b>7.2.4</b> 计算聚合的细胞-细胞通信网络</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#细胞间通信网络的可视化"><i class="fa fa-check"></i><b>7.3</b> 细胞间通信网络的可视化</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#使用层次图圆形图或和弦图可视化每个信号通路"><i class="fa fa-check"></i><b>7.3.1</b> 使用层次图、圆形图或和弦图可视化每个信号通路</a></li>
+<li class="chapter" data-level="7.3.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#计算每个配体-受体对对整体信号通路的贡献并可视化由单个配体-受体对介导的细胞间通信"><i class="fa fa-check"></i><b>7.3.2</b> 计算每个配体-受体对对整体信号通路的贡献，并可视化由单个配体-受体对介导的细胞间通信</a></li>
+<li class="chapter" data-level="7.3.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#可视化由多个配体-受体或信号通路介导的细胞间通信"><i class="fa fa-check"></i><b>7.3.3</b> 可视化由多个配体-受体或信号通路介导的细胞间通信</a></li>
+<li class="chapter" data-level="7.3.4" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#使用小提琴图点图绘制信号基因表达分布"><i class="fa fa-check"></i><b>7.3.4</b> 使用小提琴图/点图绘制信号基因表达分布</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#细胞间通信网络的系统分析"><i class="fa fa-check"></i><b>7.4</b> 细胞间通信网络的系统分析</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#确定细胞群体的信号角色例如主要发送者接收者以及主要贡献的信号"><i class="fa fa-check"></i><b>7.4.1</b> 确定细胞群体的信号角色（例如，主要发送者、接收者）以及主要贡献的信号</a></li>
+<li class="chapter" data-level="7.4.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#识别全局通讯模式探索多种细胞类型与信号通路如何协同作用"><i class="fa fa-check"></i><b>7.4.2</b> 识别全局通讯模式，探索多种细胞类型与信号通路如何协同作用</a></li>
+<li class="chapter" data-level="7.4.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#信号网络的流形与分类学习分析"><i class="fa fa-check"></i><b>7.4.3</b> 信号网络的流形与分类学习分析</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#保存-cellchaat-对象"><i class="fa fa-check"></i><b>7.5</b> 保存 cellchaat 对象</a></li>
+<li class="chapter" data-level="7.6" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#通过交互式-cellchat-探索器探索细胞间通讯"><i class="fa fa-check"></i><b>7.6</b> 通过交互式 CellChat 探索器探索细胞间通讯</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html"><i class="fa fa-check"></i><b>8</b> cellchat 多数据集对比分析</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#加载各数据集的-cellchat-对象并合并"><i class="fa fa-check"></i><b>8.1</b> 加载各数据集的 CellChat 对象并合并</a></li>
+<li class="chapter" data-level="8.2" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别改变的互作与细胞群体"><i class="fa fa-check"></i><b>8.2</b> 识别改变的互作与细胞群体</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#比较相互作用的总数量及相互作用强度"><i class="fa fa-check"></i><b>8.2.1</b> 比较相互作用的总数量及相互作用强度</a></li>
+<li class="chapter" data-level="8.2.2" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#比较不同细胞群体间的相互作用数量及相互作用强度"><i class="fa fa-check"></i><b>8.2.2</b> 比较不同细胞群体间的相互作用数量及相互作用强度</a></li>
+<li class="chapter" data-level="8.2.3" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#在二维空间中比较主要来源和目标"><i class="fa fa-check"></i><b>8.2.3</b> 在二维空间中比较主要来源和目标</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别具有不同网络架构及相互作用强度的信号变化"><i class="fa fa-check"></i><b>8.3</b> 识别具有不同网络架构及相互作用强度的信号变化</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别差异较大或较小的信号网络并基于其功能结构相似性划分信号组"><i class="fa fa-check"></i><b>8.3.1</b> 识别差异较大（或较小）的信号网络，并基于其功能/结构相似性划分信号组</a></li>
+<li class="chapter" data-level="8.3.2" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别具有不同交互强度的改变信号"><i class="fa fa-check"></i><b>8.3.2</b> 识别具有不同交互强度的改变信号</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别上调和下调的信号配体-受体对"><i class="fa fa-check"></i><b>8.4</b> 识别上调和下调的信号配体-受体对</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#通过比较通信概率来识别功能失调的信号传导"><i class="fa fa-check"></i><b>8.4.1</b> 通过比较通信概率来识别功能失调的信号传导</a></li>
+<li class="chapter" data-level="8.4.2" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#通过使用差异表达分析识别功能失调的信号传导"><i class="fa fa-check"></i><b>8.4.2</b> 通过使用差异表达分析识别功能失调的信号传导</a></li>
+<li class="chapter" data-level="8.4.3" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#可视化识别出的上调和下调的信号配体-受体对"><i class="fa fa-check"></i><b>8.4.3</b> 可视化识别出的上调和下调的信号配体-受体对</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#使用层次图圆形图或和弦图可视化比较细胞间通信"><i class="fa fa-check"></i><b>8.5</b> 使用层次图、圆形图或和弦图可视化比较细胞间通信</a></li>
+<li class="chapter" data-level="8.6" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#比较不同数据集之间信号基因表达分布"><i class="fa fa-check"></i><b>8.6</b> 比较不同数据集之间信号基因表达分布</a></li>
+<li class="chapter" data-level="8.7" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#保存合并的-cellchat-对象"><i class="fa fa-check"></i><b>8.7</b> 保存合并的 CellChat 对象</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html"><i class="fa fa-check"></i><b>9</b> 细胞通讯分析</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#r包和数据"><i class="fa fa-check"></i><b>9.1</b> R包和数据</a></li>
+<li class="chapter" data-level="9.2" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#了解参考数据"><i class="fa fa-check"></i><b>9.2</b> 了解参考数据</a></li>
+<li class="chapter" data-level="9.3" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#构建cellchat对象"><i class="fa fa-check"></i><b>9.3</b> 构建cellchat对象</a></li>
+<li class="chapter" data-level="9.4" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#细胞通讯网络分析"><i class="fa fa-check"></i><b>9.4</b> 细胞通讯网络分析</a></li>
+<li class="chapter" data-level="9.5" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#画图展示"><i class="fa fa-check"></i><b>9.5</b> 画图展示</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#circle-plot"><i class="fa fa-check"></i><b>9.5.1</b> circle plot</a></li>
+<li class="chapter" data-level="9.5.2" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#chord-plot"><i class="fa fa-check"></i><b>9.5.2</b> chord plot</a></li>
+<li class="chapter" data-level="9.5.3" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#heatmap"><i class="fa fa-check"></i><b>9.5.3</b> heatmap</a></li>
+<li class="chapter" data-level="9.5.4" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#热图-展示每一类细胞是什么角色"><i class="fa fa-check"></i><b>9.5.4</b> 热图-展示每一类细胞是什么角色</a></li>
+<li class="chapter" data-level="9.5.5" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#气泡图-显示所有的显著的配体-受体对"><i class="fa fa-check"></i><b>9.5.5</b> 气泡图-显示所有的显著的配体-受体对</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#细胞通讯模式和信号网络"><i class="fa fa-check"></i><b>9.6</b> 细胞通讯模式和信号网络</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#选择合适的partten细胞通讯模式的数量"><i class="fa fa-check"></i><b>9.6.1</b> 选择合适的partten（细胞通讯模式）的数量</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="gsva-分析.html"><a href="gsva-分析.html"><i class="fa fa-check"></i><b>8</b> GSVA 分析</a>
+<li class="chapter" data-level="10" data-path="gsva-分析.html"><a href="gsva-分析.html"><i class="fa fa-check"></i><b>10</b> GSVA 分析</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="gsva-分析.html"><a href="gsva-分析.html#加载数据和r包"><i class="fa fa-check"></i><b>8.1</b> 加载数据和R包</a></li>
-<li class="chapter" data-level="8.2" data-path="gsva-分析.html"><a href="gsva-分析.html#做gsva"><i class="fa fa-check"></i><b>8.2</b> 做GSVA</a></li>
-<li class="chapter" data-level="8.3" data-path="gsva-分析.html"><a href="gsva-分析.html#热图可视化"><i class="fa fa-check"></i><b>8.3</b> 热图可视化</a></li>
+<li class="chapter" data-level="10.1" data-path="gsva-分析.html"><a href="gsva-分析.html#加载数据和r包"><i class="fa fa-check"></i><b>10.1</b> 加载数据和R包</a></li>
+<li class="chapter" data-level="10.2" data-path="gsva-分析.html"><a href="gsva-分析.html#做gsva"><i class="fa fa-check"></i><b>10.2</b> 做GSVA</a></li>
+<li class="chapter" data-level="10.3" data-path="gsva-分析.html"><a href="gsva-分析.html#热图可视化"><i class="fa fa-check"></i><b>10.3</b> 热图可视化</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="细胞周期.html"><a href="细胞周期.html"><i class="fa fa-check"></i><b>9</b> 细胞周期</a>
+<li class="chapter" data-level="11" data-path="细胞周期.html"><a href="细胞周期.html"><i class="fa fa-check"></i><b>11</b> 细胞周期</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="细胞周期.html"><a href="细胞周期.html#读取数据并做好前期的质控"><i class="fa fa-check"></i><b>9.1</b> 读取数据并做好前期的质控</a>
+<li class="chapter" data-level="11.1" data-path="细胞周期.html"><a href="细胞周期.html#读取数据并做好前期的质控"><i class="fa fa-check"></i><b>11.1</b> 读取数据并做好前期的质控</a>
 <ul>
-<li class="chapter" data-level="9.1.1" data-path="细胞周期.html"><a href="细胞周期.html#gse218208"><i class="fa fa-check"></i><b>9.1.1</b> GSE218208</a></li>
-<li class="chapter" data-level="9.1.2" data-path="细胞周期.html"><a href="细胞周期.html#marrow"><i class="fa fa-check"></i><b>9.1.2</b> marrow</a></li>
+<li class="chapter" data-level="11.1.1" data-path="细胞周期.html"><a href="细胞周期.html#gse218208"><i class="fa fa-check"></i><b>11.1.1</b> GSE218208</a></li>
+<li class="chapter" data-level="11.1.2" data-path="细胞周期.html"><a href="细胞周期.html#marrow"><i class="fa fa-check"></i><b>11.1.2</b> marrow</a></li>
 </ul></li>
-<li class="chapter" data-level="9.2" data-path="细胞周期.html"><a href="细胞周期.html#计算细胞周期评分"><i class="fa fa-check"></i><b>9.2</b> 计算细胞周期评分</a></li>
-<li class="chapter" data-level="9.3" data-path="细胞周期.html"><a href="细胞周期.html#比较两个数据的细胞周期评分和pca"><i class="fa fa-check"></i><b>9.3</b> 比较两个数据的细胞周期评分和PCA</a></li>
-<li class="chapter" data-level="9.4" data-path="细胞周期.html"><a href="细胞周期.html#比较去除和不去处细胞周期影响的下游注释"><i class="fa fa-check"></i><b>9.4</b> 比较去除和不去处细胞周期影响的下游注释</a>
+<li class="chapter" data-level="11.2" data-path="细胞周期.html"><a href="细胞周期.html#计算细胞周期评分"><i class="fa fa-check"></i><b>11.2</b> 计算细胞周期评分</a></li>
+<li class="chapter" data-level="11.3" data-path="细胞周期.html"><a href="细胞周期.html#比较两个数据的细胞周期评分和pca"><i class="fa fa-check"></i><b>11.3</b> 比较两个数据的细胞周期评分和PCA</a></li>
+<li class="chapter" data-level="11.4" data-path="细胞周期.html"><a href="细胞周期.html#比较去除和不去处细胞周期影响的下游注释"><i class="fa fa-check"></i><b>11.4</b> 比较去除和不去处细胞周期影响的下游注释</a>
 <ul>
-<li class="chapter" data-level="9.4.1" data-path="细胞周期.html"><a href="细胞周期.html#不考虑细胞周期的降维聚类分群"><i class="fa fa-check"></i><b>9.4.1</b> 不考虑细胞周期的降维聚类分群</a></li>
-<li class="chapter" data-level="9.4.2" data-path="细胞周期.html"><a href="细胞周期.html#考虑细胞周期的降维聚类分群"><i class="fa fa-check"></i><b>9.4.2</b> 考虑细胞周期的降维聚类分群</a></li>
+<li class="chapter" data-level="11.4.1" data-path="细胞周期.html"><a href="细胞周期.html#不考虑细胞周期的降维聚类分群"><i class="fa fa-check"></i><b>11.4.1</b> 不考虑细胞周期的降维聚类分群</a></li>
+<li class="chapter" data-level="11.4.2" data-path="细胞周期.html"><a href="细胞周期.html#考虑细胞周期的降维聚类分群"><i class="fa fa-check"></i><b>11.4.2</b> 考虑细胞周期的降维聚类分群</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -255,7 +311,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">scRNA-Seq</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">cellchat</a>
           </h1>
         </div>
 

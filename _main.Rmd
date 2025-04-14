@@ -1,0 +1,324 @@
+--- 
+title: "scRNA-Seq"
+author:
+  - 苏总华
+date: "`r Sys.Date()`"
+documentclass: ctexbook
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+lot: yes
+lof: yes
+geometry: [b5paper, tmargin=2.5cm, bmargin=2.5cm, lmargin=3.5cm, rmargin=2.5cm]
+site: bookdown::bookdown_site
+
+description: "This is an online note of the scRNA-Seq analysis."
+github-repo: smileszh/scRNA-Seq
+always_allow_html: true
+#cover-image: images/*.jpg
+
+---
+
+
+```{r, setup, include=FALSE}
+if (knitr::is_html_output()) {
+  # ignore percentage widths for HTML output, unless they are used for multiple
+  # figures side by side
+  knitr::opts_hooks$set(out.width = function(options) {
+    if (options$fig.show != 'hold' && grepl('%$', options$out.width))
+      options$out.width = NULL
+    options
+  })
+}
+
+options(bookdown.post.latex = function(x) {
+  # substitute nonbreaking spaces in \texttt{} with normal spaces
+  m = gregexpr('\\\\texttt\\{[^}]+}', x)
+  regmatches(x, m) = lapply(regmatches(x, m), function(z) {
+    gsub('\\\\ ', ' ', z)
+  })
+
+  # fix syntax highlighting:
+  # \FunctionTok{tufte:}\AttributeTok{:tufte_html: default} ->
+  # \FunctionTok{tufte::tufte_html:}\AttributeTok{ default}
+  x = gsub('(\\\\AttributeTok\\{[^:]+:)(})(\\\\FunctionTok\\{)(:[^:]+:)', '\\1\\4\\2\\3', x)
+  if (length(i <- grep('^\\\\begin\\{longtable\\}', x)) == 0) return(x)
+  i1 = bookdown:::next_nearest(i, which(x == '\\toprule'))
+  i2 = bookdown:::next_nearest(i, which(x == '\\endfirsthead'))
+  x[i1 - 1] = paste0(x[i1 - 1], '\n\\begin{tabular}{', gsub('[^lcr]', '', gsub('.*\\[]', '', x[i])), '}')
+  x[i] = '\\begin{table}'
+  x[x == '\\end{longtable}'] = '\\end{tabular}\n\\end{table}'
+  x[x == '\\endhead'] = ''
+  # x = x[-unlist(mapply(seq, i1, i2, SIMPLIFY = FALSE))]
+  x
+})
+
+options(tinytex.verbose = TRUE)
+```
+
+
+
+
+# 前言 {-}
+
+  单细胞测序分析笔记。
+  
+  我不是代码的创作者，我只是代码的搬运工。
+
+
+
+<!--chapter:end:index.Rmd-->
+
+# (PART) 单样本分析 {-}
+
+```{r setup, include=FALSE}
+library(knitr)
+library(kableExtra)
+library(DT)
+knitr::opts_chunk$set(
+	eval = T,
+	echo = T,
+	error = F,
+	message = FALSE,
+	warning = FALSE,
+	cache = T,
+	collapse = T,
+	fig.width=6,
+	fig.height=4,
+	unit='cm',
+	fig.align='center'
+)
+
+rm(list = ls())  ## 魔幻操作，一键清空~
+options(stringsAsFactors = F)
+
+getOption('timeout')
+options(timeout=10000) 
+```
+
+# Seurat 教程
+
+### 1.数据和R包准备
+
+代码：https://satijalab.org/seurat/articles/pbmc3k_tutorial
+
+数据：https://cf.10xgenomics.com/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz
+
+```{r}
+rm(list = ls())
+library(dplyr)
+library(Seurat)
+library(patchwork)
+```
+
+### 2.读取数据
+
+10X的输入数据是固定的三个文件，在工作目录下新建01_data/，把三个文件放进去。
+
+```{r}
+pbmc.data <- Read10X(data.dir = "data/01_data/")
+dim(pbmc.data)
+pbmc.data[c("CD3D", "TCL1A", "MS4A1"), 1:30]
+range(pbmc.data)
+
+pbmc <- CreateSeuratObject(counts = pbmc.data, 
+                           project = "pbmc3k", 
+                           min.cells = 3, 
+                           min.features = 200)
+pbmc
+```
+
+一个基因至少要在3个细胞里面有表达，才被保留；
+一个细胞里面至少要表达两百个基因，才被保留。
+
+
+### 3.质控
+
+这里是对细胞进行的质控，指标是：
+
+线粒体基因含量不能过高；
+
+nFeature_RNA 不能过高或过低
+
+> 为什么？ nFeature_RNA是每个细胞中检测到的基因数量。nCount_RNA是细胞内检测到的分子总数。nFeature_RNA过低，表示该细胞可能已死/将死或是空液滴。太高的nCount_RNA和/或nFeature_RNA表明“细胞”实际上可以是两个或多个细胞。结合线粒体基因count数除去异常值，即可除去大多数双峰/死细胞/空液滴，因此它们过滤是常见的预处理步骤。 参考自：https://www.biostars.org/p/407036/
+
+#### 3.1 查看三个指标
+
+```{r}
+head(pbmc@meta.data)
+pbmc[["percent.mt"]] <- PercentageFeatureSet(pbmc, pattern = "^MT-")
+head(pbmc@meta.data)
+
+VlnPlot(pbmc, 
+        features = c("nFeature_RNA",
+                     "nCount_RNA", 
+                     "percent.mt"), 
+        ncol = 3,pt.size = 0.5)
+```
+
+根据这个三个图，确定了这个数据的过滤标准：
+
+nFeature_RNA在200~2500之间；线粒体基因占比在5%以下。
+
+#### 3.2 三个指标之间的相关性
+
+```{r}
+plot1 <- FeatureScatter(pbmc, 
+                        feature1 = "nCount_RNA", 
+                        feature2 = "percent.mt")
+plot2 <- FeatureScatter(pbmc, 
+                        feature1 = "nCount_RNA", 
+                        feature2 = "nFeature_RNA")
+
+plot1 + plot2
+```
+
+#### 3.3 过滤
+
+```{r}
+dim(pbmc)
+pbmc <- subset(pbmc, 
+               subset = nFeature_RNA > 200 & 
+                        nFeature_RNA < 2500 & 
+                        percent.mt < 5)
+dim(pbmc)
+```
+
+### 4.找高变基因 (HVG)
+
+
+```{r}
+pbmc <- NormalizeData(pbmc)
+pbmc <- FindVariableFeatures(pbmc)
+top10 <- head(VariableFeatures(pbmc), 10);top10
+```
+
+这里选了2000个，把前十个在图上标记出来。
+
+```{r}
+plot1 <- VariableFeaturePlot(pbmc)
+plot2 <- LabelPoints(plot = plot1, 
+                     points = top10, 
+                     repel = TRUE)
+plot2
+```
+
+### 5. 标准化和降维
+
+#### 5.1 线性降维PCA 
+
+```{r}
+pbmc <- ScaleData(pbmc, features = rownames(pbmc))
+pbmc <- RunPCA(pbmc, features = VariableFeatures(pbmc))
+
+VizDimLoadings(pbmc, dims = 1:2, reduction = "pca")
+#每个主成分对应基因的热图
+DimHeatmap(pbmc, dims = 1:15, cells = 500)
+# 应该选多少个主成分进行后续分析
+ElbowPlot(pbmc)
+# 限速步骤
+f = "jc.Rdata"
+if(!file.exists(f)){
+  pbmc <- JackStraw(pbmc, num.replicate = 100)
+  pbmc <- ScoreJackStraw(pbmc, dims = 1:20)
+  save(pbmc,file = f)
+}
+load(f)
+JackStrawPlot(pbmc, dims = 1:20)
+```
+
+```{r}
+#PC1和2
+PCAPlot(pbmc) + NoLegend()
+DimPlot(pbmc, reduction = "pca")+ NoLegend()
+# 结合JackStrawPlot和ElbowPlot，挑选10个PC，所以这里dims定义为1:10
+pbmc <- FindNeighbors(pbmc, dims = 1:10)
+pbmc <- FindClusters(pbmc, resolution = 0.5) #分辨率
+# 结果聚成几类，用Idents查看
+length(levels(Idents(pbmc)))
+```
+
+#### 5.2  UMAP 和 t-sne
+
+PCA是线性降维，这两个是非线性降维。
+```{r}
+pbmc <- RunUMAP(pbmc, dims = 1:10)
+DimPlot(pbmc, reduction = "umap")
+```
+
+### 6.找 marker 基因
+
+啥叫marker基因呢。和差异基因里面的上调基因有点类似，某个基因在某一簇细胞里表达量都很高，在其他簇表达量很低，那么这个基因就是这簇细胞的象征。
+
+找全部cluster的maker基因
+
+```{r}
+pbmc.markers <- FindAllMarkers(pbmc, 
+                               only.pos = TRUE,
+                               min.pct = 0.25)
+pbmc.markers %>% group_by(cluster) %>% top_n(n = 2, wt = avg_log2FC)
+```
+
+#### 6.1 比较某个基因在几个cluster之间的表达量
+
+小提琴图
+
+```{r}
+VlnPlot(pbmc, features = c("PPBP", "S100A9"))
+```
+
+在umap图上标记
+
+```{r}
+FeaturePlot(pbmc, features = c("MS4A1", "GNLY", "CD3E", "CD14", "FCER1A", "FCGR3A", "LYZ", "PPBP", "CD8A"))
+top10 <- pbmc.markers %>% group_by(cluster) %>% top_n(n = 10, wt = avg_log2FC)
+```
+
+#### 6.2 marker基因的热图
+
+```{r}
+library(ggplot2)
+DoHeatmap(pbmc, features = top10$gene) + NoLegend()
+```
+
+```{r}
+DotPlot(pbmc,features = unique(top10$gene))+RotatedAxis()
+RidgePlot(pbmc,features = "RPS12")
+```
+
+
+### 7. 根据marker基因确定细胞
+
+```{r}
+a = read.delim("data/supp/markers.txt",header = F)
+gt = split(a[,2],a[,1]) #unstack(a[,c(2,1)])
+
+DotPlot(pbmc, features = gt,cols = "RdYlBu") +
+  RotatedAxis()
+```
+
+
+```{r}
+new.cluster.ids <- c("Naive CD4 T", 
+                     "CD14+ Mono", 
+                     "Memory CD4 T",
+                     "B", 
+                     "CD8 T", 
+                     "FCGR3A+ Mono", 
+                     "NK", 
+                     "DC", 
+                     "Platelet")
+
+names(new.cluster.ids) <- levels(pbmc)
+seu.obj <- RenameIdents(pbmc, new.cluster.ids)
+p1 <- DimPlot(seu.obj, 
+        reduction = "umap", 
+        label = TRUE, 
+        pt.size = 0.5) + NoLegend()
+p1
+```
+
+
+<!--chapter:end:01-1-Seurat.Rmd-->
+

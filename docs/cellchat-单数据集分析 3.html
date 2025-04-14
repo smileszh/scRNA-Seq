@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>第 12 章 cellchat 单数据集分析 | scRNA-Seq</title>
+  <meta name="description" content="This is an online note of the scRNA-Seq analysis." />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="第 12 章 cellchat 单数据集分析 | scRNA-Seq" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is an online note of the scRNA-Seq analysis." />
+  <meta name="github-repo" content="smileszh/scRNA-Seq" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="第 12 章 cellchat 单数据集分析 | scRNA-Seq" />
+  
+  <meta name="twitter:description" content="This is an online note of the scRNA-Seq analysis." />
+  
+
+<meta name="author" content="苏总华" />
+
+
+<meta name="date" content="2025-04-13" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="多样本拟时序分析.html"/>
+<link rel="next" href="cellchat-多数据集对比分析.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">scRNA-Seq</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>前言</a></li>
+<li class="part"><span><b>I Seurat</b></span></li>
+<li class="chapter" data-level="1" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html"><i class="fa fa-check"></i><b>1</b> Seurat 标准处理流程</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#设置-seurat-对象"><i class="fa fa-check"></i><b>1.1</b> 设置 Seurat 对象</a></li>
+<li class="chapter" data-level="1.2" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#qc-和选择细胞进行进一步分析"><i class="fa fa-check"></i><b>1.2</b> QC 和选择细胞进行进一步分析</a></li>
+<li class="chapter" data-level="1.3" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#数据标准化"><i class="fa fa-check"></i><b>1.3</b> 数据标准化</a></li>
+<li class="chapter" data-level="1.4" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#高度可变特征的识别特征选择"><i class="fa fa-check"></i><b>1.4</b> 高度可变特征的识别（特征选择）</a></li>
+<li class="chapter" data-level="1.5" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#缩放数据"><i class="fa fa-check"></i><b>1.5</b> 缩放数据</a></li>
+<li class="chapter" data-level="1.6" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#线性降维"><i class="fa fa-check"></i><b>1.6</b> 线性降维</a></li>
+<li class="chapter" data-level="1.7" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#确定数据集的维度"><i class="fa fa-check"></i><b>1.7</b> 确定数据集的“维度”</a></li>
+<li class="chapter" data-level="1.8" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#细胞聚类"><i class="fa fa-check"></i><b>1.8</b> 细胞聚类</a></li>
+<li class="chapter" data-level="1.9" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#运行非线性降维umaptsne"><i class="fa fa-check"></i><b>1.9</b> 运行非线性降维（UMAP/tSNE）</a></li>
+<li class="chapter" data-level="1.10" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#寻找差异表达的特征聚类-marker"><i class="fa fa-check"></i><b>1.10</b> 寻找差异表达的特征（聚类 Marker）</a></li>
+<li class="chapter" data-level="1.11" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#根据-marker-基因确定细胞"><i class="fa fa-check"></i><b>1.11</b> 根据 marker 基因确定细胞</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html"><i class="fa fa-check"></i><b>2</b> Seurat 数据可视化</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#标记-marker-基因表达的五种可视化方式"><i class="fa fa-check"></i><b>2.1</b> 标记 Marker 基因表达的五种可视化方式</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#山脊图"><i class="fa fa-check"></i><b>2.1.1</b> 山脊图</a></li>
+<li class="chapter" data-level="2.1.2" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#小提琴图"><i class="fa fa-check"></i><b>2.1.2</b> 小提琴图</a></li>
+<li class="chapter" data-level="2.1.3" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#特征图"><i class="fa fa-check"></i><b>2.1.3</b> 特征图</a></li>
+<li class="chapter" data-level="2.1.4" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#点图"><i class="fa fa-check"></i><b>2.1.4</b> 点图</a></li>
+<li class="chapter" data-level="2.1.5" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#热图"><i class="fa fa-check"></i><b>2.1.5</b> 热图</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#ggplot2-联用"><i class="fa fa-check"></i><b>2.2</b> ggplot2 联用</a></li>
+<li class="chapter" data-level="2.3" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#交互式绘图功能"><i class="fa fa-check"></i><b>2.3</b> 交互式绘图功能</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#hoverlocator"><i class="fa fa-check"></i><b>2.3.1</b> HoverLocator</a></li>
+<li class="chapter" data-level="2.3.2" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#cellselector"><i class="fa fa-check"></i><b>2.3.2</b> CellSelector</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#绘图辅助工具"><i class="fa fa-check"></i><b>2.4</b> 绘图辅助工具</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="seurat-中使用-sctransform-方法.html"><a href="seurat-中使用-sctransform-方法.html"><i class="fa fa-check"></i><b>3</b> Seurat 中使用 sctransform 方法</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="seurat-中使用-sctransform-方法.html"><a href="seurat-中使用-sctransform-方法.html#设置-seurat-对象-1"><i class="fa fa-check"></i><b>3.1</b> 设置 Seurat 对象</a></li>
+<li class="chapter" data-level="3.2" data-path="seurat-中使用-sctransform-方法.html"><a href="seurat-中使用-sctransform-方法.html#应用-sctransform-标准化方法"><i class="fa fa-check"></i><b>3.2</b> 应用 sctransform 标准化方法</a></li>
+<li class="chapter" data-level="3.3" data-path="seurat-中使用-sctransform-方法.html"><a href="seurat-中使用-sctransform-方法.html#通过-pca-降维和-umap-嵌入进行维度缩减"><i class="fa fa-check"></i><b>3.3</b> 通过 PCA 降维和 UMAP 嵌入进行维度缩减</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html"><i class="fa fa-check"></i><b>4</b> scRNA-Seq 整合简介</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#设置-seurat-对象-2"><i class="fa fa-check"></i><b>4.1</b> 设置 Seurat 对象</a></li>
+<li class="chapter" data-level="4.2" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#执行非整合分析"><i class="fa fa-check"></i><b>4.2</b> 执行非整合分析</a></li>
+<li class="chapter" data-level="4.3" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#执行整合"><i class="fa fa-check"></i><b>4.3</b> 执行整合</a></li>
+<li class="chapter" data-level="4.4" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#识别保守的细胞类型标记基因"><i class="fa fa-check"></i><b>4.4</b> 识别保守的细胞类型标记基因</a></li>
+<li class="chapter" data-level="4.5" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#识别不同条件下的差异表达基因"><i class="fa fa-check"></i><b>4.5</b> 识别不同条件下的差异表达基因</a></li>
+<li class="chapter" data-level="4.6" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#使用-sctransform-标准化数据集进行整合"><i class="fa fa-check"></i><b>4.6</b> 使用 SCTransform 标准化数据集进行整合</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="searat-整合.html"><a href="searat-整合.html"><i class="fa fa-check"></i><b>5</b> Searat 整合</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="searat-整合.html"><a href="searat-整合.html#seurat-v5-对象中的层次结构"><i class="fa fa-check"></i><b>5.1</b> Seurat v5 对象中的层次结构</a></li>
+<li class="chapter" data-level="5.2" data-path="searat-整合.html"><a href="searat-整合.html#执行简化单行整合分析"><i class="fa fa-check"></i><b>5.2</b> 执行简化（单行）整合分析</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="映射与注释查询数据集.html"><a href="映射与注释查询数据集.html"><i class="fa fa-check"></i><b>6</b> 映射与注释查询数据集</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="映射与注释查询数据集.html"><a href="映射与注释查询数据集.html#数据集预处理"><i class="fa fa-check"></i><b>6.1</b> 数据集预处理</a></li>
+<li class="chapter" data-level="6.2" data-path="映射与注释查询数据集.html"><a href="映射与注释查询数据集.html#使用集成参考进行细胞类型分类"><i class="fa fa-check"></i><b>6.2</b> 使用集成参考进行细胞类型分类</a></li>
+<li class="chapter" data-level="6.3" data-path="映射与注释查询数据集.html"><a href="映射与注释查询数据集.html#单模态-umap-投影"><i class="fa fa-check"></i><b>6.3</b> 单模态 UMAP 投影</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="单样本分析.html"><a href="单样本分析.html"><i class="fa fa-check"></i><b>7</b> 单样本分析</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="单样本分析.html"><a href="单样本分析.html#创建seurat对象"><i class="fa fa-check"></i><b>7.1</b> 创建Seurat对象</a></li>
+<li class="chapter" data-level="7.2" data-path="单样本分析.html"><a href="单样本分析.html#降维聚类分群"><i class="fa fa-check"></i><b>7.2</b> 降维聚类分群</a></li>
+<li class="chapter" data-level="7.3" data-path="单样本分析.html"><a href="单样本分析.html#maker-基因"><i class="fa fa-check"></i><b>7.3</b> maker 基因</a></li>
+<li class="chapter" data-level="7.4" data-path="单样本分析.html"><a href="单样本分析.html#maker-基因可视化"><i class="fa fa-check"></i><b>7.4</b> maker 基因可视化</a></li>
+<li class="chapter" data-level="7.5" data-path="单样本分析.html"><a href="单样本分析.html#注释亚群"><i class="fa fa-check"></i><b>7.5</b> 注释亚群</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html"><i class="fa fa-check"></i><b>8</b> 单细胞二次分群</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#示例数据"><i class="fa fa-check"></i><b>8.1</b> 示例数据</a></li>
+<li class="chapter" data-level="8.2" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#二次分群"><i class="fa fa-check"></i><b>8.2</b> 二次分群</a></li>
+<li class="chapter" data-level="8.3" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#marker基因及其可视化"><i class="fa fa-check"></i><b>8.3</b> marker基因及其可视化</a></li>
+<li class="chapter" data-level="8.4" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#放回原来的seurat对象里面"><i class="fa fa-check"></i><b>8.4</b> 放回原来的Seurat对象里面</a></li>
+</ul></li>
+<li class="part"><span><b>II 多样本分析</b></span></li>
+<li class="chapter" data-level="9" data-path="多样本分析.html"><a href="多样本分析.html"><i class="fa fa-check"></i><b>9</b> 多样本分析</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="多样本分析.html"><a href="多样本分析.html#整理数据"><i class="fa fa-check"></i><b>9.1</b> 整理数据</a></li>
+<li class="chapter" data-level="9.2" data-path="多样本分析.html"><a href="多样本分析.html#批量读取"><i class="fa fa-check"></i><b>9.2</b> 批量读取</a></li>
+<li class="chapter" data-level="9.3" data-path="多样本分析.html"><a href="多样本分析.html#质控指标"><i class="fa fa-check"></i><b>9.3</b> 质控指标</a></li>
+<li class="chapter" data-level="9.4" data-path="多样本分析.html"><a href="多样本分析.html#整合降维聚类分群"><i class="fa fa-check"></i><b>9.4</b> 整合降维聚类分群</a></li>
+<li class="chapter" data-level="9.5" data-path="多样本分析.html"><a href="多样本分析.html#注释"><i class="fa fa-check"></i><b>9.5</b> 注释</a></li>
+<li class="chapter" data-level="9.6" data-path="多样本分析.html"><a href="多样本分析.html#分组可视化及组件细胞比例比较"><i class="fa fa-check"></i><b>9.6</b> 分组可视化及组件细胞比例比较</a></li>
+<li class="chapter" data-level="9.7" data-path="多样本分析.html"><a href="多样本分析.html#差异分析"><i class="fa fa-check"></i><b>9.7</b> 差异分析</a></li>
+<li class="chapter" data-level="9.8" data-path="多样本分析.html"><a href="多样本分析.html#伪bulk-转录组差异分析"><i class="fa fa-check"></i><b>9.8</b> 伪bulk 转录组差异分析</a></li>
+</ul></li>
+<li class="part"><span><b>III 拟时序分析</b></span></li>
+<li class="chapter" data-level="10" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html"><i class="fa fa-check"></i><b>10</b> 单样本拟时序分析</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html#构建细胞发育轨迹"><i class="fa fa-check"></i><b>10.1</b> 构建细胞发育轨迹</a></li>
+<li class="chapter" data-level="10.2" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html#绘图展示"><i class="fa fa-check"></i><b>10.2</b> 绘图展示</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html"><i class="fa fa-check"></i><b>11</b> 多样本拟时序分析</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html#构建细胞发育轨迹-1"><i class="fa fa-check"></i><b>11.1</b> 构建细胞发育轨迹</a></li>
+<li class="chapter" data-level="11.2" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html#绘图展示-1"><i class="fa fa-check"></i><b>11.2</b> 绘图展示</a></li>
+</ul></li>
+<li class="part"><span><b>IV CellChat</b></span></li>
+<li class="chapter" data-level="12" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html"><i class="fa fa-check"></i><b>12</b> cellchat 单数据集分析</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#数据输入处理及-cellchat-对象初始化"><i class="fa fa-check"></i><b>12.1</b> 数据输入、处理及 cellchat 对象初始化</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#创建-cellchat-对象"><i class="fa fa-check"></i><b>12.1.1</b> 创建 cellchat 对象</a></li>
+<li class="chapter" data-level="12.1.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#设置配体-受体相互作用数据库"><i class="fa fa-check"></i><b>12.1.2</b> 设置配体-受体相互作用数据库</a></li>
+<li class="chapter" data-level="12.1.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#细胞间通讯分析的表达数据预处理"><i class="fa fa-check"></i><b>12.1.3</b> 细胞间通讯分析的表达数据预处理</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#细胞间通讯网络推断"><i class="fa fa-check"></i><b>12.2</b> 细胞间通讯网络推断</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#计算通讯概率并推断细胞通讯网络"><i class="fa fa-check"></i><b>12.2.1</b> 计算通讯概率并推断细胞通讯网络</a></li>
+<li class="chapter" data-level="12.2.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#将推断出的细胞通讯网络提取为一个数据框"><i class="fa fa-check"></i><b>12.2.2</b> 将推断出的细胞通讯网络提取为一个数据框。</a></li>
+<li class="chapter" data-level="12.2.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#在信号通路级别推断细胞-细胞通讯"><i class="fa fa-check"></i><b>12.2.3</b> 在信号通路级别推断细胞-细胞通讯</a></li>
+<li class="chapter" data-level="12.2.4" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#计算聚合的细胞-细胞通信网络"><i class="fa fa-check"></i><b>12.2.4</b> 计算聚合的细胞-细胞通信网络</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#细胞间通信网络的可视化"><i class="fa fa-check"></i><b>12.3</b> 细胞间通信网络的可视化</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#使用层次图圆形图或和弦图可视化每个信号通路"><i class="fa fa-check"></i><b>12.3.1</b> 使用层次图、圆形图或和弦图可视化每个信号通路</a></li>
+<li class="chapter" data-level="12.3.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#计算每个配体-受体对对整体信号通路的贡献并可视化由单个配体-受体对介导的细胞间通信"><i class="fa fa-check"></i><b>12.3.2</b> 计算每个配体-受体对对整体信号通路的贡献，并可视化由单个配体-受体对介导的细胞间通信</a></li>
+<li class="chapter" data-level="12.3.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#可视化由多个配体-受体或信号通路介导的细胞间通信"><i class="fa fa-check"></i><b>12.3.3</b> 可视化由多个配体-受体或信号通路介导的细胞间通信</a></li>
+<li class="chapter" data-level="12.3.4" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#使用小提琴图点图绘制信号基因表达分布"><i class="fa fa-check"></i><b>12.3.4</b> 使用小提琴图/点图绘制信号基因表达分布</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#细胞间通信网络的系统分析"><i class="fa fa-check"></i><b>12.4</b> 细胞间通信网络的系统分析</a>
+<ul>
+<li class="chapter" data-level="12.4.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#确定细胞群体的信号角色例如主要发送者接收者以及主要贡献的信号"><i class="fa fa-check"></i><b>12.4.1</b> 确定细胞群体的信号角色（例如，主要发送者、接收者）以及主要贡献的信号</a></li>
+<li class="chapter" data-level="12.4.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#识别全局通讯模式探索多种细胞类型与信号通路如何协同作用"><i class="fa fa-check"></i><b>12.4.2</b> 识别全局通讯模式，探索多种细胞类型与信号通路如何协同作用</a></li>
+<li class="chapter" data-level="12.4.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#信号网络的流形与分类学习分析"><i class="fa fa-check"></i><b>12.4.3</b> 信号网络的流形与分类学习分析</a></li>
+</ul></li>
+<li class="chapter" data-level="12.5" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#保存-cellchaat-对象"><i class="fa fa-check"></i><b>12.5</b> 保存 cellchaat 对象</a></li>
+<li class="chapter" data-level="12.6" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#通过交互式-cellchat-探索器探索细胞间通讯"><i class="fa fa-check"></i><b>12.6</b> 通过交互式 CellChat 探索器探索细胞间通讯</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html"><i class="fa fa-check"></i><b>13</b> cellchat 多数据集对比分析</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#加载各数据集的-cellchat-对象并合并"><i class="fa fa-check"></i><b>13.1</b> 加载各数据集的 CellChat 对象并合并</a></li>
+<li class="chapter" data-level="13.2" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别改变的互作与细胞群体"><i class="fa fa-check"></i><b>13.2</b> 识别改变的互作与细胞群体</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#比较相互作用的总数量及相互作用强度"><i class="fa fa-check"></i><b>13.2.1</b> 比较相互作用的总数量及相互作用强度</a></li>
+<li class="chapter" data-level="13.2.2" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#比较不同细胞群体间的相互作用数量及相互作用强度"><i class="fa fa-check"></i><b>13.2.2</b> 比较不同细胞群体间的相互作用数量及相互作用强度</a></li>
+<li class="chapter" data-level="13.2.3" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#在二维空间中比较主要来源和目标"><i class="fa fa-check"></i><b>13.2.3</b> 在二维空间中比较主要来源和目标</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别具有不同网络架构及相互作用强度的信号变化"><i class="fa fa-check"></i><b>13.3</b> 识别具有不同网络架构及相互作用强度的信号变化</a>
+<ul>
+<li class="chapter" data-level="13.3.1" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别差异较大或较小的信号网络并基于其功能结构相似性划分信号组"><i class="fa fa-check"></i><b>13.3.1</b> 识别差异较大（或较小）的信号网络，并基于其功能/结构相似性划分信号组</a></li>
+<li class="chapter" data-level="13.3.2" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别具有不同交互强度的改变信号"><i class="fa fa-check"></i><b>13.3.2</b> 识别具有不同交互强度的改变信号</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别上调和下调的信号配体-受体对"><i class="fa fa-check"></i><b>13.4</b> 识别上调和下调的信号配体-受体对</a>
+<ul>
+<li class="chapter" data-level="13.4.1" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#通过比较通信概率来识别功能失调的信号传导"><i class="fa fa-check"></i><b>13.4.1</b> 通过比较通信概率来识别功能失调的信号传导</a></li>
+<li class="chapter" data-level="13.4.2" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#通过使用差异表达分析识别功能失调的信号传导"><i class="fa fa-check"></i><b>13.4.2</b> 通过使用差异表达分析识别功能失调的信号传导</a></li>
+<li class="chapter" data-level="13.4.3" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#可视化识别出的上调和下调的信号配体-受体对"><i class="fa fa-check"></i><b>13.4.3</b> 可视化识别出的上调和下调的信号配体-受体对</a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#使用层次图圆形图或和弦图可视化比较细胞间通信"><i class="fa fa-check"></i><b>13.5</b> 使用层次图、圆形图或和弦图可视化比较细胞间通信</a></li>
+<li class="chapter" data-level="13.6" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#比较不同数据集之间信号基因表达分布"><i class="fa fa-check"></i><b>13.6</b> 比较不同数据集之间信号基因表达分布</a></li>
+<li class="chapter" data-level="13.7" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#保存合并的-cellchat-对象"><i class="fa fa-check"></i><b>13.7</b> 保存合并的 CellChat 对象</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html"><i class="fa fa-check"></i><b>14</b> 细胞通讯分析</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#r包和数据"><i class="fa fa-check"></i><b>14.1</b> R包和数据</a></li>
+<li class="chapter" data-level="14.2" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#了解参考数据"><i class="fa fa-check"></i><b>14.2</b> 了解参考数据</a></li>
+<li class="chapter" data-level="14.3" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#构建cellchat对象"><i class="fa fa-check"></i><b>14.3</b> 构建cellchat对象</a></li>
+<li class="chapter" data-level="14.4" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#细胞通讯网络分析"><i class="fa fa-check"></i><b>14.4</b> 细胞通讯网络分析</a></li>
+<li class="chapter" data-level="14.5" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#画图展示"><i class="fa fa-check"></i><b>14.5</b> 画图展示</a>
+<ul>
+<li class="chapter" data-level="14.5.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#circle-plot"><i class="fa fa-check"></i><b>14.5.1</b> circle plot</a></li>
+<li class="chapter" data-level="14.5.2" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#chord-plot"><i class="fa fa-check"></i><b>14.5.2</b> chord plot</a></li>
+<li class="chapter" data-level="14.5.3" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#heatmap"><i class="fa fa-check"></i><b>14.5.3</b> heatmap</a></li>
+<li class="chapter" data-level="14.5.4" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#热图-展示每一类细胞是什么角色"><i class="fa fa-check"></i><b>14.5.4</b> 热图-展示每一类细胞是什么角色</a></li>
+<li class="chapter" data-level="14.5.5" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#气泡图-显示所有的显著的配体-受体对"><i class="fa fa-check"></i><b>14.5.5</b> 气泡图-显示所有的显著的配体-受体对</a></li>
+</ul></li>
+<li class="chapter" data-level="14.6" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#细胞通讯模式和信号网络"><i class="fa fa-check"></i><b>14.6</b> 细胞通讯模式和信号网络</a>
+<ul>
+<li class="chapter" data-level="14.6.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#选择合适的partten细胞通讯模式的数量"><i class="fa fa-check"></i><b>14.6.1</b> 选择合适的partten（细胞通讯模式）的数量</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="gsva-分析.html"><a href="gsva-分析.html"><i class="fa fa-check"></i><b>15</b> GSVA 分析</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="gsva-分析.html"><a href="gsva-分析.html#加载数据和r包"><i class="fa fa-check"></i><b>15.1</b> 加载数据和R包</a></li>
+<li class="chapter" data-level="15.2" data-path="gsva-分析.html"><a href="gsva-分析.html#做gsva"><i class="fa fa-check"></i><b>15.2</b> 做GSVA</a></li>
+<li class="chapter" data-level="15.3" data-path="gsva-分析.html"><a href="gsva-分析.html#热图可视化"><i class="fa fa-check"></i><b>15.3</b> 热图可视化</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="细胞周期.html"><a href="细胞周期.html"><i class="fa fa-check"></i><b>16</b> 细胞周期</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="细胞周期.html"><a href="细胞周期.html#读取数据并做好前期的质控"><i class="fa fa-check"></i><b>16.1</b> 读取数据并做好前期的质控</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="细胞周期.html"><a href="细胞周期.html#gse218208"><i class="fa fa-check"></i><b>16.1.1</b> GSE218208</a></li>
+<li class="chapter" data-level="16.1.2" data-path="细胞周期.html"><a href="细胞周期.html#marrow"><i class="fa fa-check"></i><b>16.1.2</b> marrow</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="细胞周期.html"><a href="细胞周期.html#计算细胞周期评分"><i class="fa fa-check"></i><b>16.2</b> 计算细胞周期评分</a></li>
+<li class="chapter" data-level="16.3" data-path="细胞周期.html"><a href="细胞周期.html#比较两个数据的细胞周期评分和pca"><i class="fa fa-check"></i><b>16.3</b> 比较两个数据的细胞周期评分和PCA</a></li>
+<li class="chapter" data-level="16.4" data-path="细胞周期.html"><a href="细胞周期.html#比较去除和不去处细胞周期影响的下游注释"><i class="fa fa-check"></i><b>16.4</b> 比较去除和不去处细胞周期影响的下游注释</a>
+<ul>
+<li class="chapter" data-level="16.4.1" data-path="细胞周期.html"><a href="细胞周期.html#不考虑细胞周期的降维聚类分群"><i class="fa fa-check"></i><b>16.4.1</b> 不考虑细胞周期的降维聚类分群</a></li>
+<li class="chapter" data-level="16.4.2" data-path="细胞周期.html"><a href="细胞周期.html#考虑细胞周期的降维聚类分群"><i class="fa fa-check"></i><b>16.4.2</b> 考虑细胞周期的降维聚类分群</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://space.bilibili.com/338686099" target="blank">本笔记来自 生信技能书</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">scRNA-Seq</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="cellchat-单数据集分析" class="section level1 hasAnchor" number="12">
+<h1><span class="header-section-number">第 12 章</span> cellchat 单数据集分析<a href="cellchat-单数据集分析.html#cellchat-单数据集分析" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="cellchat-单数据集分析.html#cb177-1" tabindex="-1"></a><span class="fu">library</span>(CellChat)</span>
+<span id="cb177-2"><a href="cellchat-单数据集分析.html#cb177-2" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb177-3"><a href="cellchat-单数据集分析.html#cb177-3" tabindex="-1"></a><span class="fu">library</span>(NMF)</span>
+<span id="cb177-4"><a href="cellchat-单数据集分析.html#cb177-4" tabindex="-1"></a><span class="fu">library</span>(ggalluvial)</span>
+<span id="cb177-5"><a href="cellchat-单数据集分析.html#cb177-5" tabindex="-1"></a><span class="fu">options</span>(<span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb177-6"><a href="cellchat-单数据集分析.html#cb177-6" tabindex="-1"></a><span class="co"># reticulate::use_python(&quot;/Users/suoqinjin/anaconda3/bin/python&quot;, required=T) </span></span></code></pre></div>
+<div id="数据输入处理及-cellchat-对象初始化" class="section level2 hasAnchor" number="12.1">
+<h2><span class="header-section-number">12.1</span> 数据输入、处理及 cellchat 对象初始化<a href="cellchat-单数据集分析.html#数据输入处理及-cellchat-对象初始化" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>CellChat 需要两个输入：一是细胞的基因表达数据，二是用户指定的细胞标签。</p>
+<p>CellChat 需要细胞的基因表达数据作为输入，并通过将基因表达与信号配体、受体及其辅因子之间相互作用的先验知识相结合来模拟细胞间通讯的概率。
+### 准备 cellchat 分析所需要的输入数据 (可选)
+#### （A）从计数矩阵开始</p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="cellchat-单数据集分析.html#cb178-1" tabindex="-1"></a>data.input <span class="ot">=</span> data_humanSkin<span class="sc">$</span>data <span class="co"># normalized data matrix</span></span>
+<span id="cb178-2"><a href="cellchat-单数据集分析.html#cb178-2" tabindex="-1"></a>meta <span class="ot">=</span> data_humanSkin<span class="sc">$</span>meta <span class="co"># a dataframe with rownames containing cell mata data</span></span>
+<span id="cb178-3"><a href="cellchat-单数据集分析.html#cb178-3" tabindex="-1"></a>cell.use <span class="ot">=</span> <span class="fu">rownames</span>(meta)[meta<span class="sc">$</span>condition <span class="sc">==</span> <span class="st">&quot;LS&quot;</span>] <span class="co"># extract the cell names from disease data</span></span></code></pre></div>
+<div id="b从-seurat-对象开始" class="section level4 hasAnchor" number="12.1.0.1">
+<h4><span class="header-section-number">12.1.0.1</span> （B）从 Seurat 对象开始<a href="cellchat-单数据集分析.html#b从-seurat-对象开始" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="cellchat-单数据集分析.html#cb179-1" tabindex="-1"></a><span class="fu">library</span>(Seurat)</span>
+<span id="cb179-2"><a href="cellchat-单数据集分析.html#cb179-2" tabindex="-1"></a>seurat_object <span class="ot">&lt;-</span> pbmc3k <span class="co"># load the Seurat objec</span></span>
+<span id="cb179-3"><a href="cellchat-单数据集分析.html#cb179-3" tabindex="-1"></a><span class="fu">Idents</span>(seurat_object) <span class="ot">&lt;-</span> seurat_object<span class="sc">$</span>seurat_annotations <span class="co"># set the cell indentity</span></span>
+<span id="cb179-4"><a href="cellchat-单数据集分析.html#cb179-4" tabindex="-1"></a></span>
+<span id="cb179-5"><a href="cellchat-单数据集分析.html#cb179-5" tabindex="-1"></a>data.input <span class="ot">&lt;-</span> seurat_object[[<span class="st">&quot;RNA&quot;</span>]]<span class="sc">@</span>data <span class="co"># normalized data matrix</span></span>
+<span id="cb179-6"><a href="cellchat-单数据集分析.html#cb179-6" tabindex="-1"></a><span class="co"># For Seurat version &lt;= “5.0.0”, get the normalized data via `seurat_object[[&quot;RNA&quot;]]@data`</span></span>
+<span id="cb179-7"><a href="cellchat-单数据集分析.html#cb179-7" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">Idents</span>(seurat_object)</span>
+<span id="cb179-8"><a href="cellchat-单数据集分析.html#cb179-8" tabindex="-1"></a>meta <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">labels =</span> labels, <span class="at">row.names =</span> <span class="fu">names</span>(labels)) <span class="co"># create a dataframe of the cell labels</span></span></code></pre></div>
+</div>
+<div id="创建-cellchat-对象" class="section level3 hasAnchor" number="12.1.1">
+<h3><span class="header-section-number">12.1.1</span> 创建 cellchat 对象<a href="cellchat-单数据集分析.html#创建-cellchat-对象" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="b从-seurat-对象开始-1" class="section level4 hasAnchor" number="12.1.1.1">
+<h4><span class="header-section-number">12.1.1.1</span> （B）从 Seurat 对象开始<a href="cellchat-单数据集分析.html#b从-seurat-对象开始-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>如果输入的是 Seurat 或 SingleCellExperiment 对象，则默认使用对象中的元数据，并且必须提供 group.by 来定义细胞组。例如，group.by = “ident” 表示 Seurat 对象中的默认细胞标识。</p>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="cellchat-单数据集分析.html#cb180-1" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">createCellChat</span>(<span class="at">object =</span> seurat_object, <span class="at">group.by =</span> <span class="st">&quot;ident&quot;</span>, <span class="at">assay =</span> <span class="st">&quot;RNA&quot;</span>)</span>
+<span id="cb180-2"><a href="cellchat-单数据集分析.html#cb180-2" tabindex="-1"></a><span class="do">## [1] &quot;Create a CellChat object from a Seurat object&quot;</span></span>
+<span id="cb180-3"><a href="cellchat-单数据集分析.html#cb180-3" tabindex="-1"></a><span class="do">## The `meta.data` slot in the Seurat object is used as cell meta information</span></span>
+<span id="cb180-4"><a href="cellchat-单数据集分析.html#cb180-4" tabindex="-1"></a><span class="do">## Set cell identities for the new CellChat object </span></span>
+<span id="cb180-5"><a href="cellchat-单数据集分析.html#cb180-5" tabindex="-1"></a><span class="do">## The cell groups used for CellChat analysis are  Naive CD4 T, Memory CD4 T, CD14+ Mono, B, CD8 T, FCGR3A+ Mono, NK, DC, Platelet</span></span></code></pre></div>
+<p>如果在创建 CellChat 对象时没有添加单元格 mata 信息，用户也可以稍后使用 addMeta 添加，并使用 setIdent 设置默认单元格标识。</p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="cellchat-单数据集分析.html#cb181-1" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">addMeta</span>(cellchat, <span class="at">meta =</span> meta)</span>
+<span id="cb181-2"><a href="cellchat-单数据集分析.html#cb181-2" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">setIdent</span>(cellchat, <span class="at">ident.use =</span> <span class="st">&quot;labels&quot;</span>) <span class="co"># set &quot;labels&quot; as default cell identity</span></span>
+<span id="cb181-3"><a href="cellchat-单数据集分析.html#cb181-3" tabindex="-1"></a><span class="fu">levels</span>(cellchat<span class="sc">@</span>idents) <span class="co"># show factor levels of the cell labels</span></span>
+<span id="cb181-4"><a href="cellchat-单数据集分析.html#cb181-4" tabindex="-1"></a>groupSize <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">table</span>(cellchat<span class="sc">@</span>idents)) <span class="co"># number of cells in each cell group</span></span></code></pre></div>
+</div>
+</div>
+<div id="设置配体-受体相互作用数据库" class="section level3 hasAnchor" number="12.1.2">
+<h3><span class="header-section-number">12.1.2</span> 设置配体-受体相互作用数据库<a href="cellchat-单数据集分析.html#设置配体-受体相互作用数据库" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>在使用 CellChat 推断细胞间通讯之前，需要设置配体-受体相互作用数据库并识别过度表达的配体或受体。</p>
+<p>CellChatDB 是一个人工整理的数据库，包含文献支持的人类和小鼠配体-受体相互作用。
+CellChatDB v2 包含约 3,300 个已验证的分子相互作用，
+其中包括约 40% 的分泌性自分泌/旁分泌信号相互作用、约 17% 的细胞外基质 (ECM)-受体相互作用、
+约 13% 的细胞间接触相互作用以及约 30% 的非蛋白信号传导。
+与 CellChatDB v1 相比，CellChatDB v2 增加了 1000 多种蛋白质和非蛋白质相互作用，
+例如代谢和突触信号。需要注意的是，对于与 scRNA-seq 中测量的基因无直接关联的分子，
+CellChat v2 会利用这些分子的关键介质或酶来估计配体和受体的表达，以了解可能由非蛋白介导的通讯。</p>
+<p>CellChatDB v2 还添加了配体-受体对的额外功能注释，
+例如 UniProtKB 关键词（包括生物过程、分子功能、功能类别、疾病等）、亚细胞定位和与神经递质的相关性。</p>
+<p>可以通过添加自己精选的配体-受体对来更新 CellChatDB。请查看<a href="https://htmlpreview.github.io/?https://github.com/jinworks/CellChat/blob/master/tutorial/Update-CellChatDB.html">更新配体-受体相互作用数据库 CellChatDB 的教程</a> 。</p>
+<p>分析人体样本时，使用数据库 CellChatDB.human ; 分析小鼠时 样本，使用数据库 CellChatDB.mouse 。CellChatDB 将配体-受体对分为不同的类型，包括“分泌信号”、“ECM-受体”、“细胞-细胞接触”和“非蛋白信号”。默认情况下，“非蛋白信号”不使用。</p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="cellchat-单数据集分析.html#cb182-1" tabindex="-1"></a>CellChatDB <span class="ot">&lt;-</span> CellChatDB.human <span class="co"># use CellChatDB.mouse if running on mouse data</span></span>
+<span id="cb182-2"><a href="cellchat-单数据集分析.html#cb182-2" tabindex="-1"></a><span class="fu">showDatabaseCategory</span>(CellChatDB)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="cellchat-单数据集分析.html#cb183-1" tabindex="-1"></a></span>
+<span id="cb183-2"><a href="cellchat-单数据集分析.html#cb183-2" tabindex="-1"></a><span class="co"># Show the structure of the database</span></span>
+<span id="cb183-3"><a href="cellchat-单数据集分析.html#cb183-3" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(CellChatDB<span class="sc">$</span>interaction)</span>
+<span id="cb183-4"><a href="cellchat-单数据集分析.html#cb183-4" tabindex="-1"></a><span class="do">## Rows: 3,234</span></span>
+<span id="cb183-5"><a href="cellchat-单数据集分析.html#cb183-5" tabindex="-1"></a><span class="do">## Columns: 28</span></span>
+<span id="cb183-6"><a href="cellchat-单数据集分析.html#cb183-6" tabindex="-1"></a><span class="do">## $ interaction_name         &lt;chr&gt; &quot;TGFB1_TGFBR1_TGFBR2&quot;, &quot;TGFB2_TGFBR1_TGFBR2&quot;,…</span></span>
+<span id="cb183-7"><a href="cellchat-单数据集分析.html#cb183-7" tabindex="-1"></a><span class="do">## $ pathway_name             &lt;chr&gt; &quot;TGFb&quot;, &quot;TGFb&quot;, &quot;TGFb&quot;, &quot;TGFb&quot;, &quot;TGFb&quot;, &quot;TGFb…</span></span>
+<span id="cb183-8"><a href="cellchat-单数据集分析.html#cb183-8" tabindex="-1"></a><span class="do">## $ ligand                   &lt;chr&gt; &quot;TGFB1&quot;, &quot;TGFB2&quot;, &quot;TGFB3&quot;, &quot;TGFB1&quot;, &quot;TGFB1&quot;, …</span></span>
+<span id="cb183-9"><a href="cellchat-单数据集分析.html#cb183-9" tabindex="-1"></a><span class="do">## $ receptor                 &lt;chr&gt; &quot;TGFbR1_R2&quot;, &quot;TGFbR1_R2&quot;, &quot;TGFbR1_R2&quot;, &quot;ACVR1…</span></span>
+<span id="cb183-10"><a href="cellchat-单数据集分析.html#cb183-10" tabindex="-1"></a><span class="do">## $ agonist                  &lt;chr&gt; &quot;TGFb agonist&quot;, &quot;TGFb agonist&quot;, &quot;TGFb agonist…</span></span>
+<span id="cb183-11"><a href="cellchat-单数据集分析.html#cb183-11" tabindex="-1"></a><span class="do">## $ antagonist               &lt;chr&gt; &quot;TGFb antagonist&quot;, &quot;TGFb antagonist&quot;, &quot;TGFb a…</span></span>
+<span id="cb183-12"><a href="cellchat-单数据集分析.html#cb183-12" tabindex="-1"></a><span class="do">## $ co_A_receptor            &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;…</span></span>
+<span id="cb183-13"><a href="cellchat-单数据集分析.html#cb183-13" tabindex="-1"></a><span class="do">## $ co_I_receptor            &lt;chr&gt; &quot;TGFb inhibition receptor&quot;, &quot;TGFb inhibition …</span></span>
+<span id="cb183-14"><a href="cellchat-单数据集分析.html#cb183-14" tabindex="-1"></a><span class="do">## $ evidence                 &lt;chr&gt; &quot;KEGG: hsa04350&quot;, &quot;KEGG: hsa04350&quot;, &quot;KEGG: hs…</span></span>
+<span id="cb183-15"><a href="cellchat-单数据集分析.html#cb183-15" tabindex="-1"></a><span class="do">## $ annotation               &lt;chr&gt; &quot;Secreted Signaling&quot;, &quot;Secreted Signaling&quot;, &quot;…</span></span>
+<span id="cb183-16"><a href="cellchat-单数据集分析.html#cb183-16" tabindex="-1"></a><span class="do">## $ interaction_name_2       &lt;chr&gt; &quot;TGFB1 - (TGFBR1+TGFBR2)&quot;, &quot;TGFB2 - (TGFBR1+T…</span></span>
+<span id="cb183-17"><a href="cellchat-单数据集分析.html#cb183-17" tabindex="-1"></a><span class="do">## $ is_neurotransmitter      &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FAL…</span></span>
+<span id="cb183-18"><a href="cellchat-单数据集分析.html#cb183-18" tabindex="-1"></a><span class="do">## $ ligand.symbol            &lt;chr&gt; &quot;TGFB1&quot;, &quot;TGFB2&quot;, &quot;TGFB3&quot;, &quot;TGFB1&quot;, &quot;TGFB1&quot;, …</span></span>
+<span id="cb183-19"><a href="cellchat-单数据集分析.html#cb183-19" tabindex="-1"></a><span class="do">## $ ligand.family            &lt;chr&gt; &quot;TGF-beta&quot;, &quot;TGF-beta&quot;, &quot;TGF-beta&quot;, &quot;TGF-beta…</span></span>
+<span id="cb183-20"><a href="cellchat-单数据集分析.html#cb183-20" tabindex="-1"></a><span class="do">## $ ligand.location          &lt;chr&gt; &quot;Extracellular matrix, Secreted, Extracellula…</span></span>
+<span id="cb183-21"><a href="cellchat-单数据集分析.html#cb183-21" tabindex="-1"></a><span class="do">## $ ligand.keyword           &lt;chr&gt; &quot;Disease variant, Signal, Reference proteome,…</span></span>
+<span id="cb183-22"><a href="cellchat-单数据集分析.html#cb183-22" tabindex="-1"></a><span class="do">## $ ligand.secreted_type     &lt;chr&gt; &quot;growth factor&quot;, &quot;growth factor&quot;, &quot;cytokine;g…</span></span>
+<span id="cb183-23"><a href="cellchat-单数据集分析.html#cb183-23" tabindex="-1"></a><span class="do">## $ ligand.transmembrane     &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALS…</span></span>
+<span id="cb183-24"><a href="cellchat-单数据集分析.html#cb183-24" tabindex="-1"></a><span class="do">## $ receptor.symbol          &lt;chr&gt; &quot;TGFBR2, TGFBR1&quot;, &quot;TGFBR2, TGFBR1&quot;, &quot;TGFBR2, …</span></span>
+<span id="cb183-25"><a href="cellchat-单数据集分析.html#cb183-25" tabindex="-1"></a><span class="do">## $ receptor.family          &lt;chr&gt; &quot;Protein kinase superfamily, TKL Ser/Thr prot…</span></span>
+<span id="cb183-26"><a href="cellchat-单数据集分析.html#cb183-26" tabindex="-1"></a><span class="do">## $ receptor.location        &lt;chr&gt; &quot;Cell membrane, Secreted, Membrane raft, Cell…</span></span>
+<span id="cb183-27"><a href="cellchat-单数据集分析.html#cb183-27" tabindex="-1"></a><span class="do">## $ receptor.keyword         &lt;chr&gt; &quot;Membrane, Secreted, Disulfide bond, Kinase, …</span></span>
+<span id="cb183-28"><a href="cellchat-单数据集分析.html#cb183-28" tabindex="-1"></a><span class="do">## $ receptor.surfaceome_main &lt;chr&gt; &quot;Receptors&quot;, &quot;Receptors&quot;, &quot;Receptors&quot;, &quot;Recep…</span></span>
+<span id="cb183-29"><a href="cellchat-单数据集分析.html#cb183-29" tabindex="-1"></a><span class="do">## $ receptor.surfaceome_sub  &lt;chr&gt; &quot;Act.TGFB;Kinase&quot;, &quot;Act.TGFB;Kinase&quot;, &quot;Act.TG…</span></span>
+<span id="cb183-30"><a href="cellchat-单数据集分析.html#cb183-30" tabindex="-1"></a><span class="do">## $ receptor.adhesome        &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;…</span></span>
+<span id="cb183-31"><a href="cellchat-单数据集分析.html#cb183-31" tabindex="-1"></a><span class="do">## $ receptor.secreted_type   &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;…</span></span>
+<span id="cb183-32"><a href="cellchat-单数据集分析.html#cb183-32" tabindex="-1"></a><span class="do">## $ receptor.transmembrane   &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRU…</span></span>
+<span id="cb183-33"><a href="cellchat-单数据集分析.html#cb183-33" tabindex="-1"></a><span class="do">## $ version                  &lt;chr&gt; &quot;CellChatDB v1&quot;, &quot;CellChatDB v1&quot;, &quot;CellChatDB…</span></span>
+<span id="cb183-34"><a href="cellchat-单数据集分析.html#cb183-34" tabindex="-1"></a></span>
+<span id="cb183-35"><a href="cellchat-单数据集分析.html#cb183-35" tabindex="-1"></a><span class="co"># use a subset of CellChatDB for cell-cell communication analysis</span></span>
+<span id="cb183-36"><a href="cellchat-单数据集分析.html#cb183-36" tabindex="-1"></a>CellChatDB.use <span class="ot">&lt;-</span> <span class="fu">subsetDB</span>(CellChatDB, <span class="at">search =</span> <span class="st">&quot;Secreted Signaling&quot;</span>, <span class="at">key =</span> <span class="st">&quot;annotation&quot;</span>) <span class="co"># use Secreted Signaling</span></span>
+<span id="cb183-37"><a href="cellchat-单数据集分析.html#cb183-37" tabindex="-1"></a></span>
+<span id="cb183-38"><a href="cellchat-单数据集分析.html#cb183-38" tabindex="-1"></a><span class="co"># Only uses the Secreted Signaling from CellChatDB v1</span></span>
+<span id="cb183-39"><a href="cellchat-单数据集分析.html#cb183-39" tabindex="-1"></a><span class="co">#  CellChatDB.use &lt;- subsetDB(CellChatDB, search = list(c(&quot;Secreted Signaling&quot;), c(&quot;CellChatDB v1&quot;)), key = c(&quot;annotation&quot;, &quot;version&quot;))</span></span>
+<span id="cb183-40"><a href="cellchat-单数据集分析.html#cb183-40" tabindex="-1"></a></span>
+<span id="cb183-41"><a href="cellchat-单数据集分析.html#cb183-41" tabindex="-1"></a><span class="co"># use all CellChatDB except for &quot;Non-protein Signaling&quot; for cell-cell communication analysis</span></span>
+<span id="cb183-42"><a href="cellchat-单数据集分析.html#cb183-42" tabindex="-1"></a><span class="co"># CellChatDB.use &lt;- subsetDB(CellChatDB)</span></span>
+<span id="cb183-43"><a href="cellchat-单数据集分析.html#cb183-43" tabindex="-1"></a></span>
+<span id="cb183-44"><a href="cellchat-单数据集分析.html#cb183-44" tabindex="-1"></a><span class="co"># use all CellChatDB for cell-cell communication analysis</span></span>
+<span id="cb183-45"><a href="cellchat-单数据集分析.html#cb183-45" tabindex="-1"></a><span class="co"># CellChatDB.use &lt;- CellChatDB # simply use the default CellChatDB. We do not suggest to use it in this way because CellChatDB v2 includes &quot;Non-protein Signaling&quot; (i.e., metabolic and synaptic signaling). </span></span>
+<span id="cb183-46"><a href="cellchat-单数据集分析.html#cb183-46" tabindex="-1"></a></span>
+<span id="cb183-47"><a href="cellchat-单数据集分析.html#cb183-47" tabindex="-1"></a><span class="co"># set the used database in the object</span></span>
+<span id="cb183-48"><a href="cellchat-单数据集分析.html#cb183-48" tabindex="-1"></a>cellchat<span class="sc">@</span>DB <span class="ot">&lt;-</span> CellChatDB.use</span></code></pre></div>
+</div>
+<div id="细胞间通讯分析的表达数据预处理" class="section level3 hasAnchor" number="12.1.3">
+<h3><span class="header-section-number">12.1.3</span> 细胞间通讯分析的表达数据预处理<a href="cellchat-单数据集分析.html#细胞间通讯分析的表达数据预处理" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>为了推断细胞状态特定的通信，CellChat 会识别一个细胞组中过度表达的配体或受体，然后识别过度表达的配体-受体相互作用（如果配体或受体过度表达）。</p>
+<p>我们还提供了一个功能，可以将基因表达数据投射到蛋白质-蛋白质相互作用（PPI）网络上。具体来说，这个功能使用扩散过程来根据高置信度实验验证的蛋白质-蛋白质网络中定义的邻居来平滑基因的表达值。当分析测序深度较浅的单细胞数据时，这个功能非常有用，因为投射可以减少信号基因的掉落效应（dropout effects），特别是对于可能为零表达的配体/受体亚基。有人可能会担心这种扩散过程引入的可能伪影，然而，它只会引入非常弱的通讯。默认情况下，CellChat 使用原始数据（即，<code>object@data.signaling</code>）而不是投射数据。要使用投射数据，用户应在运行 <code>computeCommunProb</code> 之前运行 <code>projectData</code> 函数，然后在运行 <code>computeCommunProb</code> 时设置 <code>raw.use = FALSE</code>。</p>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="cellchat-单数据集分析.html#cb184-1" tabindex="-1"></a><span class="co"># subset the expression data of signaling genes for saving computation cost</span></span>
+<span id="cb184-2"><a href="cellchat-单数据集分析.html#cb184-2" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">subsetData</span>(cellchat) <span class="co"># This step is necessary even if using the whole database</span></span>
+<span id="cb184-3"><a href="cellchat-单数据集分析.html#cb184-3" tabindex="-1"></a>future<span class="sc">::</span><span class="fu">plan</span>(<span class="st">&quot;multisession&quot;</span>, <span class="at">workers =</span> <span class="dv">4</span>) <span class="co"># do parallel</span></span>
+<span id="cb184-4"><a href="cellchat-单数据集分析.html#cb184-4" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">identifyOverExpressedGenes</span>(cellchat)</span>
+<span id="cb184-5"><a href="cellchat-单数据集分析.html#cb184-5" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">identifyOverExpressedInteractions</span>(cellchat)</span>
+<span id="cb184-6"><a href="cellchat-单数据集分析.html#cb184-6" tabindex="-1"></a><span class="do">## The number of highly variable ligand-receptor pairs used for signaling inference is 135</span></span>
+<span id="cb184-7"><a href="cellchat-单数据集分析.html#cb184-7" tabindex="-1"></a></span>
+<span id="cb184-8"><a href="cellchat-单数据集分析.html#cb184-8" tabindex="-1"></a><span class="co"># project gene expression data onto PPI (Optional: when running it, USER should set `raw.use = FALSE` in the function `computeCommunProb()` in order to use the projected data)</span></span>
+<span id="cb184-9"><a href="cellchat-单数据集分析.html#cb184-9" tabindex="-1"></a><span class="co"># cellchat &lt;- projectData(cellchat, PPI.human)</span></span></code></pre></div>
+</div>
+</div>
+<div id="细胞间通讯网络推断" class="section level2 hasAnchor" number="12.2">
+<h2><span class="header-section-number">12.2</span> 细胞间通讯网络推断<a href="cellchat-单数据集分析.html#细胞间通讯网络推断" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>CellChat 通过为每个相互作用分配一个概率值并进行置换检验，推断具有生物学意义的细胞间通讯。CellChat 运用质量作用定律，将基因表达与信号传导配体、受体及其辅因子之间相互作用的已知知识相结合，从而建立细胞间通讯的概率模型。</p>
+<p>注意：推断的配体-受体对的数量明显依赖于计算每个细胞组平均基因表达的方法。默认情况下，CellChat 使用一种统计上稳健的均值方法，称为“trimean”，它产生的交互作用比其他方法少。然而，我们发现 CellChat 在预测更强的交互作用方面表现良好，这对于进一步的实验验证非常有帮助。在 <code>computeCommunProb</code> 中，我们提供了使用其他方法的选项，例如 5% 和 10% 截断均值，来计算平均基因表达。值得注意的是，“trimean”近似于 25% 截断均值，这意味着如果一个组中表达的细胞百分比少于 25%，则平均基因表达为零。要使用 10% 截断均值，用户可以设置 <code>type = "truncatedMean"</code> 和 <code>trim = 0.1</code>。为了确定合适的 <code>trim</code> 值，CellChat 提供了一个函数 <code>computeAveExpr</code>，它可以帮助检查感兴趣的信号基因的平均表达，例如，<code>computeAveExpr(cellchat, features = c("CXCL12","CXCR4"), type = "truncatedMean", trim = 0.1)</code>。因此，如果在研究的生物过程中没有预测到知名的信号通路，用户可以尝试使用较低的 <code>trim</code> 值的 <code>truncatedMean</code> 来改变每个细胞组平均基因表达的计算方法。</p>
+<p>在分析未分类的单细胞转录组时，基于这样一种假设：丰富的细胞群体往往比稀有的细胞群体发送更强的集体信号，CellChat 也可以在概率计算中考虑每个细胞组中细胞比例的影响。用户可以设置 <code>population.size = TRUE</code>。</p>
+<div id="计算通讯概率并推断细胞通讯网络" class="section level3 hasAnchor" number="12.2.1">
+<h3><span class="header-section-number">12.2.1</span> 计算通讯概率并推断细胞通讯网络<a href="cellchat-单数据集分析.html#计算通讯概率并推断细胞通讯网络" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>该分析的关键参数是 <code>type</code>，即计算每个细胞组平均基因表达的方法。默认情况下，<code>type = "triMean"</code>，这会产生较少但更强的交互作用。当设置 <code>type = "truncatedMean"</code> 时，需要为 <code>trim</code> 赋值，这会产生更多的交互作用。</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="cellchat-单数据集分析.html#cb185-1" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">computeCommunProb</span>(cellchat, <span class="at">type =</span> <span class="st">&quot;triMean&quot;</span>)</span>
+<span id="cb185-2"><a href="cellchat-单数据集分析.html#cb185-2" tabindex="-1"></a><span class="do">## triMean is used for calculating the average gene expression per cell group. </span></span>
+<span id="cb185-3"><a href="cellchat-单数据集分析.html#cb185-3" tabindex="-1"></a><span class="do">## [1] &quot;&gt;&gt;&gt; Run CellChat on sc/snRNA-seq data &lt;&lt;&lt; [2025-04-12 18:41:15.969183]&quot;</span></span>
+<span id="cb185-4"><a href="cellchat-单数据集分析.html#cb185-4" tabindex="-1"></a><span class="do">## [1] &quot;&gt;&gt;&gt; CellChat inference is done. Parameter values are stored in `object@options$parameter` &lt;&lt;&lt; [2025-04-12 18:41:40.331192]&quot;</span></span></code></pre></div>
+<p>用户可以过滤掉那些在某些细胞群体中只有少量细胞的细胞间通讯。默认情况下，每个细胞群体中进行细胞间通讯所需的最小细胞数量是10个。</p>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="cellchat-单数据集分析.html#cb186-1" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">filterCommunication</span>(cellchat, <span class="at">min.cells =</span> <span class="dv">10</span>)</span></code></pre></div>
+</div>
+<div id="将推断出的细胞通讯网络提取为一个数据框" class="section level3 hasAnchor" number="12.2.2">
+<h3><span class="header-section-number">12.2.2</span> 将推断出的细胞通讯网络提取为一个数据框。<a href="cellchat-单数据集分析.html#将推断出的细胞通讯网络提取为一个数据框" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>我们提供了一个函数 <code>subsetCommunication</code>，以便轻松访问感兴趣的推断细胞间通讯。例如：</p>
+<p><code>df.net &lt;- subsetCommunication(cellchat)</code> 返回一个数据框，其中包含配体/受体水平的所有推断细胞间通讯。设置 <code>slot.name = "netP"</code> 可以访问信号通路水平的推断通讯。</p>
+<p><code>df.net &lt;- subsetCommunication(cellchat, sources.use = c(1,2), targets.use = c(4,5))</code> 提供从细胞群体 1 和 2 发送到细胞群体 4 和 5 的推断细胞间通讯。</p>
+<p><code>df.net &lt;- subsetCommunication(cellchat, signaling = c("WNT", "TGFb"))</code> 提供由 WNT 和 TGFb 信号介导的推断细胞间通讯。</p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="cellchat-单数据集分析.html#cb187-1" tabindex="-1"></a>df.net <span class="ot">&lt;-</span> <span class="fu">subsetCommunication</span>(cellchat, <span class="at">slot.name =</span> <span class="st">&quot;netP&quot;</span>)</span></code></pre></div>
+</div>
+<div id="在信号通路级别推断细胞-细胞通讯" class="section level3 hasAnchor" number="12.2.3">
+<h3><span class="header-section-number">12.2.3</span> 在信号通路级别推断细胞-细胞通讯<a href="cellchat-单数据集分析.html#在信号通路级别推断细胞-细胞通讯" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>CellChat 通过总结与每个信号通路相关的所有配体-受体相互作用的通信概率，计算信号通路级别的通信概率。<br />
+注意：每个配体-受体对和每个信号通路的推断细胞间通信网络存储在“net”和“netP”槽中。</p>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="cellchat-单数据集分析.html#cb188-1" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">computeCommunProbPathway</span>(cellchat)</span></code></pre></div>
+</div>
+<div id="计算聚合的细胞-细胞通信网络" class="section level3 hasAnchor" number="12.2.4">
+<h3><span class="header-section-number">12.2.4</span> 计算聚合的细胞-细胞通信网络<a href="cellchat-单数据集分析.html#计算聚合的细胞-细胞通信网络" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>CellChat 通过计算链接数量或总结通信概率来计算聚合的细胞-细胞通信网络。用户还可以通过设置 <code>sources.use</code> 和 <code>targets.use</code> 来计算一组细胞群体之间的聚合网络。</p>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="cellchat-单数据集分析.html#cb189-1" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">aggregateNet</span>(cellchat)</span></code></pre></div>
+<p>CellChat 还可以可视化聚合的细胞间通信网络。例如，使用圆形图显示任意两个细胞组之间的交互次数或总交互强度（权重）。</p>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="cellchat-单数据集分析.html#cb190-1" tabindex="-1"></a>groupSize <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">table</span>(cellchat<span class="sc">@</span>idents))</span>
+<span id="cb190-2"><a href="cellchat-单数据集分析.html#cb190-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">xpd=</span><span class="cn">TRUE</span>)</span>
+<span id="cb190-3"><a href="cellchat-单数据集分析.html#cb190-3" tabindex="-1"></a><span class="fu">netVisual_circle</span>(cellchat<span class="sc">@</span>net<span class="sc">$</span>count, <span class="at">vertex.weight =</span> groupSize, <span class="at">weight.scale =</span> T, <span class="at">label.edge=</span> F, <span class="at">title.name =</span> <span class="st">&quot;Number of interactions&quot;</span>)</span>
+<span id="cb190-4"><a href="cellchat-单数据集分析.html#cb190-4" tabindex="-1"></a><span class="fu">netVisual_circle</span>(cellchat<span class="sc">@</span>net<span class="sc">$</span>weight, <span class="at">vertex.weight =</span> groupSize, <span class="at">weight.scale =</span> T, <span class="at">label.edge=</span> F, <span class="at">title.name =</span> <span class="st">&quot;Interaction weights/strength&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>由于复杂的细胞间通信网络，我们可以检查每个细胞组发送的信号。在这里，我们还控制参数 edge.weight.max ，以便比较不同网络之间的边权重。</p>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="cellchat-单数据集分析.html#cb191-1" tabindex="-1"></a>mat <span class="ot">&lt;-</span> cellchat<span class="sc">@</span>net<span class="sc">$</span>weight</span>
+<span id="cb191-2"><a href="cellchat-单数据集分析.html#cb191-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>), <span class="at">xpd=</span><span class="cn">TRUE</span>)</span>
+<span id="cb191-3"><a href="cellchat-单数据集分析.html#cb191-3" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(mat)) {</span>
+<span id="cb191-4"><a href="cellchat-单数据集分析.html#cb191-4" tabindex="-1"></a>  mat2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">nrow</span>(mat), <span class="at">ncol =</span> <span class="fu">ncol</span>(mat), <span class="at">dimnames =</span> <span class="fu">dimnames</span>(mat))</span>
+<span id="cb191-5"><a href="cellchat-单数据集分析.html#cb191-5" tabindex="-1"></a>  mat2[i, ] <span class="ot">&lt;-</span> mat[i, ]</span>
+<span id="cb191-6"><a href="cellchat-单数据集分析.html#cb191-6" tabindex="-1"></a>  <span class="fu">netVisual_circle</span>(mat2, <span class="at">vertex.weight =</span> groupSize, <span class="at">weight.scale =</span> T, <span class="at">edge.weight.max =</span> <span class="fu">max</span>(mat), <span class="at">title.name =</span> <span class="fu">rownames</span>(mat)[i])</span>
+<span id="cb191-7"><a href="cellchat-单数据集分析.html#cb191-7" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+</div>
+<div id="细胞间通信网络的可视化" class="section level2 hasAnchor" number="12.3">
+<h2><span class="header-section-number">12.3</span> 细胞间通信网络的可视化<a href="cellchat-单数据集分析.html#细胞间通信网络的可视化" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>在推断细胞间通信网络后，CellChat 提供了多种功能以便进一步的数据探索、分析和可视化。具体来说：<br />
+- 它提供了几种可视化细胞间通信网络的方法，包括层次图、圆形图、和弦图和气泡图。<br />
+- 它提供了一个易于使用的工具，用于提取和可视化推断网络的高阶信息。例如，它可以方便地预测细胞群体的主要信号输入和输出，以及这些群体和信号如何协调以实现功能。
+- 它可以通过结合社交网络分析、模式识别和流形学习方法，定量表征和比较推断的细胞间通信网络。</p>
+<div id="使用层次图圆形图或和弦图可视化每个信号通路" class="section level3 hasAnchor" number="12.3.1">
+<h3><span class="header-section-number">12.3.1</span> 使用层次图、圆形图或和弦图可视化每个信号通路<a href="cellchat-单数据集分析.html#使用层次图圆形图或和弦图可视化每个信号通路" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>层次图：应定义 <code>vertex.receiver</code> ，这是一个数值向量，给出层次图左侧作为目标的细胞组的索引。该层次图由两个部分组成：左侧部分显示对某些感兴趣的细胞组（即定义的 <code>vertex.receiver</code> ）的自分泌和旁分泌信号，而右侧部分显示对数据集中其余细胞组的自分泌和旁分泌信号。因此，层次图提供了一种信息丰富且直观的方式来可视化感兴趣的细胞组之间的自分泌和旁分泌信号通信。例如，在研究成纤维细胞与免疫细胞之间的细胞间通信时，用户可以将 <code>vertex.receiver</code> 定义为所有成纤维细胞组。</p>
+<p>和弦图：CellChat 提供了两个函数 <code>netVisual_chord_cell</code> 和 <code>netVisual_chord_gene</code> 用于以不同的目的和不同的层次可视化细胞间通信。
+<code>netVisual_chord_cell</code> 用于可视化不同细胞组之间的细胞间通信（和弦图中的每个扇区是一个细胞组）, <code>netVisual_chord_gene</code> 用于可视化由多个配体-受体或信号通路介导的细胞间通信（和弦图中的每个扇区是一个配体、受体或信号通路）。</p>
+<p>边缘颜色/权重、节点颜色/大小/形状的解释：在所有可视化图中，边缘颜色与作为发送者的源一致，边缘权重与交互强度成正比。边缘线越粗，信号越强。在层次图和圆形图中，圆圈的大小与每个细胞组中的细胞数量成正比。在层次图中，实心圆和空心圆分别表示源和目标。在和弦图中，内侧较细的条形颜色表示接收来自相应外侧条形信号的目标。内侧条形的大小与目标接收到的信号强度成正比。这种内侧条形有助于解释复杂的和弦图。请注意，某些细胞组存在没有任何和弦的内侧条形，请忽略它，因为这是 circlize 包尚未解决的问题。</p>
+<p>在不同层次上可视化细胞间通信：可以使用 <code>netVisual_aggregate</code> 可视化信号通路的推断通信网络，并使用 <code>netVisual_individual</code> 可视化与该信号通路相关的单个配对的推断通信网络。</p>
+<p>在这里，我们以一个信号通路作为例子。所有显示显著通信的信号通路可以通过 <code>cellchat@netP$pathways</code> 访问。</p>
+<div id="层次图" class="section level4 hasAnchor" number="12.3.1.1">
+<h4><span class="header-section-number">12.3.1.1</span> 层次图<a href="cellchat-单数据集分析.html#层次图" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="cellchat-单数据集分析.html#cb192-1" tabindex="-1"></a>pathways.show <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;MIF&quot;</span>) </span>
+<span id="cb192-2"><a href="cellchat-单数据集分析.html#cb192-2" tabindex="-1"></a><span class="co"># Hierarchy plot</span></span>
+<span id="cb192-3"><a href="cellchat-单数据集分析.html#cb192-3" tabindex="-1"></a><span class="co"># Here we define `vertex.receive` so that the left portion of the hierarchy plot shows signaling to fibroblast and the right portion shows signaling to immune cells </span></span>
+<span id="cb192-4"><a href="cellchat-单数据集分析.html#cb192-4" tabindex="-1"></a>vertex.receiver <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span>) <span class="co"># a numeric vector. </span></span>
+<span id="cb192-5"><a href="cellchat-单数据集分析.html#cb192-5" tabindex="-1"></a><span class="fu">netVisual_aggregate</span>(cellchat, <span class="at">signaling =</span> pathways.show,  <span class="at">vertex.receiver =</span> vertex.receiver, <span class="at">layout =</span> <span class="st">&quot;hierarchy&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="cellchat-单数据集分析.html#cb193-1" tabindex="-1"></a><span class="co"># Circle plot</span></span>
+<span id="cb193-2"><a href="cellchat-单数据集分析.html#cb193-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb193-3"><a href="cellchat-单数据集分析.html#cb193-3" tabindex="-1"></a><span class="fu">netVisual_aggregate</span>(cellchat, <span class="at">signaling =</span> pathways.show, <span class="at">layout =</span> <span class="st">&quot;circle&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-16-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="弦图" class="section level4 hasAnchor" number="12.3.1.2">
+<h4><span class="header-section-number">12.3.1.2</span> 弦图<a href="cellchat-单数据集分析.html#弦图" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="cellchat-单数据集分析.html#cb194-1" tabindex="-1"></a><span class="co"># Chord diagram</span></span>
+<span id="cb194-2"><a href="cellchat-单数据集分析.html#cb194-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb194-3"><a href="cellchat-单数据集分析.html#cb194-3" tabindex="-1"></a><span class="fu">netVisual_aggregate</span>(cellchat, <span class="at">signaling =</span> pathways.show, <span class="at">layout =</span> <span class="st">&quot;chord&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>对于弦图，CellChat 有一个独立的函数 netVisual_chord_cell ，可以通过调整 circlize 包中的不同参数灵活地可视化信号网络。例如，我们可以定义一个命名的字符向量 group 来创建多组和弦图，例如，将细胞簇分组为不同的细胞类型。</p>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="cellchat-单数据集分析.html#cb195-1" tabindex="-1"></a><span class="co"># Chord diagram</span></span>
+<span id="cb195-2"><a href="cellchat-单数据集分析.html#cb195-2" tabindex="-1"></a>group.cellType <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">&quot;B&quot;</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">&quot;C&quot;</span>, <span class="dv">4</span>)) <span class="co"># grouping cell clusters into different cell types (example: A, B, C)</span></span>
+<span id="cb195-3"><a href="cellchat-单数据集分析.html#cb195-3" tabindex="-1"></a><span class="fu">names</span>(group.cellType) <span class="ot">&lt;-</span> <span class="fu">levels</span>(cellchat<span class="sc">@</span>idents)</span>
+<span id="cb195-4"><a href="cellchat-单数据集分析.html#cb195-4" tabindex="-1"></a><span class="fu">netVisual_chord_cell</span>(cellchat, <span class="at">signaling =</span> pathways.show, <span class="at">group =</span> group.cellType, <span class="at">title.name =</span> <span class="fu">paste0</span>(pathways.show, <span class="st">&quot; signaling network&quot;</span>))</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="热图-1" class="section level4 hasAnchor" number="12.3.1.3">
+<h4><span class="header-section-number">12.3.1.3</span> 热图<a href="cellchat-单数据集分析.html#热图-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="cellchat-单数据集分析.html#cb196-1" tabindex="-1"></a><span class="co"># Heatmap</span></span>
+<span id="cb196-2"><a href="cellchat-单数据集分析.html#cb196-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb196-3"><a href="cellchat-单数据集分析.html#cb196-3" tabindex="-1"></a><span class="fu">netVisual_heatmap</span>(cellchat, <span class="at">signaling =</span> pathways.show, <span class="at">color.heatmap =</span> <span class="st">&quot;Reds&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="计算每个配体-受体对对整体信号通路的贡献并可视化由单个配体-受体对介导的细胞间通信" class="section level3 hasAnchor" number="12.3.2">
+<h3><span class="header-section-number">12.3.2</span> 计算每个配体-受体对对整体信号通路的贡献，并可视化由单个配体-受体对介导的细胞间通信<a href="cellchat-单数据集分析.html#计算每个配体-受体对对整体信号通路的贡献并可视化由单个配体-受体对介导的细胞间通信" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="cellchat-单数据集分析.html#cb197-1" tabindex="-1"></a><span class="fu">netAnalysis_contribution</span>(cellchat, <span class="at">signaling =</span> pathways.show)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>我们还可以可视化由单一配体-受体对介导的细胞间通信。我们提供一个函数 extractEnrichedLR 来提取给定信号通路的所有显著相互作用（L-R 对）和相关信号基因。</p>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="cellchat-单数据集分析.html#cb198-1" tabindex="-1"></a>pairLR.CXCL <span class="ot">&lt;-</span> <span class="fu">extractEnrichedLR</span>(cellchat, <span class="at">signaling =</span> pathways.show, <span class="at">geneLR.return =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb198-2"><a href="cellchat-单数据集分析.html#cb198-2" tabindex="-1"></a>LR.show <span class="ot">&lt;-</span> pairLR.CXCL[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,] <span class="co"># show one ligand-receptor pair</span></span>
+<span id="cb198-3"><a href="cellchat-单数据集分析.html#cb198-3" tabindex="-1"></a></span>
+<span id="cb198-4"><a href="cellchat-单数据集分析.html#cb198-4" tabindex="-1"></a><span class="co"># Hierarchy plot</span></span>
+<span id="cb198-5"><a href="cellchat-单数据集分析.html#cb198-5" tabindex="-1"></a>vertex.receiver <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">4</span>) <span class="co"># a numeric vector</span></span>
+<span id="cb198-6"><a href="cellchat-单数据集分析.html#cb198-6" tabindex="-1"></a><span class="fu">netVisual_individual</span>(cellchat, <span class="at">signaling =</span> pathways.show,  <span class="at">pairLR.use =</span> LR.show, <span class="at">vertex.receiver =</span> vertex.receiver, <span class="at">layout =</span> <span class="st">&quot;hierarchy&quot;</span> )</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="cellchat-单数据集分析.html#cb199-1" tabindex="-1"></a></span>
+<span id="cb199-2"><a href="cellchat-单数据集分析.html#cb199-2" tabindex="-1"></a><span class="co"># Circle plot</span></span>
+<span id="cb199-3"><a href="cellchat-单数据集分析.html#cb199-3" tabindex="-1"></a><span class="fu">netVisual_individual</span>(cellchat, <span class="at">signaling =</span> pathways.show, <span class="at">pairLR.use =</span> LR.show, <span class="at">layout =</span> <span class="st">&quot;circle&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-21-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>## [[1]]
+## 
+## [[2]]
+
+# Chord diagram
+netVisual_individual(cellchat, signaling = pathways.show, pairLR.use = LR.show, layout = &quot;chord&quot;)</code></pre>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-21-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>## [[1]]
+## 
+## [[2]]</code></pre>
+<div id="自动保存所有推断网络的图以便快速浏览" class="section level4 hasAnchor" number="12.3.2.1">
+<h4><span class="header-section-number">12.3.2.1</span> 自动保存所有推断网络的图以便快速浏览<a href="cellchat-单数据集分析.html#自动保存所有推断网络的图以便快速浏览" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>在实际使用中，可以使用‘for … loop’自动保存所有推断的网络，以便使用 netVisual 进行快速探索。 netVisual 支持以 svg、png 和 pdf 格式输出。</p>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="cellchat-单数据集分析.html#cb202-1" tabindex="-1"></a><span class="co"># Access all the signaling pathways showing significant communications</span></span>
+<span id="cb202-2"><a href="cellchat-单数据集分析.html#cb202-2" tabindex="-1"></a>pathways.show.all <span class="ot">&lt;-</span> cellchat<span class="sc">@</span>netP<span class="sc">$</span>pathways</span>
+<span id="cb202-3"><a href="cellchat-单数据集分析.html#cb202-3" tabindex="-1"></a><span class="co"># check the order of cell identity to set suitable vertex.receiver</span></span>
+<span id="cb202-4"><a href="cellchat-单数据集分析.html#cb202-4" tabindex="-1"></a><span class="fu">levels</span>(cellchat<span class="sc">@</span>idents)</span>
+<span id="cb202-5"><a href="cellchat-单数据集分析.html#cb202-5" tabindex="-1"></a>vertex.receiver <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">4</span>)</span>
+<span id="cb202-6"><a href="cellchat-单数据集分析.html#cb202-6" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(pathways.show.all)) {</span>
+<span id="cb202-7"><a href="cellchat-单数据集分析.html#cb202-7" tabindex="-1"></a>  <span class="co"># Visualize communication network associated with both signaling pathway and individual L-R pairs</span></span>
+<span id="cb202-8"><a href="cellchat-单数据集分析.html#cb202-8" tabindex="-1"></a>  <span class="fu">netVisual</span>(cellchat, <span class="at">signaling =</span> pathways.show.all[i], <span class="at">vertex.receiver =</span> vertex.receiver, <span class="at">layout =</span> <span class="st">&quot;hierarchy&quot;</span>)</span>
+<span id="cb202-9"><a href="cellchat-单数据集分析.html#cb202-9" tabindex="-1"></a>  <span class="co"># Compute and visualize the contribution of each ligand-receptor pair to the overall signaling pathway</span></span>
+<span id="cb202-10"><a href="cellchat-单数据集分析.html#cb202-10" tabindex="-1"></a>  gg <span class="ot">&lt;-</span> <span class="fu">netAnalysis_contribution</span>(cellchat, <span class="at">signaling =</span> pathways.show.all[i])</span>
+<span id="cb202-11"><a href="cellchat-单数据集分析.html#cb202-11" tabindex="-1"></a>  <span class="fu">ggsave</span>(<span class="at">filename=</span><span class="fu">paste0</span>(pathways.show.all[i], <span class="st">&quot;_L-R_contribution.pdf&quot;</span>), <span class="at">plot=</span>gg, <span class="at">width =</span> <span class="dv">3</span>, <span class="at">height =</span> <span class="dv">2</span>, <span class="at">units =</span> <span class="st">&#39;in&#39;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
+<span id="cb202-12"><a href="cellchat-单数据集分析.html#cb202-12" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+</div>
+<div id="可视化由多个配体-受体或信号通路介导的细胞间通信" class="section level3 hasAnchor" number="12.3.3">
+<h3><span class="header-section-number">12.3.3</span> 可视化由多个配体-受体或信号通路介导的细胞间通信<a href="cellchat-单数据集分析.html#可视化由多个配体-受体或信号通路介导的细胞间通信" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>CellChat 还可以显示由 L-R 对和信号通路介导的所有显著相互作用，以及用户从某些细胞群体到其他细胞群体提供的相互作用，
+使用功能 netVisual_bubble（选项 A）和 netVisual_chord_gene（选项 B）。</p>
+<div id="a气泡图" class="section level4 hasAnchor" number="12.3.3.1">
+<h4><span class="header-section-number">12.3.3.1</span> A：气泡图<a href="cellchat-单数据集分析.html#a气泡图" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>我们还可以使用 netVisual_bubble 显示从某些细胞群体到其他细胞群体的所有显著相互作用（L-R 对）。</p>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="cellchat-单数据集分析.html#cb203-1" tabindex="-1"></a><span class="co"># (1) show all the significant interactions (L-R pairs) from some cell groups (defined by &#39;sources.use&#39;) to other cell groups (defined by &#39;targets.use&#39;)</span></span>
+<span id="cb203-2"><a href="cellchat-单数据集分析.html#cb203-2" tabindex="-1"></a><span class="fu">netVisual_bubble</span>(cellchat, <span class="at">sources.use =</span> <span class="dv">2</span>, <span class="at">targets.use =</span> <span class="fu">c</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">9</span>), <span class="at">remove.isolate =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="cellchat-单数据集分析.html#cb204-1" tabindex="-1"></a><span class="co"># (2) show all the significant interactions (L-R pairs) associated with certain signaling pathways</span></span>
+<span id="cb204-2"><a href="cellchat-单数据集分析.html#cb204-2" tabindex="-1"></a><span class="fu">netVisual_bubble</span>(cellchat, <span class="at">sources.use =</span> <span class="dv">2</span>, <span class="at">targets.use =</span> <span class="fu">c</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">9</span>), <span class="at">signaling =</span> <span class="fu">c</span>(<span class="st">&quot;MIF&quot;</span>,<span class="st">&quot;GALECTIN&quot;</span>), <span class="at">remove.isolate =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="cellchat-单数据集分析.html#cb205-1" tabindex="-1"></a><span class="co"># (3) show all the significant interactions (L-R pairs) based on user&#39;s input (defined by `pairLR.use`)</span></span>
+<span id="cb205-2"><a href="cellchat-单数据集分析.html#cb205-2" tabindex="-1"></a>pairLR.use <span class="ot">&lt;-</span> <span class="fu">extractEnrichedLR</span>(cellchat, <span class="at">signaling =</span> <span class="fu">c</span>(<span class="st">&quot;MIF&quot;</span>,<span class="st">&quot;GALECTIN&quot;</span>,<span class="st">&quot;ANNEXIN&quot;</span>))</span>
+<span id="cb205-3"><a href="cellchat-单数据集分析.html#cb205-3" tabindex="-1"></a><span class="fu">netVisual_bubble</span>(cellchat, <span class="at">sources.use =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>), <span class="at">targets.use =</span> <span class="fu">c</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>), <span class="at">pairLR.use =</span> pairLR.use, <span class="at">remove.isolate =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="cellchat-单数据集分析.html#cb206-1" tabindex="-1"></a><span class="co"># set the order of interacting cell pairs on x-axis</span></span>
+<span id="cb206-2"><a href="cellchat-单数据集分析.html#cb206-2" tabindex="-1"></a><span class="co"># (4) 默认情况下，细胞对是根据来源细胞在 `object@idents` 中的出现顺序进行排序的，如果来源相同，则根据目标细胞的出现顺序排序。</span></span>
+<span id="cb206-3"><a href="cellchat-单数据集分析.html#cb206-3" tabindex="-1"></a><span class="co"># (5) 根据用户定义的目标 (target) 进行排序</span></span>
+<span id="cb206-4"><a href="cellchat-单数据集分析.html#cb206-4" tabindex="-1"></a><span class="fu">netVisual_bubble</span>(cellchat, <span class="at">targets.use =</span> <span class="fu">c</span>(<span class="st">&quot;MIF&quot;</span>, <span class="st">&quot;GALECTIN&quot;</span>, <span class="st">&quot;ANNEXIN&quot;</span>, <span class="st">&quot;CD40&quot;</span>, <span class="st">&quot;IL16&quot;</span>), <span class="at">pairLR.use =</span> pairLR.use, <span class="at">remove.isolate =</span> <span class="cn">TRUE</span>, <span class="at">sort.by.target =</span> T)</span>
+<span id="cb206-5"><a href="cellchat-单数据集分析.html#cb206-5" tabindex="-1"></a><span class="co"># (6) 根据用户定义的来源 (source) 进行排序</span></span>
+<span id="cb206-6"><a href="cellchat-单数据集分析.html#cb206-6" tabindex="-1"></a><span class="fu">netVisual_bubble</span>(cellchat, <span class="at">sources.use =</span> <span class="fu">c</span>(<span class="st">&quot;FBN1+ FIB&quot;</span>,<span class="st">&quot;APOE+ FIB&quot;</span>,<span class="st">&quot;Inflam. FIB&quot;</span>), <span class="at">pairLR.use =</span> pairLR.use, <span class="at">remove.isolate =</span> <span class="cn">TRUE</span>, <span class="at">sort.by.source =</span> T)</span>
+<span id="cb206-7"><a href="cellchat-单数据集分析.html#cb206-7" tabindex="-1"></a><span class="co"># (7) 先根据来源再根据目标进行排序</span></span>
+<span id="cb206-8"><a href="cellchat-单数据集分析.html#cb206-8" tabindex="-1"></a><span class="fu">netVisual_bubble</span>(cellchat, <span class="at">sources.use =</span> <span class="fu">c</span>(<span class="st">&quot;FBN1+ FIB&quot;</span>,<span class="st">&quot;APOE+ FIB&quot;</span>,<span class="st">&quot;Inflam. FIB&quot;</span>), <span class="at">targets.use =</span> <span class="fu">c</span>(<span class="st">&quot;LC&quot;</span>,<span class="st">&quot;Inflam. DC&quot;</span>,<span class="st">&quot;cDC2&quot;</span>,<span class="st">&quot;CD40LG+ TC&quot;</span>), <span class="at">pairLR.use =</span> pairLR.use, <span class="at">remove.isolate =</span> <span class="cn">TRUE</span>, <span class="at">sort.by.source =</span> T, <span class="at">sort.by.target =</span> T)</span>
+<span id="cb206-9"><a href="cellchat-单数据集分析.html#cb206-9" tabindex="-1"></a><span class="co"># (8) 先根据目标再根据来源进行排序</span></span>
+<span id="cb206-10"><a href="cellchat-单数据集分析.html#cb206-10" tabindex="-1"></a><span class="fu">netVisual_bubble</span>(cellchat, <span class="at">sources.use =</span> <span class="fu">c</span>(<span class="st">&quot;FBN1+ FIB&quot;</span>,<span class="st">&quot;APOE+ FIB&quot;</span>,<span class="st">&quot;Inflam. FIB&quot;</span>), <span class="at">targets.use =</span> <span class="fu">c</span>(<span class="st">&quot;LC&quot;</span>,<span class="st">&quot;Inflam. DC&quot;</span>,<span class="st">&quot;cDC2&quot;</span>,<span class="st">&quot;CD40LG+ TC&quot;</span>), <span class="at">pairLR.use =</span> pairLR.use, <span class="at">remove.isolate =</span> <span class="cn">TRUE</span>, <span class="at">sort.by.source =</span> T, <span class="at">sort.by.target =</span> T, <span class="at">sort.by.source.priority =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+</div>
+<div id="b和弦图" class="section level4 hasAnchor" number="12.3.3.2">
+<h4><span class="header-section-number">12.3.3.2</span> B：和弦图<a href="cellchat-单数据集分析.html#b和弦图" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>类似于气泡图，CellChat 提供了一个 netVisual_chord_gene 的功能来绘制弦图</p>
+<ul>
+<li>显示某些细胞组到其他细胞组的所有相互作用（L-R 对或信号通路）。有两种特殊情况：一种是显示从一个细胞组发送的所有相互作用，另一种是显示一个细胞组接收的所有相互作用 。<br />
+</li>
+<li>显示用户输入的相互作用或用户定义的某些信号通路</li>
+</ul>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="cellchat-单数据集分析.html#cb207-1" tabindex="-1"></a><span class="co"># 显示从某些细胞群体（由 &#39;sources.use&#39; 定义）到其他细胞群体（由 &#39;targets.use&#39; 定义）的所有显著相互作用（配体-受体对）。</span></span>
+<span id="cb207-2"><a href="cellchat-单数据集分析.html#cb207-2" tabindex="-1"></a><span class="co"># 显示从 B 细胞发送的所有相互作用。</span></span>
+<span id="cb207-3"><a href="cellchat-单数据集分析.html#cb207-3" tabindex="-1"></a><span class="fu">netVisual_chord_gene</span>(cellchat, <span class="at">sources.use =</span> <span class="dv">4</span>, <span class="at">targets.use =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>), <span class="at">lab.cex =</span> <span class="fl">0.5</span>, <span class="at">legend.pos.y =</span> <span class="dv">30</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="cellchat-单数据集分析.html#cb208-1" tabindex="-1"></a><span class="co"># 显示树突状细胞（DC）接收到的所有相互作用。</span></span>
+<span id="cb208-2"><a href="cellchat-单数据集分析.html#cb208-2" tabindex="-1"></a><span class="fu">netVisual_chord_gene</span>(cellchat, <span class="at">sources.use =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>), <span class="at">targets.use =</span> <span class="dv">8</span>, <span class="at">legend.pos.x =</span> <span class="dv">15</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-28-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="cellchat-单数据集分析.html#cb209-1" tabindex="-1"></a><span class="co"># 显示与特定信号通路相关的所有显著相互作用（配体-受体对）。</span></span>
+<span id="cb209-2"><a href="cellchat-单数据集分析.html#cb209-2" tabindex="-1"></a><span class="fu">netVisual_chord_gene</span>(cellchat, <span class="at">sources.use =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>), <span class="at">targets.use =</span> <span class="fu">c</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">9</span>), <span class="at">signaling =</span> <span class="fu">c</span>(<span class="st">&quot;MIF&quot;</span>,<span class="st">&quot;GALECTIN&quot;</span>),<span class="at">legend.pos.x =</span> <span class="dv">8</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="cellchat-单数据集分析.html#cb210-1" tabindex="-1"></a><span class="co"># 显示从某些细胞群体（由 &#39;sources.use&#39; 定义）到其他细胞群体（由 &#39;targets.use&#39; 定义）的所有显著信号通路。</span></span>
+<span id="cb210-2"><a href="cellchat-单数据集分析.html#cb210-2" tabindex="-1"></a><span class="fu">netVisual_chord_gene</span>(cellchat, <span class="at">sources.use =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>), <span class="at">targets.use =</span> <span class="fu">c</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>), <span class="at">slot.name =</span> <span class="st">&quot;netP&quot;</span>, <span class="at">legend.pos.x =</span> <span class="dv">10</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-30-1.png" width="672" style="display: block; margin: auto;" />
+注意：生成图表时请忽略诸如“注意：第一个连接端绘制在‘MIF’扇区之外”的注释。若基因名称重叠，可通过减小参数 <code>small.gap</code> 的值进行调整。</p>
+</div>
+</div>
+<div id="使用小提琴图点图绘制信号基因表达分布" class="section level3 hasAnchor" number="12.3.4">
+<h3><span class="header-section-number">12.3.4</span> 使用小提琴图/点图绘制信号基因表达分布<a href="cellchat-单数据集分析.html#使用小提琴图点图绘制信号基因表达分布" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>若已安装 Seurat R 包，CellChat 可通过其封装函数 plotGeneExpression 绘制与配体-受体对或信号通路相关的信号基因表达分布图。
+该函数提供三种可视化类型：“violin”（小提琴图）、“dot”（点图）、“bar”（条形图）。
+用户亦可使用 extractEnrichedLR 提取推断出的配体-受体对或信号通路相关信号基因，再借助 Seurat 或其他软件包进行基因表达可视化。</p>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="cellchat-单数据集分析.html#cb211-1" tabindex="-1"></a><span class="fu">plotGeneExpression</span>(cellchat, <span class="at">signaling =</span> <span class="st">&quot;CD40&quot;</span>, <span class="at">enriched.only =</span> <span class="cn">TRUE</span>, <span class="at">type =</span> <span class="st">&quot;violin&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-31-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>默认情况下， plotGeneExpression 仅显示与推断出的显著通讯相关的信号基因表达。用户可通过设置展示特定信号通路下所有相关信号基因的表达情况。</p>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="cellchat-单数据集分析.html#cb212-1" tabindex="-1"></a><span class="fu">plotGeneExpression</span>(cellchat, <span class="at">signaling =</span> <span class="st">&quot;CD40&quot;</span>, <span class="at">enriched.only =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-32-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="细胞间通信网络的系统分析" class="section level2 hasAnchor" number="12.4">
+<h2><span class="header-section-number">12.4</span> 细胞间通信网络的系统分析<a href="cellchat-单数据集分析.html#细胞间通信网络的系统分析" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>为便于解析复杂的细胞间通讯网络，CellChat 通过从图论 (graph theory)、模式识别 (pattern recognition) 和流形学习 (manifold learning) 的方法对网络进行量化分析。</p>
+<ul>
+<li><p>它可以使用网络分析中的中心性度量来确定给定信号网络中的主要信号源和目标，以及介导者和影响者。</p></li>
+<li><p>它可以通过利用模式识别方法预测特定细胞类型的关键进出信号以及不同细胞类型之间的协调反应。</p></li>
+<li><p>它可以通过定义相似性度量并从功能和拓扑的角度进行流形学习来对信号通路进行分组。</p></li>
+<li><p>它可以通过对多个网络的联合流形学习来描绘保守和特定上下文的信号通路。</p></li>
+</ul>
+<div id="确定细胞群体的信号角色例如主要发送者接收者以及主要贡献的信号" class="section level3 hasAnchor" number="12.4.1">
+<h3><span class="header-section-number">12.4.1</span> 确定细胞群体的信号角色（例如，主要发送者、接收者）以及主要贡献的信号<a href="cellchat-单数据集分析.html#确定细胞群体的信号角色例如主要发送者接收者以及主要贡献的信号" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>CellChat 通过计算每个细胞组的多个网络中心性度量，允许快速识别细胞间通信网络中的主导发送者、接收者、中介和影响者。具体而言，我们使用加权有向网络中的度量，包括出度、入度、流动介数和信息中心性，分别识别细胞间通信的主导发送者、接收者、中介和影响者。在一个加权有向网络中，权重为计算得出的通信概率，出度计算为细胞组发出的信号的通信概率之和，入度计算为细胞组接收的信号的通信概率之和，可以分别用于识别信号网络的主导细胞发送者和接收者。</p>
+<div id="a计算并可视化网络中心性分数" class="section level4 hasAnchor" number="12.4.1.1">
+<h4><span class="header-section-number">12.4.1.1</span> （A）计算并可视化网络中心性分数<a href="cellchat-单数据集分析.html#a计算并可视化网络中心性分数" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="cellchat-单数据集分析.html#cb213-1" tabindex="-1"></a><span class="co"># 计算网络中心性得分</span></span>
+<span id="cb213-2"><a href="cellchat-单数据集分析.html#cb213-2" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">netAnalysis_computeCentrality</span>(cellchat, <span class="at">slot.name =</span> <span class="st">&quot;netP&quot;</span>) <span class="co"># 插槽 &#39;netP&#39; 指的是推断的细胞间信号通路通信网络</span></span>
+<span id="cb213-3"><a href="cellchat-单数据集分析.html#cb213-3" tabindex="-1"></a><span class="co"># 使用热图可视化计算出的中心性得分，便于识别细胞群体的主要信号作用</span></span>
+<span id="cb213-4"><a href="cellchat-单数据集分析.html#cb213-4" tabindex="-1"></a><span class="fu">netAnalysis_signalingRole_network</span>(cellchat, <span class="at">signaling =</span> pathways.show, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="fl">2.5</span>, <span class="at">font.size =</span> <span class="dv">10</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-33-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="b在-2d-空间中可视化主要发送者来源和接收者目标" class="section level4 hasAnchor" number="12.4.1.2">
+<h4><span class="header-section-number">12.4.1.2</span> （B）在 2D 空间中可视化主要发送者（来源）和接收者（目标）<a href="cellchat-单数据集分析.html#b在-2d-空间中可视化主要发送者来源和接收者目标" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>CellChat 还提供了一种直观的方式，通过散点图在 2D 空间中可视化主要发送者（来源）和接收者（目标）。x 轴和 y 轴分别是与每个细胞群体相关的总外向或内向通信概率。点的大小与每个细胞群体相关的推断链接数量（包括外向和内向）成正比。点的颜色表示不同的细胞群体。如果定义了 <code>group</code> ，点的形状表示不同类别的细胞群体。</p>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="cellchat-单数据集分析.html#cb214-1" tabindex="-1"></a><span class="co"># 对所有信号通路的聚合细胞间通信网络进行信号作用分析</span></span>
+<span id="cb214-2"><a href="cellchat-单数据集分析.html#cb214-2" tabindex="-1"></a>gg1 <span class="ot">&lt;-</span> <span class="fu">netAnalysis_signalingRole_scatter</span>(cellchat)</span>
+<span id="cb214-3"><a href="cellchat-单数据集分析.html#cb214-3" tabindex="-1"></a><span class="co"># 对感兴趣的细胞间通信网络的信号作用分析</span></span>
+<span id="cb214-4"><a href="cellchat-单数据集分析.html#cb214-4" tabindex="-1"></a>gg2 <span class="ot">&lt;-</span> <span class="fu">netAnalysis_signalingRole_scatter</span>(cellchat, <span class="at">signaling =</span> <span class="fu">c</span>(<span class="st">&quot;MIF&quot;</span>,<span class="st">&quot;GALECTIN&quot;</span>))</span>
+<span id="cb214-5"><a href="cellchat-单数据集分析.html#cb214-5" tabindex="-1"></a></span>
+<span id="cb214-6"><a href="cellchat-单数据集分析.html#cb214-6" tabindex="-1"></a>gg1 <span class="sc">+</span> gg2</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-34-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="c识别对特定细胞群输出或输入信号贡献最大的信号" class="section level4 hasAnchor" number="12.4.1.3">
+<h4><span class="header-section-number">12.4.1.3</span> （C）识别对特定细胞群输出或输入信号贡献最大的信号<a href="cellchat-单数据集分析.html#c识别对特定细胞群输出或输入信号贡献最大的信号" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>我们还能解答哪些信号对特定细胞群的输出或输入信号贡献最大的问题。在此热图中，颜色条代表信号通路在不同细胞群间的相对信号强度（注：数值经过行标准化）。顶部彩色条形图通过汇总热图中所有信号通路来展示细胞群的总信号强度。右侧灰色条形图则通过汇总所有显示的细胞群来展示信号通路的总信号强度。</p>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="cellchat-单数据集分析.html#cb215-1" tabindex="-1"></a><span class="co"># 从所有信号通路对细胞-细胞通讯网络的聚集信号作用进行分析</span></span>
+<span id="cb215-2"><a href="cellchat-单数据集分析.html#cb215-2" tabindex="-1"></a>ht1 <span class="ot">&lt;-</span> <span class="fu">netAnalysis_signalingRole_heatmap</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;outgoing&quot;</span>)</span>
+<span id="cb215-3"><a href="cellchat-单数据集分析.html#cb215-3" tabindex="-1"></a>ht2 <span class="ot">&lt;-</span> <span class="fu">netAnalysis_signalingRole_heatmap</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;incoming&quot;</span>)</span>
+<span id="cb215-4"><a href="cellchat-单数据集分析.html#cb215-4" tabindex="-1"></a>ht1 <span class="sc">+</span> ht2</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-35-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="识别全局通讯模式探索多种细胞类型与信号通路如何协同作用" class="section level3 hasAnchor" number="12.4.2">
+<h3><span class="header-section-number">12.4.2</span> 识别全局通讯模式，探索多种细胞类型与信号通路如何协同作用<a href="cellchat-单数据集分析.html#识别全局通讯模式探索多种细胞类型与信号通路如何协同作用" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>除了探究单个通路的详细通讯情况外，一个重要问题是多个细胞群与信号通路如何协调运作。CellChat 采用模式识别方法来识别全局通讯模式。</p>
+<p>随着模式数量的增加，可能会出现冗余模式，从而难以解释通信模式。我们默认选择五种模式。通常情况下，模式数量大于 2 时具有生物学意义。此外，我们还提供了一个函数 <code>selectK</code> 来推断模式数量，该函数基于 NMF R 包中已实现的两个指标，包括 Cophenetic 和 Silhouette。这两个指标基于共识矩阵的层次聚类来衡量特定数量模式的稳定性。对于一定范围内的模式数量，合适的模式数量是 Cophenetic 和 Silhouette 值突然开始下降时的数值。</p>
+<p>该分析可针对传出（选项 A）和传入（选项 B）信号模式进行。传出模式揭示了发送细胞（即作为信号源的细胞）如何相互协调，以及它们如何与特定信号通路协同驱动通讯。传入模式则展示了目标细胞（即作为信号接收者的细胞）如何相互协调，以及它们如何与特定信号通路协同响应传入信号。</p>
+<div id="a识别并可视化分泌细胞的传出通讯模式" class="section level4 hasAnchor" number="12.4.2.1">
+<h4><span class="header-section-number">12.4.2.1</span> （A）识别并可视化分泌细胞的传出通讯模式<a href="cellchat-单数据集分析.html#a识别并可视化分泌细胞的传出通讯模式" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>传出模式揭示了发送细胞（即作为信号源的细胞）如何相互协调，以及它们如何与特定信号通路协同驱动通讯。</p>
+<p>对于输出（或输入）模式，通过矩阵分解输出的细胞群模式矩阵 W 展示了这些细胞群如何协同发送（或接收）信号，而信号通路模式矩阵 H 则揭示了这些信号通路如何共同作用以发送（或接收）信号。为了直观展示潜在模式与细胞群、配体-受体对或信号通路之间的关联，我们采用了河流（冲积）图。首先，我们将 W 的每一行和 H 的每一列归一化至[0,1]范围，随后将 W 和 H 中小于阈值（默认值为 0.5）的元素设为零。这种阈值处理有助于揭示与每个推断模式相关的最富集细胞群和信号通路。经过阈值处理的矩阵 W 和 H 将作为创建冲积图的输入数据。</p>
+<p>此外，为了直接将细胞群与其富集的信号通路关联起来，我们设定矩阵 W 和 H 中的元素若小于阈值（默认值为 1/R，其中 R 为潜在模式数量）则置零。通过采用较宽松的阈值，可能获得更多与各细胞群相关的富集信号通路。利用通过 W 乘以 H 计算得到的各细胞群对每条信号通路的贡献分数，我们构建了点阵图——图中点的大小与贡献分数成正比，用以展示细胞群与其富集信号通路之间的关联。用户还可调低参数 cutoff 以显示更多与各细胞群相关的富集信号通路。</p>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="cellchat-单数据集分析.html#cb216-1" tabindex="-1"></a><span class="fu">selectK</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;outgoing&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-36-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>当外向通信模式数量为 2 时，同构系数和轮廓系数均开始骤降。</p>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="cellchat-单数据集分析.html#cb217-1" tabindex="-1"></a>nPatterns <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb217-2"><a href="cellchat-单数据集分析.html#cb217-2" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">identifyCommunicationPatterns</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;outgoing&quot;</span>, <span class="at">k =</span> nPatterns)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-37-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="cellchat-单数据集分析.html#cb218-1" tabindex="-1"></a><span class="co"># river plot</span></span>
+<span id="cb218-2"><a href="cellchat-单数据集分析.html#cb218-2" tabindex="-1"></a><span class="fu">netAnalysis_river</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;outgoing&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-38-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="cellchat-单数据集分析.html#cb219-1" tabindex="-1"></a><span class="co"># dot plot</span></span>
+<span id="cb219-2"><a href="cellchat-单数据集分析.html#cb219-2" tabindex="-1"></a><span class="fu">netAnalysis_dot</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;outgoing&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-39-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="b-识别并可视化目标细胞的传入通信模式" class="section level4 hasAnchor" number="12.4.2.2">
+<h4><span class="header-section-number">12.4.2.2</span> (B) 识别并可视化目标细胞的传入通信模式<a href="cellchat-单数据集分析.html#b-识别并可视化目标细胞的传入通信模式" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>传入模式展示了靶细胞（即作为信号接收者的细胞）如何相互协调，以及它们如何与特定信号通路协调以响应传入信号。</p>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="cellchat-单数据集分析.html#cb220-1" tabindex="-1"></a><span class="fu">selectK</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;incoming&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-40-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>当传入模式数量为 3 时，共表型值开始下降。</p>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="cellchat-单数据集分析.html#cb221-1" tabindex="-1"></a>nPatterns <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb221-2"><a href="cellchat-单数据集分析.html#cb221-2" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">identifyCommunicationPatterns</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;incoming&quot;</span>, <span class="at">k =</span> nPatterns)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-41-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="cellchat-单数据集分析.html#cb222-1" tabindex="-1"></a><span class="co"># river plot</span></span>
+<span id="cb222-2"><a href="cellchat-单数据集分析.html#cb222-2" tabindex="-1"></a><span class="fu">netAnalysis_river</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;incoming&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-42-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="cellchat-单数据集分析.html#cb223-1" tabindex="-1"></a><span class="co"># dot plot</span></span>
+<span id="cb223-2"><a href="cellchat-单数据集分析.html#cb223-2" tabindex="-1"></a><span class="fu">netAnalysis_dot</span>(cellchat, <span class="at">pattern =</span> <span class="st">&quot;incoming&quot;</span>)</span></code></pre></div>
+<p><img src="03-3-1-cellchat%E5%8D%95%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E6%9E%90_files/figure-html/unnamed-chunk-43-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="信号网络的流形与分类学习分析" class="section level3 hasAnchor" number="12.4.3">
+<h3><span class="header-section-number">12.4.3</span> 信号网络的流形与分类学习分析<a href="cellchat-单数据集分析.html#信号网络的流形与分类学习分析" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>此外，CellChat 能够量化所有重要信号通路之间的相似性，并根据它们的细胞通讯网络相似性进行分组。分组可以基于功能相似性或结构相似性来完成。</p>
+<p>功能相似性：高度的功能相似性表明主要的发送者和接收者相似，可以解释为这两种信号通路或两种配体-受体对表现出相似和/或冗余的作用。功能相似性分析要求两个数据集之间具有相同的细胞群体组成。</p>
+<p>结构相似性：采用结构相似性来比较它们的信号网络结构，不考虑发送者和接收者的相似性。</p>
+<div id="基于功能相似性识别信号组" class="section level4 hasAnchor" number="12.4.3.1">
+<h4><span class="header-section-number">12.4.3.1</span> 基于功能相似性识别信号组<a href="cellchat-单数据集分析.html#基于功能相似性识别信号组" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="cellchat-单数据集分析.html#cb224-1" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">computeNetSimilarity</span>(cellchat, <span class="at">type =</span> <span class="st">&quot;functional&quot;</span>)</span>
+<span id="cb224-2"><a href="cellchat-单数据集分析.html#cb224-2" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">netEmbedding</span>(cellchat, <span class="at">type =</span> <span class="st">&quot;functional&quot;</span>)</span>
+<span id="cb224-3"><a href="cellchat-单数据集分析.html#cb224-3" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">netClustering</span>(cellchat, <span class="at">type =</span> <span class="st">&quot;functional&quot;</span>)</span>
+<span id="cb224-4"><a href="cellchat-单数据集分析.html#cb224-4" tabindex="-1"></a></span>
+<span id="cb224-5"><a href="cellchat-单数据集分析.html#cb224-5" tabindex="-1"></a><span class="fu">netVisual_embedding</span>(cellchat, <span class="at">type =</span> <span class="st">&quot;functional&quot;</span>, <span class="at">label.size =</span> <span class="fl">3.5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="cellchat-单数据集分析.html#cb225-1" tabindex="-1"></a><span class="fu">netVisual_embeddingZoomIn</span>(cellchat, <span class="at">type =</span> <span class="st">&quot;functional&quot;</span>, <span class="at">nCol =</span> <span class="dv">2</span>)</span></code></pre></div>
+</div>
+<div id="基于结构相似性识别信号组" class="section level4 hasAnchor" number="12.4.3.2">
+<h4><span class="header-section-number">12.4.3.2</span> 基于结构相似性识别信号组<a href="cellchat-单数据集分析.html#基于结构相似性识别信号组" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="cellchat-单数据集分析.html#cb226-1" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">computeNetSimilarity</span>(cellchat, <span class="at">type =</span> <span class="st">&quot;structural&quot;</span>)</span>
+<span id="cb226-2"><a href="cellchat-单数据集分析.html#cb226-2" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">netEmbedding</span>(cellchat, <span class="at">type =</span> <span class="st">&quot;structural&quot;</span>)</span>
+<span id="cb226-3"><a href="cellchat-单数据集分析.html#cb226-3" tabindex="-1"></a>cellchat <span class="ot">&lt;-</span> <span class="fu">netClustering</span>(cellchat, <span class="at">type =</span> <span class="st">&quot;structural&quot;</span>)</span>
+<span id="cb226-4"><a href="cellchat-单数据集分析.html#cb226-4" tabindex="-1"></a><span class="fu">netVisual_embedding</span>(cellchat, <span class="at">type =</span> <span class="st">&quot;structural&quot;</span>, <span class="at">label.size =</span> <span class="fl">3.5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="cellchat-单数据集分析.html#cb227-1" tabindex="-1"></a><span class="fu">netVisual_embeddingZoomIn</span>(cellchat, <span class="at">type =</span> <span class="st">&quot;structural&quot;</span>, <span class="at">nCol =</span> <span class="dv">2</span>)</span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="保存-cellchaat-对象" class="section level2 hasAnchor" number="12.5">
+<h2><span class="header-section-number">12.5</span> 保存 cellchaat 对象<a href="cellchat-单数据集分析.html#保存-cellchaat-对象" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="cellchat-单数据集分析.html#cb228-1" tabindex="-1"></a><span class="fu">saveRDS</span>(cellchat, <span class="at">file =</span> <span class="st">&quot;cellchat_humanSkin_LS.rds&quot;</span>)</span></code></pre></div>
+</div>
+<div id="通过交互式-cellchat-探索器探索细胞间通讯" class="section level2 hasAnchor" number="12.6">
+<h2><span class="header-section-number">12.6</span> 通过交互式 CellChat 探索器探索细胞间通讯<a href="cellchat-单数据集分析.html#通过交互式-cellchat-探索器探索细胞间通讯" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>进行单细胞转录组 CellChat 分析时，请确保 <code>object@dr</code> 包含数据的低维空间（如“umap”和“tsne”），以便生成信号基因的特征图。可通过 <code>addReduction</code> 函数添加新的降维空间。</p>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="cellchat-单数据集分析.html#cb229-1" tabindex="-1"></a><span class="fu">runCellChatApp</span>(cellchat)</span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="多样本拟时序分析.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="cellchat-多数据集对比分析.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/smileszh/scRNA-Seq/edit/master/03-3-1-CellChat单数据集分析.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>

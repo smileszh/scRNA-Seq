@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>第 9 章 细胞周期 | scRNA-Seq</title>
+  <title>第 18 章 细胞周期 | scRNA-Seq</title>
   <meta name="description" content="This is an online note of the scRNA-Seq analysis." />
   <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="第 9 章 细胞周期 | scRNA-Seq" />
+  <meta property="og:title" content="第 18 章 细胞周期 | scRNA-Seq" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is an online note of the scRNA-Seq analysis." />
   <meta name="github-repo" content="smileszh/scRNA-Seq" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="第 9 章 细胞周期 | scRNA-Seq" />
+  <meta name="twitter:title" content="第 18 章 细胞周期 | scRNA-Seq" />
   
   <meta name="twitter:description" content="This is an online note of the scRNA-Seq analysis." />
   
@@ -23,7 +23,7 @@
 <meta name="author" content="苏总华" />
 
 
-<meta name="date" content="2025-04-08" />
+<meta name="date" content="2025-04-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -52,6 +52,8 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -66,7 +68,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -141,106 +143,233 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>前言</a></li>
-<li class="part"><span><b>I 单样本分析</b></span></li>
-<li class="chapter" data-level="1" data-path="seurat-教程.html"><a href="seurat-教程.html"><i class="fa fa-check"></i><b>1</b> Seurat 教程</a>
+<li class="part"><span><b>I Seurat</b></span></li>
+<li class="chapter" data-level="1" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html"><i class="fa fa-check"></i><b>1</b> Seurat 标准处理流程</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="seurat-教程.html"><a href="seurat-教程.html#数据和r包准备"><i class="fa fa-check"></i><b>1.1</b> 数据和R包准备</a></li>
-<li class="chapter" data-level="1.2" data-path="seurat-教程.html"><a href="seurat-教程.html#读取数据"><i class="fa fa-check"></i><b>1.2</b> 读取数据</a></li>
-<li class="chapter" data-level="1.3" data-path="seurat-教程.html"><a href="seurat-教程.html#质控"><i class="fa fa-check"></i><b>1.3</b> 质控</a>
-<ul>
-<li class="chapter" data-level="1.3.1" data-path="seurat-教程.html"><a href="seurat-教程.html#查看三个指标"><i class="fa fa-check"></i><b>1.3.1</b> 查看三个指标</a></li>
-<li class="chapter" data-level="1.3.2" data-path="seurat-教程.html"><a href="seurat-教程.html#三个指标之间的相关性"><i class="fa fa-check"></i><b>1.3.2</b> 三个指标之间的相关性</a></li>
-<li class="chapter" data-level="1.3.3" data-path="seurat-教程.html"><a href="seurat-教程.html#过滤"><i class="fa fa-check"></i><b>1.3.3</b> 过滤</a></li>
+<li class="chapter" data-level="1.1" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#设置-seurat-对象"><i class="fa fa-check"></i><b>1.1</b> 设置 Seurat 对象</a></li>
+<li class="chapter" data-level="1.2" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#qc-和选择细胞进行进一步分析"><i class="fa fa-check"></i><b>1.2</b> QC 和选择细胞进行进一步分析</a></li>
+<li class="chapter" data-level="1.3" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#数据标准化"><i class="fa fa-check"></i><b>1.3</b> 数据标准化</a></li>
+<li class="chapter" data-level="1.4" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#高度可变特征的识别特征选择"><i class="fa fa-check"></i><b>1.4</b> 高度可变特征的识别（特征选择）</a></li>
+<li class="chapter" data-level="1.5" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#缩放数据"><i class="fa fa-check"></i><b>1.5</b> 缩放数据</a></li>
+<li class="chapter" data-level="1.6" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#线性降维"><i class="fa fa-check"></i><b>1.6</b> 线性降维</a></li>
+<li class="chapter" data-level="1.7" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#确定数据集的维度"><i class="fa fa-check"></i><b>1.7</b> 确定数据集的“维度”</a></li>
+<li class="chapter" data-level="1.8" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#细胞聚类"><i class="fa fa-check"></i><b>1.8</b> 细胞聚类</a></li>
+<li class="chapter" data-level="1.9" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#运行非线性降维umaptsne"><i class="fa fa-check"></i><b>1.9</b> 运行非线性降维（UMAP/tSNE）</a></li>
+<li class="chapter" data-level="1.10" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#寻找差异表达的特征聚类-marker"><i class="fa fa-check"></i><b>1.10</b> 寻找差异表达的特征（聚类 Marker）</a></li>
+<li class="chapter" data-level="1.11" data-path="seurat-标准处理流程.html"><a href="seurat-标准处理流程.html#根据-marker-基因确定细胞"><i class="fa fa-check"></i><b>1.11</b> 根据 marker 基因确定细胞</a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="seurat-教程.html"><a href="seurat-教程.html#找高变基因-hvg"><i class="fa fa-check"></i><b>1.4</b> 找高变基因 (HVG)</a></li>
-<li class="chapter" data-level="1.5" data-path="seurat-教程.html"><a href="seurat-教程.html#标准化和降维"><i class="fa fa-check"></i><b>1.5</b> 标准化和降维</a>
+<li class="chapter" data-level="2" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html"><i class="fa fa-check"></i><b>2</b> Seurat 数据可视化</a>
 <ul>
-<li class="chapter" data-level="1.5.1" data-path="seurat-教程.html"><a href="seurat-教程.html#线性降维pca"><i class="fa fa-check"></i><b>1.5.1</b> 线性降维PCA</a></li>
-<li class="chapter" data-level="1.5.2" data-path="seurat-教程.html"><a href="seurat-教程.html#umap-和-t-sne"><i class="fa fa-check"></i><b>1.5.2</b> UMAP 和 t-sne</a></li>
+<li class="chapter" data-level="2.1" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#标记-marker-基因表达的五种可视化方式"><i class="fa fa-check"></i><b>2.1</b> 标记 Marker 基因表达的五种可视化方式</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#山脊图"><i class="fa fa-check"></i><b>2.1.1</b> 山脊图</a></li>
+<li class="chapter" data-level="2.1.2" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#小提琴图"><i class="fa fa-check"></i><b>2.1.2</b> 小提琴图</a></li>
+<li class="chapter" data-level="2.1.3" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#特征图"><i class="fa fa-check"></i><b>2.1.3</b> 特征图</a></li>
+<li class="chapter" data-level="2.1.4" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#点图"><i class="fa fa-check"></i><b>2.1.4</b> 点图</a></li>
+<li class="chapter" data-level="2.1.5" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#热图"><i class="fa fa-check"></i><b>2.1.5</b> 热图</a></li>
 </ul></li>
-<li class="chapter" data-level="1.6" data-path="seurat-教程.html"><a href="seurat-教程.html#找-marker-基因"><i class="fa fa-check"></i><b>1.6</b> 找 marker 基因</a>
+<li class="chapter" data-level="2.2" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#ggplot2-联用"><i class="fa fa-check"></i><b>2.2</b> ggplot2 联用</a></li>
+<li class="chapter" data-level="2.3" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#交互式绘图功能"><i class="fa fa-check"></i><b>2.3</b> 交互式绘图功能</a>
 <ul>
-<li class="chapter" data-level="1.6.1" data-path="seurat-教程.html"><a href="seurat-教程.html#比较某个基因在几个cluster之间的表达量"><i class="fa fa-check"></i><b>1.6.1</b> 比较某个基因在几个cluster之间的表达量</a></li>
-<li class="chapter" data-level="1.6.2" data-path="seurat-教程.html"><a href="seurat-教程.html#marker基因的热图"><i class="fa fa-check"></i><b>1.6.2</b> marker基因的热图</a></li>
+<li class="chapter" data-level="2.3.1" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#hoverlocator"><i class="fa fa-check"></i><b>2.3.1</b> HoverLocator</a></li>
+<li class="chapter" data-level="2.3.2" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#cellselector"><i class="fa fa-check"></i><b>2.3.2</b> CellSelector</a></li>
 </ul></li>
-<li class="chapter" data-level="1.7" data-path="seurat-教程.html"><a href="seurat-教程.html#根据marker基因确定细胞"><i class="fa fa-check"></i><b>1.7</b> 根据marker基因确定细胞</a></li>
+<li class="chapter" data-level="2.4" data-path="seurat-数据可视化.html"><a href="seurat-数据可视化.html#绘图辅助工具"><i class="fa fa-check"></i><b>2.4</b> 绘图辅助工具</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="单样本分析.html"><a href="单样本分析.html"><i class="fa fa-check"></i><b>2</b> 单样本分析</a>
+<li class="chapter" data-level="3" data-path="seurat-中使用-sctransform-方法.html"><a href="seurat-中使用-sctransform-方法.html"><i class="fa fa-check"></i><b>3</b> Seurat 中使用 sctransform 方法</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="单样本分析.html"><a href="单样本分析.html#创建seurat对象"><i class="fa fa-check"></i><b>2.1</b> 创建Seurat对象</a></li>
-<li class="chapter" data-level="2.2" data-path="单样本分析.html"><a href="单样本分析.html#降维聚类分群"><i class="fa fa-check"></i><b>2.2</b> 降维聚类分群</a></li>
-<li class="chapter" data-level="2.3" data-path="单样本分析.html"><a href="单样本分析.html#maker-基因"><i class="fa fa-check"></i><b>2.3</b> maker 基因</a></li>
-<li class="chapter" data-level="2.4" data-path="单样本分析.html"><a href="单样本分析.html#maker-基因可视化"><i class="fa fa-check"></i><b>2.4</b> maker 基因可视化</a></li>
-<li class="chapter" data-level="2.5" data-path="单样本分析.html"><a href="单样本分析.html#注释亚群"><i class="fa fa-check"></i><b>2.5</b> 注释亚群</a></li>
+<li class="chapter" data-level="3.1" data-path="seurat-中使用-sctransform-方法.html"><a href="seurat-中使用-sctransform-方法.html#设置-seurat-对象-1"><i class="fa fa-check"></i><b>3.1</b> 设置 Seurat 对象</a></li>
+<li class="chapter" data-level="3.2" data-path="seurat-中使用-sctransform-方法.html"><a href="seurat-中使用-sctransform-方法.html#应用-sctransform-标准化方法"><i class="fa fa-check"></i><b>3.2</b> 应用 sctransform 标准化方法</a></li>
+<li class="chapter" data-level="3.3" data-path="seurat-中使用-sctransform-方法.html"><a href="seurat-中使用-sctransform-方法.html#通过-pca-降维和-umap-嵌入进行维度缩减"><i class="fa fa-check"></i><b>3.3</b> 通过 PCA 降维和 UMAP 嵌入进行维度缩减</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html"><i class="fa fa-check"></i><b>3</b> 单细胞二次分群</a>
+<li class="chapter" data-level="4" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html"><i class="fa fa-check"></i><b>4</b> scRNA-Seq 整合简介</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#示例数据"><i class="fa fa-check"></i><b>3.1</b> 示例数据</a></li>
-<li class="chapter" data-level="3.2" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#二次分群"><i class="fa fa-check"></i><b>3.2</b> 二次分群</a></li>
-<li class="chapter" data-level="3.3" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#marker基因及其可视化"><i class="fa fa-check"></i><b>3.3</b> marker基因及其可视化</a></li>
-<li class="chapter" data-level="3.4" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#放回原来的seurat对象里面"><i class="fa fa-check"></i><b>3.4</b> 放回原来的Seurat对象里面</a></li>
+<li class="chapter" data-level="4.1" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#设置-seurat-对象-2"><i class="fa fa-check"></i><b>4.1</b> 设置 Seurat 对象</a></li>
+<li class="chapter" data-level="4.2" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#执行非整合分析"><i class="fa fa-check"></i><b>4.2</b> 执行非整合分析</a></li>
+<li class="chapter" data-level="4.3" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#执行整合"><i class="fa fa-check"></i><b>4.3</b> 执行整合</a></li>
+<li class="chapter" data-level="4.4" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#识别保守的细胞类型标记基因"><i class="fa fa-check"></i><b>4.4</b> 识别保守的细胞类型标记基因</a></li>
+<li class="chapter" data-level="4.5" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#识别不同条件下的差异表达基因"><i class="fa fa-check"></i><b>4.5</b> 识别不同条件下的差异表达基因</a></li>
+<li class="chapter" data-level="4.6" data-path="scrna-seq-整合简介.html"><a href="scrna-seq-整合简介.html#使用-sctransform-标准化数据集进行整合"><i class="fa fa-check"></i><b>4.6</b> 使用 SCTransform 标准化数据集进行整合</a></li>
 </ul></li>
-<li class="part"><span><b>II 多样本分析</b></span></li>
-<li class="chapter" data-level="4" data-path="多样本分析.html"><a href="多样本分析.html"><i class="fa fa-check"></i><b>4</b> 多样本分析</a>
+<li class="chapter" data-level="5" data-path="searat-整合.html"><a href="searat-整合.html"><i class="fa fa-check"></i><b>5</b> Searat 整合</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="多样本分析.html"><a href="多样本分析.html#整理数据"><i class="fa fa-check"></i><b>4.1</b> 整理数据</a></li>
-<li class="chapter" data-level="4.2" data-path="多样本分析.html"><a href="多样本分析.html#批量读取"><i class="fa fa-check"></i><b>4.2</b> 批量读取</a></li>
-<li class="chapter" data-level="4.3" data-path="多样本分析.html"><a href="多样本分析.html#质控指标"><i class="fa fa-check"></i><b>4.3</b> 质控指标</a></li>
-<li class="chapter" data-level="4.4" data-path="多样本分析.html"><a href="多样本分析.html#整合降维聚类分群"><i class="fa fa-check"></i><b>4.4</b> 整合降维聚类分群</a></li>
-<li class="chapter" data-level="4.5" data-path="多样本分析.html"><a href="多样本分析.html#注释"><i class="fa fa-check"></i><b>4.5</b> 注释</a></li>
-<li class="chapter" data-level="4.6" data-path="多样本分析.html"><a href="多样本分析.html#分组可视化及组件细胞比例比较"><i class="fa fa-check"></i><b>4.6</b> 分组可视化及组件细胞比例比较</a></li>
-<li class="chapter" data-level="4.7" data-path="多样本分析.html"><a href="多样本分析.html#差异分析"><i class="fa fa-check"></i><b>4.7</b> 差异分析</a></li>
-<li class="chapter" data-level="4.8" data-path="多样本分析.html"><a href="多样本分析.html#伪bulk-转录组差异分析"><i class="fa fa-check"></i><b>4.8</b> 伪bulk 转录组差异分析</a></li>
+<li class="chapter" data-level="5.1" data-path="searat-整合.html"><a href="searat-整合.html#seurat-v5-对象中的层次结构"><i class="fa fa-check"></i><b>5.1</b> Seurat v5 对象中的层次结构</a></li>
+<li class="chapter" data-level="5.2" data-path="searat-整合.html"><a href="searat-整合.html#执行简化单行整合分析"><i class="fa fa-check"></i><b>5.2</b> 执行简化（单行）整合分析</a></li>
 </ul></li>
-<li class="part"><span><b>III 高阶分析</b></span></li>
-<li class="chapter" data-level="5" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html"><i class="fa fa-check"></i><b>5</b> 单样本拟时序分析</a>
+<li class="chapter" data-level="6" data-path="映射与注释查询数据集.html"><a href="映射与注释查询数据集.html"><i class="fa fa-check"></i><b>6</b> 映射与注释查询数据集</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html#构建细胞发育轨迹"><i class="fa fa-check"></i><b>5.1</b> 构建细胞发育轨迹</a></li>
-<li class="chapter" data-level="5.2" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html#绘图展示"><i class="fa fa-check"></i><b>5.2</b> 绘图展示</a></li>
+<li class="chapter" data-level="6.1" data-path="映射与注释查询数据集.html"><a href="映射与注释查询数据集.html#数据集预处理"><i class="fa fa-check"></i><b>6.1</b> 数据集预处理</a></li>
+<li class="chapter" data-level="6.2" data-path="映射与注释查询数据集.html"><a href="映射与注释查询数据集.html#使用集成参考进行细胞类型分类"><i class="fa fa-check"></i><b>6.2</b> 使用集成参考进行细胞类型分类</a></li>
+<li class="chapter" data-level="6.3" data-path="映射与注释查询数据集.html"><a href="映射与注释查询数据集.html#单模态-umap-投影"><i class="fa fa-check"></i><b>6.3</b> 单模态 UMAP 投影</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html"><i class="fa fa-check"></i><b>6</b> 多样本拟时序分析</a>
+<li class="chapter" data-level="7" data-path="差异表达分析.html"><a href="差异表达分析.html"><i class="fa fa-check"></i><b>7</b> 差异表达分析</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html#构建细胞发育轨迹-1"><i class="fa fa-check"></i><b>6.1</b> 构建细胞发育轨迹</a></li>
-<li class="chapter" data-level="6.2" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html#绘图展示-1"><i class="fa fa-check"></i><b>6.2</b> 绘图展示</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html"><i class="fa fa-check"></i><b>7</b> 细胞通讯分析</a>
+<li class="chapter" data-level="7.1" data-path="差异表达分析.html"><a href="差异表达分析.html#执行默认差异表达分析"><i class="fa fa-check"></i><b>7.1</b> 执行默认差异表达分析</a></li>
+<li class="chapter" data-level="7.2" data-path="差异表达分析.html"><a href="差异表达分析.html#在同一细胞类型内跨条件进行差异表达分析"><i class="fa fa-check"></i><b>7.2</b> 在同一细胞类型内跨条件进行差异表达分析</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#r包和数据"><i class="fa fa-check"></i><b>7.1</b> R包和数据</a></li>
-<li class="chapter" data-level="7.2" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#了解参考数据"><i class="fa fa-check"></i><b>7.2</b> 了解参考数据</a></li>
-<li class="chapter" data-level="7.3" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#构建cellchat对象"><i class="fa fa-check"></i><b>7.3</b> 构建cellchat对象</a></li>
-<li class="chapter" data-level="7.4" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#细胞通讯网络分析"><i class="fa fa-check"></i><b>7.4</b> 细胞通讯网络分析</a></li>
-<li class="chapter" data-level="7.5" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#画图展示"><i class="fa fa-check"></i><b>7.5</b> 画图展示</a>
-<ul>
-<li class="chapter" data-level="7.5.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#circle-plot"><i class="fa fa-check"></i><b>7.5.1</b> circle plot</a></li>
-<li class="chapter" data-level="7.5.2" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#chord-plot"><i class="fa fa-check"></i><b>7.5.2</b> chord plot</a></li>
-<li class="chapter" data-level="7.5.3" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#heatmap"><i class="fa fa-check"></i><b>7.5.3</b> heatmap</a></li>
-<li class="chapter" data-level="7.5.4" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#热图-展示每一类细胞是什么角色"><i class="fa fa-check"></i><b>7.5.4</b> 热图-展示每一类细胞是什么角色</a></li>
-<li class="chapter" data-level="7.5.5" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#气泡图-显示所有的显著的配体-受体对"><i class="fa fa-check"></i><b>7.5.5</b> 气泡图-显示所有的显著的配体-受体对</a></li>
-</ul></li>
-<li class="chapter" data-level="7.6" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#细胞通讯模式和信号网络"><i class="fa fa-check"></i><b>7.6</b> 细胞通讯模式和信号网络</a>
-<ul>
-<li class="chapter" data-level="7.6.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#选择合适的partten细胞通讯模式的数量"><i class="fa fa-check"></i><b>7.6.1</b> 选择合适的partten（细胞通讯模式）的数量</a></li>
+<li class="chapter" data-level="7.2.1" data-path="差异表达分析.html"><a href="差异表达分析.html#执行伪批量分析后的差异表达分析"><i class="fa fa-check"></i><b>7.2.1</b> 执行伪批量分析后的差异表达分析</a></li>
+<li class="chapter" data-level="7.2.2" data-path="差异表达分析.html"><a href="差异表达分析.html#使用其他检验进行差异表达分析"><i class="fa fa-check"></i><b>7.2.2</b> 使用其他检验进行差异表达分析</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="gsva-分析.html"><a href="gsva-分析.html"><i class="fa fa-check"></i><b>8</b> GSVA 分析</a>
+<li class="chapter" data-level="8" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html"><i class="fa fa-check"></i><b>8</b> Seurat 命令列表</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="gsva-分析.html"><a href="gsva-分析.html#加载数据和r包"><i class="fa fa-check"></i><b>8.1</b> 加载数据和R包</a></li>
-<li class="chapter" data-level="8.2" data-path="gsva-分析.html"><a href="gsva-分析.html#做gsva"><i class="fa fa-check"></i><b>8.2</b> 做GSVA</a></li>
-<li class="chapter" data-level="8.3" data-path="gsva-分析.html"><a href="gsva-分析.html#热图可视化"><i class="fa fa-check"></i><b>8.3</b> 热图可视化</a></li>
+<li class="chapter" data-level="8.1" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#标准-seurat-工作流程"><i class="fa fa-check"></i><b>8.1</b> 标准 Seurat 工作流程</a></li>
+<li class="chapter" data-level="8.2" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#sctransform-版本"><i class="fa fa-check"></i><b>8.2</b> SCtransform 版本</a></li>
+<li class="chapter" data-level="8.3" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#seurat-对象数据访问"><i class="fa fa-check"></i><b>8.3</b> Seurat 对象数据访问</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#细胞基因及层级名称"><i class="fa fa-check"></i><b>8.3.1</b> 细胞、基因及层级名称</a></li>
+<li class="chapter" data-level="8.3.2" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#身份类别标签"><i class="fa fa-check"></i><b>8.3.2</b> 身份类别标签</a></li>
+<li class="chapter" data-level="8.3.3" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#细胞元数据"><i class="fa fa-check"></i><b>8.3.3</b> 细胞元数据</a></li>
+<li class="chapter" data-level="8.3.4" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#表达数据在-seurat-v5-中以图层形式存储"><i class="fa fa-check"></i><b>8.3.4</b> 表达数据（在 Seurat v5 中以图层形式存储）</a></li>
+<li class="chapter" data-level="8.3.5" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#降维"><i class="fa fa-check"></i><b>8.3.5</b> 降维</a></li>
+<li class="chapter" data-level="8.3.6" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#数据获取"><i class="fa fa-check"></i><b>8.3.6</b> 数据获取</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="细胞周期.html"><a href="细胞周期.html"><i class="fa fa-check"></i><b>9</b> 细胞周期</a>
+<li class="chapter" data-level="8.4" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#子集划分与合并"><i class="fa fa-check"></i><b>8.4</b> 子集划分与合并</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="细胞周期.html"><a href="细胞周期.html#读取数据并做好前期的质控"><i class="fa fa-check"></i><b>9.1</b> 读取数据并做好前期的质控</a>
-<ul>
-<li class="chapter" data-level="9.1.1" data-path="细胞周期.html"><a href="细胞周期.html#gse218208"><i class="fa fa-check"></i><b>9.1.1</b> GSE218208</a></li>
-<li class="chapter" data-level="9.1.2" data-path="细胞周期.html"><a href="细胞周期.html#marrow"><i class="fa fa-check"></i><b>9.1.2</b> marrow</a></li>
+<li class="chapter" data-level="8.4.1" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#子集-seurat-对象"><i class="fa fa-check"></i><b>8.4.1</b> 子集 Seurat 对象</a></li>
+<li class="chapter" data-level="8.4.2" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#分割图层"><i class="fa fa-check"></i><b>8.4.2</b> 分割图层</a></li>
+<li class="chapter" data-level="8.4.3" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#合并对象不带整合"><i class="fa fa-check"></i><b>8.4.3</b> 合并对象（不带整合)</a></li>
+<li class="chapter" data-level="8.4.4" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#合并对象带整合"><i class="fa fa-check"></i><b>8.4.4</b> 合并对象（带整合）’</a></li>
 </ul></li>
-<li class="chapter" data-level="9.2" data-path="细胞周期.html"><a href="细胞周期.html#计算细胞周期评分"><i class="fa fa-check"></i><b>9.2</b> 计算细胞周期评分</a></li>
-<li class="chapter" data-level="9.3" data-path="细胞周期.html"><a href="细胞周期.html#比较两个数据的细胞周期评分和pca"><i class="fa fa-check"></i><b>9.3</b> 比较两个数据的细胞周期评分和PCA</a></li>
-<li class="chapter" data-level="9.4" data-path="细胞周期.html"><a href="细胞周期.html#比较去除和不去处细胞周期影响的下游注释"><i class="fa fa-check"></i><b>9.4</b> 比较去除和不去处细胞周期影响的下游注释</a>
+<li class="chapter" data-level="8.5" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#伪-bulk-分析"><i class="fa fa-check"></i><b>8.5</b> 伪 bulk 分析</a>
 <ul>
-<li class="chapter" data-level="9.4.1" data-path="细胞周期.html"><a href="细胞周期.html#不考虑细胞周期的降维聚类分群"><i class="fa fa-check"></i><b>9.4.1</b> 不考虑细胞周期的降维聚类分群</a></li>
-<li class="chapter" data-level="9.4.2" data-path="细胞周期.html"><a href="细胞周期.html#考虑细胞周期的降维聚类分群"><i class="fa fa-check"></i><b>9.4.2</b> 考虑细胞周期的降维聚类分群</a></li>
+<li class="chapter" data-level="8.5.1" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#基于多个类别将细胞分组"><i class="fa fa-check"></i><b>8.5.1</b> 基于多个类别将细胞分组</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#在-seurat-中进行可视化"><i class="fa fa-check"></i><b>8.6</b> 在 Seurat 中进行可视化</a></li>
+<li class="chapter" data-level="8.7" data-path="seurat-命令列表.html"><a href="seurat-命令列表.html#多检测特征"><i class="fa fa-check"></i><b>8.7</b> 多检测特征</a></li>
+</ul></li>
+<li class="part"><span><b>II Seurat 实战</b></span></li>
+<li class="chapter" data-level="9" data-path="单样本分析.html"><a href="单样本分析.html"><i class="fa fa-check"></i><b>9</b> 单样本分析</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="单样本分析.html"><a href="单样本分析.html#创建seurat对象"><i class="fa fa-check"></i><b>9.1</b> 创建Seurat对象</a></li>
+<li class="chapter" data-level="9.2" data-path="单样本分析.html"><a href="单样本分析.html#降维聚类分群"><i class="fa fa-check"></i><b>9.2</b> 降维聚类分群</a></li>
+<li class="chapter" data-level="9.3" data-path="单样本分析.html"><a href="单样本分析.html#maker-基因"><i class="fa fa-check"></i><b>9.3</b> maker 基因</a></li>
+<li class="chapter" data-level="9.4" data-path="单样本分析.html"><a href="单样本分析.html#maker-基因可视化"><i class="fa fa-check"></i><b>9.4</b> maker 基因可视化</a></li>
+<li class="chapter" data-level="9.5" data-path="单样本分析.html"><a href="单样本分析.html#注释亚群"><i class="fa fa-check"></i><b>9.5</b> 注释亚群</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html"><i class="fa fa-check"></i><b>10</b> 单细胞二次分群</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#示例数据"><i class="fa fa-check"></i><b>10.1</b> 示例数据</a></li>
+<li class="chapter" data-level="10.2" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#二次分群"><i class="fa fa-check"></i><b>10.2</b> 二次分群</a></li>
+<li class="chapter" data-level="10.3" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#marker基因及其可视化"><i class="fa fa-check"></i><b>10.3</b> marker基因及其可视化</a></li>
+<li class="chapter" data-level="10.4" data-path="单细胞二次分群.html"><a href="单细胞二次分群.html#放回原来的seurat对象里面"><i class="fa fa-check"></i><b>10.4</b> 放回原来的Seurat对象里面</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="多样本分析.html"><a href="多样本分析.html"><i class="fa fa-check"></i><b>11</b> 多样本分析</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="多样本分析.html"><a href="多样本分析.html#整理数据"><i class="fa fa-check"></i><b>11.1</b> 整理数据</a></li>
+<li class="chapter" data-level="11.2" data-path="多样本分析.html"><a href="多样本分析.html#批量读取"><i class="fa fa-check"></i><b>11.2</b> 批量读取</a></li>
+<li class="chapter" data-level="11.3" data-path="多样本分析.html"><a href="多样本分析.html#质控指标"><i class="fa fa-check"></i><b>11.3</b> 质控指标</a></li>
+<li class="chapter" data-level="11.4" data-path="多样本分析.html"><a href="多样本分析.html#整合降维聚类分群"><i class="fa fa-check"></i><b>11.4</b> 整合降维聚类分群</a></li>
+<li class="chapter" data-level="11.5" data-path="多样本分析.html"><a href="多样本分析.html#注释"><i class="fa fa-check"></i><b>11.5</b> 注释</a></li>
+<li class="chapter" data-level="11.6" data-path="多样本分析.html"><a href="多样本分析.html#分组可视化及组件细胞比例比较"><i class="fa fa-check"></i><b>11.6</b> 分组可视化及组件细胞比例比较</a></li>
+<li class="chapter" data-level="11.7" data-path="多样本分析.html"><a href="多样本分析.html#差异分析"><i class="fa fa-check"></i><b>11.7</b> 差异分析</a></li>
+<li class="chapter" data-level="11.8" data-path="多样本分析.html"><a href="多样本分析.html#伪bulk-转录组差异分析"><i class="fa fa-check"></i><b>11.8</b> 伪bulk 转录组差异分析</a></li>
+</ul></li>
+<li class="part"><span><b>III 拟时序分析</b></span></li>
+<li class="chapter" data-level="12" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html"><i class="fa fa-check"></i><b>12</b> 单样本拟时序分析</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html#构建细胞发育轨迹"><i class="fa fa-check"></i><b>12.1</b> 构建细胞发育轨迹</a></li>
+<li class="chapter" data-level="12.2" data-path="单样本拟时序分析.html"><a href="单样本拟时序分析.html#绘图展示"><i class="fa fa-check"></i><b>12.2</b> 绘图展示</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html"><i class="fa fa-check"></i><b>13</b> 多样本拟时序分析</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html#构建细胞发育轨迹-1"><i class="fa fa-check"></i><b>13.1</b> 构建细胞发育轨迹</a></li>
+<li class="chapter" data-level="13.2" data-path="多样本拟时序分析.html"><a href="多样本拟时序分析.html#绘图展示-1"><i class="fa fa-check"></i><b>13.2</b> 绘图展示</a></li>
+</ul></li>
+<li class="part"><span><b>IV CellChat</b></span></li>
+<li class="chapter" data-level="14" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html"><i class="fa fa-check"></i><b>14</b> cellchat 单数据集分析</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#数据输入处理及-cellchat-对象初始化"><i class="fa fa-check"></i><b>14.1</b> 数据输入、处理及 cellchat 对象初始化</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#创建-cellchat-对象"><i class="fa fa-check"></i><b>14.1.1</b> 创建 cellchat 对象</a></li>
+<li class="chapter" data-level="14.1.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#设置配体-受体相互作用数据库"><i class="fa fa-check"></i><b>14.1.2</b> 设置配体-受体相互作用数据库</a></li>
+<li class="chapter" data-level="14.1.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#细胞间通讯分析的表达数据预处理"><i class="fa fa-check"></i><b>14.1.3</b> 细胞间通讯分析的表达数据预处理</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#细胞间通讯网络推断"><i class="fa fa-check"></i><b>14.2</b> 细胞间通讯网络推断</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#计算通讯概率并推断细胞通讯网络"><i class="fa fa-check"></i><b>14.2.1</b> 计算通讯概率并推断细胞通讯网络</a></li>
+<li class="chapter" data-level="14.2.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#将推断出的细胞通讯网络提取为一个数据框"><i class="fa fa-check"></i><b>14.2.2</b> 将推断出的细胞通讯网络提取为一个数据框。</a></li>
+<li class="chapter" data-level="14.2.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#在信号通路级别推断细胞-细胞通讯"><i class="fa fa-check"></i><b>14.2.3</b> 在信号通路级别推断细胞-细胞通讯</a></li>
+<li class="chapter" data-level="14.2.4" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#计算聚合的细胞-细胞通信网络"><i class="fa fa-check"></i><b>14.2.4</b> 计算聚合的细胞-细胞通信网络</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#细胞间通信网络的可视化"><i class="fa fa-check"></i><b>14.3</b> 细胞间通信网络的可视化</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#使用层次图圆形图或和弦图可视化每个信号通路"><i class="fa fa-check"></i><b>14.3.1</b> 使用层次图、圆形图或和弦图可视化每个信号通路</a></li>
+<li class="chapter" data-level="14.3.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#计算每个配体-受体对对整体信号通路的贡献并可视化由单个配体-受体对介导的细胞间通信"><i class="fa fa-check"></i><b>14.3.2</b> 计算每个配体-受体对对整体信号通路的贡献，并可视化由单个配体-受体对介导的细胞间通信</a></li>
+<li class="chapter" data-level="14.3.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#可视化由多个配体-受体或信号通路介导的细胞间通信"><i class="fa fa-check"></i><b>14.3.3</b> 可视化由多个配体-受体或信号通路介导的细胞间通信</a></li>
+<li class="chapter" data-level="14.3.4" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#使用小提琴图点图绘制信号基因表达分布"><i class="fa fa-check"></i><b>14.3.4</b> 使用小提琴图/点图绘制信号基因表达分布</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#细胞间通信网络的系统分析"><i class="fa fa-check"></i><b>14.4</b> 细胞间通信网络的系统分析</a>
+<ul>
+<li class="chapter" data-level="14.4.1" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#确定细胞群体的信号角色例如主要发送者接收者以及主要贡献的信号"><i class="fa fa-check"></i><b>14.4.1</b> 确定细胞群体的信号角色（例如，主要发送者、接收者）以及主要贡献的信号</a></li>
+<li class="chapter" data-level="14.4.2" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#识别全局通讯模式探索多种细胞类型与信号通路如何协同作用"><i class="fa fa-check"></i><b>14.4.2</b> 识别全局通讯模式，探索多种细胞类型与信号通路如何协同作用</a></li>
+<li class="chapter" data-level="14.4.3" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#信号网络的流形与分类学习分析"><i class="fa fa-check"></i><b>14.4.3</b> 信号网络的流形与分类学习分析</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#保存-cellchaat-对象"><i class="fa fa-check"></i><b>14.5</b> 保存 cellchaat 对象</a></li>
+<li class="chapter" data-level="14.6" data-path="cellchat-单数据集分析.html"><a href="cellchat-单数据集分析.html#通过交互式-cellchat-探索器探索细胞间通讯"><i class="fa fa-check"></i><b>14.6</b> 通过交互式 CellChat 探索器探索细胞间通讯</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html"><i class="fa fa-check"></i><b>15</b> cellchat 多数据集对比分析</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#加载各数据集的-cellchat-对象并合并"><i class="fa fa-check"></i><b>15.1</b> 加载各数据集的 CellChat 对象并合并</a></li>
+<li class="chapter" data-level="15.2" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别改变的互作与细胞群体"><i class="fa fa-check"></i><b>15.2</b> 识别改变的互作与细胞群体</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#比较相互作用的总数量及相互作用强度"><i class="fa fa-check"></i><b>15.2.1</b> 比较相互作用的总数量及相互作用强度</a></li>
+<li class="chapter" data-level="15.2.2" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#比较不同细胞群体间的相互作用数量及相互作用强度"><i class="fa fa-check"></i><b>15.2.2</b> 比较不同细胞群体间的相互作用数量及相互作用强度</a></li>
+<li class="chapter" data-level="15.2.3" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#在二维空间中比较主要来源和目标"><i class="fa fa-check"></i><b>15.2.3</b> 在二维空间中比较主要来源和目标</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别具有不同网络架构及相互作用强度的信号变化"><i class="fa fa-check"></i><b>15.3</b> 识别具有不同网络架构及相互作用强度的信号变化</a>
+<ul>
+<li class="chapter" data-level="15.3.1" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别差异较大或较小的信号网络并基于其功能结构相似性划分信号组"><i class="fa fa-check"></i><b>15.3.1</b> 识别差异较大（或较小）的信号网络，并基于其功能/结构相似性划分信号组</a></li>
+<li class="chapter" data-level="15.3.2" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别具有不同交互强度的改变信号"><i class="fa fa-check"></i><b>15.3.2</b> 识别具有不同交互强度的改变信号</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#识别上调和下调的信号配体-受体对"><i class="fa fa-check"></i><b>15.4</b> 识别上调和下调的信号配体-受体对</a>
+<ul>
+<li class="chapter" data-level="15.4.1" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#通过比较通信概率来识别功能失调的信号传导"><i class="fa fa-check"></i><b>15.4.1</b> 通过比较通信概率来识别功能失调的信号传导</a></li>
+<li class="chapter" data-level="15.4.2" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#通过使用差异表达分析识别功能失调的信号传导"><i class="fa fa-check"></i><b>15.4.2</b> 通过使用差异表达分析识别功能失调的信号传导</a></li>
+<li class="chapter" data-level="15.4.3" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#可视化识别出的上调和下调的信号配体-受体对"><i class="fa fa-check"></i><b>15.4.3</b> 可视化识别出的上调和下调的信号配体-受体对</a></li>
+</ul></li>
+<li class="chapter" data-level="15.5" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#使用层次图圆形图或和弦图可视化比较细胞间通信"><i class="fa fa-check"></i><b>15.5</b> 使用层次图、圆形图或和弦图可视化比较细胞间通信</a></li>
+<li class="chapter" data-level="15.6" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#比较不同数据集之间信号基因表达分布"><i class="fa fa-check"></i><b>15.6</b> 比较不同数据集之间信号基因表达分布</a></li>
+<li class="chapter" data-level="15.7" data-path="cellchat-多数据集对比分析.html"><a href="cellchat-多数据集对比分析.html#保存合并的-cellchat-对象"><i class="fa fa-check"></i><b>15.7</b> 保存合并的 CellChat 对象</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html"><i class="fa fa-check"></i><b>16</b> 细胞通讯分析</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#r包和数据"><i class="fa fa-check"></i><b>16.1</b> R包和数据</a></li>
+<li class="chapter" data-level="16.2" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#了解参考数据"><i class="fa fa-check"></i><b>16.2</b> 了解参考数据</a></li>
+<li class="chapter" data-level="16.3" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#构建cellchat对象"><i class="fa fa-check"></i><b>16.3</b> 构建cellchat对象</a></li>
+<li class="chapter" data-level="16.4" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#细胞通讯网络分析"><i class="fa fa-check"></i><b>16.4</b> 细胞通讯网络分析</a></li>
+<li class="chapter" data-level="16.5" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#画图展示"><i class="fa fa-check"></i><b>16.5</b> 画图展示</a>
+<ul>
+<li class="chapter" data-level="16.5.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#circle-plot"><i class="fa fa-check"></i><b>16.5.1</b> circle plot</a></li>
+<li class="chapter" data-level="16.5.2" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#chord-plot"><i class="fa fa-check"></i><b>16.5.2</b> chord plot</a></li>
+<li class="chapter" data-level="16.5.3" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#heatmap"><i class="fa fa-check"></i><b>16.5.3</b> heatmap</a></li>
+<li class="chapter" data-level="16.5.4" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#热图-展示每一类细胞是什么角色"><i class="fa fa-check"></i><b>16.5.4</b> 热图-展示每一类细胞是什么角色</a></li>
+<li class="chapter" data-level="16.5.5" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#气泡图-显示所有的显著的配体-受体对"><i class="fa fa-check"></i><b>16.5.5</b> 气泡图-显示所有的显著的配体-受体对</a></li>
+</ul></li>
+<li class="chapter" data-level="16.6" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#细胞通讯模式和信号网络"><i class="fa fa-check"></i><b>16.6</b> 细胞通讯模式和信号网络</a>
+<ul>
+<li class="chapter" data-level="16.6.1" data-path="细胞通讯分析.html"><a href="细胞通讯分析.html#选择合适的partten细胞通讯模式的数量"><i class="fa fa-check"></i><b>16.6.1</b> 选择合适的partten（细胞通讯模式）的数量</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="gsva-分析.html"><a href="gsva-分析.html"><i class="fa fa-check"></i><b>17</b> GSVA 分析</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="gsva-分析.html"><a href="gsva-分析.html#加载数据和r包"><i class="fa fa-check"></i><b>17.1</b> 加载数据和R包</a></li>
+<li class="chapter" data-level="17.2" data-path="gsva-分析.html"><a href="gsva-分析.html#做gsva"><i class="fa fa-check"></i><b>17.2</b> 做GSVA</a></li>
+<li class="chapter" data-level="17.3" data-path="gsva-分析.html"><a href="gsva-分析.html#热图可视化"><i class="fa fa-check"></i><b>17.3</b> 热图可视化</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="细胞周期.html"><a href="细胞周期.html"><i class="fa fa-check"></i><b>18</b> 细胞周期</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="细胞周期.html"><a href="细胞周期.html#读取数据并做好前期的质控"><i class="fa fa-check"></i><b>18.1</b> 读取数据并做好前期的质控</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="细胞周期.html"><a href="细胞周期.html#gse218208"><i class="fa fa-check"></i><b>18.1.1</b> GSE218208</a></li>
+<li class="chapter" data-level="18.1.2" data-path="细胞周期.html"><a href="细胞周期.html#marrow"><i class="fa fa-check"></i><b>18.1.2</b> marrow</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="细胞周期.html"><a href="细胞周期.html#计算细胞周期评分"><i class="fa fa-check"></i><b>18.2</b> 计算细胞周期评分</a></li>
+<li class="chapter" data-level="18.3" data-path="细胞周期.html"><a href="细胞周期.html#比较两个数据的细胞周期评分和pca"><i class="fa fa-check"></i><b>18.3</b> 比较两个数据的细胞周期评分和PCA</a></li>
+<li class="chapter" data-level="18.4" data-path="细胞周期.html"><a href="细胞周期.html#比较去除和不去处细胞周期影响的下游注释"><i class="fa fa-check"></i><b>18.4</b> 比较去除和不去处细胞周期影响的下游注释</a>
+<ul>
+<li class="chapter" data-level="18.4.1" data-path="细胞周期.html"><a href="细胞周期.html#不考虑细胞周期的降维聚类分群"><i class="fa fa-check"></i><b>18.4.1</b> 不考虑细胞周期的降维聚类分群</a></li>
+<li class="chapter" data-level="18.4.2" data-path="细胞周期.html"><a href="细胞周期.html#考虑细胞周期的降维聚类分群"><i class="fa fa-check"></i><b>18.4.2</b> 考虑细胞周期的降维聚类分群</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -263,8 +392,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="细胞周期" class="section level1 hasAnchor" number="9">
-<h1><span class="header-section-number">第 9 章</span> 细胞周期<a href="细胞周期.html#细胞周期" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="细胞周期" class="section level1 hasAnchor" number="18">
+<h1><span class="header-section-number">第 18 章</span> 细胞周期<a href="细胞周期.html#细胞周期" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>怎么知道我的单细胞数据需不需要去除细胞周期的影响呢</p>
 <p><strong>背景知识</strong></p>
 <p><img src="https://upload-images.jianshu.io/upload_images/9475888-eeb57b50f0caa7c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
@@ -272,245 +401,245 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>在一些数据中，细胞周期的影响很大，大到每个周期的细胞各自聚成一簇，严重影响下游的聚类和分群。有的数据中，细胞周期的影响非常之低，可以忽略不记。</p>
 <p>Seurat有自带的方法，根据在各个周期高表达的基因来计算细胞周期评分，根据评分的高低来推断细胞属于什么周期。</p>
 <p>让我们来康一康如何探索细胞周期，以及有影响和没影响的数据各自长什么样。</p>
-<div id="读取数据并做好前期的质控" class="section level2 hasAnchor" number="9.1">
-<h2><span class="header-section-number">9.1</span> 读取数据并做好前期的质控<a href="细胞周期.html#读取数据并做好前期的质控" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="读取数据并做好前期的质控" class="section level2 hasAnchor" number="18.1">
+<h2><span class="header-section-number">18.1</span> 读取数据并做好前期的质控<a href="细胞周期.html#读取数据并做好前期的质控" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>来自Seurat Vignette的示例数据</p>
 <p><a href="https://satijalab.org/seurat/articles/cell_cycle_vignette" class="uri">https://satijalab.org/seurat/articles/cell_cycle_vignette</a></p>
-<div id="gse218208" class="section level3 hasAnchor" number="9.1.1">
-<h3><span class="header-section-number">9.1.1</span> GSE218208<a href="细胞周期.html#gse218208" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="细胞周期.html#cb108-1" tabindex="-1"></a><span class="co">#untar(&quot;GSE218208_RAW.tar&quot;)</span></span>
-<span id="cb108-2"><a href="细胞周期.html#cb108-2" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
-<span id="cb108-3"><a href="细胞周期.html#cb108-3" tabindex="-1"></a>a <span class="ot">=</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="st">&quot;GSM6736629_10x-PBMC-1_ds0.1974_CountMatrix.tsv.gz&quot;</span>,<span class="at">data.table =</span> F)</span>
-<span id="cb108-4"><a href="细胞周期.html#cb108-4" tabindex="-1"></a>a[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
-<span id="cb108-5"><a href="细胞周期.html#cb108-5" tabindex="-1"></a><span class="do">##                 alias:gene AAACCCAAGTAGGGTC AAACCCACACCATTCC AAACCCATCTACACTT</span></span>
-<span id="cb108-6"><a href="细胞周期.html#cb108-6" tabindex="-1"></a><span class="do">## 1   TSPAN6:ENSG00000000003                0                0                0</span></span>
-<span id="cb108-7"><a href="细胞周期.html#cb108-7" tabindex="-1"></a><span class="do">## 2     DPM1:ENSG00000000419                0                1                0</span></span>
-<span id="cb108-8"><a href="细胞周期.html#cb108-8" tabindex="-1"></a><span class="do">## 3    SCYL3:ENSG00000000457                0                0                0</span></span>
-<span id="cb108-9"><a href="细胞周期.html#cb108-9" tabindex="-1"></a><span class="do">## 4 C1orf112:ENSG00000000460                0                0                0</span></span>
-<span id="cb108-10"><a href="细胞周期.html#cb108-10" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb108-11"><a href="细胞周期.html#cb108-11" tabindex="-1"></a>a<span class="sc">$</span><span class="st">`</span><span class="at">alias:gene</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">str_split_i</span>(a<span class="sc">$</span><span class="st">`</span><span class="at">alias:gene</span><span class="st">`</span>,<span class="st">&quot;:&quot;</span>,<span class="at">i =</span> <span class="dv">1</span>)</span>
-<span id="cb108-12"><a href="细胞周期.html#cb108-12" tabindex="-1"></a>a <span class="ot">=</span> <span class="fu">distinct</span>(a,<span class="st">`</span><span class="at">alias:gene</span><span class="st">`</span>,<span class="at">.keep_all =</span> T)</span>
-<span id="cb108-13"><a href="细胞周期.html#cb108-13" tabindex="-1"></a>a <span class="ot">=</span> <span class="fu">column_to_rownames</span>(a,<span class="at">var =</span> <span class="st">&quot;alias:gene&quot;</span>)</span>
-<span id="cb108-14"><a href="细胞周期.html#cb108-14" tabindex="-1"></a>a[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
-<span id="cb108-15"><a href="细胞周期.html#cb108-15" tabindex="-1"></a><span class="do">##          AAACCCAAGTAGGGTC AAACCCACACCATTCC AAACCCATCTACACTT AAACGAAAGCACGTCC</span></span>
-<span id="cb108-16"><a href="细胞周期.html#cb108-16" tabindex="-1"></a><span class="do">## TSPAN6                  0                0                0                0</span></span>
-<span id="cb108-17"><a href="细胞周期.html#cb108-17" tabindex="-1"></a><span class="do">## DPM1                    0                1                0                0</span></span>
-<span id="cb108-18"><a href="细胞周期.html#cb108-18" tabindex="-1"></a><span class="do">## SCYL3                   0                0                0                0</span></span>
-<span id="cb108-19"><a href="细胞周期.html#cb108-19" tabindex="-1"></a><span class="do">## C1orf112                0                0                0                0</span></span>
-<span id="cb108-20"><a href="细胞周期.html#cb108-20" tabindex="-1"></a><span class="fu">library</span>(Seurat)</span>
-<span id="cb108-21"><a href="细胞周期.html#cb108-21" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">CreateSeuratObject</span>(<span class="at">counts =</span> a, </span>
-<span id="cb108-22"><a href="细胞周期.html#cb108-22" tabindex="-1"></a>                           <span class="at">project =</span> <span class="st">&quot;a&quot;</span>, </span>
-<span id="cb108-23"><a href="细胞周期.html#cb108-23" tabindex="-1"></a>                           <span class="at">min.cells =</span> <span class="dv">3</span>, </span>
-<span id="cb108-24"><a href="细胞周期.html#cb108-24" tabindex="-1"></a>                           <span class="at">min.features =</span> <span class="dv">200</span>)</span>
-<span id="cb108-25"><a href="细胞周期.html#cb108-25" tabindex="-1"></a>pbmc[[<span class="st">&quot;percent.mt&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">PercentageFeatureSet</span>(pbmc, <span class="at">pattern =</span> <span class="st">&quot;^MT-&quot;</span>)</span>
-<span id="cb108-26"><a href="细胞周期.html#cb108-26" tabindex="-1"></a><span class="fu">head</span>(pbmc<span class="sc">@</span>meta.data, <span class="dv">3</span>)</span>
-<span id="cb108-27"><a href="细胞周期.html#cb108-27" tabindex="-1"></a><span class="do">##                  orig.ident nCount_RNA nFeature_RNA percent.mt</span></span>
-<span id="cb108-28"><a href="细胞周期.html#cb108-28" tabindex="-1"></a><span class="do">## AAACCCAAGTAGGGTC          a      10768         3213   7.030089</span></span>
-<span id="cb108-29"><a href="细胞周期.html#cb108-29" tabindex="-1"></a><span class="do">## AAACCCACACCATTCC          a       4102         1676   5.046319</span></span>
-<span id="cb108-30"><a href="细胞周期.html#cb108-30" tabindex="-1"></a><span class="do">## AAACCCATCTACACTT          a       4694         1740   6.305922</span></span>
-<span id="cb108-31"><a href="细胞周期.html#cb108-31" tabindex="-1"></a><span class="fu">VlnPlot</span>(pbmc, </span>
-<span id="cb108-32"><a href="细胞周期.html#cb108-32" tabindex="-1"></a>        <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;nFeature_RNA&quot;</span>,</span>
-<span id="cb108-33"><a href="细胞周期.html#cb108-33" tabindex="-1"></a>                     <span class="st">&quot;nCount_RNA&quot;</span>, </span>
-<span id="cb108-34"><a href="细胞周期.html#cb108-34" tabindex="-1"></a>                     <span class="st">&quot;percent.mt&quot;</span>), </span>
-<span id="cb108-35"><a href="细胞周期.html#cb108-35" tabindex="-1"></a>        <span class="at">ncol =</span> <span class="dv">3</span>,<span class="at">pt.size =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<div id="gse218208" class="section level3 hasAnchor" number="18.1.1">
+<h3><span class="header-section-number">18.1.1</span> GSE218208<a href="细胞周期.html#gse218208" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="细胞周期.html#cb323-1" tabindex="-1"></a><span class="co">#untar(&quot;GSE218208_RAW.tar&quot;)</span></span>
+<span id="cb323-2"><a href="细胞周期.html#cb323-2" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb323-3"><a href="细胞周期.html#cb323-3" tabindex="-1"></a>a <span class="ot">=</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="st">&quot;GSM6736629_10x-PBMC-1_ds0.1974_CountMatrix.tsv.gz&quot;</span>,<span class="at">data.table =</span> F)</span>
+<span id="cb323-4"><a href="细胞周期.html#cb323-4" tabindex="-1"></a>a[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb323-5"><a href="细胞周期.html#cb323-5" tabindex="-1"></a><span class="do">##                 alias:gene AAACCCAAGTAGGGTC AAACCCACACCATTCC AAACCCATCTACACTT</span></span>
+<span id="cb323-6"><a href="细胞周期.html#cb323-6" tabindex="-1"></a><span class="do">## 1   TSPAN6:ENSG00000000003                0                0                0</span></span>
+<span id="cb323-7"><a href="细胞周期.html#cb323-7" tabindex="-1"></a><span class="do">## 2     DPM1:ENSG00000000419                0                1                0</span></span>
+<span id="cb323-8"><a href="细胞周期.html#cb323-8" tabindex="-1"></a><span class="do">## 3    SCYL3:ENSG00000000457                0                0                0</span></span>
+<span id="cb323-9"><a href="细胞周期.html#cb323-9" tabindex="-1"></a><span class="do">## 4 C1orf112:ENSG00000000460                0                0                0</span></span>
+<span id="cb323-10"><a href="细胞周期.html#cb323-10" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb323-11"><a href="细胞周期.html#cb323-11" tabindex="-1"></a>a<span class="sc">$</span><span class="st">`</span><span class="at">alias:gene</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">str_split_i</span>(a<span class="sc">$</span><span class="st">`</span><span class="at">alias:gene</span><span class="st">`</span>,<span class="st">&quot;:&quot;</span>,<span class="at">i =</span> <span class="dv">1</span>)</span>
+<span id="cb323-12"><a href="细胞周期.html#cb323-12" tabindex="-1"></a>a <span class="ot">=</span> <span class="fu">distinct</span>(a,<span class="st">`</span><span class="at">alias:gene</span><span class="st">`</span>,<span class="at">.keep_all =</span> T)</span>
+<span id="cb323-13"><a href="细胞周期.html#cb323-13" tabindex="-1"></a>a <span class="ot">=</span> <span class="fu">column_to_rownames</span>(a,<span class="at">var =</span> <span class="st">&quot;alias:gene&quot;</span>)</span>
+<span id="cb323-14"><a href="细胞周期.html#cb323-14" tabindex="-1"></a>a[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb323-15"><a href="细胞周期.html#cb323-15" tabindex="-1"></a><span class="do">##          AAACCCAAGTAGGGTC AAACCCACACCATTCC AAACCCATCTACACTT AAACGAAAGCACGTCC</span></span>
+<span id="cb323-16"><a href="细胞周期.html#cb323-16" tabindex="-1"></a><span class="do">## TSPAN6                  0                0                0                0</span></span>
+<span id="cb323-17"><a href="细胞周期.html#cb323-17" tabindex="-1"></a><span class="do">## DPM1                    0                1                0                0</span></span>
+<span id="cb323-18"><a href="细胞周期.html#cb323-18" tabindex="-1"></a><span class="do">## SCYL3                   0                0                0                0</span></span>
+<span id="cb323-19"><a href="细胞周期.html#cb323-19" tabindex="-1"></a><span class="do">## C1orf112                0                0                0                0</span></span>
+<span id="cb323-20"><a href="细胞周期.html#cb323-20" tabindex="-1"></a><span class="fu">library</span>(Seurat)</span>
+<span id="cb323-21"><a href="细胞周期.html#cb323-21" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">CreateSeuratObject</span>(<span class="at">counts =</span> a, </span>
+<span id="cb323-22"><a href="细胞周期.html#cb323-22" tabindex="-1"></a>                           <span class="at">project =</span> <span class="st">&quot;a&quot;</span>, </span>
+<span id="cb323-23"><a href="细胞周期.html#cb323-23" tabindex="-1"></a>                           <span class="at">min.cells =</span> <span class="dv">3</span>, </span>
+<span id="cb323-24"><a href="细胞周期.html#cb323-24" tabindex="-1"></a>                           <span class="at">min.features =</span> <span class="dv">200</span>)</span>
+<span id="cb323-25"><a href="细胞周期.html#cb323-25" tabindex="-1"></a>pbmc[[<span class="st">&quot;percent.mt&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">PercentageFeatureSet</span>(pbmc, <span class="at">pattern =</span> <span class="st">&quot;^MT-&quot;</span>)</span>
+<span id="cb323-26"><a href="细胞周期.html#cb323-26" tabindex="-1"></a><span class="fu">head</span>(pbmc<span class="sc">@</span>meta.data, <span class="dv">3</span>)</span>
+<span id="cb323-27"><a href="细胞周期.html#cb323-27" tabindex="-1"></a><span class="do">##                  orig.ident nCount_RNA nFeature_RNA percent.mt</span></span>
+<span id="cb323-28"><a href="细胞周期.html#cb323-28" tabindex="-1"></a><span class="do">## AAACCCAAGTAGGGTC          a      10768         3213   7.030089</span></span>
+<span id="cb323-29"><a href="细胞周期.html#cb323-29" tabindex="-1"></a><span class="do">## AAACCCACACCATTCC          a       4102         1676   5.046319</span></span>
+<span id="cb323-30"><a href="细胞周期.html#cb323-30" tabindex="-1"></a><span class="do">## AAACCCATCTACACTT          a       4694         1740   6.305922</span></span>
+<span id="cb323-31"><a href="细胞周期.html#cb323-31" tabindex="-1"></a><span class="fu">VlnPlot</span>(pbmc, </span>
+<span id="cb323-32"><a href="细胞周期.html#cb323-32" tabindex="-1"></a>        <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;nFeature_RNA&quot;</span>,</span>
+<span id="cb323-33"><a href="细胞周期.html#cb323-33" tabindex="-1"></a>                     <span class="st">&quot;nCount_RNA&quot;</span>, </span>
+<span id="cb323-34"><a href="细胞周期.html#cb323-34" tabindex="-1"></a>                     <span class="st">&quot;percent.mt&quot;</span>), </span>
+<span id="cb323-35"><a href="细胞周期.html#cb323-35" tabindex="-1"></a>        <span class="at">ncol =</span> <span class="dv">3</span>,<span class="at">pt.size =</span> <span class="fl">0.5</span>)</span></code></pre></div>
 <p><img src="03-5-%E7%BB%86%E8%83%9E%E5%91%A8%E6%9C%9F_files/figure-html/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="细胞周期.html#cb109-1" tabindex="-1"></a>pbmc <span class="ot">=</span> <span class="fu">subset</span>(pbmc,nFeature_RNA <span class="sc">&lt;</span> <span class="dv">4200</span> <span class="sc">&amp;</span></span>
-<span id="cb109-2"><a href="细胞周期.html#cb109-2" tabindex="-1"></a>                nCount_RNA <span class="sc">&lt;</span> <span class="dv">18000</span> <span class="sc">&amp;</span></span>
-<span id="cb109-3"><a href="细胞周期.html#cb109-3" tabindex="-1"></a>                percent.mt <span class="sc">&lt;</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="细胞周期.html#cb324-1" tabindex="-1"></a>pbmc <span class="ot">=</span> <span class="fu">subset</span>(pbmc,nFeature_RNA <span class="sc">&lt;</span> <span class="dv">4200</span> <span class="sc">&amp;</span></span>
+<span id="cb324-2"><a href="细胞周期.html#cb324-2" tabindex="-1"></a>                nCount_RNA <span class="sc">&lt;</span> <span class="dv">18000</span> <span class="sc">&amp;</span></span>
+<span id="cb324-3"><a href="细胞周期.html#cb324-3" tabindex="-1"></a>                percent.mt <span class="sc">&lt;</span> <span class="dv">10</span>)</span></code></pre></div>
 </div>
-<div id="marrow" class="section level3 hasAnchor" number="9.1.2">
-<h3><span class="header-section-number">9.1.2</span> marrow<a href="细胞周期.html#marrow" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="细胞周期.html#cb110-1" tabindex="-1"></a>exp.mat <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">&quot;nestorawa_forcellcycle_expressionMatrix.txt&quot;</span>,<span class="at">row.names =</span> <span class="dv">1</span>)</span>
-<span id="cb110-2"><a href="细胞周期.html#cb110-2" tabindex="-1"></a>marrow <span class="ot">&lt;-</span> <span class="fu">CreateSeuratObject</span>(<span class="at">counts =</span> exp.mat,</span>
-<span id="cb110-3"><a href="细胞周期.html#cb110-3" tabindex="-1"></a>                             <span class="at">project =</span> <span class="st">&quot;b&quot;</span>,</span>
-<span id="cb110-4"><a href="细胞周期.html#cb110-4" tabindex="-1"></a>                             <span class="at">min.cells =</span> <span class="dv">3</span>, </span>
-<span id="cb110-5"><a href="细胞周期.html#cb110-5" tabindex="-1"></a>                             <span class="at">min.features =</span> <span class="dv">200</span>)</span>
-<span id="cb110-6"><a href="细胞周期.html#cb110-6" tabindex="-1"></a>marrow[[<span class="st">&quot;percent.mt&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">PercentageFeatureSet</span>(marrow, <span class="at">pattern =</span> <span class="st">&quot;^MT-&quot;</span>)</span>
-<span id="cb110-7"><a href="细胞周期.html#cb110-7" tabindex="-1"></a><span class="fu">head</span>(marrow<span class="sc">@</span>meta.data, <span class="dv">3</span>)</span>
-<span id="cb110-8"><a href="细胞周期.html#cb110-8" tabindex="-1"></a><span class="do">##          orig.ident nCount_RNA nFeature_RNA percent.mt</span></span>
-<span id="cb110-9"><a href="细胞周期.html#cb110-9" tabindex="-1"></a><span class="do">## Prog_013       Prog    2563086        10208   5.187809</span></span>
-<span id="cb110-10"><a href="细胞周期.html#cb110-10" tabindex="-1"></a><span class="do">## Prog_019       Prog    3030619         9990   5.965877</span></span>
-<span id="cb110-11"><a href="细胞周期.html#cb110-11" tabindex="-1"></a><span class="do">## Prog_031       Prog    1293487        10192   5.664456</span></span>
-<span id="cb110-12"><a href="细胞周期.html#cb110-12" tabindex="-1"></a><span class="fu">VlnPlot</span>(marrow, </span>
-<span id="cb110-13"><a href="细胞周期.html#cb110-13" tabindex="-1"></a>        <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;nFeature_RNA&quot;</span>,</span>
-<span id="cb110-14"><a href="细胞周期.html#cb110-14" tabindex="-1"></a>                     <span class="st">&quot;nCount_RNA&quot;</span>, </span>
-<span id="cb110-15"><a href="细胞周期.html#cb110-15" tabindex="-1"></a>                     <span class="st">&quot;percent.mt&quot;</span>), </span>
-<span id="cb110-16"><a href="细胞周期.html#cb110-16" tabindex="-1"></a>        <span class="at">ncol =</span> <span class="dv">3</span>,<span class="at">pt.size =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<div id="marrow" class="section level3 hasAnchor" number="18.1.2">
+<h3><span class="header-section-number">18.1.2</span> marrow<a href="细胞周期.html#marrow" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="细胞周期.html#cb325-1" tabindex="-1"></a>exp.mat <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">&quot;nestorawa_forcellcycle_expressionMatrix.txt&quot;</span>,<span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb325-2"><a href="细胞周期.html#cb325-2" tabindex="-1"></a>marrow <span class="ot">&lt;-</span> <span class="fu">CreateSeuratObject</span>(<span class="at">counts =</span> exp.mat,</span>
+<span id="cb325-3"><a href="细胞周期.html#cb325-3" tabindex="-1"></a>                             <span class="at">project =</span> <span class="st">&quot;b&quot;</span>,</span>
+<span id="cb325-4"><a href="细胞周期.html#cb325-4" tabindex="-1"></a>                             <span class="at">min.cells =</span> <span class="dv">3</span>, </span>
+<span id="cb325-5"><a href="细胞周期.html#cb325-5" tabindex="-1"></a>                             <span class="at">min.features =</span> <span class="dv">200</span>)</span>
+<span id="cb325-6"><a href="细胞周期.html#cb325-6" tabindex="-1"></a>marrow[[<span class="st">&quot;percent.mt&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">PercentageFeatureSet</span>(marrow, <span class="at">pattern =</span> <span class="st">&quot;^MT-&quot;</span>)</span>
+<span id="cb325-7"><a href="细胞周期.html#cb325-7" tabindex="-1"></a><span class="fu">head</span>(marrow<span class="sc">@</span>meta.data, <span class="dv">3</span>)</span>
+<span id="cb325-8"><a href="细胞周期.html#cb325-8" tabindex="-1"></a><span class="do">##          orig.ident nCount_RNA nFeature_RNA percent.mt</span></span>
+<span id="cb325-9"><a href="细胞周期.html#cb325-9" tabindex="-1"></a><span class="do">## Prog_013       Prog    2563086        10208   5.187809</span></span>
+<span id="cb325-10"><a href="细胞周期.html#cb325-10" tabindex="-1"></a><span class="do">## Prog_019       Prog    3030619         9990   5.965877</span></span>
+<span id="cb325-11"><a href="细胞周期.html#cb325-11" tabindex="-1"></a><span class="do">## Prog_031       Prog    1293487        10192   5.664456</span></span>
+<span id="cb325-12"><a href="细胞周期.html#cb325-12" tabindex="-1"></a><span class="fu">VlnPlot</span>(marrow, </span>
+<span id="cb325-13"><a href="细胞周期.html#cb325-13" tabindex="-1"></a>        <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;nFeature_RNA&quot;</span>,</span>
+<span id="cb325-14"><a href="细胞周期.html#cb325-14" tabindex="-1"></a>                     <span class="st">&quot;nCount_RNA&quot;</span>, </span>
+<span id="cb325-15"><a href="细胞周期.html#cb325-15" tabindex="-1"></a>                     <span class="st">&quot;percent.mt&quot;</span>), </span>
+<span id="cb325-16"><a href="细胞周期.html#cb325-16" tabindex="-1"></a>        <span class="at">ncol =</span> <span class="dv">3</span>,<span class="at">pt.size =</span> <span class="fl">0.5</span>)</span></code></pre></div>
 <p><img src="03-5-%E7%BB%86%E8%83%9E%E5%91%A8%E6%9C%9F_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="细胞周期.html#cb111-1" tabindex="-1"></a><span class="co">#从图上可以看出这个数据已经过滤了</span></span></code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="细胞周期.html#cb326-1" tabindex="-1"></a><span class="co">#从图上可以看出这个数据已经过滤了</span></span></code></pre></div>
 </div>
 </div>
-<div id="计算细胞周期评分" class="section level2 hasAnchor" number="9.2">
-<h2><span class="header-section-number">9.2</span> 计算细胞周期评分<a href="细胞周期.html#计算细胞周期评分" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="细胞周期.html#cb112-1" tabindex="-1"></a>check_cc <span class="ot">=</span>  <span class="cf">function</span>(ob){</span>
-<span id="cb112-2"><a href="细胞周期.html#cb112-2" tabindex="-1"></a>  s.genes <span class="ot">&lt;-</span> <span class="fu">intersect</span>(cc.genes<span class="sc">$</span>s.genes,<span class="fu">rownames</span>(ob))</span>
-<span id="cb112-3"><a href="细胞周期.html#cb112-3" tabindex="-1"></a>  g2m.genes <span class="ot">&lt;-</span> <span class="fu">intersect</span>(cc.genes<span class="sc">$</span>g2m.genes,<span class="fu">rownames</span>(ob))</span>
-<span id="cb112-4"><a href="细胞周期.html#cb112-4" tabindex="-1"></a>  ob <span class="ot">=</span> ob <span class="sc">%&gt;%</span> </span>
-<span id="cb112-5"><a href="细胞周期.html#cb112-5" tabindex="-1"></a>  <span class="fu">NormalizeData</span>() <span class="sc">%&gt;%</span>  </span>
-<span id="cb112-6"><a href="细胞周期.html#cb112-6" tabindex="-1"></a>  <span class="fu">FindVariableFeatures</span>() <span class="sc">%&gt;%</span>  </span>
-<span id="cb112-7"><a href="细胞周期.html#cb112-7" tabindex="-1"></a>  <span class="fu">CellCycleScoring</span>(<span class="at">s.features =</span> s.genes, </span>
-<span id="cb112-8"><a href="细胞周期.html#cb112-8" tabindex="-1"></a>                   <span class="at">g2m.features =</span> g2m.genes) <span class="sc">%&gt;%</span></span>
-<span id="cb112-9"><a href="细胞周期.html#cb112-9" tabindex="-1"></a>  <span class="fu">ScaleData</span>(<span class="at">features =</span> <span class="fu">rownames</span>(.)) <span class="sc">%&gt;%</span>  </span>
-<span id="cb112-10"><a href="细胞周期.html#cb112-10" tabindex="-1"></a>  <span class="fu">RunPCA</span>(<span class="at">features =</span> <span class="fu">c</span>(s.genes,g2m.genes))</span>
-<span id="cb112-11"><a href="细胞周期.html#cb112-11" tabindex="-1"></a>  <span class="fu">return</span>(ob)</span>
-<span id="cb112-12"><a href="细胞周期.html#cb112-12" tabindex="-1"></a>}</span>
-<span id="cb112-13"><a href="细胞周期.html#cb112-13" tabindex="-1"></a>ob1 <span class="ot">=</span> <span class="fu">check_cc</span>(pbmc)</span>
-<span id="cb112-14"><a href="细胞周期.html#cb112-14" tabindex="-1"></a><span class="fu">head</span>(ob1<span class="sc">@</span>meta.data)</span>
-<span id="cb112-15"><a href="细胞周期.html#cb112-15" tabindex="-1"></a><span class="do">##                  orig.ident nCount_RNA nFeature_RNA percent.mt      S.Score</span></span>
-<span id="cb112-16"><a href="细胞周期.html#cb112-16" tabindex="-1"></a><span class="do">## AAACCCAAGTAGGGTC          a      10768         3213   7.030089 -0.049741327</span></span>
-<span id="cb112-17"><a href="细胞周期.html#cb112-17" tabindex="-1"></a><span class="do">## AAACCCACACCATTCC          a       4102         1676   5.046319  0.077834857</span></span>
-<span id="cb112-18"><a href="细胞周期.html#cb112-18" tabindex="-1"></a><span class="do">## AAACCCATCTACACTT          a       4694         1740   6.305922 -0.042199858</span></span>
-<span id="cb112-19"><a href="细胞周期.html#cb112-19" tabindex="-1"></a><span class="do">## AAACGAAAGCACGTCC          a       5584         2055   4.512894 -0.005870195</span></span>
-<span id="cb112-20"><a href="细胞周期.html#cb112-20" tabindex="-1"></a><span class="do">## AAACGAAGTTCAAACC          a       2917         1548   2.673980 -0.036017674</span></span>
-<span id="cb112-21"><a href="细胞周期.html#cb112-21" tabindex="-1"></a><span class="do">## AAACGAAGTTGGACTT          a       3755         1408   5.219707 -0.008708112</span></span>
-<span id="cb112-22"><a href="细胞周期.html#cb112-22" tabindex="-1"></a><span class="do">##                     G2M.Score Phase</span></span>
-<span id="cb112-23"><a href="细胞周期.html#cb112-23" tabindex="-1"></a><span class="do">## AAACCCAAGTAGGGTC -0.078938340    G1</span></span>
-<span id="cb112-24"><a href="细胞周期.html#cb112-24" tabindex="-1"></a><span class="do">## AAACCCACACCATTCC -0.036964594     S</span></span>
-<span id="cb112-25"><a href="细胞周期.html#cb112-25" tabindex="-1"></a><span class="do">## AAACCCATCTACACTT -0.033518345    G1</span></span>
-<span id="cb112-26"><a href="细胞周期.html#cb112-26" tabindex="-1"></a><span class="do">## AAACGAAAGCACGTCC -0.026582838    G1</span></span>
-<span id="cb112-27"><a href="细胞周期.html#cb112-27" tabindex="-1"></a><span class="do">## AAACGAAGTTCAAACC  0.006352434   G2M</span></span>
-<span id="cb112-28"><a href="细胞周期.html#cb112-28" tabindex="-1"></a><span class="do">## AAACGAAGTTGGACTT -0.060231178    G1</span></span></code></pre></div>
+<div id="计算细胞周期评分" class="section level2 hasAnchor" number="18.2">
+<h2><span class="header-section-number">18.2</span> 计算细胞周期评分<a href="细胞周期.html#计算细胞周期评分" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="细胞周期.html#cb327-1" tabindex="-1"></a>check_cc <span class="ot">=</span>  <span class="cf">function</span>(ob){</span>
+<span id="cb327-2"><a href="细胞周期.html#cb327-2" tabindex="-1"></a>  s.genes <span class="ot">&lt;-</span> <span class="fu">intersect</span>(cc.genes<span class="sc">$</span>s.genes,<span class="fu">rownames</span>(ob))</span>
+<span id="cb327-3"><a href="细胞周期.html#cb327-3" tabindex="-1"></a>  g2m.genes <span class="ot">&lt;-</span> <span class="fu">intersect</span>(cc.genes<span class="sc">$</span>g2m.genes,<span class="fu">rownames</span>(ob))</span>
+<span id="cb327-4"><a href="细胞周期.html#cb327-4" tabindex="-1"></a>  ob <span class="ot">=</span> ob <span class="sc">%&gt;%</span> </span>
+<span id="cb327-5"><a href="细胞周期.html#cb327-5" tabindex="-1"></a>  <span class="fu">NormalizeData</span>() <span class="sc">%&gt;%</span>  </span>
+<span id="cb327-6"><a href="细胞周期.html#cb327-6" tabindex="-1"></a>  <span class="fu">FindVariableFeatures</span>() <span class="sc">%&gt;%</span>  </span>
+<span id="cb327-7"><a href="细胞周期.html#cb327-7" tabindex="-1"></a>  <span class="fu">CellCycleScoring</span>(<span class="at">s.features =</span> s.genes, </span>
+<span id="cb327-8"><a href="细胞周期.html#cb327-8" tabindex="-1"></a>                   <span class="at">g2m.features =</span> g2m.genes) <span class="sc">%&gt;%</span></span>
+<span id="cb327-9"><a href="细胞周期.html#cb327-9" tabindex="-1"></a>  <span class="fu">ScaleData</span>(<span class="at">features =</span> <span class="fu">rownames</span>(.)) <span class="sc">%&gt;%</span>  </span>
+<span id="cb327-10"><a href="细胞周期.html#cb327-10" tabindex="-1"></a>  <span class="fu">RunPCA</span>(<span class="at">features =</span> <span class="fu">c</span>(s.genes,g2m.genes))</span>
+<span id="cb327-11"><a href="细胞周期.html#cb327-11" tabindex="-1"></a>  <span class="fu">return</span>(ob)</span>
+<span id="cb327-12"><a href="细胞周期.html#cb327-12" tabindex="-1"></a>}</span>
+<span id="cb327-13"><a href="细胞周期.html#cb327-13" tabindex="-1"></a>ob1 <span class="ot">=</span> <span class="fu">check_cc</span>(pbmc)</span>
+<span id="cb327-14"><a href="细胞周期.html#cb327-14" tabindex="-1"></a><span class="fu">head</span>(ob1<span class="sc">@</span>meta.data)</span>
+<span id="cb327-15"><a href="细胞周期.html#cb327-15" tabindex="-1"></a><span class="do">##                  orig.ident nCount_RNA nFeature_RNA percent.mt      S.Score</span></span>
+<span id="cb327-16"><a href="细胞周期.html#cb327-16" tabindex="-1"></a><span class="do">## AAACCCAAGTAGGGTC          a      10768         3213   7.030089 -0.049741327</span></span>
+<span id="cb327-17"><a href="细胞周期.html#cb327-17" tabindex="-1"></a><span class="do">## AAACCCACACCATTCC          a       4102         1676   5.046319  0.077834857</span></span>
+<span id="cb327-18"><a href="细胞周期.html#cb327-18" tabindex="-1"></a><span class="do">## AAACCCATCTACACTT          a       4694         1740   6.305922 -0.042199858</span></span>
+<span id="cb327-19"><a href="细胞周期.html#cb327-19" tabindex="-1"></a><span class="do">## AAACGAAAGCACGTCC          a       5584         2055   4.512894 -0.005870195</span></span>
+<span id="cb327-20"><a href="细胞周期.html#cb327-20" tabindex="-1"></a><span class="do">## AAACGAAGTTCAAACC          a       2917         1548   2.673980 -0.036017674</span></span>
+<span id="cb327-21"><a href="细胞周期.html#cb327-21" tabindex="-1"></a><span class="do">## AAACGAAGTTGGACTT          a       3755         1408   5.219707 -0.008708112</span></span>
+<span id="cb327-22"><a href="细胞周期.html#cb327-22" tabindex="-1"></a><span class="do">##                     G2M.Score Phase</span></span>
+<span id="cb327-23"><a href="细胞周期.html#cb327-23" tabindex="-1"></a><span class="do">## AAACCCAAGTAGGGTC -0.078938340    G1</span></span>
+<span id="cb327-24"><a href="细胞周期.html#cb327-24" tabindex="-1"></a><span class="do">## AAACCCACACCATTCC -0.036964594     S</span></span>
+<span id="cb327-25"><a href="细胞周期.html#cb327-25" tabindex="-1"></a><span class="do">## AAACCCATCTACACTT -0.033518345    G1</span></span>
+<span id="cb327-26"><a href="细胞周期.html#cb327-26" tabindex="-1"></a><span class="do">## AAACGAAAGCACGTCC -0.026582838    G1</span></span>
+<span id="cb327-27"><a href="细胞周期.html#cb327-27" tabindex="-1"></a><span class="do">## AAACGAAGTTCAAACC  0.006352434   G2M</span></span>
+<span id="cb327-28"><a href="细胞周期.html#cb327-28" tabindex="-1"></a><span class="do">## AAACGAAGTTGGACTT -0.060231178    G1</span></span></code></pre></div>
 </div>
-<div id="比较两个数据的细胞周期评分和pca" class="section level2 hasAnchor" number="9.3">
-<h2><span class="header-section-number">9.3</span> 比较两个数据的细胞周期评分和PCA<a href="细胞周期.html#比较两个数据的细胞周期评分和pca" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="比较两个数据的细胞周期评分和pca" class="section level2 hasAnchor" number="18.3">
+<h2><span class="header-section-number">18.3</span> 比较两个数据的细胞周期评分和PCA<a href="细胞周期.html#比较两个数据的细胞周期评分和pca" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>可以看到这个函数处理完后，meta.data里面多了4列，分别是s和g2m的评分以及推断的细胞周期。</p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="细胞周期.html#cb113-1" tabindex="-1"></a><span class="fu">table</span>(ob1<span class="sc">$</span>Phase)</span>
-<span id="cb113-2"><a href="细胞周期.html#cb113-2" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb113-3"><a href="细胞周期.html#cb113-3" tabindex="-1"></a><span class="do">##   G1  G2M    S </span></span>
-<span id="cb113-4"><a href="细胞周期.html#cb113-4" tabindex="-1"></a><span class="do">## 1821 1224 1294</span></span></code></pre></div>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="细胞周期.html#cb114-1" tabindex="-1"></a>ob2 <span class="ot">=</span> <span class="fu">check_cc</span>(marrow)</span>
-<span id="cb114-2"><a href="细胞周期.html#cb114-2" tabindex="-1"></a><span class="fu">table</span>(ob2<span class="sc">$</span>Phase)</span>
-<span id="cb114-3"><a href="细胞周期.html#cb114-3" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb114-4"><a href="细胞周期.html#cb114-4" tabindex="-1"></a><span class="do">##  G1 G2M   S </span></span>
-<span id="cb114-5"><a href="细胞周期.html#cb114-5" tabindex="-1"></a><span class="do">## 279 183 312</span></span>
-<span id="cb114-6"><a href="细胞周期.html#cb114-6" tabindex="-1"></a><span class="fu">PCAPlot</span>(ob1,<span class="at">group.by =</span> <span class="st">&quot;Phase&quot;</span>)<span class="sc">+</span> <span class="fu">PCAPlot</span>(ob2,<span class="at">group.by =</span> <span class="st">&quot;Phase&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="细胞周期.html#cb328-1" tabindex="-1"></a><span class="fu">table</span>(ob1<span class="sc">$</span>Phase)</span>
+<span id="cb328-2"><a href="细胞周期.html#cb328-2" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb328-3"><a href="细胞周期.html#cb328-3" tabindex="-1"></a><span class="do">##   G1  G2M    S </span></span>
+<span id="cb328-4"><a href="细胞周期.html#cb328-4" tabindex="-1"></a><span class="do">## 1821 1224 1294</span></span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="细胞周期.html#cb329-1" tabindex="-1"></a>ob2 <span class="ot">=</span> <span class="fu">check_cc</span>(marrow)</span>
+<span id="cb329-2"><a href="细胞周期.html#cb329-2" tabindex="-1"></a><span class="fu">table</span>(ob2<span class="sc">$</span>Phase)</span>
+<span id="cb329-3"><a href="细胞周期.html#cb329-3" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb329-4"><a href="细胞周期.html#cb329-4" tabindex="-1"></a><span class="do">##  G1 G2M   S </span></span>
+<span id="cb329-5"><a href="细胞周期.html#cb329-5" tabindex="-1"></a><span class="do">## 279 183 312</span></span>
+<span id="cb329-6"><a href="细胞周期.html#cb329-6" tabindex="-1"></a><span class="fu">PCAPlot</span>(ob1,<span class="at">group.by =</span> <span class="st">&quot;Phase&quot;</span>)<span class="sc">+</span> <span class="fu">PCAPlot</span>(ob2,<span class="at">group.by =</span> <span class="st">&quot;Phase&quot;</span>)</span></code></pre></div>
 <p><img src="03-5-%E7%BB%86%E8%83%9E%E5%91%A8%E6%9C%9F_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>这样的比较不太直观，把坐标调到相同范围</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="细胞周期.html#cb115-1" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb115-2"><a href="细胞周期.html#cb115-2" tabindex="-1"></a><span class="fu">PCAPlot</span>(ob1,<span class="at">group.by =</span> <span class="st">&quot;Phase&quot;</span>)<span class="sc">+</span> </span>
-<span id="cb115-3"><a href="细胞周期.html#cb115-3" tabindex="-1"></a>  <span class="fu">PCAPlot</span>(ob2,<span class="at">group.by =</span> <span class="st">&quot;Phase&quot;</span>)<span class="sc">&amp;</span></span>
-<span id="cb115-4"><a href="细胞周期.html#cb115-4" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>)<span class="sc">&amp;</span></span>
-<span id="cb115-5"><a href="细胞周期.html#cb115-5" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="细胞周期.html#cb330-1" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb330-2"><a href="细胞周期.html#cb330-2" tabindex="-1"></a><span class="fu">PCAPlot</span>(ob1,<span class="at">group.by =</span> <span class="st">&quot;Phase&quot;</span>)<span class="sc">+</span> </span>
+<span id="cb330-3"><a href="细胞周期.html#cb330-3" tabindex="-1"></a>  <span class="fu">PCAPlot</span>(ob2,<span class="at">group.by =</span> <span class="st">&quot;Phase&quot;</span>)<span class="sc">&amp;</span></span>
+<span id="cb330-4"><a href="细胞周期.html#cb330-4" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>)<span class="sc">&amp;</span></span>
+<span id="cb330-5"><a href="细胞周期.html#cb330-5" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>)</span></code></pre></div>
 <p><img src="03-5-%E7%BB%86%E8%83%9E%E5%91%A8%E6%9C%9F_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>再比较一下S.Score和G2M.Score</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="细胞周期.html#cb116-1" tabindex="-1"></a>p1 <span class="ot">=</span> <span class="fu">VlnPlot</span>(ob1,<span class="st">&quot;S.Score&quot;</span>,<span class="at">group.by =</span> <span class="st">&quot;Phase&quot;</span>)</span>
-<span id="cb116-2"><a href="细胞周期.html#cb116-2" tabindex="-1"></a>p2 <span class="ot">=</span> <span class="fu">VlnPlot</span>(ob2,<span class="st">&quot;S.Score&quot;</span>,<span class="at">group.by =</span> <span class="st">&quot;Phase&quot;</span>)</span>
-<span id="cb116-3"><a href="细胞周期.html#cb116-3" tabindex="-1"></a><span class="fu">wrap_plots</span>(p1,p2,<span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">&amp;</span> <span class="fu">ylim</span>(<span class="sc">-</span><span class="fl">0.6</span>,<span class="fl">0.6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="细胞周期.html#cb331-1" tabindex="-1"></a>p1 <span class="ot">=</span> <span class="fu">VlnPlot</span>(ob1,<span class="st">&quot;S.Score&quot;</span>,<span class="at">group.by =</span> <span class="st">&quot;Phase&quot;</span>)</span>
+<span id="cb331-2"><a href="细胞周期.html#cb331-2" tabindex="-1"></a>p2 <span class="ot">=</span> <span class="fu">VlnPlot</span>(ob2,<span class="st">&quot;S.Score&quot;</span>,<span class="at">group.by =</span> <span class="st">&quot;Phase&quot;</span>)</span>
+<span id="cb331-3"><a href="细胞周期.html#cb331-3" tabindex="-1"></a><span class="fu">wrap_plots</span>(p1,p2,<span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">&amp;</span> <span class="fu">ylim</span>(<span class="sc">-</span><span class="fl">0.6</span>,<span class="fl">0.6</span>)</span></code></pre></div>
 <p><img src="03-5-%E7%BB%86%E8%83%9E%E5%91%A8%E6%9C%9F_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="细胞周期.html#cb117-1" tabindex="-1"></a>p1 <span class="ot">=</span> <span class="fu">VlnPlot</span>(ob1,<span class="st">&quot;G2M.Score&quot;</span>,<span class="at">group.by =</span> <span class="st">&quot;Phase&quot;</span>)</span>
-<span id="cb117-2"><a href="细胞周期.html#cb117-2" tabindex="-1"></a>p2 <span class="ot">=</span> <span class="fu">VlnPlot</span>(ob2,<span class="st">&quot;G2M.Score&quot;</span>,<span class="at">group.by =</span> <span class="st">&quot;Phase&quot;</span>)</span>
-<span id="cb117-3"><a href="细胞周期.html#cb117-3" tabindex="-1"></a><span class="fu">wrap_plots</span>(p1,p2,<span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">&amp;</span> <span class="fu">ylim</span>(<span class="sc">-</span><span class="fl">0.5</span>,<span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="细胞周期.html#cb332-1" tabindex="-1"></a>p1 <span class="ot">=</span> <span class="fu">VlnPlot</span>(ob1,<span class="st">&quot;G2M.Score&quot;</span>,<span class="at">group.by =</span> <span class="st">&quot;Phase&quot;</span>)</span>
+<span id="cb332-2"><a href="细胞周期.html#cb332-2" tabindex="-1"></a>p2 <span class="ot">=</span> <span class="fu">VlnPlot</span>(ob2,<span class="st">&quot;G2M.Score&quot;</span>,<span class="at">group.by =</span> <span class="st">&quot;Phase&quot;</span>)</span>
+<span id="cb332-3"><a href="细胞周期.html#cb332-3" tabindex="-1"></a><span class="fu">wrap_plots</span>(p1,p2,<span class="at">nrow =</span> <span class="dv">1</span>) <span class="sc">&amp;</span> <span class="fu">ylim</span>(<span class="sc">-</span><span class="fl">0.5</span>,<span class="dv">1</span>)</span></code></pre></div>
 <p><img src="03-5-%E7%BB%86%E8%83%9E%E5%91%A8%E6%9C%9F_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>这个周期的判断还是比较粗暴的，哪个分高就是那个周期，两个分都是负的那就G1期。</p>
 <p>因此虽然GSE218208的数据也是有周期区别，但是分数相差很小，影响很小。</p>
 <p><strong>所以像这样的大多数点都集中在0点附近的数据，就可以不用去除细胞周期的影响！</strong></p>
 <p>ok，你不踏实。那我们来比较一下去除和不去除细胞周期影响的下游注释看有没有区别吧。</p>
 </div>
-<div id="比较去除和不去处细胞周期影响的下游注释" class="section level2 hasAnchor" number="9.4">
-<h2><span class="header-section-number">9.4</span> 比较去除和不去处细胞周期影响的下游注释<a href="细胞周期.html#比较去除和不去处细胞周期影响的下游注释" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="不考虑细胞周期的降维聚类分群" class="section level3 hasAnchor" number="9.4.1">
-<h3><span class="header-section-number">9.4.1</span> 不考虑细胞周期的降维聚类分群<a href="细胞周期.html#不考虑细胞周期的降维聚类分群" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="细胞周期.html#cb118-1" tabindex="-1"></a>f <span class="ot">=</span> <span class="st">&quot;ob1.Rdata&quot;</span></span>
-<span id="cb118-2"><a href="细胞周期.html#cb118-2" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(f)){</span>
-<span id="cb118-3"><a href="细胞周期.html#cb118-3" tabindex="-1"></a>  ob1 <span class="ot">=</span> pbmc <span class="sc">%&gt;%</span> </span>
-<span id="cb118-4"><a href="细胞周期.html#cb118-4" tabindex="-1"></a>  <span class="fu">NormalizeData</span>() <span class="sc">%&gt;%</span>  </span>
-<span id="cb118-5"><a href="细胞周期.html#cb118-5" tabindex="-1"></a>  <span class="fu">FindVariableFeatures</span>() <span class="sc">%&gt;%</span>  </span>
-<span id="cb118-6"><a href="细胞周期.html#cb118-6" tabindex="-1"></a>  <span class="fu">ScaleData</span>(<span class="at">features =</span> <span class="fu">rownames</span>(.)) <span class="sc">%&gt;%</span>  </span>
-<span id="cb118-7"><a href="细胞周期.html#cb118-7" tabindex="-1"></a>  <span class="fu">RunPCA</span>(<span class="at">features =</span> <span class="fu">VariableFeatures</span>(.))  <span class="sc">%&gt;%</span></span>
-<span id="cb118-8"><a href="细胞周期.html#cb118-8" tabindex="-1"></a>  <span class="fu">FindNeighbors</span>(<span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb118-9"><a href="细胞周期.html#cb118-9" tabindex="-1"></a>  <span class="fu">FindClusters</span>(<span class="at">resolution =</span> <span class="fl">0.5</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb118-10"><a href="细胞周期.html#cb118-10" tabindex="-1"></a>  <span class="fu">RunUMAP</span>(<span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb118-11"><a href="细胞周期.html#cb118-11" tabindex="-1"></a>  <span class="fu">RunTSNE</span>(<span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>)</span>
-<span id="cb118-12"><a href="细胞周期.html#cb118-12" tabindex="-1"></a>  <span class="fu">save</span>(ob1,<span class="at">file =</span> f)</span>
-<span id="cb118-13"><a href="细胞周期.html#cb118-13" tabindex="-1"></a>}</span>
-<span id="cb118-14"><a href="细胞周期.html#cb118-14" tabindex="-1"></a><span class="do">## Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck</span></span>
-<span id="cb118-15"><a href="细胞周期.html#cb118-15" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb118-16"><a href="细胞周期.html#cb118-16" tabindex="-1"></a><span class="do">## Number of nodes: 4339</span></span>
-<span id="cb118-17"><a href="细胞周期.html#cb118-17" tabindex="-1"></a><span class="do">## Number of edges: 151523</span></span>
-<span id="cb118-18"><a href="细胞周期.html#cb118-18" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb118-19"><a href="细胞周期.html#cb118-19" tabindex="-1"></a><span class="do">## Running Louvain algorithm...</span></span>
-<span id="cb118-20"><a href="细胞周期.html#cb118-20" tabindex="-1"></a><span class="do">## Maximum modularity in 10 random starts: 0.8942</span></span>
-<span id="cb118-21"><a href="细胞周期.html#cb118-21" tabindex="-1"></a><span class="do">## Number of communities: 12</span></span>
-<span id="cb118-22"><a href="细胞周期.html#cb118-22" tabindex="-1"></a><span class="do">## Elapsed time: 0 seconds</span></span>
-<span id="cb118-23"><a href="细胞周期.html#cb118-23" tabindex="-1"></a><span class="fu">load</span>(f)</span></code></pre></div>
+<div id="比较去除和不去处细胞周期影响的下游注释" class="section level2 hasAnchor" number="18.4">
+<h2><span class="header-section-number">18.4</span> 比较去除和不去处细胞周期影响的下游注释<a href="细胞周期.html#比较去除和不去处细胞周期影响的下游注释" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="不考虑细胞周期的降维聚类分群" class="section level3 hasAnchor" number="18.4.1">
+<h3><span class="header-section-number">18.4.1</span> 不考虑细胞周期的降维聚类分群<a href="细胞周期.html#不考虑细胞周期的降维聚类分群" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="细胞周期.html#cb333-1" tabindex="-1"></a>f <span class="ot">=</span> <span class="st">&quot;ob1.Rdata&quot;</span></span>
+<span id="cb333-2"><a href="细胞周期.html#cb333-2" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(f)){</span>
+<span id="cb333-3"><a href="细胞周期.html#cb333-3" tabindex="-1"></a>  ob1 <span class="ot">=</span> pbmc <span class="sc">%&gt;%</span> </span>
+<span id="cb333-4"><a href="细胞周期.html#cb333-4" tabindex="-1"></a>  <span class="fu">NormalizeData</span>() <span class="sc">%&gt;%</span>  </span>
+<span id="cb333-5"><a href="细胞周期.html#cb333-5" tabindex="-1"></a>  <span class="fu">FindVariableFeatures</span>() <span class="sc">%&gt;%</span>  </span>
+<span id="cb333-6"><a href="细胞周期.html#cb333-6" tabindex="-1"></a>  <span class="fu">ScaleData</span>(<span class="at">features =</span> <span class="fu">rownames</span>(.)) <span class="sc">%&gt;%</span>  </span>
+<span id="cb333-7"><a href="细胞周期.html#cb333-7" tabindex="-1"></a>  <span class="fu">RunPCA</span>(<span class="at">features =</span> <span class="fu">VariableFeatures</span>(.))  <span class="sc">%&gt;%</span></span>
+<span id="cb333-8"><a href="细胞周期.html#cb333-8" tabindex="-1"></a>  <span class="fu">FindNeighbors</span>(<span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb333-9"><a href="细胞周期.html#cb333-9" tabindex="-1"></a>  <span class="fu">FindClusters</span>(<span class="at">resolution =</span> <span class="fl">0.5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb333-10"><a href="细胞周期.html#cb333-10" tabindex="-1"></a>  <span class="fu">RunUMAP</span>(<span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb333-11"><a href="细胞周期.html#cb333-11" tabindex="-1"></a>  <span class="fu">RunTSNE</span>(<span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>)</span>
+<span id="cb333-12"><a href="细胞周期.html#cb333-12" tabindex="-1"></a>  <span class="fu">save</span>(ob1,<span class="at">file =</span> f)</span>
+<span id="cb333-13"><a href="细胞周期.html#cb333-13" tabindex="-1"></a>}</span>
+<span id="cb333-14"><a href="细胞周期.html#cb333-14" tabindex="-1"></a><span class="do">## Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck</span></span>
+<span id="cb333-15"><a href="细胞周期.html#cb333-15" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb333-16"><a href="细胞周期.html#cb333-16" tabindex="-1"></a><span class="do">## Number of nodes: 4339</span></span>
+<span id="cb333-17"><a href="细胞周期.html#cb333-17" tabindex="-1"></a><span class="do">## Number of edges: 151523</span></span>
+<span id="cb333-18"><a href="细胞周期.html#cb333-18" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb333-19"><a href="细胞周期.html#cb333-19" tabindex="-1"></a><span class="do">## Running Louvain algorithm...</span></span>
+<span id="cb333-20"><a href="细胞周期.html#cb333-20" tabindex="-1"></a><span class="do">## Maximum modularity in 10 random starts: 0.8942</span></span>
+<span id="cb333-21"><a href="细胞周期.html#cb333-21" tabindex="-1"></a><span class="do">## Number of communities: 12</span></span>
+<span id="cb333-22"><a href="细胞周期.html#cb333-22" tabindex="-1"></a><span class="do">## Elapsed time: 0 seconds</span></span>
+<span id="cb333-23"><a href="细胞周期.html#cb333-23" tabindex="-1"></a><span class="fu">load</span>(f)</span></code></pre></div>
 </div>
-<div id="考虑细胞周期的降维聚类分群" class="section level3 hasAnchor" number="9.4.2">
-<h3><span class="header-section-number">9.4.2</span> 考虑细胞周期的降维聚类分群<a href="细胞周期.html#考虑细胞周期的降维聚类分群" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="细胞周期.html#cb119-1" tabindex="-1"></a>s.genes <span class="ot">&lt;-</span> <span class="fu">intersect</span>(cc.genes<span class="sc">$</span>s.genes,<span class="fu">rownames</span>(pbmc))</span>
-<span id="cb119-2"><a href="细胞周期.html#cb119-2" tabindex="-1"></a>g2m.genes <span class="ot">&lt;-</span> <span class="fu">intersect</span>(cc.genes<span class="sc">$</span>g2m.genes,<span class="fu">rownames</span>(pbmc))</span>
-<span id="cb119-3"><a href="细胞周期.html#cb119-3" tabindex="-1"></a>f <span class="ot">=</span> <span class="st">&quot;ob2.Rdata&quot;</span></span>
-<span id="cb119-4"><a href="细胞周期.html#cb119-4" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(f)){</span>
-<span id="cb119-5"><a href="细胞周期.html#cb119-5" tabindex="-1"></a>  ob2 <span class="ot">=</span> pbmc <span class="sc">%&gt;%</span> </span>
-<span id="cb119-6"><a href="细胞周期.html#cb119-6" tabindex="-1"></a>  <span class="fu">NormalizeData</span>() <span class="sc">%&gt;%</span>  </span>
-<span id="cb119-7"><a href="细胞周期.html#cb119-7" tabindex="-1"></a>  <span class="fu">FindVariableFeatures</span>() <span class="sc">%&gt;%</span>  </span>
-<span id="cb119-8"><a href="细胞周期.html#cb119-8" tabindex="-1"></a>  <span class="fu">CellCycleScoring</span>(<span class="at">s.features =</span> s.genes, <span class="at">g2m.features =</span> g2m.genes) <span class="sc">%&gt;%</span></span>
-<span id="cb119-9"><a href="细胞周期.html#cb119-9" tabindex="-1"></a>  <span class="fu">ScaleData</span>(<span class="at">vars.to.regress =</span> <span class="fu">c</span>(<span class="st">&quot;S.Score&quot;</span>, <span class="st">&quot;G2M.Score&quot;</span>),<span class="at">features =</span> <span class="fu">rownames</span>(.)) <span class="sc">%&gt;%</span>  <span class="co">#运行极其慢</span></span>
-<span id="cb119-10"><a href="细胞周期.html#cb119-10" tabindex="-1"></a>  <span class="fu">RunPCA</span>(<span class="at">features =</span> <span class="fu">VariableFeatures</span>(.))  <span class="sc">%&gt;%</span></span>
-<span id="cb119-11"><a href="细胞周期.html#cb119-11" tabindex="-1"></a>  <span class="fu">FindNeighbors</span>(<span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb119-12"><a href="细胞周期.html#cb119-12" tabindex="-1"></a>  <span class="fu">FindClusters</span>(<span class="at">resolution =</span> <span class="fl">0.5</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb119-13"><a href="细胞周期.html#cb119-13" tabindex="-1"></a>  <span class="fu">RunUMAP</span>(<span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb119-14"><a href="细胞周期.html#cb119-14" tabindex="-1"></a>  <span class="fu">RunTSNE</span>(<span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>)</span>
-<span id="cb119-15"><a href="细胞周期.html#cb119-15" tabindex="-1"></a>  <span class="fu">save</span>(ob2,<span class="at">file =</span> f)</span>
-<span id="cb119-16"><a href="细胞周期.html#cb119-16" tabindex="-1"></a>}</span>
-<span id="cb119-17"><a href="细胞周期.html#cb119-17" tabindex="-1"></a><span class="do">## Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck</span></span>
-<span id="cb119-18"><a href="细胞周期.html#cb119-18" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb119-19"><a href="细胞周期.html#cb119-19" tabindex="-1"></a><span class="do">## Number of nodes: 4339</span></span>
-<span id="cb119-20"><a href="细胞周期.html#cb119-20" tabindex="-1"></a><span class="do">## Number of edges: 146175</span></span>
-<span id="cb119-21"><a href="细胞周期.html#cb119-21" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb119-22"><a href="细胞周期.html#cb119-22" tabindex="-1"></a><span class="do">## Running Louvain algorithm...</span></span>
-<span id="cb119-23"><a href="细胞周期.html#cb119-23" tabindex="-1"></a><span class="do">## Maximum modularity in 10 random starts: 0.8902</span></span>
-<span id="cb119-24"><a href="细胞周期.html#cb119-24" tabindex="-1"></a><span class="do">## Number of communities: 13</span></span>
-<span id="cb119-25"><a href="细胞周期.html#cb119-25" tabindex="-1"></a><span class="do">## Elapsed time: 0 seconds</span></span>
-<span id="cb119-26"><a href="细胞周期.html#cb119-26" tabindex="-1"></a><span class="fu">load</span>(f)</span>
-<span id="cb119-27"><a href="细胞周期.html#cb119-27" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">DimPlot</span>(ob1, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>,<span class="at">label =</span> T)<span class="sc">+</span><span class="fu">NoLegend</span>()</span>
-<span id="cb119-28"><a href="细胞周期.html#cb119-28" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">DimPlot</span>(ob2, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>,<span class="at">label =</span> T)<span class="sc">+</span><span class="fu">NoLegend</span>()</span>
-<span id="cb119-29"><a href="细胞周期.html#cb119-29" tabindex="-1"></a>p1<span class="sc">+</span>p2</span></code></pre></div>
+<div id="考虑细胞周期的降维聚类分群" class="section level3 hasAnchor" number="18.4.2">
+<h3><span class="header-section-number">18.4.2</span> 考虑细胞周期的降维聚类分群<a href="细胞周期.html#考虑细胞周期的降维聚类分群" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="细胞周期.html#cb334-1" tabindex="-1"></a>s.genes <span class="ot">&lt;-</span> <span class="fu">intersect</span>(cc.genes<span class="sc">$</span>s.genes,<span class="fu">rownames</span>(pbmc))</span>
+<span id="cb334-2"><a href="细胞周期.html#cb334-2" tabindex="-1"></a>g2m.genes <span class="ot">&lt;-</span> <span class="fu">intersect</span>(cc.genes<span class="sc">$</span>g2m.genes,<span class="fu">rownames</span>(pbmc))</span>
+<span id="cb334-3"><a href="细胞周期.html#cb334-3" tabindex="-1"></a>f <span class="ot">=</span> <span class="st">&quot;ob2.Rdata&quot;</span></span>
+<span id="cb334-4"><a href="细胞周期.html#cb334-4" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(f)){</span>
+<span id="cb334-5"><a href="细胞周期.html#cb334-5" tabindex="-1"></a>  ob2 <span class="ot">=</span> pbmc <span class="sc">%&gt;%</span> </span>
+<span id="cb334-6"><a href="细胞周期.html#cb334-6" tabindex="-1"></a>  <span class="fu">NormalizeData</span>() <span class="sc">%&gt;%</span>  </span>
+<span id="cb334-7"><a href="细胞周期.html#cb334-7" tabindex="-1"></a>  <span class="fu">FindVariableFeatures</span>() <span class="sc">%&gt;%</span>  </span>
+<span id="cb334-8"><a href="细胞周期.html#cb334-8" tabindex="-1"></a>  <span class="fu">CellCycleScoring</span>(<span class="at">s.features =</span> s.genes, <span class="at">g2m.features =</span> g2m.genes) <span class="sc">%&gt;%</span></span>
+<span id="cb334-9"><a href="细胞周期.html#cb334-9" tabindex="-1"></a>  <span class="fu">ScaleData</span>(<span class="at">vars.to.regress =</span> <span class="fu">c</span>(<span class="st">&quot;S.Score&quot;</span>, <span class="st">&quot;G2M.Score&quot;</span>),<span class="at">features =</span> <span class="fu">rownames</span>(.)) <span class="sc">%&gt;%</span>  <span class="co">#运行极其慢</span></span>
+<span id="cb334-10"><a href="细胞周期.html#cb334-10" tabindex="-1"></a>  <span class="fu">RunPCA</span>(<span class="at">features =</span> <span class="fu">VariableFeatures</span>(.))  <span class="sc">%&gt;%</span></span>
+<span id="cb334-11"><a href="细胞周期.html#cb334-11" tabindex="-1"></a>  <span class="fu">FindNeighbors</span>(<span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb334-12"><a href="细胞周期.html#cb334-12" tabindex="-1"></a>  <span class="fu">FindClusters</span>(<span class="at">resolution =</span> <span class="fl">0.5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb334-13"><a href="细胞周期.html#cb334-13" tabindex="-1"></a>  <span class="fu">RunUMAP</span>(<span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb334-14"><a href="细胞周期.html#cb334-14" tabindex="-1"></a>  <span class="fu">RunTSNE</span>(<span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>)</span>
+<span id="cb334-15"><a href="细胞周期.html#cb334-15" tabindex="-1"></a>  <span class="fu">save</span>(ob2,<span class="at">file =</span> f)</span>
+<span id="cb334-16"><a href="细胞周期.html#cb334-16" tabindex="-1"></a>}</span>
+<span id="cb334-17"><a href="细胞周期.html#cb334-17" tabindex="-1"></a><span class="do">## Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck</span></span>
+<span id="cb334-18"><a href="细胞周期.html#cb334-18" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb334-19"><a href="细胞周期.html#cb334-19" tabindex="-1"></a><span class="do">## Number of nodes: 4339</span></span>
+<span id="cb334-20"><a href="细胞周期.html#cb334-20" tabindex="-1"></a><span class="do">## Number of edges: 146175</span></span>
+<span id="cb334-21"><a href="细胞周期.html#cb334-21" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb334-22"><a href="细胞周期.html#cb334-22" tabindex="-1"></a><span class="do">## Running Louvain algorithm...</span></span>
+<span id="cb334-23"><a href="细胞周期.html#cb334-23" tabindex="-1"></a><span class="do">## Maximum modularity in 10 random starts: 0.8902</span></span>
+<span id="cb334-24"><a href="细胞周期.html#cb334-24" tabindex="-1"></a><span class="do">## Number of communities: 13</span></span>
+<span id="cb334-25"><a href="细胞周期.html#cb334-25" tabindex="-1"></a><span class="do">## Elapsed time: 0 seconds</span></span>
+<span id="cb334-26"><a href="细胞周期.html#cb334-26" tabindex="-1"></a><span class="fu">load</span>(f)</span>
+<span id="cb334-27"><a href="细胞周期.html#cb334-27" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">DimPlot</span>(ob1, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>,<span class="at">label =</span> T)<span class="sc">+</span><span class="fu">NoLegend</span>()</span>
+<span id="cb334-28"><a href="细胞周期.html#cb334-28" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">DimPlot</span>(ob2, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>,<span class="at">label =</span> T)<span class="sc">+</span><span class="fu">NoLegend</span>()</span>
+<span id="cb334-29"><a href="细胞周期.html#cb334-29" tabindex="-1"></a>p1<span class="sc">+</span>p2</span></code></pre></div>
 <p><img src="03-5-%E7%BB%86%E8%83%9E%E5%91%A8%E6%9C%9F_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>简单点用singleR来注释</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="细胞周期.html#cb120-1" tabindex="-1"></a><span class="fu">library</span>(celldex)</span>
-<span id="cb120-2"><a href="细胞周期.html#cb120-2" tabindex="-1"></a><span class="fu">library</span>(SingleR)</span>
-<span id="cb120-3"><a href="细胞周期.html#cb120-3" tabindex="-1"></a><span class="fu">ls</span>(<span class="st">&quot;package:celldex&quot;</span>)</span>
-<span id="cb120-4"><a href="细胞周期.html#cb120-4" tabindex="-1"></a><span class="do">##  [1] &quot;BlueprintEncodeData&quot;              &quot;DatabaseImmuneCellExpressionData&quot;</span></span>
-<span id="cb120-5"><a href="细胞周期.html#cb120-5" tabindex="-1"></a><span class="do">##  [3] &quot;defineTextQuery&quot;                  &quot;fetchLatestVersion&quot;              </span></span>
-<span id="cb120-6"><a href="细胞周期.html#cb120-6" tabindex="-1"></a><span class="do">##  [5] &quot;fetchMetadata&quot;                    &quot;fetchReference&quot;                  </span></span>
-<span id="cb120-7"><a href="细胞周期.html#cb120-7" tabindex="-1"></a><span class="do">##  [7] &quot;HumanPrimaryCellAtlasData&quot;        &quot;ImmGenData&quot;                      </span></span>
-<span id="cb120-8"><a href="细胞周期.html#cb120-8" tabindex="-1"></a><span class="do">##  [9] &quot;listReferences&quot;                   &quot;listVersions&quot;                    </span></span>
-<span id="cb120-9"><a href="细胞周期.html#cb120-9" tabindex="-1"></a><span class="do">## [11] &quot;MonacoImmuneData&quot;                 &quot;MouseRNAseqData&quot;                 </span></span>
-<span id="cb120-10"><a href="细胞周期.html#cb120-10" tabindex="-1"></a><span class="do">## [13] &quot;NovershternHematopoieticData&quot;     &quot;saveReference&quot;                   </span></span>
-<span id="cb120-11"><a href="细胞周期.html#cb120-11" tabindex="-1"></a><span class="do">## [15] &quot;searchReferences&quot;                 &quot;surveyReferences&quot;</span></span>
-<span id="cb120-12"><a href="细胞周期.html#cb120-12" tabindex="-1"></a>f <span class="ot">=</span> <span class="st">&quot;../supp/single_ref/ref_Human_all.RData&quot;</span></span>
-<span id="cb120-13"><a href="细胞周期.html#cb120-13" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(f)){</span>
-<span id="cb120-14"><a href="细胞周期.html#cb120-14" tabindex="-1"></a>  ref <span class="ot">&lt;-</span> celldex<span class="sc">::</span><span class="fu">HumanPrimaryCellAtlasData</span>()</span>
-<span id="cb120-15"><a href="细胞周期.html#cb120-15" tabindex="-1"></a>  <span class="fu">save</span>(ref,<span class="at">file =</span> f)</span>
-<span id="cb120-16"><a href="细胞周期.html#cb120-16" tabindex="-1"></a>}</span>
-<span id="cb120-17"><a href="细胞周期.html#cb120-17" tabindex="-1"></a>ref <span class="ot">&lt;-</span> <span class="fu">get</span>(<span class="fu">load</span>(f))</span>
-<span id="cb120-18"><a href="细胞周期.html#cb120-18" tabindex="-1"></a><span class="fu">library</span>(BiocParallel)</span>
-<span id="cb120-19"><a href="细胞周期.html#cb120-19" tabindex="-1"></a>scRNA <span class="ot">=</span> ob1</span>
-<span id="cb120-20"><a href="细胞周期.html#cb120-20" tabindex="-1"></a>test <span class="ot">=</span> scRNA<span class="sc">@</span>assays<span class="sc">$</span>RNA<span class="sc">$</span>data</span>
-<span id="cb120-21"><a href="细胞周期.html#cb120-21" tabindex="-1"></a>pred.scRNA <span class="ot">&lt;-</span> <span class="fu">SingleR</span>(<span class="at">test =</span> test, </span>
-<span id="cb120-22"><a href="细胞周期.html#cb120-22" tabindex="-1"></a>                      <span class="at">ref =</span> ref,</span>
-<span id="cb120-23"><a href="细胞周期.html#cb120-23" tabindex="-1"></a>                      <span class="at">labels =</span> ref<span class="sc">$</span>label.main, </span>
-<span id="cb120-24"><a href="细胞周期.html#cb120-24" tabindex="-1"></a>                      <span class="at">clusters =</span> scRNA<span class="sc">@</span>active.ident)</span>
-<span id="cb120-25"><a href="细胞周期.html#cb120-25" tabindex="-1"></a>new.cluster.ids <span class="ot">&lt;-</span> pred.scRNA<span class="sc">$</span>pruned.labels</span>
-<span id="cb120-26"><a href="细胞周期.html#cb120-26" tabindex="-1"></a><span class="fu">names</span>(new.cluster.ids) <span class="ot">&lt;-</span> <span class="fu">levels</span>(scRNA)</span>
-<span id="cb120-27"><a href="细胞周期.html#cb120-27" tabindex="-1"></a>scRNA <span class="ot">&lt;-</span> <span class="fu">RenameIdents</span>(scRNA,new.cluster.ids)</span>
-<span id="cb120-28"><a href="细胞周期.html#cb120-28" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">DimPlot</span>(scRNA, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>,<span class="at">label =</span> T,<span class="at">pt.size =</span> <span class="fl">0.5</span>) <span class="sc">+</span> <span class="fu">NoLegend</span>()</span>
-<span id="cb120-29"><a href="细胞周期.html#cb120-29" tabindex="-1"></a>m <span class="ot">=</span> scRNA</span></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="细胞周期.html#cb335-1" tabindex="-1"></a><span class="fu">library</span>(celldex)</span>
+<span id="cb335-2"><a href="细胞周期.html#cb335-2" tabindex="-1"></a><span class="fu">library</span>(SingleR)</span>
+<span id="cb335-3"><a href="细胞周期.html#cb335-3" tabindex="-1"></a><span class="fu">ls</span>(<span class="st">&quot;package:celldex&quot;</span>)</span>
+<span id="cb335-4"><a href="细胞周期.html#cb335-4" tabindex="-1"></a><span class="do">##  [1] &quot;BlueprintEncodeData&quot;              &quot;DatabaseImmuneCellExpressionData&quot;</span></span>
+<span id="cb335-5"><a href="细胞周期.html#cb335-5" tabindex="-1"></a><span class="do">##  [3] &quot;defineTextQuery&quot;                  &quot;fetchLatestVersion&quot;              </span></span>
+<span id="cb335-6"><a href="细胞周期.html#cb335-6" tabindex="-1"></a><span class="do">##  [5] &quot;fetchMetadata&quot;                    &quot;fetchReference&quot;                  </span></span>
+<span id="cb335-7"><a href="细胞周期.html#cb335-7" tabindex="-1"></a><span class="do">##  [7] &quot;HumanPrimaryCellAtlasData&quot;        &quot;ImmGenData&quot;                      </span></span>
+<span id="cb335-8"><a href="细胞周期.html#cb335-8" tabindex="-1"></a><span class="do">##  [9] &quot;listReferences&quot;                   &quot;listVersions&quot;                    </span></span>
+<span id="cb335-9"><a href="细胞周期.html#cb335-9" tabindex="-1"></a><span class="do">## [11] &quot;MonacoImmuneData&quot;                 &quot;MouseRNAseqData&quot;                 </span></span>
+<span id="cb335-10"><a href="细胞周期.html#cb335-10" tabindex="-1"></a><span class="do">## [13] &quot;NovershternHematopoieticData&quot;     &quot;saveReference&quot;                   </span></span>
+<span id="cb335-11"><a href="细胞周期.html#cb335-11" tabindex="-1"></a><span class="do">## [15] &quot;searchReferences&quot;                 &quot;surveyReferences&quot;</span></span>
+<span id="cb335-12"><a href="细胞周期.html#cb335-12" tabindex="-1"></a>f <span class="ot">=</span> <span class="st">&quot;../supp/single_ref/ref_Human_all.RData&quot;</span></span>
+<span id="cb335-13"><a href="细胞周期.html#cb335-13" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(f)){</span>
+<span id="cb335-14"><a href="细胞周期.html#cb335-14" tabindex="-1"></a>  ref <span class="ot">&lt;-</span> celldex<span class="sc">::</span><span class="fu">HumanPrimaryCellAtlasData</span>()</span>
+<span id="cb335-15"><a href="细胞周期.html#cb335-15" tabindex="-1"></a>  <span class="fu">save</span>(ref,<span class="at">file =</span> f)</span>
+<span id="cb335-16"><a href="细胞周期.html#cb335-16" tabindex="-1"></a>}</span>
+<span id="cb335-17"><a href="细胞周期.html#cb335-17" tabindex="-1"></a>ref <span class="ot">&lt;-</span> <span class="fu">get</span>(<span class="fu">load</span>(f))</span>
+<span id="cb335-18"><a href="细胞周期.html#cb335-18" tabindex="-1"></a><span class="fu">library</span>(BiocParallel)</span>
+<span id="cb335-19"><a href="细胞周期.html#cb335-19" tabindex="-1"></a>scRNA <span class="ot">=</span> ob1</span>
+<span id="cb335-20"><a href="细胞周期.html#cb335-20" tabindex="-1"></a>test <span class="ot">=</span> scRNA<span class="sc">@</span>assays<span class="sc">$</span>RNA<span class="sc">$</span>data</span>
+<span id="cb335-21"><a href="细胞周期.html#cb335-21" tabindex="-1"></a>pred.scRNA <span class="ot">&lt;-</span> <span class="fu">SingleR</span>(<span class="at">test =</span> test, </span>
+<span id="cb335-22"><a href="细胞周期.html#cb335-22" tabindex="-1"></a>                      <span class="at">ref =</span> ref,</span>
+<span id="cb335-23"><a href="细胞周期.html#cb335-23" tabindex="-1"></a>                      <span class="at">labels =</span> ref<span class="sc">$</span>label.main, </span>
+<span id="cb335-24"><a href="细胞周期.html#cb335-24" tabindex="-1"></a>                      <span class="at">clusters =</span> scRNA<span class="sc">@</span>active.ident)</span>
+<span id="cb335-25"><a href="细胞周期.html#cb335-25" tabindex="-1"></a>new.cluster.ids <span class="ot">&lt;-</span> pred.scRNA<span class="sc">$</span>pruned.labels</span>
+<span id="cb335-26"><a href="细胞周期.html#cb335-26" tabindex="-1"></a><span class="fu">names</span>(new.cluster.ids) <span class="ot">&lt;-</span> <span class="fu">levels</span>(scRNA)</span>
+<span id="cb335-27"><a href="细胞周期.html#cb335-27" tabindex="-1"></a>scRNA <span class="ot">&lt;-</span> <span class="fu">RenameIdents</span>(scRNA,new.cluster.ids)</span>
+<span id="cb335-28"><a href="细胞周期.html#cb335-28" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">DimPlot</span>(scRNA, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>,<span class="at">label =</span> T,<span class="at">pt.size =</span> <span class="fl">0.5</span>) <span class="sc">+</span> <span class="fu">NoLegend</span>()</span>
+<span id="cb335-29"><a href="细胞周期.html#cb335-29" tabindex="-1"></a>m <span class="ot">=</span> scRNA</span></code></pre></div>
 <p>解释一下为什么会有<code>scRNA = ob1</code>,<code>m = scRNA</code>这样的代码：</p>
 <p>当然是为了少改代码犯错误啦。两次注释的代码是一样的，如果把scRNA这个变量名替换掉就麻烦，别说可以全部替换，万一你替换的变量名称是函数或者文件名等东西的一部分，那不还得报错还得改回去？所以移花接木另行赋值是个更好的选择。</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="细胞周期.html#cb121-1" tabindex="-1"></a>scRNA <span class="ot">=</span> ob2</span>
-<span id="cb121-2"><a href="细胞周期.html#cb121-2" tabindex="-1"></a>test <span class="ot">=</span> scRNA<span class="sc">@</span>assays<span class="sc">$</span>RNA<span class="sc">$</span>data</span>
-<span id="cb121-3"><a href="细胞周期.html#cb121-3" tabindex="-1"></a>pred.scRNA <span class="ot">&lt;-</span> <span class="fu">SingleR</span>(<span class="at">test =</span> test, </span>
-<span id="cb121-4"><a href="细胞周期.html#cb121-4" tabindex="-1"></a>                      <span class="at">ref =</span> ref,</span>
-<span id="cb121-5"><a href="细胞周期.html#cb121-5" tabindex="-1"></a>                      <span class="at">labels =</span> ref<span class="sc">$</span>label.main, </span>
-<span id="cb121-6"><a href="细胞周期.html#cb121-6" tabindex="-1"></a>                      <span class="at">clusters =</span> scRNA<span class="sc">@</span>active.ident)</span>
-<span id="cb121-7"><a href="细胞周期.html#cb121-7" tabindex="-1"></a>new.cluster.ids <span class="ot">&lt;-</span> pred.scRNA<span class="sc">$</span>pruned.labels</span>
-<span id="cb121-8"><a href="细胞周期.html#cb121-8" tabindex="-1"></a><span class="fu">names</span>(new.cluster.ids) <span class="ot">&lt;-</span> <span class="fu">levels</span>(scRNA)</span>
-<span id="cb121-9"><a href="细胞周期.html#cb121-9" tabindex="-1"></a>scRNA <span class="ot">&lt;-</span> <span class="fu">RenameIdents</span>(scRNA,new.cluster.ids)</span>
-<span id="cb121-10"><a href="细胞周期.html#cb121-10" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">DimPlot</span>(scRNA, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>,<span class="at">label =</span> T,<span class="at">pt.size =</span> <span class="fl">0.5</span>) <span class="sc">+</span> <span class="fu">NoLegend</span>()</span>
-<span id="cb121-11"><a href="细胞周期.html#cb121-11" tabindex="-1"></a>p3<span class="sc">+</span>p4</span></code></pre></div>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="细胞周期.html#cb336-1" tabindex="-1"></a>scRNA <span class="ot">=</span> ob2</span>
+<span id="cb336-2"><a href="细胞周期.html#cb336-2" tabindex="-1"></a>test <span class="ot">=</span> scRNA<span class="sc">@</span>assays<span class="sc">$</span>RNA<span class="sc">$</span>data</span>
+<span id="cb336-3"><a href="细胞周期.html#cb336-3" tabindex="-1"></a>pred.scRNA <span class="ot">&lt;-</span> <span class="fu">SingleR</span>(<span class="at">test =</span> test, </span>
+<span id="cb336-4"><a href="细胞周期.html#cb336-4" tabindex="-1"></a>                      <span class="at">ref =</span> ref,</span>
+<span id="cb336-5"><a href="细胞周期.html#cb336-5" tabindex="-1"></a>                      <span class="at">labels =</span> ref<span class="sc">$</span>label.main, </span>
+<span id="cb336-6"><a href="细胞周期.html#cb336-6" tabindex="-1"></a>                      <span class="at">clusters =</span> scRNA<span class="sc">@</span>active.ident)</span>
+<span id="cb336-7"><a href="细胞周期.html#cb336-7" tabindex="-1"></a>new.cluster.ids <span class="ot">&lt;-</span> pred.scRNA<span class="sc">$</span>pruned.labels</span>
+<span id="cb336-8"><a href="细胞周期.html#cb336-8" tabindex="-1"></a><span class="fu">names</span>(new.cluster.ids) <span class="ot">&lt;-</span> <span class="fu">levels</span>(scRNA)</span>
+<span id="cb336-9"><a href="细胞周期.html#cb336-9" tabindex="-1"></a>scRNA <span class="ot">&lt;-</span> <span class="fu">RenameIdents</span>(scRNA,new.cluster.ids)</span>
+<span id="cb336-10"><a href="细胞周期.html#cb336-10" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">DimPlot</span>(scRNA, <span class="at">reduction =</span> <span class="st">&quot;umap&quot;</span>,<span class="at">label =</span> T,<span class="at">pt.size =</span> <span class="fl">0.5</span>) <span class="sc">+</span> <span class="fu">NoLegend</span>()</span>
+<span id="cb336-11"><a href="细胞周期.html#cb336-11" tabindex="-1"></a>p3<span class="sc">+</span>p4</span></code></pre></div>
 <p><img src="03-5-%E7%BB%86%E8%83%9E%E5%91%A8%E6%9C%9F_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="细胞周期.html#cb122-1" tabindex="-1"></a><span class="co"># table(Idents(m)==Idents(scRNA))</span></span></code></pre></div>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="细胞周期.html#cb337-1" tabindex="-1"></a><span class="co"># table(Idents(m)==Idents(scRNA))</span></span></code></pre></div>
 <p>去不去除当然还是有区别的，只不过影响不大，可以忽略不计啊。</p>
 
 </div>

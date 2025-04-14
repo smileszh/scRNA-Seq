@@ -1,0 +1,280 @@
+
+
+```{r setup, include=FALSE}
+library(knitr)
+library(kableExtra)
+library(DT)
+knitr::opts_chunk$set(
+	eval = FALSE,
+	echo = T,
+	error = F,
+	message = FALSE,
+	warning = FALSE,
+	cache = T,
+	collapse = T,
+	# fig.width = 6,
+	fig.height = 4,
+	unit='cm',
+	fig.align='center'
+)
+
+opts_knit$set(root.dir = "data/7.sccontrol_treat")
+
+rm(list = ls())  ## 魔幻操作，一键清空~
+options(stringsAsFactors = F)
+
+getOption('timeout')
+options(timeout=10000) 
+```
+
+# 多样本分析
+这篇文章介绍的是有分组的单细胞数据怎样分析，数据来自GEO的GSE231920，有3个treat，3个control样本，代码完整，可以自行下载数据跑一跑，但请注意细胞数量是6w，对计算资源要求较高，自己的电脑跑不动，需要在服务器上跑。
+
+## 整理数据
+
+因为数据组织的不是每个样本一个文件夹的形式，所以需要自行整理，参考代码如下，注意这段改名的代码不要反复运行：
+GSE231920_RAW.tar是从GEO页面上下载的补充文件，太大了没放进文件夹里，可以自己下载。
+```{r eval = FALSE}
+#untar("GSE231920_RAW.tar",exdir = "GSE231920_RAW")
+#unlink("GSE231920_RAW.tar")
+if(!require("multtest"))BiocManager::install('multtest',update = F,ask = F)
+if(!require("metap"))install.packages('metap',update = F,ask = F)
+library(stringr)
+fs = paste0("GSE231920_RAW/",dir("GSE231920_RAW/"))
+fs
+samples = dir("GSE231920_RAW/") %>% str_split_i("_",2) %>% unique();samples
+
+
+if(!dir.exists("01_data"))dir.create("01_data")
+
+#为每个样本创建单独的文件夹
+lapply(samples, function(s){
+  ns = paste0("01_data/",s)
+  if(!file.exists(ns))dir.create(ns,recursive = T)
+})
+
+#每个样本的三个文件复制到单独的文件夹
+lapply(fs, function(s){
+  #s = fs[1]
+  for(i in 1:length(samples)){
+    #i = 1
+    if(str_detect(s,samples[[i]])){
+      file.copy(s,paste0("01_data/",samples[[i]]))
+    }
+  }
+})
+
+#文件名字修改
+on = paste0("01_data/",dir("01_data/",recursive = T));on
+nn = str_remove(on,"GSM\\d+_sample\\d_");nn
+file.rename(on,nn)
+```
+
+代码主要参考：
+
+https://satijalab.org/seurat/articles/integration_introduction
+
+## 批量读取
+
+```{r}
+rm(list = ls())
+library(Seurat)
+rf = "sce.all.Rdata"
+if(!file.exists(rf)){
+  f = dir("01_data/")
+  scelist = list()
+  for(i in 1:length(f)){
+    pda <- Read10X(paste0("01_data/",f[[i]]))
+    scelist[[i]] <- CreateSeuratObject(counts = pda, 
+                                       project = f[[i]])
+    print(dim(scelist[[i]]))
+  }
+  sce.all = merge(scelist[[1]],scelist[-1])
+  sce.all = JoinLayers(sce.all)
+  #⭐抽样
+  set.seed(313)
+  sce.all = subset(sce.all,downsample=500)#每个样本抽500个细胞
+  save(sce.all,file = rf)
+}
+load(rf)
+head(sce.all@meta.data)
+table(sce.all$orig.ident)
+sum(table(Idents(sce.all)))
+```
+
+## 质控指标
+
+```{r}
+sce.all[["percent.mt"]] <- PercentageFeatureSet(sce.all, pattern = "^MT-")
+sce.all[["percent.rp"]] <- PercentageFeatureSet(sce.all, pattern = "^RP[SL]")
+sce.all[["percent.hb"]] <- PercentageFeatureSet(sce.all, pattern = "^HB[^(P)]")
+
+head(sce.all@meta.data, 3)
+
+VlnPlot(sce.all, 
+        features = c("nFeature_RNA",
+                     "nCount_RNA", 
+                     "percent.mt",
+                     "percent.rp",
+                     "percent.hb"),
+        ncol = 3,pt.size = 0, group.by = "orig.ident")
+sce.all = subset(sce.all,percent.mt<25)
+```
+
+## 整合降维聚类分群
+
+```{r}
+f = "obj.Rdata"
+library(harmony)
+if(!file.exists(f)){
+  sce.all = sce.all %>% 
+    NormalizeData() %>%  
+    FindVariableFeatures() %>%  
+    ScaleData(features = rownames(.)) %>%  
+    RunPCA(pc.genes = VariableFeatures(.))  %>%
+    RunHarmony("orig.ident") %>%
+    FindNeighbors(dims = 1:15, reduction = "harmony") %>% 
+    FindClusters(resolution = 0.5) %>% 
+    RunUMAP(dims = 1:15,reduction = "harmony") %>% 
+    RunTSNE(dims = 1:15,reduction = "harmony")
+  save(sce.all,file = f)
+}
+load(f)
+ElbowPlot(sce.all)
+UMAPPlot(sce.all,label = T)
+TSNEPlot(sce.all,label = T)
+```
+
+## 注释
+
+⭐这里用了两个参考数据
+```{r}
+library(celldex)
+library(SingleR)
+ls("package:celldex")
+f = "../supp/single_ref/ref_BlueprintEncode.RData"
+if(!file.exists(f)){
+  ref <- celldex::ref_BlueprintEncode()
+  save(ref,file = f)
+}
+f2 = "../supp/single_ref/ref_HumanPrimaryCellAtlasData.RData"
+if(!file.exists(f2)){
+  ref <- celldex::HumanPrimaryCellAtlasData()
+  save(ref,file = f2)
+}
+ref <- list(get(load(f)),
+            get(load(f2)))
+library(BiocParallel)
+scRNA = sce.all
+test = scRNA@assays$RNA$data
+pred.scRNA <- SingleR(test = test, 
+                      ref = ref,
+                      labels = list(ref[[1]]$label.main,ref[[2]]$label.main), 
+                      clusters = scRNA@active.ident)
+pred.scRNA$pruned.labels
+#查看注释准确性 
+#plotScoreHeatmap(pred.scRNA, clusters=pred.scRNA@rownames, fontsize.row = 9,show_colnames = T)
+new.cluster.ids <- pred.scRNA$pruned.labels
+new.cluster.ids[is.na(new.cluster.ids)] = "unknown"
+names(new.cluster.ids) <- levels(scRNA)
+levels(scRNA)
+scRNA <- RenameIdents(scRNA,new.cluster.ids)
+levels(scRNA)
+p2 <- DimPlot(scRNA, reduction = "umap",label = T,pt.size = 0.5) + NoLegend()
+p2
+```
+
+## 分组可视化及组件细胞比例比较
+
+```{r}
+scRNA$seurat_annotations = Idents(scRNA)
+table(scRNA$orig.ident)
+library(tinyarray)
+pd = geo_download("GSE231920")$pd
+pd$title
+scRNA$group = ifelse(scRNA$orig.ident %in% c("sample1","sample2","sample3"), "treat","control")
+DimPlot(scRNA, reduction = "umap", group.by = "group")
+```
+
+可以计算每个亚群的细胞数量和占全部细胞的比例
+
+```{r}
+# 每种细胞的数量和比例
+cell_counts <- table(Idents(scRNA))
+cell.all <- cbind(cell_counts = cell_counts, 
+                  cell_Freq = round(prop.table(cell_counts)*100,2))
+#各组中每种细胞的数量和比例
+cell.num.group <- table(Idents(scRNA), scRNA$group) 
+cell.freq.group <- round(prop.table(cell.num.group, margin = 2) *100,2)
+cell.all = cbind(cell.all,cell.num.group,cell.freq.group)
+cell.all = cell.all[,c(1,3,4,2,5,6)]
+colnames(cell.all) = paste(rep(c("all","control","treat"),times = 2),
+      rep(c("count","freq"),each = 3),sep = "_")
+cell.all
+```
+
+## 差异分析
+
+找某种细胞在不同组间的差异基因
+
+```{r}
+table(scRNA$seurat_annotations)
+sub.markers <- FindConservedMarkers(scRNA, ident.1 = "NK cells", grouping.var = "group", min.pct = 0.25, logfc.threshold = 0.25,verbose = F)
+head(sub.markers)
+```
+
+组间比较的气泡图
+
+```{r fig.width= 12}
+markers.to.plot = c("CD3D", "CREM", "HSPH1", "SELL", "GIMAP5", "CACYBP", "GNLY", "NKG7", "CCL5",
+    "CD8A", "MS4A1", "CD79A", "MIR155HG", "NME1", "FCGR3A", "VMO1", "CCL2", "S100A9", "HLA-DQA1",
+    "GPR183", "PPBP", "GNG11", "HBA2", "HBB", "TSPAN13", "IL3RA", "PRSS57") #一组感兴趣的基因
+#如果idents有NA会报错https://github.com/satijalab/seurat/issues/8772
+#scRNA <- subset(scRNA, seurat_annotations %in% na.omit(scRNA$seurat_annotations))
+DotPlot(scRNA, features = markers.to.plot, cols = c("blue", "red"), 
+        dot.scale = 8, split.by = "group") +
+    RotatedAxis()
+```
+
+```{r fig.height= 10,fig.width= 7}
+FeaturePlot(scRNA, features = c("CD3D", "GNLY", "IFI6"), split.by = "group", max.cutoff = 3, cols = c("grey",
+    "red"), reduction = "umap")
+```
+
+
+```{r fig.height= 10,fig.width= 15}
+plots <- VlnPlot(scRNA, features = c("LYZ", "ISG15", "CXCL10"), split.by = "group", group.by = "seurat_annotations",
+    pt.size = 0, combine = FALSE)
+library(patchwork)
+wrap_plots(plots = plots, ncol = 1)
+```
+
+## 伪bulk 转录组差异分析
+
+每个组要有多个样本才能做
+
+https://satijalab.org/seurat/articles/parsebio_sketch_integration
+
+```{r}
+bulk <- AggregateExpression(scRNA, return.seurat = T, slot = "counts", assays = "RNA", group.by = c("seurat_annotations","orig.ident", "group"))
+
+sub <- subset(bulk, seurat_annotations == "CD8+ T-cells")
+Idents(sub) <- "group"
+de_markers <- FindMarkers(sub, ident.1 = "treat", ident.2 = "control", slot = "counts", test.use = "DESeq2",
+    verbose = F)
+de_markers$gene <- rownames(de_markers)
+k1 = de_markers$avg_log2FC< -1 & de_markers$p_val <0.01
+k2 = de_markers$avg_log2FC> 1 & de_markers$p_val <0.01
+de_markers$change <- ifelse(k1,"down",ifelse(k2,"up","not"))
+library(ggplot2)
+library(ggrepel)
+ggplot(de_markers, aes(avg_log2FC, -log10(p_val),color = change)) + 
+  geom_point(size = 2, alpha = 0.5) + 
+  geom_vline(xintercept = c(1,-1),linetype = 4)+
+  geom_hline(yintercept = -log10(0.01),linetype = 4)+
+  scale_color_manual(values = c("blue","grey","red"))+
+  theme_bw() +
+  ylab("-log10(unadjusted p-value)") 
+```
+
+
